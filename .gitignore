@@ -1,0 +1,9 @@
+gen/
+.DS_Store
+asspath
+.project
+.settings
+.classpath
+.svn
+bin/
+assets

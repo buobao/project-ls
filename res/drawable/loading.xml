@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false" >
+
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00000"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00001"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00002"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00003"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00004"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00005"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00006"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00007"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00008"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00009"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00010"
+            android:gravity="left" />
+    </item>
+    <item android:duration="150">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/loading_apple_00011"
+            android:gravity="left" />
+    </item>
+
+</animation-list>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#F6F6F6"
+    android:orientation="vertical"
+    android:layout_height="200dp" >
+    
+    <LinearLayout 
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+        android:orientation="horizontal"
+        >
+        
+        <RelativeLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <TextView 
+                android:id="@+id/tv_tagTyp1_dialog_tag_house_manage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/h_manage_button_choose"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="学区房"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                />
+             <ImageView
+                 android:layout_width="18dp"
+                 android:layout_height="18dp"
+                 android:layout_alignParentTop="true"
+                 android:layout_alignParentRight="true"
+                 android:background="@drawable/h_manage_icon_choose"
+                 />
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <TextView 
+                android:id="@+id/tv_tagType2_dialog_tag_house_manage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/h_manage_button_choose"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="地铁房"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                />
+             <ImageView
+                 android:layout_width="18dp"
+                 android:layout_height="18dp"
+                 android:layout_alignParentTop="true"
+                 android:layout_alignParentRight="true"
+                 android:background="@drawable/h_manage_icon_choose"
+                 />
+            
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            
+            <TextView 
+                android:id="@+id/tv_tagType3_dialog_tag_house_manage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/h_manage_button_choose"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="聚焦"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                />
+             <ImageView
+                 android:layout_width="18dp"
+                 android:layout_height="18dp"
+                 android:layout_alignParentTop="true"
+                 android:layout_alignParentRight="true"
+                 android:background="@drawable/h_manage_icon_choose"
+                 />
+            
+        </RelativeLayout>
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+        android:orientation="horizontal"
+        >
+        
+        <RelativeLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <TextView 
+                android:id="@+id/tv_tagType4_dialog_tag_house_manage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/h_manage_button_choose"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="地铁房"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                />
+             <ImageView
+                 android:layout_width="18dp"
+                 android:layout_height="18dp"
+                 android:layout_alignParentTop="true"
+                 android:layout_alignParentRight="true"
+                 android:background="@drawable/h_manage_icon_choose"
+                 />
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <TextView 
+                android:id="@+id/tv_tagType5_dialog_tag_house_manage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/h_manage_button_choose"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="学区房"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                />
+             <ImageView
+                 android:layout_width="18dp"
+                 android:layout_height="18dp"
+                 android:layout_alignParentTop="true"
+                 android:layout_alignParentRight="true"
+                 android:background="@drawable/h_manage_icon_choose"
+                 />
+            
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            
+            <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/h_manage_button_label"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="学区房"
+                android:visibility="gone"
+                />
+            
+        </RelativeLayout>
+        
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        >
+        
+        <Button
+            android:id="@+id/btn_tagChoosen_dialog_tag_house_manage" 
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:background="@drawable/bg_button_red"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

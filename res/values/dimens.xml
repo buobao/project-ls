@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- 标题栏的设置(statusBar:25dp) -->
+    <dimen name="head_model_height">48dp</dimen>
+    <!-- 标题栏底部位置的Y坐标值=标题栏高度+状态栏高度(25dp) -->
+    <dimen name="head_model_title_size">18sp</dimen>
+    <dimen name="head_model_left_button_width">50dp</dimen>
+    <dimen name="head_model_right_button_width">50dp</dimen>
+    <dimen name="head_model_left_text_size">13sp</dimen>
+    <dimen name="head_model_right_text_size">13sp</dimen>
+    <!-- scrollTagView的属性 -->
+    <dimen name="scroll_tag_view_height">44dp</dimen>
+    <dimen name="scroll_tag_view_text_size">15sp</dimen>
+    <dimen name="scroll_tag_view_bottom_with_head">92dp</dimen>
+
+</resources>

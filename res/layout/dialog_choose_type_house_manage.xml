@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="191dp"
+    android:background="#F6F6F6"
+    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res/com.vocinno.centanet">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="#F6F6F6"
+        android:orientation="horizontal" >
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:background="#D03532" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView2"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <com.vocinno.centanet.apputils.selfdefineview.WheelView
+                android:id="@+id/wheelView1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:itemNumber="5"
+               	app:lineColor="#F6F6F6"
+               	app:lineHeight="0dp"
+               	app:maskHight="25dp"
+               	app:noEmpty="true"
+               	app:normalTextColor="#D1D1D1"
+               	app:normalTextSize="14sp"
+               	app:selectedTextColor="#D03532"
+               	app:selectedTextSize="18sp"
+               	app:unitHight="25dp"
+                 />
+
+            <!--  app:itemNumber="5"
+                app:lineColor="#F6F6F6"
+                app:lineHeight="0dp"
+                app:maskHight="25dp"
+                app:noEmpty="true"
+                app:normalTextColor="#D1D1D1"
+                app:normalTextSize="12sp"
+                app:selectedTextColor="#82C61F"
+                app:selectedTextSize="18sp"
+                app:unitHight="25dp" -->
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <Button
+            android:id="@+id/btn_tag_choosen_dialog_tag_house_manage"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_button_red"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

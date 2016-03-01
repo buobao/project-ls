@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 公共 -->
+    <string name="weixin">微信</string>
+    <string name="addphonenumber">请输入电话号码</string>
+    <string name="addqqnumber">请输入QQ号码</string>
+    <string name="addwxnumber">请输入微信号码</string>
+    <string name="minarea">最小面积</string>
+    <string name="maxarea">最大面积</string>
+    <string name="wenxintishi">温馨提示</string>
+    <string name="save_successful">保存成功</string>
+    <string name="money_true">是否付佣金：是</string>
+    <string name="money_false">是否付佣金：否</string>
+    <string name="code">编号：</string>
+    <string name="name">姓名：</string>
+    <string name="type">类型：</string>
+    <string name="area">区域</string>
+    <string name="tenancy_term">租期：</string>
+    <string name="rental_price">租价：</string>
+    <string name="payment_method">支付方式：</string>
+    <string name="sousuo">最近搜索关键字：</string>
+    <string name="delete">删除</string>
+    <string name="over">完成</string>
+    <string name="tag_name">标签名：</string>
+    <string name="yuanmi">元/㎡</string>
+    <string name="wanyuan">万元</string>
+    <string name="choose">请选择</string>
+    <string name="lujing">上传路径</string>
+    <string name="shibaitixing">网络加载失败，请点击重试。</string>
+    <string name="zhanghaopinglun">使用已有账号发表评论</string>
+
+    <!-- 钥匙管理 -->
+    <string name="keymanage">钥匙管理</string>
+    <string name="keydetail">钥匙详情</string>
+    <string name="key_getin_pwd">请输入接收的钥匙密码</string>
+    <string name="key">钥匙</string>
+    <string name="accept_key">接收钥匙</string>
+    <string name="add_camara_pic">增加实勘</string>
+    <string name="filedecribe">文件描述</string>
+    <string name="pic_time">拍摄时间 2015-07-14</string>
+    <string name="next">下一步</string>
+    <string name="last">上一步</string>
+    <!-- 房源管理 -->
+    <string name="houserdetail">房源详情</string>
+    <string name="genjinmiaoshu">跟进描述</string>
+    <string name="basic_info">基本信息</string>
+    <string name="add_explain">添加说明</string>
+    <string name="mianji">面积</string>
+    <string name="choose_mianji">点击选择面积</string>
+    <string name="price">价格</string>
+    <string name="choose_price">点击选择价格</string>
+    <string name="other_info">其他信息</string>
+    <string name="input_other_info">输入其他信息</string>
+    <string name="time_add_custormer">委托日期2015-06-11</string>
+    <string name="input_genjin_info">输入跟进信息</string>
+    <string name="writdecribe">文字描述</string>
+    <string name="housedecribe">添加对房屋的描述</string>
+    <string name="time_addhousemanage">拍摄于1991/08/27</string>
+    <string name="fangxingtu">房型图</string>
+    <string name="shi">室</string>
+    <string name="ting">厅</string>
+    <string name="wei">卫</string>
+    <string name="yang">阳</string>
+    <string name="other">其他（0/3）</string>
+    <string name="submit">提交</string>
+    <string name="picture">相机胶卷</string>
+    <string name="louceng">楼层：</string>
+    <string name="niandai">年代：</string>
+    <string name="bankuai">板块：</string>
+    <string name="sale_time">放盘时间：</string>
+    <string name="followin_look">带看跟进</string>
+
+    <!-- 客源管理 -->
+    <string name="customermanage">客源管理</string>
+    <string name="addcustomer">添加客户</string>
+    <string name="customernews">客户信息</string>
+    <string name="mycustomer">我的客源</string>
+    <string name="customertitle">公客列表</string>
+    <string name="input_name">客户输入姓名</string>
+    <string name="contact_way">联系方式</string>
+    <string name="add">点击新增</string>
+    <string name="contact_user">手机</string>
+    <string name="input_phone">输入电话号码</string>
+    <string name="need_info">需求信息</string>
+    <string name="choose_type">点击选择类型</string>
+    <string name="seek_house">求租</string>
+    <string name="seek_buy">求购</string>
+    <string name="choose_area">点击选择区域</string>
+    <string name="choose_pianqu">点击选择片区</string>
+    <string name="name_wangdaniu">姓名：王大妞</string>
+    <string name="appVersionCode">14</string>
+    <string name="appVersionName">2.1.0</string>
+    <string name="app_name">中原地产</string>
+    <string name="followincustomer">客源跟进</string>
+    <string name="followinhouse">房源跟进</string>
+    <string name="confirmExit">确定要退出吗？</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="saveFile">保存文件</string>
+    <string name="back">后退</string>
+    <string name="openWeb">打开浏览器</string>
+    <string name="scan">扫描</string>
+    <!-- 下拉刷新，上拉加载更多 -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新</string>
+    <string name="xlistview_header_hint_loading">加载中...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">点击加载更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <!-- 第三方登录 -->
+    <string name="loginByQQ">QQ登录</string>
+    <!-- 扫描专用 -->
+    <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
+    <string name="title_activity_main_page">MainPageActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_house_manage">HouseManageActivity</string>
+    <string name="title_activity_house_resouse_detail">HouseResouseDetailActivity</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_add_house_detail">AddHouseDetailActivity</string>
+    <string name="title_activity_edit_pic_detail">EditPicDetailActivity</string>
+    <string name="title_activity_add_camara_pic_detail">AddCamaraPicDetailActivity</string>
+    <string name="title_activity_choose_system_albums">ChooseSystemAlbumsActivity</string>
+    <string name="title_activity_add_photo_pic_detail">AddPhotoPicDetailActivity</string>
+    <string name="title_activity_my_remain">MyRemainActivity</string>
+    <string name="title_activity_custormer_manage">CustormerManageActivity</string>
+    <string name="title_activity_add_custormer">AddCustormerActivity</string>
+    <string name="title_activity_customer_detail">CustomerDetailActivity</string>
+    <string name="title_activity_add_follow_in_customer">AddFollowInCustomerActivity</string>
+    <string name="title_activity_key_house_manage">KeyHouseManageActivity</string>
+    <string name="title_activity_key_manage">KeyManageActivity</string>
+    <string name="title_activity_key_manage_detail">KeyManageDetailActivity</string>
+    <string name="title_activity_key_borrow_detail">KeyBorrowDetailActivity</string>
+    <!-- 房源管理 -->
+    <string name="house_manage">房源管理</string>
+    <string name="house_chuzu">出租房源</string>
+    <string name="house_chushou">出售房源</string>
+    <string name="house_yuekan">预约房源</string>
+    <string name="house_my">我的房源</string>
+    <string name="house_public">抢公房</string>
+    <string name="house_near">附近楼盘</string>
+    <string name="house_image_detail">添加详情</string>
+    <!-- 我的提醒 -->
+    <string name="remind_zhisun">止损提醒</string>
+    <string name="remind_dongtai">我的动态</string>
+    <string name="remind_my">我的提醒</string>
+    <string name="remind_chengjkiao">成交提醒</string>
+
+</resources>

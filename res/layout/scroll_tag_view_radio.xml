@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlyt_tag_tagView"
+    android:layout_width="125dp"
+    android:layout_height="@dimen/scroll_tag_view_height"
+    android:background="@color/white" >
+
+    <RadioButton
+        android:id="@+id/btn_tag_tagViewRadio"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:button="@null"
+        android:clickable="true"
+        android:drawableRight="@drawable/selector_scroll_tag_radio"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#2E2E2E"
+        android:textSize="@dimen/scroll_tag_view_text_size" />
+
+
+</RelativeLayout>

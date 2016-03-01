@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/input_text_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/lightgray"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="visible" >
+
+        <EditText
+            android:id="@+id/input_text_dialog_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1.0"
+            android:background="@color/white"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/black" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/input_text_dialog_confirm_btn"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="9dp"
+            android:background="@color/red_main_red"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

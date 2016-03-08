@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/bg_border" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="6dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_custormerId_customerManageListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01234560123456"
+                android:textColor="#D03532"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_custormerName_customerManageListItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:text="张先生"
+                android:textColor="#D03532"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_demandType_customerManageListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="求租"
+                android:textColor="#86C21F"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_houseDetail_customerManageListItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="徐汇区"
+                android:textColor="#2E2E2E"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_demandPrice_customerManageListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不限"
+                android:textColor="#2E2E2E"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_description_customerManageListItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="描述"
+                android:textColor="@color/lightgray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_time_customerManageListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间"
+                android:textColor="@color/lightgray"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/bg_border" />
+
+</LinearLayout>

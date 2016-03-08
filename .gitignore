@@ -6,3 +6,14 @@ asspath
 .classpath
 .svn
 bin/
+.gradle/
+.idea/
+StudioProjects.iml
+gradle/
+gradlew
+gradlew.bat
+import-summary.txt
+local.properties
+settings.gradle
+build/
+centanet-android-dev.iml

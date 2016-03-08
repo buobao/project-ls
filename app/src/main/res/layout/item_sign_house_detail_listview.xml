@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="6dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_signBeginTime_itemSignHouseDetailListView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开始：2015-02-05"
+            android:textColor="@color/gray_text_color" />
+
+        <TextView
+            android:id="@+id/tv_signState_itemSignHouseDetailListView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="状态：现在是什么情况"
+            android:textColor="@color/gray_text_color" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_signEndTime_itemSignHouseDetailListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="结束：2015-02-05"
+        android:textColor="@color/gray_text_color" />
+
+    <TextView
+        android:id="@+id/tv_signer_itemSignHouseDetailListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="签赔人：某某某"
+        android:textColor="@color/gray_text_color" />
+
+</LinearLayout>

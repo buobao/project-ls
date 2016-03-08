@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/touchFlyt_giveKey_itemKeyManageListView"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightgray"
+        android:gravity="center"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp" >
+
+        <ImageView
+            android:id="@+id/imgView_giveKeyBg_itemKeyManageListView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/k_manage_button_number" />
+
+        <LinearLayout
+            android:id="@+id/llyt_tishi_itemKeyManageListView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@id/imgView_giveKeyBg_itemKeyManageListView"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_tishi_itemKeyManageListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:text="接收方请输入\n右图PIN码"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_time_itemKeyManageListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5:00"
+                android:textColor="@color/darkgray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgView_giveKey1_itemKeyManageListView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/llyt_tishi_itemKeyManageListView"
+            android:src="@drawable/k_manage_button_number" />
+
+        <TextView
+            android:id="@+id/tv_giveKeyPassword_itemKeyManageListView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/llyt_tishi_itemKeyManageListView"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="25dp" >
+
+        <!-- 可以拖动的球形图片 -->
+
+        <com.vocinno.centanet.apputils.selfdefineview.TouchableImageView
+            android:id="@+id/imgView_giveKey_itemKeyManageListView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/k_manage_button_key" />
+    </RelativeLayout>
+
+</FrameLayout>

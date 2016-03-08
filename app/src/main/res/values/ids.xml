@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ******** listView handler ******** -->
+    <!-- 请求刷新数据 -->
+    <item name="REQUEST_REFRESH" type="id"/>
+    <!-- 已获得最新数据 -->
+    <item name="SUCCESS_REFRESH" type="id"/>
+    <!-- 是否已加载数据完毕 -->
+    <item name="FINISH_REFRESH" type="id"/>
+    <!-- 请求加载更多数据 -->
+    <item name="REQUEST_LOAD_MORE" type="id"/>
+    <!-- 是否已加载更多数据完毕 -->
+    <item name="FINISH_LOAD_MORE" type="id"/>
+    <!-- 是否已加载数据完毕 -->
+    <item name="FINISH_LOAD_ALL_DATA" type="id"/>
+    <!-- 已获得更多数据 -->
+    <item name="SUCCESS_LOAD_MORE" type="id"/>
+    <!-- 获取数据失败 -->
+    <item name="GET_DATA_FAIL" type="id"/>
+    <!-- 还原listviewheader位置 -->
+    <item name="RESET_LIST_VIEW_HEADER_HIGHT" type="id"/>
+    <!-- ******** listView handler ******** -->
+
+
+    <!-- ******** normal handler ******** -->
+    <!-- 请求数据(初始化) -->
+    <item name="doRequest" type="id"/>
+    <!-- 请求更新数据(更新) -->
+    <item name="doUpdate" type="id"/>
+    <!-- 获取数据成功 -->
+    <item name="doSuccess" type="id"/>
+    <!-- 获取数据失败 -->
+    <item name="doFail" type="id"/>
+    <!-- ******** normal handler ******** -->
+
+
+    <!-- 删除主页帖子 -->
+    <item name="DELETE_POST" type="id"/>
+
+    <!-- ******** 扫描专用 ******** -->
+    <item name="auto_focus" type="id"/>
+    <item name="decode" type="id"/>
+    <item name="decode_failed" type="id"/>
+    <item name="decode_succeeded" type="id"/>
+    <item name="restart_preview" type="id"/>
+    <item name="quit" type="id"/>
+    <!-- ******** 扫描专用 ******** -->
+
+
+    <!-- ******** 关闭侧栏 ******** -->
+    <item name="closeSlideMenu" type="id"/>
+    <!-- ******** 关闭侧栏 ******** -->
+
+</resources>

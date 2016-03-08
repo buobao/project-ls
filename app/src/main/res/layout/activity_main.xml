@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/beijing"
+    android:orientation="vertical"
+    android:padding="25dp" >
+
+    <EditText
+        android:id="@+id/et_Text_mainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="保存文件到字符串" />
+
+    <Button
+        android:id="@+id/btn_SaveFile_mainActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="@string/saveFile" />
+
+    <EditText
+        android:id="@+id/et_WebViewUrl_mainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入网址" />
+
+    <Button
+        android:id="@+id/btn_OpenWeb_mainActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="@string/openWeb" />
+
+    <Button
+        android:id="@+id/btn_LoginByQQ_mainActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="@string/loginByQQ" />
+
+    <Button
+        android:id="@+id/btn_Scan_mainActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="@string/scan" />
+
+</LinearLayout>

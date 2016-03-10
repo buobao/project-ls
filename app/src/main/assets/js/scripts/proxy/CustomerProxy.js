@@ -64,5 +64,9 @@
 		unify.ViewModelManager.retrieveViewModel("CustomerAddViewModel").getAreaArray(params);
 	}
 
+	CustomerProxy.prototype.checkPhoneNORepeated = function(params){
+    	unify.ViewModelManager.retrieveViewModel("CustomerAddViewModel").checkPhoneNORepeated(params);
+    }
+
 	this.CustomerProxy = CustomerProxy;
 }.call(this));

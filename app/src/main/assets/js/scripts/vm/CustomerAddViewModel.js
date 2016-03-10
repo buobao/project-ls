@@ -60,4 +60,13 @@
         });
     };
 
+    this.CustomerAddViewModel.prototype.checkPhoneNORepeated = function(params) {
+        var condition = JSON.parse(params);
+        var self = this;
+        util.HttpUtil.checkPhoneNORepeated(condition.phone, function(response){
+            print("notify:" + util.Constant.NOTIFY_NATIVE_CHECK_PNONENO);
+            self.notify(util.Constant.NOTIFY_NATIVE_CHECK_PNONENO, response);
+        });
+    };
+
 }.call(this));

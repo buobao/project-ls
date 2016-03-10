@@ -28,6 +28,7 @@
 	this.NET_ADD_CUSTOMER_TRACK = "mobile/cust/track/add";
 	this.NET_CLAIM_CUSTOMER = "mobile/cust/claim";
 	this.NET_AREA_LIST = "mobile/hou/areas";
+	this.NET_CHECK_PHONENO = "/mobile/cust/checkMpNo";
 
 	this.NET_CONFIRM_PINCODE = "mobile/hou/key/receive";		//receiver input pincode
 	this.NET_SET_KEY_PINCODE = "mobile/hou/key/pass";			//get pincode 
@@ -64,6 +65,7 @@
 	this.NOTIFY_NATIVE_ADD_CUSTOMER_RESULT = "notify_native_add_customer_result";				// add customer
 	this.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT = "notify_native_claim_customer_result";			// claim customer when user click the cliamBtn in CustomerDetailView
 	this.NOTIFY_NATIVE_GET_AREA_RESULT = "notify_native_get_area_result";
+	this.NOTIFY_NATIVE_CHECK_PNONENO = "notify_native_check_pnoneno";
  
 	this.NOTIFY_NATIVE_CUST_TRACK_RESULT = "notify_native_cust_track_result";
  

@@ -422,6 +422,20 @@
         );
     };
 
+    HttpUtil.checkPhoneNORepeated = function (phone, callback) {
+            print("HttpUtil-NET_CHECK_PHONENO, start send data. ");
+            http.post(util.Constant.NET_DOMAIN + util.Constant.NET_CHECK_PHONENO,
+                {
+                    token : util.Models.currUser.token,
+                    phone : phone,
+                },
+                function(statusCode, response) {
+                    var responseData = HttpUtil.beforeCallback(response, statusCode, callback);
+                    callback.call(null, responseData);
+                }
+            );
+    };
+
     ///////////////////////////////////////////////
     ///   key 
     ///////////////////////////////////////////////

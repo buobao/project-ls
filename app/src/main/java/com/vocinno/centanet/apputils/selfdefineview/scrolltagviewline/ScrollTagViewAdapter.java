@@ -22,7 +22,7 @@ public class ScrollTagViewAdapter extends SuperTagAdapter {
 		LayoutInflater inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.scroll_tag_view_line, null);
-		Button button = (RadioButton) v.findViewById(R.id.btn_tag_tagViewLine);
+		Button button = (Button) v.findViewById(R.id.btn_tag_tagViewLine);
 		button.setText(mListTabs.get(position));
 		return v;
 	}

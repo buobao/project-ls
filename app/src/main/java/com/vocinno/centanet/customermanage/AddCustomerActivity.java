@@ -35,11 +35,14 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * 添加客户
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 @SuppressLint("CutPasteId")
 public class AddCustomerActivity extends SuperSlideMenuActivity {
@@ -197,33 +200,33 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		mEtConnectionNumber.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+									  int count) {
 
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+										  int after) {
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
 				switch (mCurrConnType) {
-				case connQQ:
-					mStrQQ = mEtConnectionNumber.getText().toString();
-					Log.d(TAG, "afterTextChanged strQQ:" + mStrQQ);
-					break;
-				case connTel:
-					mStrTel = mEtConnectionNumber.getText().toString();
-					Log.d(TAG, "afterTextChanged mStrTel:" + mStrTel);
-					break;
-				case connWeixin:
-					mStrWeixin = mEtConnectionNumber.getText().toString();
-					Log.d(TAG, "afterTextChanged mStrWeixin:" + mStrWeixin);
-					break;
-				default:
-					break;
+					case connQQ:
+						mStrQQ = mEtConnectionNumber.getText().toString();
+						Log.d(TAG, "afterTextChanged strQQ:" + mStrQQ);
+						break;
+					case connTel:
+						mStrTel = mEtConnectionNumber.getText().toString();
+						Log.d(TAG, "afterTextChanged mStrTel:" + mStrTel);
+						break;
+					case connWeixin:
+						mStrWeixin = mEtConnectionNumber.getText().toString();
+						Log.d(TAG, "afterTextChanged mStrWeixin:" + mStrWeixin);
+						break;
+					default:
+						break;
 				}
 				mTvCustormerNumber.setText(checkConnText());
 			}
@@ -232,13 +235,13 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		mEtCustormerName.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
+									  int arg3) {
 
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
+										  int arg2, int arg3) {
 
 			}
 
@@ -256,6 +259,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				CST_JS.NOTIFY_NATIVE_ADD_CUSTOMER_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT, TAG);
+		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO,TAG);
 		mWheelViewChoosePlace.setData(CST_Wheel_Data
 				.getListDatas(CST_Wheel_Data.WheelType.area));
 		mWheelViewChoosePianqu.setData(new ArrayList<String>());
@@ -287,17 +291,17 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			public void handleMessage(Message msg) {
 				AddCustomerActivity.this.closeMenu(msg);
 				switch (msg.what) {
-				case MESSAGE_CLOSE_CHOOSER:
-					mRyltChoosePlaceContainer.setVisibility(View.GONE);
-					mRyltChoosePianquContainer.setVisibility(View.GONE);
-					mRyltChooseAreaContainer.setVisibility(View.GONE);
-					mRyltChoosePriceContaner.setVisibility(View.GONE);
-					break;
-				case MESSAGE_REFRESH_WHEELVIEWPIANQU:
-					mWheelViewChoosePianqu.setData((ArrayList<String>) msg.obj);
-					break;
-				default:
-					break;
+					case MESSAGE_CLOSE_CHOOSER:
+						mRyltChoosePlaceContainer.setVisibility(View.GONE);
+						mRyltChoosePianquContainer.setVisibility(View.GONE);
+						mRyltChooseAreaContainer.setVisibility(View.GONE);
+						mRyltChoosePriceContaner.setVisibility(View.GONE);
+						break;
+					case MESSAGE_REFRESH_WHEELVIEWPIANQU:
+						mWheelViewChoosePianqu.setData((ArrayList<String>) msg.obj);
+						break;
+					default:
+						break;
 				}
 			}
 		};
@@ -307,228 +311,231 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
-		case R.id.img_left_mhead1:
-			onBack();
-			break;
-		case R.id.img_right_mhead1:
-			// 上传数据
-			String reqType = null;
-			if (mTvCustormerType.getText().toString().equals("求租")) {
-				reqType = "rent";
-			} else {
-				reqType = "buy";
-			}
-			String price = null;
-			String oldP = mTvCustormerPrice.getText().toString()
-					.replace("万", "").replace("元", "");
-			if ("buy".equals(reqType)) {
-				price = oldP.substring(0, oldP.indexOf("-")) + "0000"
-						+ oldP.substring(oldP.indexOf("-") - 1, oldP.length());
-				if (!price.endsWith("不限")) {
-					price += "0000";
-				}
-			} else {
-				price = oldP;
-			}
-			String strJson = CST_JS.getJsonStringForAddCustomer(
-					mEtCustormerName.getText().toString(), mStrTel, mStrQQ,
-					mStrWeixin, reqType,
-					mapPianQu.get(mTvCustormerPianqu.getText().toString()),
-					mTvCustormerArea.getText().toString().replace("平米", ""),
-					price, mEtOtherInfo.getText().toString());
-			Log.d(TAG, "updateAddUser :" + strJson);
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-					CST_JS.JS_Function_CustomerList_addCustomer, strJson);
-
-			break;
-		case R.id.rlyt_isChooseQiuzu_addCustomerActivity:
-			// 求租
-			mImgQiumai
-					.setBackgroundResource(R.drawable.c_manage_button_unselected);
-			mImgQiuzu.setBackgroundResource(R.drawable.c_manage_button_choose);
-			mTvCustormerType.setText("求租");
-			closeTypeContainer();
-			if (mTvCustormerPrice.getText() != null
-					&& mTvCustormerPrice.getText().toString().contains("万")) {
-				mTvCustormerPrice.setText("");
-			}
-			mWheelViewChoosePriceTop.setData(CST_Wheel_Data
-					.getListDatas(WheelType.priceChuzuStart));
-			mWheelViewChoosePriceLast.setData(CST_Wheel_Data
-					.getListDatas(WheelType.priceChuzuEnd));
-			mWheelViewChoosePriceTop.setSelectItem(0);
-			mWheelViewChoosePriceLast.setSelectItem(0);
-			mWheelViewChoosePriceTop.invalidate();
-			mWheelViewChoosePriceLast.invalidate();
-			break;
-		case R.id.rlyt_isChooseQiumai_addCustomerActivity:
-			// 求购
-			mImgQiumai.setBackgroundResource(R.drawable.c_manage_button_choose);
-			mImgQiuzu
-					.setBackgroundResource(R.drawable.c_manage_button_unselected);
-			mTvCustormerType.setText("求购");
-			closeTypeContainer();
-			if (mTvCustormerPrice.getText() != null
-					&& mTvCustormerPrice.getText().toString().contains("元")) {
-				mTvCustormerPrice.setText("");
-			}
-			mWheelViewChoosePriceTop.setData(CST_Wheel_Data
-					.getListDatas(WheelType.priceChushouStart));
-			mWheelViewChoosePriceLast.setData(CST_Wheel_Data
-					.getListDatas(WheelType.priceChushouEnd));
-			mWheelViewChoosePriceTop.setSelectItem(0);
-			mWheelViewChoosePriceLast.setSelectItem(0);
-			mWheelViewChoosePriceTop.invalidate();
-			mWheelViewChoosePriceLast.invalidate();
-			break;
-		// 如果六个选择全选了 才给提交
-		// 分别是 名字 电话 类型 地点 面积 价格
-		case R.id.et_connectionNumberOK_addCustomerActivity:
-		case R.id.rlyt_connectionBanner_addCustomerActivity:
-			if (mLlytConntectTypeContainer.getVisibility() == View.GONE) {
-				mLlytConntectTypeContainer.setVisibility(View.VISIBLE);
-				mImgConnectionRight
-						.setBackgroundResource(R.drawable.h_manage_icon_up);
-				checkOpenOrClose(mLlytConntectTypeContainer.getId());
-				if (mCurrConnType == ConnectionType.none) {
-					addPhoneNumber();
-				}
-			} else {
-				if (isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel)) {
-					closeConnectionTypeContainer();
+			case R.id.img_left_mhead1:
+				onBack();
+				break;
+			case R.id.img_right_mhead1:
+				// 上传数据
+				String reqType = null;
+				if (mTvCustormerType.getText().toString().equals("求租")) {
+					reqType = "rent";
 				} else {
-					MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+					reqType = "buy";
 				}
-			}
-			break;
-		case R.id.rlyt_typeBanner_addCustomerActivity:
-			if (mLlytTypeContainer.getVisibility() == View.GONE) {
-				mLlytTypeContainer.setVisibility(View.VISIBLE);
-				mImgTypeRight
-						.setBackgroundResource(R.drawable.h_manage_icon_up);
-				checkOpenOrClose(mLlytTypeContainer.getId());
-			} else {
-				closeTypeContainer();
-			}
-			MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
-			break;
-		case R.id.rlyt_placeBanner_addCustomerActivity:
-			if (mRyltChoosePlaceContainer.getVisibility() == View.GONE) {
-				mRyltChoosePlaceContainer.setVisibility(View.VISIBLE);
-				mImgPlaceRight
-						.setBackgroundResource(R.drawable.h_manage_icon_up);
-				checkOpenOrClose(mRyltChoosePlaceContainer.getId());
-			} else {
-				closePlaceContainer();
-			}
-			MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
-			break;
-		case R.id.rlyt_pianquBanner_addCustomerActivity:
-			if (mRyltChoosePianquContainer.getVisibility() == View.GONE
-					&& mWheelViewChoosePianqu.getListSize() >= 1) {
-				mRyltChoosePianquContainer.setVisibility(View.VISIBLE);
-				mImgPianquRight
-						.setBackgroundResource(R.drawable.h_manage_icon_up);
-				checkOpenOrClose(mRyltChoosePianquContainer.getId());
-			} else if (mRyltChoosePianquContainer.getVisibility() == View.GONE) {
-				MethodsExtra.toast(mContext, "所选区域无对应片区!");
-			} else {
-				closePianquContainer();
-			}
-			MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
-			break;
-		case R.id.rlyt_areaBanner_addCustomerActivity:
-			if (mRyltChooseAreaContainer.getVisibility() == View.GONE) {
-				mRyltChooseAreaContainer.setVisibility(View.VISIBLE);
-				mImgAreaRight
-						.setBackgroundResource(R.drawable.h_manage_icon_up);
-				checkOpenOrClose(mRyltChooseAreaContainer.getId());
-			} else {
-				closeAreaContainer();
-			}
-			MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
-			break;
-		case R.id.rlyt_priceBanner_addCustomerActivity:
-			if (mRyltChoosePriceContaner.getVisibility() == View.GONE) {
-				mRyltChoosePriceContaner.setVisibility(View.VISIBLE);
-				mImgPriceRight
-						.setBackgroundResource(R.drawable.h_manage_icon_up);
-				checkOpenOrClose(mRyltChoosePriceContaner.getId());
-			} else {
-				closePriceContainer();
-			}
-			MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
-			break;
-		case R.id.rlyt_phone_addCustomerActivity:
-			addPhoneNumber();
-			break;
-		case R.id.rlyt_qq_addCustomerActivity:
-			addQQNumber();
-			break;
-		case R.id.rlyt_wx_addCustomerActivity:
-			addWXNumber();
-			break;
-		case R.id.btn_submit_modelOneWheelView:
-			if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {
-				mWheelViewChoosePianqu.setData(new ArrayList<String>());
-				// 区域 mRyltPlaceBanner
-				mTvCustormerPlace.setText(mWheelViewChoosePlace
-						.getSelectedText());
-				String strCode = CST_Wheel_Data
-						.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
+				String price = null;
+				String oldP = mTvCustormerPrice.getText().toString()
+						.replace("万", "").replace("元", "");
+				if ("buy".equals(reqType)) {
+					price = oldP.substring(0, oldP.indexOf("-")) + "0000"
+							+ oldP.substring(oldP.indexOf("-") - 1, oldP.length());
+					if (!price.endsWith("不限")) {
+						price += "0000";
+					}
+				} else {
+					price = oldP;
+				}
+				String strJson = CST_JS.getJsonStringForAddCustomer(
+						mEtCustormerName.getText().toString(), mStrTel, mStrQQ,
+						mStrWeixin, reqType,
+						mapPianQu.get(mTvCustormerPianqu.getText().toString()),
+						mTvCustormerArea.getText().toString().replace("平米", ""),
+						price, mEtOtherInfo.getText().toString());
+				Log.d(TAG, "updateAddUser :" + strJson);
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-						CST_JS.JS_Function_HouseResource_getDistrictArray,
-						CST_JS.getJsonStringForGetAreaArray(strCode));
-				mTvCustormerPianqu.setText("");
-				closePlaceContainer();
-			} else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {
-				// 片区
-				mTvCustormerPianqu.setText(mWheelViewChoosePianqu
-						.getSelectedText());
-				closePianquContainer();
-			}
-			break;
-		case R.id.btn_submit_modelTwoWheelView:
-			if (mRyltChooseAreaContainer.getVisibility() == View.VISIBLE) {
-				// 面积
-				if (mWheelViewChooseAreaLast.getSelectedText().trim()
-						.equals("不限")
-						|| Integer.parseInt(mWheelViewChooseAreaTop
-								.getSelectedText().trim().replaceAll("平米", "")) <= Integer
-								.parseInt(mWheelViewChooseAreaLast
-										.getSelectedText().trim()
-										.replaceAll("平米", ""))) {
-					mTvCustormerArea.setText(mWheelViewChooseAreaTop
-							.getSelectedText()
-							+ "-"
-							+ mWheelViewChooseAreaLast.getSelectedText());
+						CST_JS.JS_Function_CustomerList_addCustomer, strJson);
+
+				break;
+			case R.id.rlyt_isChooseQiuzu_addCustomerActivity:
+				// 求租
+				mImgQiumai
+						.setBackgroundResource(R.drawable.c_manage_button_unselected);
+				mImgQiuzu.setBackgroundResource(R.drawable.c_manage_button_choose);
+				mTvCustormerType.setText("求租");
+				closeTypeContainer();
+				if (mTvCustormerPrice.getText() != null
+						&& mTvCustormerPrice.getText().toString().contains("万")) {
+					mTvCustormerPrice.setText("");
+				}
+				mWheelViewChoosePriceTop.setData(CST_Wheel_Data
+						.getListDatas(WheelType.priceChuzuStart));
+				mWheelViewChoosePriceLast.setData(CST_Wheel_Data
+						.getListDatas(WheelType.priceChuzuEnd));
+				mWheelViewChoosePriceTop.setSelectItem(0);
+				mWheelViewChoosePriceLast.setSelectItem(0);
+				mWheelViewChoosePriceTop.invalidate();
+				mWheelViewChoosePriceLast.invalidate();
+				break;
+			case R.id.rlyt_isChooseQiumai_addCustomerActivity:
+				// 求购
+				mImgQiumai.setBackgroundResource(R.drawable.c_manage_button_choose);
+				mImgQiuzu
+						.setBackgroundResource(R.drawable.c_manage_button_unselected);
+				mTvCustormerType.setText("求购");
+				closeTypeContainer();
+				if (mTvCustormerPrice.getText() != null
+						&& mTvCustormerPrice.getText().toString().contains("元")) {
+					mTvCustormerPrice.setText("");
+				}
+				mWheelViewChoosePriceTop.setData(CST_Wheel_Data
+						.getListDatas(WheelType.priceChushouStart));
+				mWheelViewChoosePriceLast.setData(CST_Wheel_Data
+						.getListDatas(WheelType.priceChushouEnd));
+				mWheelViewChoosePriceTop.setSelectItem(0);
+				mWheelViewChoosePriceLast.setSelectItem(0);
+				mWheelViewChoosePriceTop.invalidate();
+				mWheelViewChoosePriceLast.invalidate();
+				break;
+			// 如果六个选择全选了 才给提交
+			// 分别是 名字 电话 类型 地点 面积 价格
+			case R.id.et_connectionNumberOK_addCustomerActivity:
+			case R.id.rlyt_connectionBanner_addCustomerActivity:
+				if (mLlytConntectTypeContainer.getVisibility() == View.GONE) {
+					mLlytConntectTypeContainer.setVisibility(View.VISIBLE);
+					mImgConnectionRight
+							.setBackgroundResource(R.drawable.h_manage_icon_up);
+					checkOpenOrClose(mLlytConntectTypeContainer.getId());
+					if (mCurrConnType == ConnectionType.none) {
+						addPhoneNumber();
+					}
+				} else {
+					if (isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel)) {
+						String phoneJson = CST_JS.getJsonStringForCheckPhoneNORepeated(mStrTel);
+						MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+								CST_JS.JS_Function_CustomerList_addCustomer_checkPhoneNORepeated, phoneJson);
+						//closeConnectionTypeContainer();
+					} else {
+						MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+					}
+				}
+				break;
+			case R.id.rlyt_typeBanner_addCustomerActivity:
+				if (mLlytTypeContainer.getVisibility() == View.GONE) {
+					mLlytTypeContainer.setVisibility(View.VISIBLE);
+					mImgTypeRight
+							.setBackgroundResource(R.drawable.h_manage_icon_up);
+					checkOpenOrClose(mLlytTypeContainer.getId());
+				} else {
+					closeTypeContainer();
+				}
+				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				break;
+			case R.id.rlyt_placeBanner_addCustomerActivity:
+				if (mRyltChoosePlaceContainer.getVisibility() == View.GONE) {
+					mRyltChoosePlaceContainer.setVisibility(View.VISIBLE);
+					mImgPlaceRight
+							.setBackgroundResource(R.drawable.h_manage_icon_up);
+					checkOpenOrClose(mRyltChoosePlaceContainer.getId());
+				} else {
+					closePlaceContainer();
+				}
+				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				break;
+			case R.id.rlyt_pianquBanner_addCustomerActivity:
+				if (mRyltChoosePianquContainer.getVisibility() == View.GONE
+						&& mWheelViewChoosePianqu.getListSize() >= 1) {
+					mRyltChoosePianquContainer.setVisibility(View.VISIBLE);
+					mImgPianquRight
+							.setBackgroundResource(R.drawable.h_manage_icon_up);
+					checkOpenOrClose(mRyltChoosePianquContainer.getId());
+				} else if (mRyltChoosePianquContainer.getVisibility() == View.GONE) {
+					MethodsExtra.toast(mContext, "所选区域无对应片区!");
+				} else {
+					closePianquContainer();
+				}
+				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				break;
+			case R.id.rlyt_areaBanner_addCustomerActivity:
+				if (mRyltChooseAreaContainer.getVisibility() == View.GONE) {
+					mRyltChooseAreaContainer.setVisibility(View.VISIBLE);
+					mImgAreaRight
+							.setBackgroundResource(R.drawable.h_manage_icon_up);
+					checkOpenOrClose(mRyltChooseAreaContainer.getId());
+				} else {
 					closeAreaContainer();
-				} else {
-					MethodsExtra.toast(mContext, "最大面积不能小于最小面积");
 				}
-			} else if (mRyltChoosePriceContaner.getVisibility() == View.VISIBLE) {
-				// 价格
-				if (mWheelViewChoosePriceLast.getSelectedText().trim()
-						.equals("不限")
-						|| Integer.parseInt(mWheelViewChoosePriceTop
-								.getSelectedText().trim().replaceAll("万", "")
-								.replaceAll("元", "")) <= Integer
-								.parseInt(mWheelViewChoosePriceLast
-										.getSelectedText().trim()
-										.replaceAll("万", "")
-										.replaceAll("元", ""))) {
-					mTvCustormerPrice.setText(mWheelViewChoosePriceTop
-							.getSelectedText()
-							+ "-"
-							+ mWheelViewChoosePriceLast.getSelectedText());
+				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				break;
+			case R.id.rlyt_priceBanner_addCustomerActivity:
+				if (mRyltChoosePriceContaner.getVisibility() == View.GONE) {
+					mRyltChoosePriceContaner.setVisibility(View.VISIBLE);
+					mImgPriceRight
+							.setBackgroundResource(R.drawable.h_manage_icon_up);
+					checkOpenOrClose(mRyltChoosePriceContaner.getId());
+				} else {
 					closePriceContainer();
-				} else {
-					MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
 				}
-			}
-			break;
-		default:
-			break;
+				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				break;
+			case R.id.rlyt_phone_addCustomerActivity:
+				addPhoneNumber();
+				break;
+			case R.id.rlyt_qq_addCustomerActivity:
+				addQQNumber();
+				break;
+			case R.id.rlyt_wx_addCustomerActivity:
+				addWXNumber();
+				break;
+			case R.id.btn_submit_modelOneWheelView:
+				if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {
+					mWheelViewChoosePianqu.setData(new ArrayList<String>());
+					// 区域 mRyltPlaceBanner
+					mTvCustormerPlace.setText(mWheelViewChoosePlace
+							.getSelectedText());
+					String strCode = CST_Wheel_Data
+							.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
+					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+							CST_JS.JS_Function_HouseResource_getDistrictArray,
+							CST_JS.getJsonStringForGetAreaArray(strCode));
+					mTvCustormerPianqu.setText("");
+					closePlaceContainer();
+				} else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {
+					// 片区
+					mTvCustormerPianqu.setText(mWheelViewChoosePianqu
+							.getSelectedText());
+					closePianquContainer();
+				}
+				break;
+			case R.id.btn_submit_modelTwoWheelView:
+				if (mRyltChooseAreaContainer.getVisibility() == View.VISIBLE) {
+					// 面积
+					if (mWheelViewChooseAreaLast.getSelectedText().trim()
+							.equals("不限")
+							|| Integer.parseInt(mWheelViewChooseAreaTop
+							.getSelectedText().trim().replaceAll("平米", "")) <= Integer
+							.parseInt(mWheelViewChooseAreaLast
+									.getSelectedText().trim()
+									.replaceAll("平米", ""))) {
+						mTvCustormerArea.setText(mWheelViewChooseAreaTop
+								.getSelectedText()
+								+ "-"
+								+ mWheelViewChooseAreaLast.getSelectedText());
+						closeAreaContainer();
+					} else {
+						MethodsExtra.toast(mContext, "最大面积不能小于最小面积");
+					}
+				} else if (mRyltChoosePriceContaner.getVisibility() == View.VISIBLE) {
+					// 价格
+					if (mWheelViewChoosePriceLast.getSelectedText().trim()
+							.equals("不限")
+							|| Integer.parseInt(mWheelViewChoosePriceTop
+							.getSelectedText().trim().replaceAll("万", "")
+							.replaceAll("元", "")) <= Integer
+							.parseInt(mWheelViewChoosePriceLast
+									.getSelectedText().trim()
+									.replaceAll("万", "")
+									.replaceAll("元", ""))) {
+						mTvCustormerPrice.setText(mWheelViewChoosePriceTop
+								.getSelectedText()
+								+ "-"
+								+ mWheelViewChoosePriceLast.getSelectedText());
+						closePriceContainer();
+					} else {
+						MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
+					}
+				}
+				break;
+			default:
+				break;
 		}
 		checkIsFinish();
 	}
@@ -721,6 +728,13 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			msg.what = MESSAGE_REFRESH_WHEELVIEWPIANQU;
 			msg.obj = listStr;
 			mHander.sendMessage(msg);
+		}else if(name.equals(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO)){
+			jsReturn = MethodsJson.jsonToJsReturn((String) data, JSONObject.class);
+			if(jsReturn.isSuccess()){
+				closeConnectionTypeContainer();
+			}else{
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+			}
 		} else {
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
 			if (jsReturn.isSuccess()) {

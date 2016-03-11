@@ -62,6 +62,8 @@ public final class CST_JS {
 	public static String NOTIFY_NATIVE_ADD_HOU_CUST_TRACK_RESULT = "notify_native_hou_cust_track_result";
 	// 片区
 	public static String NOTIFY_NATIVE_GET_AREA_RESULT = "notify_native_get_area_result";
+	// 电话号码是否重复
+	public static String NOTIFY_NATIVE_CHECK_PNONENO = "notify_native_check_pnoneno";
 
 	// -----------------------------------公共参数------------------------------------------
 	// 参数赋值(默认值)
@@ -138,9 +140,9 @@ public final class CST_JS {
 	// 请求参数 type:1 price square frame tag page pageSize sidx(acre/price)
 	// sord(asc/desc)
 	public static String getJsonStringForHouseListGetList(String type,
-			String price, String square, String frame, String tag,
-			String userType, int page, int pagesize, String sidx, String sord,
-			String searchId, String searchType) {
+														  String price, String square, String frame, String tag,
+														  String userType, int page, int pagesize, String sidx, String sord,
+														  String searchId, String searchType) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_CommonParam_Type, type);
 		jsonObject.addProperty(JS_HouseResource_Price, price);
@@ -164,7 +166,7 @@ public final class CST_JS {
 
 	// 请求参数 name page pageSize
 	public static String getJsonStringForHouseListSearchEstateName(String name,
-			int page, int pagesize) {
+																   int page, int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
@@ -179,7 +181,7 @@ public final class CST_JS {
 
 	// 请求参数:delType latMin latMax attMin attMax
 	public static String getJsonStringForHouseListGetHouseInMap(String delType,
-			double latMin, double latMax, double attMin, double attMax) {
+																double latMin, double latMax, double attMin, double attMax) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_HouseResource_DelType, delType);
 		jsonObject.addProperty(JS_HouseResource_LatMin, latMin);
@@ -214,7 +216,7 @@ public final class CST_JS {
 
 	// 请求参数:page pageSize searchId searchType
 	public static String getJsonStringForHouseListGetMapHouseList(int page,
-			int pagesize, int searchId, String searchType) {
+																  int pagesize, int searchId, String searchType) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_CommonParam_Page, page);
 		jsonObject.addProperty(JS_CommonParam_Pagesize,
@@ -252,7 +254,7 @@ public final class CST_JS {
 
 	// 请求参数:delCode page pageSize
 	public static String getJsonStringForGetTrackList(String delCode, int page,
-			int pagesize) {
+													  int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_KeyProxy_DelCode, delCode);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
@@ -289,7 +291,7 @@ public final class CST_JS {
 
 	// 请求参数:delCode custCode lookCode remark
 	public static String getJsonStringForAddHouCustomerTrack(String delCode,
-			String custCode, String lookCode, String remark) {
+															 String custCode, String lookCode, String remark) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_KeyProxy_DelCode, delCode);
 		jsonObject.addProperty(JS_HouseResource_custCode, custCode);
@@ -304,7 +306,7 @@ public final class CST_JS {
 
 	//
 	public static String getJsonStringForAddHouTrack(String delCode,
-			String content) {
+													 String content) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_KeyProxy_DelCode, delCode);
 		jsonObject.addProperty(jS_CommonParam_Content, content);
@@ -328,7 +330,7 @@ public final class CST_JS {
 
 	// 请求参数: delCode, pics:[{pic, type, desc},{pic, type, desc}]
 	public static String getJsonStringForUploadImages(String delCode,
-			ArrayList<ImageForJsParams> listImages) {
+													  ArrayList<ImageForJsParams> listImages) {
 		return "{\"delCode\":\"" + delCode + "\",\"pics\":"
 				+ new Gson().toJson(listImages) + "}";
 	}
@@ -370,7 +372,7 @@ public final class CST_JS {
 
 	// 请求参数type page pageSize
 	public static String getJsonStringForCustomerList(String type, int page,
-			int pagesize) {
+													  int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_CommonParam_Type, type);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
@@ -407,8 +409,8 @@ public final class CST_JS {
 
 	// 请求参数name phone qq wechat reqType(rent or buy) area acreage price other
 	public static String getJsonStringForAddCustomer(String name, String phone,
-			String qq, String wechat, String reqType, String area,
-			String acreage, String price, String other) {
+													 String qq, String wechat, String reqType, String area,
+													 String acreage, String price, String other) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
 		jsonObject.addProperty(JS_CustomerList_Phone, phone);
@@ -423,12 +425,22 @@ public final class CST_JS {
 		return jsonObject.toString();
 	}
 
+	public static String JS_Function_CustomerList_addCustomer_checkPhoneNORepeated = "checkPhoneNORepeated";
+
+	// 请求参数name phone qq wechat reqType(rent or buy) area acreage price other
+	public static String getJsonStringForCheckPhoneNORepeated(String phoneNO) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_CustomerList_Phone, phoneNO);
+		return jsonObject.toString();
+	}
+
+
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_CustomerList_addTrackInfo = "addTrackInfo";
 
 	// 请求参数 custCode content
 	public static String getJsonStringForAddTrackInfo(String custCode,
-			String content) {
+													  String content) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_HouseResource_custCode, custCode);
 		jsonObject.addProperty(jS_CommonParam_Content, content);
@@ -463,7 +475,7 @@ public final class CST_JS {
 
 	// 请求参数 pinCode type
 	public static String getJsonStringForCheckKeyPass(String pinCode,
-			String type) {
+													  String type) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_KeyProxy_PinCode, pinCode);
 		jsonObject.addProperty(JS_CommonParam_Type, type);
@@ -558,7 +570,7 @@ public final class CST_JS {
 
 	// 请求参数 keyNum pinCode
 	public static String getJsonStringForSetPinCode(String keyNum,
-			String pinCode) {
+													String pinCode) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_KeyProxy_KeyNum, keyNum);
 		jsonObject.addProperty(JS_KeyProxy_PinCode, pinCode);
@@ -582,7 +594,7 @@ public final class CST_JS {
 
 	// 请求参数 type(new or old) page pageSize
 	public static String getJsonStringForGetMessageList(String type, int page,
-			int pagesize) {
+														int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_CommonParam_Type, type);
 		jsonObject.addProperty(JS_CommonParam_Page, page);

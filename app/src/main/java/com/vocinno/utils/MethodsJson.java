@@ -170,7 +170,13 @@ public final class MethodsJson {
 					list.add(kInfo);
 				}
 				jsReturn.setListDatas(list);
-			} else {
+			} else if(clazz == JSONObject.class){
+				if(jsonObject.has("content")) {
+					JSONObject jsonObjectContent = (JSONObject) jsonObject
+						.get("content");
+					jsReturn.setContent(jsonObjectContent);
+				}
+			}else {
 				JSONObject jsonObjectContent = (JSONObject) jsonObject
 						.get("content");
 				if (jsonObjectContent.has("page")) {

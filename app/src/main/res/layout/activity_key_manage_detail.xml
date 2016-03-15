@@ -75,7 +75,6 @@
             android:layout_above="@+id/llyt_bottom_click_add_camara_pic_detail"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/relativeLayout2"
             android:background="#F6F6F6"
             android:orientation="vertical" >
         </LinearLayout>

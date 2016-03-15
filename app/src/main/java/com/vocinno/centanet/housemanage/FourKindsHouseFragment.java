@@ -3,6 +3,7 @@ package com.vocinno.centanet.housemanage;
 import java.util.List;
 
 import android.R.integer;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,7 +35,7 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 
 	public FourKindsHouseFragment() {
 	}
-
+	@SuppressLint("ValidFragment")
 	public FourKindsHouseFragment(int pageIndex) {
 		this.mPageIndex = pageIndex;
 		this.mType = HouseManageActivity.getTypeFromPageIndex(mPageIndex);

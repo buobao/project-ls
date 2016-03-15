@@ -8,7 +8,6 @@
         android:id="@+id/xlistview_house_desc_houst_manage_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/scrolltag_house_manage_activity"
         android:cacheColorHint="@color/transparent"
         android:divider="@null"
         android:scrollbars="none"

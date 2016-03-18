@@ -45,6 +45,7 @@
     <string name="last">上一步</string>
     <!-- 房源管理 -->
     <string name="houserdetail">房源详情</string>
+    <string name="lookhousereason">查看房间原因</string>
     <string name="genjinmiaoshu">跟进描述</string>
     <string name="basic_info">基本信息</string>
     <string name="add_explain">添加说明</string>
@@ -147,5 +148,6 @@
     <string name="remind_dongtai">我的动态</string>
     <string name="remind_my">我的提醒</string>
     <string name="remind_chengjkiao">成交提醒</string>
+    <string name="title_activity_house_reason">HouseReasonActivity</string>
 
 </resources>

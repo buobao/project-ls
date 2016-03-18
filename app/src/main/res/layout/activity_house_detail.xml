@@ -137,24 +137,48 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal" >
 
                                 <TextView
                                     android:id="@+id/tv_louceng_houseDetailActivity"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     android:text=""
+                                    android:layout_marginRight="30dp"
                                     android:textColor="@color/gray_text_color" />
 
-                                <TextView
-                                    android:id="@+id/tv_distance_houseDetailActivity"
+                                <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text=""
-                                    android:textColor="@color/gray_text_color"
-                                    android:visibility="invisible" />
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal" >
+                                    <TextView
+                                        android:id="@+id/tv_shihao_houseDetailActivity"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:text="室号："
+                                        android:textColor="@color/gray_text_color" />
+                                    <TextView
+                                        android:id="@+id/tv_lookshihao_houseDetailActivity"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingBottom="2dp"
+                                        android:paddingEnd="2dp"
+                                        android:paddingLeft="5dp"
+                                        android:paddingRight="5dp"
+                                        android:text="查看室号"
+                                        android:background="@drawable/bg_shape_lookshihao"
+                                        android:textColor="@color/white" />
+                                    <TextView
+                                        android:id="@+id/tv_distance_houseDetailActivity"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textColor="@color/gray_text_color"
+                                        android:visibility="gone" />
+                                </LinearLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -170,6 +194,19 @@
                                     android:text=""
                                     android:textColor="@color/gray_text_color" />
 
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+                                <TextView
+                                    android:id="@+id/tv_saleTime_houseDetailActivity"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textColor="@color/gray_text_color" />
+
                                 <TextView
                                     android:id="@+id/tv_bankuai_houseDetailActivity"
                                     android:layout_width="0dp"
@@ -178,13 +215,6 @@
                                     android:text=""
                                     android:textColor="@color/gray_text_color" />
                             </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tv_saleTime_houseDetailActivity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="@color/gray_text_color" />
                         </LinearLayout>
 
                         <LinearLayout

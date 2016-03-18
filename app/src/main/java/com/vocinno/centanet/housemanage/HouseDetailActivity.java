@@ -14,6 +14,7 @@ import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
+import com.vocinno.centanet.customermanage.AddFollowInCustomerActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.ContactDetail;
@@ -69,7 +70,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	private View mBackView, mMoreView, mTitleView;
 	private ListViewNeedResetHeight mLvTracks, mLvSigns;
-	private TextView mTvName, mTvPrice, mTvDetail, mTvLouceng, mTvDistanst,
+	private TextView mTvName, mTvPrice, mTvDetail, mTvLouceng, mTvDistanst,tv_shihao_houseDetailActivity,tv_lookshihao_houseDetailActivity,
 			mTvYear, mTvBankuai, mTvSaleTime, mTvPriceUnit;
 	private Dialog mMenuDialog;
 	private Dialog mCallCustormerDialog;
@@ -181,6 +182,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		mTvDetail = (TextView) findViewById(R.id.tv_details_houseDetailActivity);
 		mTvLouceng = (TextView) findViewById(R.id.tv_louceng_houseDetailActivity);
 		mTvDistanst = (TextView) findViewById(R.id.tv_distance_houseDetailActivity);
+		tv_shihao_houseDetailActivity = (TextView) findViewById(R.id.tv_shihao_houseDetailActivity);
+		tv_lookshihao_houseDetailActivity = (TextView) findViewById(R.id.tv_lookshihao_houseDetailActivity);
+		tv_lookshihao_houseDetailActivity.setOnClickListener(this);
 		mTvYear = (TextView) findViewById(R.id.tv_year_houseDetailActivity);
 		mTvBankuai = (TextView) findViewById(R.id.tv_bankuai_houseDetailActivity);
 		mTvSaleTime = (TextView) findViewById(R.id.tv_saleTime_houseDetailActivity);
@@ -268,9 +272,32 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode){
+			case 1000:
+				String  reason=data.getStringExtra("reason");
+				break;
+		}
+	}
+
+	@Override
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+		case R.id.tv_lookshihao_houseDetailActivity:
+			if(mHouseDetail.getShowroom()){
+				String roomNo=mHouseDetail.getRoomno();
+				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
+				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
+			}else{
+				String delCode=mHouseDetail.getDelCode();
+				Intent intent = new Intent(mContext,
+						HouseReasonActivity.class);
+				MethodsExtra.startActivityForResult(mContext, 1000, intent);
+			}
+
+			break;
 		case R.id.img_left_mhead1:
 			onBack();
 			break;

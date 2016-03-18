@@ -16,10 +16,28 @@ public class HouseDetail {
 	private String unitprice = "";// 单价
 	private String tag = "";// 标签
 	private String activeTime = "";// 最近活动时间
+	private boolean showroom =false;// 是否显示楼层号
+	private String roomno = "";// 楼层号
 	private String lat = "";// 经度
 	private String att = "";// 纬度
 	private boolean isPublic = false;// 是否是公房
 	private String year = "";
+
+	public String getRoomno() {
+		return roomno;
+	}
+
+	public void setRoomno(String roomno) {
+		this.roomno = roomno;
+	}
+
+	public boolean getShowroom() {
+		return showroom;
+	}
+
+	public void setShowroom(boolean showroom) {
+		this.showroom = showroom;
+	}
 
 	private List<Exclude> exclude = new ArrayList<Exclude>();
 	private List<Track> track = new ArrayList<Track>();

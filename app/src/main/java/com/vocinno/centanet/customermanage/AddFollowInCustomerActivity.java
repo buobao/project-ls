@@ -46,6 +46,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
 		mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext,
 				mRootView, 0, R.drawable.universal_button_undone);
+		mSubmitView.setClickable(false);
 		mTvDate = (TextView) findViewById(R.id.tv_date_addFollowInCustomerActivity);
 		mEtContent = (EditText) findViewById(R.id.et_content_addFollowInCustomerActivity);
 
@@ -64,7 +65,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 				if (string == null || string.trim().length() < 10) {
 					mSubmitView.setImageDrawable(getResources().getDrawable(
 							R.drawable.universal_button_undone));
-					mSubmitView.setClickable(false);
+//					mSubmitView.setClickable(false);
 				} else {
 					if (string.trim().length() > 500) {
 						if (strBeforeText != null) {
@@ -81,9 +82,9 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 						}
 						MethodsExtra.toast(mContext, "描述不能超过500字");
 					}
-					mSubmitView.setImageDrawable(getResources().getDrawable(
-							R.drawable.universal_button_done));
-					mSubmitView.setClickable(true);
+					/*mSubmitView.setImageDrawable(getResources().getDrawable(
+							R.drawable.universal_button_done));*/
+//					mSubmitView.setClickable(true);
 				}
 			}
 
@@ -104,6 +105,12 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
+				String string = mEtContent.getText().toString();
+				if(string.length()>=10){
+					mSubmitView.setClickable(true);
+					mSubmitView.setImageDrawable(getResources().getDrawable(
+							R.drawable.universal_button_done));
+				}
 			}
 		});
 	}
@@ -153,7 +160,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 			}
 			mSubmitView.setImageDrawable(getResources().getDrawable(
 					R.drawable.universal_button_undone));
-			mSubmitView.setClickable(false);
+//			mSubmitView.setClickable(false);
 			break;
 		case R.id.img_left_mhead1:
 			onBack();

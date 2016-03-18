@@ -300,5 +300,12 @@
     <color name="teal">#008080</color>
     <!-- 水鸭色 -->
     <!-- 黑色 -->
-
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="button_ensure">#ff6000</color>
+    <color name="cutting_line">#dfdfdf</color>
+    <color name="orange">#FF8111</color>
+    <color name="wheel_unselect_text">#c2c1c1</color>
+    <color name="wheel_bg">#f2f2f2</color>
 </resources>

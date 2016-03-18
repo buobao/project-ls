@@ -28,6 +28,7 @@ import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data.WheelType;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
@@ -48,7 +49,7 @@ import org.json.JSONObject;
 public class AddCustomerActivity extends SuperSlideMenuActivity {
 
 	private Map<String, String> mapPianQu = new HashMap<String, String>();
-
+	private ModelDialog modelDialog;
 	private static enum ConnectionType {
 		none, connTel, connQQ, connWeixin
 	};
@@ -315,6 +316,10 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				onBack();
 				break;
 			case R.id.img_right_mhead1:
+				if(modelDialog==null){
+					modelDialog=new ModelDialog(this,R.layout.loading,R.style.Theme_dialog);
+				}
+				modelDialog.show();
 				// 上传数据
 				String reqType = null;
 				if (mTvCustormerType.getText().toString().equals("求租")) {
@@ -736,6 +741,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		} else {
+			modelDialog.dismiss();
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, "新建客源成功");

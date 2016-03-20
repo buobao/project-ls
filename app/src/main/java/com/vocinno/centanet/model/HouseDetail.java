@@ -5,6 +5,7 @@ import java.util.List;
 
 public class HouseDetail {
 	private String delCode = "";// 房源编号
+	private String houseId = "";// 房屋id
 	private String delDate = "";
 	private String area = "";
 	private String addr = "";// 地址
@@ -17,18 +18,18 @@ public class HouseDetail {
 	private String tag = "";// 标签
 	private String activeTime = "";// 最近活动时间
 	private boolean showroom =false;// 是否显示楼层号
-	private String roomno = "";// 楼层号
+	private String roomNO = "";// 楼层号
 	private String lat = "";// 经度
 	private String att = "";// 纬度
 	private boolean isPublic = false;// 是否是公房
 	private String year = "";
 
-	public String getRoomno() {
-		return roomno;
+	public String getRoomNO() {
+		return roomNO;
 	}
 
-	public void setRoomno(String roomno) {
-		this.roomno = roomno;
+	public void setRoomNO(String roomNO) {
+		this.roomNO = roomNO;
 	}
 
 	public boolean getShowroom() {
@@ -42,6 +43,14 @@ public class HouseDetail {
 	private List<Exclude> exclude = new ArrayList<Exclude>();
 	private List<Track> track = new ArrayList<Track>();
 	private List<Image> img = new ArrayList<Image>();
+
+	public String getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(String houseId) {
+		this.houseId = houseId;
+	}
 
 	public boolean isPublic() {
 		return isPublic;

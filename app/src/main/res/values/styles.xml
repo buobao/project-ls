@@ -22,13 +22,27 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
+
+
+
+
+
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
+
+
+
+
+
+
+
         -->
     </style>
 
@@ -42,6 +56,13 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
+
+    <style name="style_check_reason">
+        <item name="android:textColor">@color/textcolor_radio_reason_check</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/bg_radio_reason_selector</item>
+        <item name="android:button">@null</item>
     </style>
 
 </resources>

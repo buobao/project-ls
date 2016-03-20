@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.umeng.socialize.utils.Log;
@@ -33,6 +34,7 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
     private String mCustorCode = null;
     private String content;
     private Intent intent;
+    private RadioButton rb_reason1,rb_reason2,rb_reason3,rb_reason4;
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_house_reason;
@@ -48,6 +50,11 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
                 .findHeadTitle1(mContext, mRootView, 0, getResources().getString(R.string.lookhousereason));
         mTvDate = (TextView) findViewById(R.id.tv_date_houseReasonActivity);
         et_content = (EditText) findViewById(R.id.et_content_houseReasonActivity);
+        rb_reason1 = (RadioButton) findViewById(R.id.rb_reason1);
+        rb_reason2 = (RadioButton) findViewById(R.id.rb_reason2);
+        rb_reason3 = (RadioButton) findViewById(R.id.rb_reason3);
+        rb_reason4 = (RadioButton) findViewById(R.id.rb_reason4);
+        rb_reason4.setChecked(true);
     }
 
     @Override
@@ -100,10 +107,19 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
                 modelDialog.show();
                 String delCode = intent.getStringExtra("delCode");
                 String houseId = intent.getStringExtra("houseId");
-                Log.i("delCode========houseId",delCode+"===="+houseId);
+                String checkContent;
+                if(rb_reason1.isChecked()){
+                    checkContent="10080001";
+                }else if(rb_reason2.isChecked()){
+                    checkContent="10080002";
+                }else if(rb_reason3.isChecked()){
+                    checkContent="10080003";
+                }else{
+                    checkContent="10080004";
+                }
                 MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
                         CST_JS.JS_Function_HouseResource_getShiHao, CST_JS
-                                .getJsonStringForLookShiHao(content,delCode, houseId, "10080004"));
+                                .getJsonStringForLookShiHao(content,delCode, houseId, checkContent));
                 break;
             default:
                 break;

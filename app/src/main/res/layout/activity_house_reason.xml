@@ -13,7 +13,56 @@
         android:layout_marginLeft="13.5dp"
         android:layout_marginTop="10dp"
         android:text="@string/chakanmiaoshu" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="5dp"
+    >
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+        <RadioButton
+            android:id="@+id/rb_reason1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="带看"
+            style="@style/style_check_reason"/>
+        <RadioButton
+            android:id="@+id/rb_reason2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="实勘"
+            style="@style/style_check_reason"
+            />
+        <RadioButton
+            android:id="@+id/rb_reason3"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="收钥"
+            style="@style/style_check_reason"
+            />
+        <RadioButton
+            android:id="@+id/rb_reason4"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="其他"
+            style="@style/style_check_reason"
+            />
+    </RadioGroup>
+</LinearLayout>
     <EditText
         android:id="@+id/et_content_houseReasonActivity"
         android:layout_width="match_parent"

@@ -67,6 +67,8 @@
             android:orientation="vertical"
             android:visibility="gone"
             >
+            <include layout="@layout/dialog_tag_selector"
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_dialog_wheelview_two4"
@@ -75,6 +77,8 @@
             android:orientation="vertical"
             android:visibility="gone"
             >
+            <include layout="@layout/dialog_wheelview_one"
+                />
         </LinearLayout>
     </FrameLayout>
 

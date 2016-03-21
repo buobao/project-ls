@@ -287,9 +287,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tv_lookshihao_houseDetailActivity:
-			if(mHouseDetail.getShowroom()){
-				String roomNo=mHouseDetail.getRoomNO();
-				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
+			if(!mHouseDetail.isRequireReason()){//false不需要原因，true需要
+				String roomNo=mHouseDetail.roomNo;
+				tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
 				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
 			}else{
 				String delCode=mHouseDetail.getDelCode();

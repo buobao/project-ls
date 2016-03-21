@@ -75,7 +75,7 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 content = et_content.getText().toString();
-                if (content.trim().length() >= 1) {
+                if (content.trim().length() >= 10) {
                     mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, mRootView, 0, R.drawable.universal_button_done);
                     mSubmit.setClickable(true);
                 }

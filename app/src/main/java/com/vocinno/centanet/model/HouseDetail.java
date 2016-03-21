@@ -19,9 +19,11 @@ public class HouseDetail {
 	private String activeTime = "";// 最近活动时间
 	private boolean showroom =false;// 是否显示楼层号
 	private String roomNO = "";// 楼层号
+	public String roomNo = "";// 楼层号
 	private String lat = "";// 经度
 	private String att = "";// 纬度
 	private boolean isPublic = false;// 是否是公房
+	private boolean isRequireReason = false;// 是否需要原因
 	private String year = "";
 
 	public String getRoomNO() {
@@ -54,6 +56,18 @@ public class HouseDetail {
 
 	public boolean isPublic() {
 		return isPublic;
+	}
+
+	public boolean isShowroom() {
+		return showroom;
+	}
+
+	public boolean isRequireReason() {
+		return isRequireReason;
+	}
+
+	public void setIsRequireReason(boolean isRequireReason) {
+		this.isRequireReason = isRequireReason;
 	}
 
 	public void setPublic(boolean isPublic) {

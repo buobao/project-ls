@@ -1,19 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <include
+        layout="@layout/header_title_model1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/header_title_model1" />
+        android:layout_height="wrap_content"/>
 
     <com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView
         android:id="@+id/scrolltag_houseManage_houseManageActivity"
         android:layout_width="match_parent"
         android:layout_height="@dimen/scroll_tag_view_height"
-        android:layout_below="@+id/relativeLayout1" >
+        android:layout_below="@+id/relativeLayout1">
     </com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView>
 
     <LinearLayout
@@ -21,11 +21,62 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/ll_dialog_wheelview_two0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_dialog_wheelview_two1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <include layout="@layout/dialog_wheelview_two"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_dialog_wheelview_two2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <include layout="@layout/dialog_wheelview_four"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_dialog_wheelview_two3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_dialog_wheelview_two4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+        </LinearLayout>
+    </FrameLayout>
+
 
 </LinearLayout>

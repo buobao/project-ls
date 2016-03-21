@@ -277,6 +277,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			case 101:
 				String  roomNo=data.getStringExtra("roomNo");
 				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
+				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
 				break;
 		}
@@ -290,6 +291,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			if(!mHouseDetail.isRequireReason()){//false不需要原因，true需要
 				String roomNo=mHouseDetail.roomNo;
 				tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
+				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
 			}else{
 				String delCode=mHouseDetail.getDelCode();
@@ -683,7 +685,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 									.doubleValue() + "元/㎡ "
 							+ mHouseDetail.getActiveTime());
 				}
-				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+				mTvLouceng.setText("楼层：");
+//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
 				mTvYear.setText("年代：" + mHouseDetail.getYear());
 				mTvBankuai.setText("板块：" + mHouseDetail.getArea());

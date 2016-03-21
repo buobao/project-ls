@@ -631,10 +631,48 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			ll_dialog_wheelview_two4.setVisibility(View.GONE);
 			layoutIndex=-1;
 			break;
+		case  R.id.btn_submit_modelPriceWheelView:
+			WheelView wheelStart0 = (WheelView) findViewById(R.id.wheelview_start_modelPriceWheelView);
+			WheelView wheelEnd0 = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
+			String startString = wheelStart0.getSelectedText().split("万")[0];
+			String endString = wheelEnd0.getSelectedText().trim()
+					.equals("不限") ? wheelEnd0.getSelectedText().trim()
+					: wheelEnd0.getSelectedText().split("万")[0];
+			if (mType != HouseType.CHU_ZU) {
+				startString += "0000";
+				if (!"不限".equals(endString)) {
+					endString += "0000";
+				}
+			}
+			mPrice[mCurrentPageIndex] = startString.trim()
+					.replaceAll("万", "").replaceAll("元", "")
+					+ "-"
+					+ endString.trim().replaceAll("万", "")
+					.replaceAll("元", "");
+			if (endString.trim().equals("不限")
+					|| Integer.parseInt(startString.trim()
+					.replaceAll("万", "").replaceAll("元", "")) <= Integer
+					.parseInt(endString.trim().replaceAll("万", "")
+							.replaceAll("元", ""))) {
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+						CST_JS.JS_Function_HouseResource_getList, CST_JS
+								.getJsonStringForHouseListGetList(mType
+												+ "", mPrice[mCurrentPageIndex],
+										mSquare[mCurrentPageIndex],
+										mFrame[mCurrentPageIndex],
+										mTags[mCurrentPageIndex],
+										mUserType[mCurrentPageIndex], 1,
+										20, "", "", "", ""));
+				ll_dialog_wheelview_two0.setVisibility(View.GONE);
+				layoutIndex=-1;
+			} else {
+				MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
+			}
+			break;
 		case R.id.btn_submit_modelTwoWheelView:
 			WheelView wheelStart = (WheelView) findViewById(R.id.wheelview_start_modelTwoWheelView);
 			WheelView wheelEnd = (WheelView)findViewById(R.id.wheelview_end_modelTwoWheelView);
-			if (mFragmentTagIndexs[mCurrentPageIndex] == 0) {
+			if (mFragmentTagIndexs[mCurrentPageIndex] == 0) {/*
 				String startString = wheelStart.getSelectedText().split("万")[0];
 				String endString = wheelEnd.getSelectedText().trim()
 						.equals("不限") ? wheelEnd.getSelectedText().trim()
@@ -668,16 +706,16 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					layoutIndex=-1;
 				} else {
 					MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
-				}
+				}*/
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 1) {
-				String startString = wheelStart.getSelectedText().split("平米")[0]
+				String startString1 = wheelStart.getSelectedText().split("平米")[0]
 						+ "";
-				String endString = wheelEnd.getSelectedText().split("平米")[0]
+				String endString1 = wheelEnd.getSelectedText().split("平米")[0]
 						+ "";
-				mSquare[mCurrentPageIndex] = startString + "-" + endString;
-				if (endString.equals("不限")
-						|| Integer.parseInt(startString.trim()) <= Integer
-								.parseInt(endString.trim())) {
+				mSquare[mCurrentPageIndex] = startString1 + "-" + endString1;
+				if (endString1.equals("不限")
+						|| Integer.parseInt(startString1.trim()) <= Integer
+								.parseInt(endString1.trim())) {
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_getList, CST_JS
 									.getJsonStringForHouseListGetList(mType
@@ -694,9 +732,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				}
 
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 2) {
-				String startString = wheelStart.getSelectedText().toString();
-				String endString = wheelEnd.getSelectedText().toString();
-				mFrame[mCurrentPageIndex] = startString + "-" + endString;
+				String startString2 = wheelStart.getSelectedText().toString();
+				String endString2 = wheelEnd.getSelectedText().toString();
+				mFrame[mCurrentPageIndex] = startString2 + "-" + endString2;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getList, CST_JS
 								.getJsonStringForHouseListGetList(mType + "",
@@ -709,9 +747,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				ll_dialog_wheelview_two2.setVisibility(View.GONE);
 				layoutIndex=-1;
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 3) {
-				String startString = wheelStart.getSelectedText().toString();
-				String endString = wheelEnd.getSelectedText().toString();
-				mTags[mCurrentPageIndex] = startString + "," + endString;
+				String startString3 = wheelStart.getSelectedText().toString();
+				String endString3 = wheelEnd.getSelectedText().toString();
+				mTags[mCurrentPageIndex] = startString3 + "," + endString3;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getList, CST_JS
 								.getJsonStringForHouseListGetList(mType + "",
@@ -772,6 +810,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			}
 			Log.i("LinearLayout=1=id=", ll1.getId() + "===");
 			break;
+			case R.id.backView_dialogPriceWheelview:
+				View btnBack0 =findViewById(R.id.backView_dialogPriceWheelview);
+				LinearLayout ll0=(LinearLayout)btnBack0.getParent().getParent();
+				if(ll0.getVisibility()==View.VISIBLE){
+					ll0.setVisibility(View.GONE);
+				}
+				Log.i("LinearLayout=1=id=", ll0.getId() + "===");
+				break;
 		case R.id.backView_dialogFourWheelView://户型--取消
 			View btnBack2 =findViewById(R.id.backView_dialogFourWheelView);
 			LinearLayout ll2=(LinearLayout)btnBack2.getParent().getParent();
@@ -787,6 +833,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			onBack();
 			break;
 		case R.id.img_right_mhead1:
+			closeOtherWheelView(layoutIndex);
 			showMenuDialog();
 			break;
 		default:
@@ -939,8 +986,8 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		}
 		switch (tagIndex) {
 		case 0:
-			if(ll_dialog_wheelview_two1.getVisibility()==View.VISIBLE){
-				ll_dialog_wheelview_two1.setVisibility(View.GONE);
+			if(ll_dialog_wheelview_two0.getVisibility()==View.VISIBLE){
+				ll_dialog_wheelview_two0.setVisibility(View.GONE);
 				layoutIndex=-1;
 			}else {
 				closeOtherWheelView(layoutIndex);//关闭其他已经打开的选择框
@@ -949,7 +996,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				for (int i = 0; i < 6; i++) {
 					list.add(i * 100 + "");
 				}
-				WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelTwoWheelView);
+				WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelPriceWheelView);
 				if (mType == HouseType.CHU_ZU) {
 					mWheelViewL
 							.setData(CST_Wheel_Data
@@ -977,7 +1024,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					}
 				}
 				mWheelViewL.setEnable(true);
-				WheelView mWheelViewT = (WheelView)findViewById(R.id.wheelview_end_modelTwoWheelView);
+				WheelView mWheelViewT = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
 				if (mType == HouseType.CHU_ZU) {
 					mWheelViewT.setData(CST_Wheel_Data
 							.getListDatas(CST_Wheel_Data.WheelType.priceChuzuEnd), CustomUtils.getWindowWidth(this));
@@ -996,22 +1043,21 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 							.setData(CST_Wheel_Data
 									.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd),CustomUtils.getWindowWidth(this));
 					// 初始化位置
-					if (isNeedRecoverFromLast) {
-						String str = mPrice[mCurrentPageIndex]
-								.substring(mPrice[mCurrentPageIndex].indexOf("-") + 1);
-						mWheelViewT.setSelectText(Integer.parseInt(str) / 10000
-								+ "万", mWheelViewT.getListSize() - 1);
+					/*if (isNeedRecoverFromLast) {
+						String str = mPrice[mCurrentPageIndex].substring(mPrice[mCurrentPageIndex].indexOf("-") + 1);
+//						mWheelViewT.setSelectText(Integer.parseInt(str) / 10000+ "万", mWheelViewT.getListSize() - 1);
+						mWheelViewT.setSelectText(str + "万", 0);
 					} else {
 						// mWheelViewT.setSelectItem(mWheelViewT.getListSize() - 1);
 						mWheelViewT.setSelectItem(0);
-					}
+					}*/
 				}
 				mWheelViewT.setEnable(true);
 
-				Button btnOk = (Button)findViewById(R.id.btn_submit_modelTwoWheelView);
+				Button btnOk = (Button)findViewById(R.id.btn_submit_modelPriceWheelView);
 				btnOk.setOnClickListener(this);
 
-				View btnBack = findViewById(R.id.backView_dialogTwoWheelview);
+				View btnBack = findViewById(R.id.backView_dialogPriceWheelview);
 				btnBack.setOnClickListener(this);
 
 				ll_dialog_wheelview_two0.setVisibility(View.VISIBLE);
@@ -1020,7 +1066,6 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 			break;
 		case 1:
-			Log.i("lldialog=====id====", ll_dialog_wheelview_two1.getId()+"===");
 			if(ll_dialog_wheelview_two1.getVisibility()==View.VISIBLE){
 				ll_dialog_wheelview_two1.setVisibility(View.GONE);
 				layoutIndex=-1;
@@ -1031,8 +1076,6 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				for (int i = 0; i < 6; i++) {
 					list.add(i * 100 + "");
 				}
-				View view1 = LayoutInflater.from(mContext).inflate(
-						R.layout.dialog_wheelview_two, null);
 				WheelView mWheelViewL11 = (WheelView) findViewById(R.id.wheelview_start_modelTwoWheelView);
 				mWheelViewL11.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.squareStart), CustomUtils.getWindowWidth(this)/2-5);
 				mWheelViewL11.setEnable(true);
@@ -1042,8 +1085,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				mWheelViewT1.setEnable(true);
 				// 初始化位置
 				if (isNeedRecoverFromLast) {
-					String str = mSquare[mCurrentPageIndex].substring(0,
-							mSquare[mCurrentPageIndex].indexOf("-"));
+					String str = mSquare[mCurrentPageIndex].substring(0,mSquare[mCurrentPageIndex].indexOf("-"));
 					mWheelViewL11.setSelectText(str + "平米", 0);
 				} else {
 					mWheelViewL11.setSelectItem(0);
@@ -1061,10 +1103,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				btnOk1.setOnClickListener(this);
 				View btnBack1 =findViewById(R.id.backView_dialogTwoWheelview);
 				btnBack1.setOnClickListener(this);
-				((TextView) view1
-						.findViewById(R.id.tv_startTitle_modelTwoWheelView))
+				((TextView) findViewById(R.id.tv_startTitle_modelTwoWheelView))
 						.setText(R.string.minarea);
-				((TextView) view1.findViewById(R.id.tv_endTitle_modelTwoWheelView))
+				((TextView) findViewById(R.id.tv_endTitle_modelTwoWheelView))
 						.setText(R.string.maxarea);
 				ll_dialog_wheelview_two1.setVisibility(View.VISIBLE);
 				layoutIndex=1;

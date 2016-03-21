@@ -39,6 +39,8 @@
             android:orientation="vertical"
             android:visibility="gone"
             >
+            <include layout="@layout/dialog_wheelview_price"
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_dialog_wheelview_two1"

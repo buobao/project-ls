@@ -1051,6 +1051,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 						// mWheelViewT.setSelectItem(mWheelViewT.getListSize() - 1);
 						mWheelViewT.setSelectItem(0);
 					}*/
+					mWheelViewT.setSelectItem(0);
 				}
 				mWheelViewT.setEnable(true);
 

@@ -14,7 +14,6 @@ import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
-import com.vocinno.centanet.customermanage.AddFollowInCustomerActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.ContactDetail;
@@ -274,9 +273,12 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		switch (requestCode){
-			case 1000:
-				String  reason=data.getStringExtra("reason");
+		switch (resultCode){
+			case 101:
+				String  roomNo=data.getStringExtra("roomNo");
+				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
+				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
 				break;
 		}
 	}
@@ -286,15 +288,19 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tv_lookshihao_houseDetailActivity:
-			if(mHouseDetail.getShowroom()){
-				String roomNo=mHouseDetail.getRoomno();
-				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
+			if(!mHouseDetail.isRequireReason()){//false不需要原因，true需要
+				String roomNo=mHouseDetail.roomNo;
+				tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
+				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
 			}else{
 				String delCode=mHouseDetail.getDelCode();
+				String houseId=mHouseDetail.getHouseId();
 				Intent intent = new Intent(mContext,
 						HouseReasonActivity.class);
-				MethodsExtra.startActivityForResult(mContext, 1000, intent);
+				intent.putExtra("delCode",delCode);
+				intent.putExtra("houseId",houseId);
+				MethodsExtra.startActivityForResult(mContext, 100, intent);
 			}
 
 			break;
@@ -679,7 +685,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 									.doubleValue() + "元/㎡ "
 							+ mHouseDetail.getActiveTime());
 				}
-				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+				mTvLouceng.setText("楼层：");
+//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
 				mTvYear.setText("年代：" + mHouseDetail.getYear());
 				mTvBankuai.setText("板块：" + mHouseDetail.getArea());

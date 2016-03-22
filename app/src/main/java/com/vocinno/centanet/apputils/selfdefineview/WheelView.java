@@ -218,7 +218,7 @@ public class WheelView extends View {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		mControlWidth = getWidth();
+//		mControlWidth = getWidth();
 		if (mControlWidth != 0) {
 			setMeasuredDimension((int) mControlWidth, mItemNumber * mUnitHeight);
 		}
@@ -530,7 +530,13 @@ public class WheelView extends View {
 			initData();
 		}
 	}
-
+	public void setData(ArrayList<String> data,int centerX) {
+		this.mControlWidth=centerX;
+		if (data != null) {
+			this.mListDate = data;
+			initData();
+		}
+	}
 	/**
 	 * 重置数据
 	 * 
@@ -752,6 +758,7 @@ public class WheelView extends View {
 			// 返回包围整个字符串的最小的一个Rect区域
 			mTextPaint.getTextBounds(mItemText, 0, mItemText.length(),
 					mTextRect);
+			int textRectWidth= mTextRect.width();
 			// 判断是否可视
 			if (!isInView())
 				return;

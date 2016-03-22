@@ -1,18 +1,14 @@
 package com.vocinno.centanet.housemanage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import android.R.bool;
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.graphics.drawable.Drawable;
-import android.hardware.Camera.Size;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -52,6 +48,7 @@ import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollT
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -60,13 +57,12 @@ import com.vocinno.utils.MethodsJson;
 
 /**
  * 房源管理
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private boolean isInitView = false;
-
 	private enum PaiXuType {
 		None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
 	}
@@ -85,7 +81,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			null, null, null };
 	public List[] mArrayHouseItemList = { null, null, null, null, null, null };
 	public int[] mPageIndexs = { 1, 1, 1, 1, 1, 1 };
-
+	private int mWheelViewLWidth;
 	// 标题栏按钮
 	private View mViewBack, mViewMore;
 	private ScrollTagView mScrollTagView;
@@ -107,7 +103,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private List<EstateSearchItem> mSearchListData;
 	private TextView mTvAreaSort, mTvPriceSort;
 	private Drawable drawable;
-
+	private LinearLayout ll_dialog_wheelview_two0, ll_dialog_wheelview_two1, ll_dialog_wheelview_two2, ll_dialog_wheelview_two3, ll_dialog_wheelview_two4;
+	private List<LinearLayout> layoutList;
+	private int layoutIndex=-1;//用于记录打开条件视图的下标
 	private static final String Weixin_APP_ID = "wx52560d39a9b47eae";
 
 	@SuppressLint("HandlerLeak")
@@ -205,6 +203,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 	@Override
 	public void initView() {
+		addLinearLayout();
 		AppInstance.mHouseManageActivity = this;
 		if (MethodsDeliverData.mIntHouseType != HouseType.NONE) {
 			mType = MethodsDeliverData.mIntHouseType;
@@ -308,6 +307,8 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			mViewPager.setVerticalScrollbarPosition(mCurrentPageIndex);
 		}
 	}
+
+
 
 	public void switchHouseType(int houseType) {
 		switch (houseType) {
@@ -611,10 +612,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			}
 			mSearchDialog.dismiss();
 			break;
-		case R.id.btn_submit_modelOneWheelView:
+		case R.id.btn_submit_modelOneWheelView://类型--确定
 			// 类型筛选（没有接口）
-			WheelView mWheelViewOne = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_modelOneWheelView);
+			WheelView mWheelViewOne = (WheelView)findViewById(R.id.wheelview_modelOneWheelView);
 			// mUserType = CST_Wheel_Data.getCodeForLouXing(mWheelViewOne
 			// .getSelectedText());//此处改为直接传递选中的参数(汉字)
 			mUserType[mCurrentPageIndex] = mWheelViewOne.getSelectedText()
@@ -628,14 +628,51 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], 1, 20, "",
 									"", "", ""));
-			mTagSortDialog.dismiss();
+			ll_dialog_wheelview_two4.setVisibility(View.GONE);
+			layoutIndex=-1;
+			break;
+		case  R.id.btn_submit_modelPriceWheelView:
+			WheelView wheelStart0 = (WheelView) findViewById(R.id.wheelview_start_modelPriceWheelView);
+			WheelView wheelEnd0 = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
+			String startString = wheelStart0.getSelectedText().split("万")[0];
+			String endString = wheelEnd0.getSelectedText().trim()
+					.equals("不限") ? wheelEnd0.getSelectedText().trim()
+					: wheelEnd0.getSelectedText().split("万")[0];
+			if (mType != HouseType.CHU_ZU) {
+				startString += "0000";
+				if (!"不限".equals(endString)) {
+					endString += "0000";
+				}
+			}
+			mPrice[mCurrentPageIndex] = startString.trim()
+					.replaceAll("万", "").replaceAll("元", "")
+					+ "-"
+					+ endString.trim().replaceAll("万", "")
+					.replaceAll("元", "");
+			if (endString.trim().equals("不限")
+					|| Integer.parseInt(startString.trim()
+					.replaceAll("万", "").replaceAll("元", "")) <= Integer
+					.parseInt(endString.trim().replaceAll("万", "")
+							.replaceAll("元", ""))) {
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+						CST_JS.JS_Function_HouseResource_getList, CST_JS
+								.getJsonStringForHouseListGetList(mType
+												+ "", mPrice[mCurrentPageIndex],
+										mSquare[mCurrentPageIndex],
+										mFrame[mCurrentPageIndex],
+										mTags[mCurrentPageIndex],
+										mUserType[mCurrentPageIndex], 1,
+										20, "", "", "", ""));
+				ll_dialog_wheelview_two0.setVisibility(View.GONE);
+				layoutIndex=-1;
+			} else {
+				MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
+			}
 			break;
 		case R.id.btn_submit_modelTwoWheelView:
-			WheelView wheelStart = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_start_modelTwoWheelView);
-			WheelView wheelEnd = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_end_modelTwoWheelView);
-			if (mFragmentTagIndexs[mCurrentPageIndex] == 0) {
+			WheelView wheelStart = (WheelView) findViewById(R.id.wheelview_start_modelTwoWheelView);
+			WheelView wheelEnd = (WheelView)findViewById(R.id.wheelview_end_modelTwoWheelView);
+			if (mFragmentTagIndexs[mCurrentPageIndex] == 0) {/*
 				String startString = wheelStart.getSelectedText().split("万")[0];
 				String endString = wheelEnd.getSelectedText().trim()
 						.equals("不限") ? wheelEnd.getSelectedText().trim()
@@ -659,43 +696,45 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_getList, CST_JS
 									.getJsonStringForHouseListGetList(mType
-											+ "", mPrice[mCurrentPageIndex],
+													+ "", mPrice[mCurrentPageIndex],
 											mSquare[mCurrentPageIndex],
 											mFrame[mCurrentPageIndex],
 											mTags[mCurrentPageIndex],
 											mUserType[mCurrentPageIndex], 1,
 											20, "", "", "", ""));
-					mTagSortDialog.dismiss();
+					ll_dialog_wheelview_two0.setVisibility(View.GONE);
+					layoutIndex=-1;
 				} else {
 					MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
-				}
+				}*/
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 1) {
-				String startString = wheelStart.getSelectedText().split("平米")[0]
+				String startString1 = wheelStart.getSelectedText().split("平米")[0]
 						+ "";
-				String endString = wheelEnd.getSelectedText().split("平米")[0]
+				String endString1 = wheelEnd.getSelectedText().split("平米")[0]
 						+ "";
-				mSquare[mCurrentPageIndex] = startString + "-" + endString;
-				if (endString.equals("不限")
-						|| Integer.parseInt(startString.trim()) <= Integer
-								.parseInt(endString.trim())) {
+				mSquare[mCurrentPageIndex] = startString1 + "-" + endString1;
+				if (endString1.equals("不限")
+						|| Integer.parseInt(startString1.trim()) <= Integer
+								.parseInt(endString1.trim())) {
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_getList, CST_JS
 									.getJsonStringForHouseListGetList(mType
-											+ "", mPrice[mCurrentPageIndex],
+													+ "", mPrice[mCurrentPageIndex],
 											mSquare[mCurrentPageIndex],
 											mFrame[mCurrentPageIndex],
 											mTags[mCurrentPageIndex],
 											mUserType[mCurrentPageIndex], 1,
 											20, "", "", "", ""));
-					mTagSortDialog.dismiss();
+					ll_dialog_wheelview_two1.setVisibility(View.GONE);
+					layoutIndex=-1;
 				} else {
 					MethodsExtra.toast(mContext, "最大面积不能小于最小面积");
 				}
 
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 2) {
-				String startString = wheelStart.getSelectedText().toString();
-				String endString = wheelEnd.getSelectedText().toString();
-				mFrame[mCurrentPageIndex] = startString + "-" + endString;
+				String startString2 = wheelStart.getSelectedText().toString();
+				String endString2 = wheelEnd.getSelectedText().toString();
+				mFrame[mCurrentPageIndex] = startString2 + "-" + endString2;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getList, CST_JS
 								.getJsonStringForHouseListGetList(mType + "",
@@ -705,11 +744,12 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
 										"", "", "", ""));
-				mTagSortDialog.dismiss();
+				ll_dialog_wheelview_two2.setVisibility(View.GONE);
+				layoutIndex=-1;
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 3) {
-				String startString = wheelStart.getSelectedText().toString();
-				String endString = wheelEnd.getSelectedText().toString();
-				mTags[mCurrentPageIndex] = startString + "," + endString;
+				String startString3 = wheelStart.getSelectedText().toString();
+				String endString3 = wheelEnd.getSelectedText().toString();
+				mTags[mCurrentPageIndex] = startString3 + "," + endString3;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getList, CST_JS
 								.getJsonStringForHouseListGetList(mType + "",
@@ -719,18 +759,13 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
 										"", "", "", ""));
-				mTagSortDialog.dismiss();
 			}
 			break;
-		case R.id.btn_submit_modelFourWheelView:
-			WheelView mWheelView1 = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_first_modelFourWheelView);
-			WheelView mWheelView2 = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_second_modelFourWheelView);
-			WheelView mWheelView3 = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_third_modelFourWheelView);
-			WheelView mWheelView4 = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_forth_modelFourWheelView);
+		case R.id.btn_submit_modelFourWheelView://户型--确定
+			WheelView mWheelView1 = (WheelView) findViewById(R.id.wheelview_first_modelFourWheelView);
+			WheelView mWheelView2 = (WheelView) findViewById(R.id.wheelview_second_modelFourWheelView);
+			WheelView mWheelView3 = (WheelView)findViewById(R.id.wheelview_third_modelFourWheelView);
+			WheelView mWheelView4 = (WheelView)findViewById(R.id.wheelview_forth_modelFourWheelView);
 
 			mFrame[mCurrentPageIndex] = mWheelView1.getSelectedText() + "-"
 					+ mWheelView2.getSelectedText() + "-"
@@ -745,9 +780,10 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], 1, 20, "",
 									"", "", ""));
-			mTagSortDialog.dismiss();
+			ll_dialog_wheelview_two2.setVisibility(View.GONE);
+			layoutIndex=-1;
 			break;
-		case R.id.btn_submit_dialogTagSelector:
+		case R.id.btn_submit_dialogTagSelector://标签--确定
 			// 标签
 			mTags[mCurrentPageIndex] = mHouseTagAdapter.getSelectedTags();
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -759,16 +795,36 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], 1, 20, "",
 									"", "", ""));
-			mTagSortDialog.dismiss();
+			ll_dialog_wheelview_two3.setVisibility(View.GONE);
+			layoutIndex=-1;
 			break;
-		case R.id.backView_dialogOneWheelview:
-			mTagSortDialog.dismiss();
+		case R.id.backView_dialogOneWheelview://类型--取消
+			ll_dialog_wheelview_two4.setVisibility(View.GONE);
+			layoutIndex=-1;
 			break;
 		case R.id.backView_dialogTwoWheelview:
-			mTagSortDialog.dismiss();
+			View btnBack1 =findViewById(R.id.backView_dialogTwoWheelview);
+			LinearLayout ll1=(LinearLayout)btnBack1.getParent().getParent();
+			if(ll1.getVisibility()==View.VISIBLE){
+				ll1.setVisibility(View.GONE);
+			}
+			Log.i("LinearLayout=1=id=", ll1.getId() + "===");
 			break;
-		case R.id.backView_dialogFourWheelView:
-			mTagSortDialog.dismiss();
+			case R.id.backView_dialogPriceWheelview:
+				View btnBack0 =findViewById(R.id.backView_dialogPriceWheelview);
+				LinearLayout ll0=(LinearLayout)btnBack0.getParent().getParent();
+				if(ll0.getVisibility()==View.VISIBLE){
+					ll0.setVisibility(View.GONE);
+				}
+				Log.i("LinearLayout=1=id=", ll0.getId() + "===");
+				break;
+		case R.id.backView_dialogFourWheelView://户型--取消
+			View btnBack2 =findViewById(R.id.backView_dialogFourWheelView);
+			LinearLayout ll2=(LinearLayout)btnBack2.getParent().getParent();
+			if(ll2.getVisibility()==View.VISIBLE){
+				ll2.setVisibility(View.GONE);
+			}
+			Log.i("LinearLayout=2=id=", ll2.getId() + "===");
 			break;
 		case R.id.backView_dialogTagSelector:
 			mTagSortDialog.dismiss();
@@ -777,6 +833,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			onBack();
 			break;
 		case R.id.img_right_mhead1:
+			closeOtherWheelView(layoutIndex);
 			showMenuDialog();
 			break;
 		default:
@@ -849,13 +906,13 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
+									  int arg3) {
 				Log.d("on text changed", "true");
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
+										  int arg2, int arg3) {
 				Log.d("before text changed", "true");
 			}
 
@@ -875,7 +932,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+									long arg3) {
 				int type = mType;
 				if (mType == 1) {
 					type = 2;
@@ -929,259 +986,253 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		}
 		switch (tagIndex) {
 		case 0:
-			// 价格
-			list.clear();
-			for (int i = 0; i < 6; i++) {
-				list.add(i * 100 + "");
-			}
-			View view = LayoutInflater.from(mContext).inflate(
-					R.layout.dialog_wheelview_two, null);
-			mTagSortDialog.setContentView(view);
-			win.setGravity(Gravity.TOP);
-			mTagSortDialog.setCanceledOnTouchOutside(false);
-			WheelView mWheelViewL = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_start_modelTwoWheelView);
-			if (mType == HouseType.CHU_ZU) {
-				mWheelViewL
-						.setData(CST_Wheel_Data
-								.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart));
-				// 初始化位置
-				if (isNeedRecoverFromLast) {
-					String str = mPrice[mCurrentPageIndex].substring(0,
-							mPrice[mCurrentPageIndex].indexOf("-"));
-					mWheelViewL.setSelectText(str + "元", 0);
-				} else {
-					mWheelViewL.setSelectItem(0);
+			if(ll_dialog_wheelview_two0.getVisibility()==View.VISIBLE){
+				ll_dialog_wheelview_two0.setVisibility(View.GONE);
+				layoutIndex=-1;
+			}else {
+				closeOtherWheelView(layoutIndex);//关闭其他已经打开的选择框
+				// 价格
+				list.clear();
+				for (int i = 0; i < 6; i++) {
+					list.add(i * 100 + "");
 				}
-			} else {
-				mWheelViewL
-						.setData(CST_Wheel_Data
-								.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart));
-				// 初始化位置
-				if (isNeedRecoverFromLast) {
-					String str = mPrice[mCurrentPageIndex].substring(0,
-							mPrice[mCurrentPageIndex].indexOf("-"));
-					mWheelViewL.setSelectText(Integer.parseInt(str) / 10000
-							+ "万", 0);
+				WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelPriceWheelView);
+				if (mType == HouseType.CHU_ZU) {
+					mWheelViewL
+							.setData(CST_Wheel_Data
+									.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart),CustomUtils.getWindowWidth(this));
+					// 初始化位置
+					if (isNeedRecoverFromLast) {
+						String str = mPrice[mCurrentPageIndex].substring(0,
+								mPrice[mCurrentPageIndex].indexOf("-"));
+						mWheelViewL.setSelectText(str + "元", 0);
+					} else {
+						mWheelViewL.setSelectItem(0);
+					}
 				} else {
-					mWheelViewL.setSelectItem(0);
+					mWheelViewL
+							.setData(CST_Wheel_Data
+									.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart),CustomUtils.getWindowWidth(this));
+					// 初始化位置
+					if (isNeedRecoverFromLast) {
+						String str = mPrice[mCurrentPageIndex].substring(0,
+								mPrice[mCurrentPageIndex].indexOf("-"));
+						mWheelViewL.setSelectText(Integer.parseInt(str) / 10000
+								+ "万", 0);
+					} else {
+						mWheelViewL.setSelectItem(0);
+					}
 				}
-			}
-			mWheelViewL.setEnable(true);
-			WheelView mWheelViewT = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_end_modelTwoWheelView);
-			if (mType == HouseType.CHU_ZU) {
-				mWheelViewT.setData(CST_Wheel_Data
-						.getListDatas(CST_Wheel_Data.WheelType.priceChuzuEnd));
-				// 初始化位置
-				if (isNeedRecoverFromLast) {
-					String str = mPrice[mCurrentPageIndex]
-							.substring(mPrice[mCurrentPageIndex].indexOf("-") + 1);
-					mWheelViewT.setSelectText(str + "元",
-							mWheelViewT.getListSize() - 1);
+				mWheelViewL.setEnable(true);
+				WheelView mWheelViewT = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
+				if (mType == HouseType.CHU_ZU) {
+					mWheelViewT.setData(CST_Wheel_Data
+							.getListDatas(CST_Wheel_Data.WheelType.priceChuzuEnd), CustomUtils.getWindowWidth(this));
+					// 初始化位置
+					if (isNeedRecoverFromLast) {
+						String str = mPrice[mCurrentPageIndex]
+								.substring(mPrice[mCurrentPageIndex].indexOf("-") + 1);
+						mWheelViewT.setSelectText(str + "元",
+								mWheelViewT.getListSize() - 1);
+					} else {
+						// mWheelViewT.setSelectItem(mWheelViewT.getListSize() - 1);
+						mWheelViewT.setSelectItem(0);
+					}
 				} else {
-					// mWheelViewT.setSelectItem(mWheelViewT.getListSize() - 1);
+					mWheelViewT
+							.setData(CST_Wheel_Data
+									.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd),CustomUtils.getWindowWidth(this));
+					// 初始化位置
+					/*if (isNeedRecoverFromLast) {
+						String str = mPrice[mCurrentPageIndex].substring(mPrice[mCurrentPageIndex].indexOf("-") + 1);
+//						mWheelViewT.setSelectText(Integer.parseInt(str) / 10000+ "万", mWheelViewT.getListSize() - 1);
+						mWheelViewT.setSelectText(str + "万", 0);
+					} else {
+						// mWheelViewT.setSelectItem(mWheelViewT.getListSize() - 1);
+						mWheelViewT.setSelectItem(0);
+					}*/
 					mWheelViewT.setSelectItem(0);
 				}
-			} else {
-				mWheelViewT
-						.setData(CST_Wheel_Data
-								.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd));
-				// 初始化位置
-				if (isNeedRecoverFromLast) {
-					String str = mPrice[mCurrentPageIndex]
-							.substring(mPrice[mCurrentPageIndex].indexOf("-") + 1);
-					mWheelViewT.setSelectText(Integer.parseInt(str) / 10000
-							+ "万", mWheelViewT.getListSize() - 1);
-				} else {
-					// mWheelViewT.setSelectItem(mWheelViewT.getListSize() - 1);
-					mWheelViewT.setSelectItem(0);
-				}
+				mWheelViewT.setEnable(true);
+
+				Button btnOk = (Button)findViewById(R.id.btn_submit_modelPriceWheelView);
+				btnOk.setOnClickListener(this);
+
+				View btnBack = findViewById(R.id.backView_dialogPriceWheelview);
+				btnBack.setOnClickListener(this);
+
+				ll_dialog_wheelview_two0.setVisibility(View.VISIBLE);
+				layoutIndex=0;
 			}
-			mWheelViewT.setEnable(true);
-			win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
-			Button btnOk = (Button) mTagSortDialog
-					.findViewById(R.id.btn_submit_modelTwoWheelView);
-			btnOk.setOnClickListener(this);
-
-			View btnBack = mTagSortDialog
-					.findViewById(R.id.backView_dialogTwoWheelview);
-			btnBack.setOnClickListener(this);
 			break;
 		case 1:
-			// 面积
-			list.clear();
-			for (int i = 0; i < 6; i++) {
-				list.add(i * 100 + "");
-			}
-			View view1 = LayoutInflater.from(mContext).inflate(
-					R.layout.dialog_wheelview_two, null);
-			mTagSortDialog.setContentView(view1);
-			win.setGravity(Gravity.TOP);
-			mTagSortDialog.setCanceledOnTouchOutside(false);
-			WheelView mWheelViewL1 = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_start_modelTwoWheelView);
-			mWheelViewL1.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.squareStart));
-			mWheelViewL1.setEnable(true);
-			WheelView mWheelViewT1 = (WheelView) mTagSortDialog
-					.findViewById(R.id.wheelview_end_modelTwoWheelView);
-			mWheelViewT1.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.squareEnd));
-			mWheelViewT1.setEnable(true);
-			// 初始化位置
-			if (isNeedRecoverFromLast) {
-				String str = mSquare[mCurrentPageIndex].substring(0,
-						mSquare[mCurrentPageIndex].indexOf("-"));
-				mWheelViewL1.setSelectText(str + "平米", 0);
-			} else {
-				mWheelViewL1.setSelectItem(0);
-			}
-			if (isNeedRecoverFromLast) {
-				String str = mSquare[mCurrentPageIndex]
-						.substring(mSquare[mCurrentPageIndex].indexOf("-") + 1);
-				mWheelViewT1.setSelectText(str + "平米",
-						mWheelViewT1.getListSize() - 1);
-			} else {
-				// mWheelViewT1.setSelectItem(mWheelViewT1.getListSize() - 1);
-				mWheelViewT1.setSelectItem(0);
-			}
-			win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+			if(ll_dialog_wheelview_two1.getVisibility()==View.VISIBLE){
+				ll_dialog_wheelview_two1.setVisibility(View.GONE);
+				layoutIndex=-1;
+			}else{
+				closeOtherWheelView(layoutIndex);//关闭其他已经打开的选择框
+				// 面积
+				list.clear();
+				for (int i = 0; i < 6; i++) {
+					list.add(i * 100 + "");
+				}
+				WheelView mWheelViewL11 = (WheelView) findViewById(R.id.wheelview_start_modelTwoWheelView);
+				mWheelViewL11.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.squareStart), CustomUtils.getWindowWidth(this)/2-5);
+				mWheelViewL11.setEnable(true);
 
-			Button btnOk1 = (Button) mTagSortDialog
-					.findViewById(R.id.btn_submit_modelTwoWheelView);
-			btnOk1.setOnClickListener(this);
+				WheelView mWheelViewT1 = (WheelView)findViewById(R.id.wheelview_end_modelTwoWheelView);
+				mWheelViewT1.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.squareEnd), CustomUtils.getWindowWidth(this)/2-5);
+				mWheelViewT1.setEnable(true);
+				// 初始化位置
+				if (isNeedRecoverFromLast) {
+					String str = mSquare[mCurrentPageIndex].substring(0,mSquare[mCurrentPageIndex].indexOf("-"));
+					mWheelViewL11.setSelectText(str + "平米", 0);
+				} else {
+					mWheelViewL11.setSelectItem(0);
+				}
+				if (isNeedRecoverFromLast) {
+					String str = mSquare[mCurrentPageIndex]
+							.substring(mSquare[mCurrentPageIndex].indexOf("-") + 1);
+					mWheelViewT1.setSelectText(str + "平米",
+							mWheelViewT1.getListSize() - 1);
+				} else {
+					// mWheelViewT1.setSelectItem(mWheelViewT1.getListSize() - 1);
+					mWheelViewT1.setSelectItem(0);
+				}
+				Button btnOk1 = (Button)findViewById(R.id.btn_submit_modelTwoWheelView);
+				btnOk1.setOnClickListener(this);
+				View btnBack1 =findViewById(R.id.backView_dialogTwoWheelview);
+				btnBack1.setOnClickListener(this);
+				((TextView) findViewById(R.id.tv_startTitle_modelTwoWheelView))
+						.setText(R.string.minarea);
+				((TextView) findViewById(R.id.tv_endTitle_modelTwoWheelView))
+						.setText(R.string.maxarea);
+				ll_dialog_wheelview_two1.setVisibility(View.VISIBLE);
+				layoutIndex=1;
+			}
 
-			View btnBack1 = mTagSortDialog
-					.findViewById(R.id.backView_dialogTwoWheelview);
-			btnBack1.setOnClickListener(this);
-			((TextView) view1
-					.findViewById(R.id.tv_startTitle_modelTwoWheelView))
-					.setText(R.string.minarea);
-			((TextView) view1.findViewById(R.id.tv_endTitle_modelTwoWheelView))
-					.setText(R.string.maxarea);
 			break;
 		case 2:
-			// 户型
-			list.clear();
-			for (int i = 0; i < 6; i++) {
-				list.add(i + "");
-			}
-			View view2 = LayoutInflater.from(mContext).inflate(
-					R.layout.dialog_wheelview_four, null);
-			mTagSortDialog.setContentView(view2);
-			win.setGravity(Gravity.TOP);
-			mTagSortDialog.setCanceledOnTouchOutside(false);
-			String[] strs = mFrame[mCurrentPageIndex].split("-");
-			WheelView mWheelView1 = (WheelView) view2
-					.findViewById(R.id.wheelview_first_modelFourWheelView);
-			mWheelView1.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.huXing));
-			mWheelView1.setEnable(true);
-			WheelView mWheelView2 = (WheelView) view2
-					.findViewById(R.id.wheelview_second_modelFourWheelView);
-			mWheelView2.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.huXing));
-			mWheelView2.setEnable(true);
-			WheelView mWheelView3 = (WheelView) view2
-					.findViewById(R.id.wheelview_third_modelFourWheelView);
-			mWheelView3.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.huXing));
-			mWheelView3.setEnable(true);
-			WheelView mWheelView4 = (WheelView) view2
-					.findViewById(R.id.wheelview_forth_modelFourWheelView);
-			mWheelView4.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.huXing));
-			mWheelView4.setEnable(true);
-			if (isNeedRecoverFromLast) {
-				mWheelView1.setSelectText(strs[0], 0);
-				mWheelView2.setSelectText(strs[1], 0);
-				mWheelView3.setSelectText(strs[2], 0);
-				mWheelView4.setSelectText(strs[3], 0);
-			} else {
-				mWheelView1.setSelectItem(0);
-				mWheelView2.setSelectItem(0);
-				mWheelView3.setSelectItem(0);
-				mWheelView4.setSelectItem(0);
-			}
-			win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+			if(ll_dialog_wheelview_two2.getVisibility()==View.VISIBLE){
+				ll_dialog_wheelview_two2.setVisibility(View.GONE);
+				layoutIndex=-1;
+			}else{
+				closeOtherWheelView(layoutIndex);
+				// 户型
+				list.clear();
+				for (int i = 0; i < 6; i++) {
+					list.add(i + "");
+				}
+				String[] strs = mFrame[mCurrentPageIndex].split("-");
+				WheelView mWheelView1 = (WheelView) findViewById(R.id.wheelview_first_modelFourWheelView);
+				mWheelView1.setData(CST_Wheel_Data
+						.getListDatas(CST_Wheel_Data.WheelType.huXing),CustomUtils.getWindowWidth(this)/9);
+				mWheelView1.setEnable(true);
+				WheelView mWheelView2 = (WheelView)findViewById(R.id.wheelview_second_modelFourWheelView);
+				mWheelView2.setData(CST_Wheel_Data
+						.getListDatas(CST_Wheel_Data.WheelType.huXing),CustomUtils.getWindowWidth(this)/9);
+				mWheelView2.setEnable(true);
+				WheelView mWheelView3 = (WheelView)findViewById(R.id.wheelview_third_modelFourWheelView);
+				mWheelView3.setData(CST_Wheel_Data
+						.getListDatas(CST_Wheel_Data.WheelType.huXing),CustomUtils.getWindowWidth(this)/9);
+				mWheelView3.setEnable(true);
+				WheelView mWheelView4 = (WheelView)findViewById(R.id.wheelview_forth_modelFourWheelView);
+				mWheelView4.setData(CST_Wheel_Data
+						.getListDatas(CST_Wheel_Data.WheelType.huXing),CustomUtils.getWindowWidth(this)/9);
+				mWheelView4.setEnable(true);
+				if (isNeedRecoverFromLast) {
+					mWheelView1.setSelectText(strs[0], 0);
+					mWheelView2.setSelectText(strs[1], 0);
+					mWheelView3.setSelectText(strs[2], 0);
+					mWheelView4.setSelectText(strs[3], 0);
+				} else {
+					mWheelView1.setSelectItem(0);
+					mWheelView2.setSelectItem(0);
+					mWheelView3.setSelectItem(0);
+					mWheelView4.setSelectItem(0);
+				}
+				win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
-			Button btnOk2 = (Button) view2
-					.findViewById(R.id.btn_submit_modelFourWheelView);
-			btnOk2.setOnClickListener(this);
+				Button btnOk2 = (Button)findViewById(R.id.btn_submit_modelFourWheelView);
+				btnOk2.setOnClickListener(this);
 
-			View btnBack2 = view2
-					.findViewById(R.id.backView_dialogFourWheelView);
-			btnBack2.setOnClickListener(this);
+				View btnBack2 = findViewById(R.id.backView_dialogFourWheelView);
+				btnBack2.setOnClickListener(this);
+				ll_dialog_wheelview_two2.setVisibility(View.VISIBLE);
+				layoutIndex=2;
+			}
+
 			break;
 		case 3:
-			// 标签
-			View view3 = LayoutInflater.from(mContext).inflate(
-					R.layout.dialog_tag_selector, null);
-			mTagSortDialog.setContentView(view3);
-			win.setGravity(Gravity.TOP);
-			mTagSortDialog.setCanceledOnTouchOutside(false);
-			GridView gridView = (GridView) view3
-					.findViewById(R.id.gridView_dialogTagSelector);
-			gridView.setColumnWidth((mIntScreenWidthHeight[0] - 30) / 4);
-			Button btnSubmit = (Button) view3
-					.findViewById(R.id.btn_submit_dialogTagSelector);
-			View backView = view3.findViewById(R.id.backView_dialogTagSelector);
-			List<String> listTags = new ArrayList<String>();
-			if (isNeedRecoverFromLast) {
-				String[] strTags = mTags[mCurrentPageIndex].split("-");
-				for (int i = 0; i < strTags.length; i++) {
-					listTags.add(strTags[i]);
+			if(ll_dialog_wheelview_two3.getVisibility()==View.VISIBLE){
+				ll_dialog_wheelview_two3.setVisibility(View.GONE);
+				layoutIndex=-1;
+			}else {
+				closeOtherWheelView(layoutIndex);
+				// 标签
+				GridView gridView = (GridView)findViewById(R.id.gridView_dialogTagSelector);
+				gridView.setColumnWidth((mIntScreenWidthHeight[0] - 30) / 4);
+				Button btnSubmit = (Button)findViewById(R.id.btn_submit_dialogTagSelector);
+				View backView =findViewById(R.id.backView_dialogTagSelector);
+				List<String> listTags = new ArrayList<String>();
+				if (isNeedRecoverFromLast) {
+					String[] strTags = mTags[mCurrentPageIndex].split("-");
+					for (int i = 0; i < strTags.length; i++) {
+						listTags.add(strTags[i]);
+					}
 				}
+				mHouseTagAdapter = new GridViewAdapter(mContext,
+						CST_Wheel_Data
+								.getListDatas(CST_Wheel_Data.WheelType.biaoQian),
+						listTags);
+				gridView.setAdapter(mHouseTagAdapter);
+				btnSubmit.setOnClickListener(this);
+				backView.setOnClickListener(this);
+				win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+				gridView.setItemChecked(0, true);
+
+				ll_dialog_wheelview_two3.setVisibility(View.VISIBLE);
+				layoutIndex=3;
 			}
-			mHouseTagAdapter = new GridViewAdapter(mContext,
-					CST_Wheel_Data
-							.getListDatas(CST_Wheel_Data.WheelType.biaoQian),
-					listTags);
-			gridView.setAdapter(mHouseTagAdapter);
-			btnSubmit.setOnClickListener(this);
-			backView.setOnClickListener(this);
-			win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-			gridView.setItemChecked(0, true);
+
 			break;
 		case 4:
-			// 类型
-			View view4 = LayoutInflater.from(mContext).inflate(
-					R.layout.dialog_wheelview_one, null);
-			mTagSortDialog.setContentView(view4);
-			win.setGravity(Gravity.TOP);
-			mTagSortDialog.setCanceledOnTouchOutside(false);
-			WheelView mWheelViewOne = (WheelView) view4
-					.findViewById(R.id.wheelview_modelOneWheelView);
-			mWheelViewOne.setData(CST_Wheel_Data
-					.getListDatas(CST_Wheel_Data.WheelType.louXing));
-			mWheelViewOne.setEnable(true);
-			if (isNeedRecoverFromLast) {
-				mWheelViewOne.setSelectText(mUserType[mCurrentPageIndex], 0);
-			} else {
-				mWheelViewOne.setSelectItem(0);
+			if(ll_dialog_wheelview_two4.getVisibility()==View.VISIBLE){
+				ll_dialog_wheelview_two4.setVisibility(View.GONE);
+				layoutIndex=-1;
+			}else {
+				closeOtherWheelView(layoutIndex);
+				// 类型
+				WheelView mWheelViewOne = (WheelView) findViewById(R.id.wheelview_modelOneWheelView);
+				mWheelViewOne.setData(CST_Wheel_Data
+						.getListDatas(CST_Wheel_Data.WheelType.louXing), CustomUtils.getWindowWidth(this));
+				mWheelViewOne.setEnable(true);
+				if (isNeedRecoverFromLast) {
+					mWheelViewOne.setSelectText(mUserType[mCurrentPageIndex], 0);
+				} else {
+					mWheelViewOne.setSelectItem(0);
+				}
+				Button btnOkOne = (Button) findViewById(R.id.btn_submit_modelOneWheelView);
+				btnOkOne.setOnClickListener(this);
+
+				View backOne = findViewById(R.id.backView_dialogOneWheelview);
+				backOne.setOnClickListener(this);
+				ll_dialog_wheelview_two4.setVisibility(View.VISIBLE);
+				layoutIndex=4;
 			}
-			win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-
-			Button btnOkOne = (Button) view4
-					.findViewById(R.id.btn_submit_modelOneWheelView);
-			btnOkOne.setOnClickListener(this);
-
-			View backOne = view4.findViewById(R.id.backView_dialogOneWheelview);
-			backOne.setOnClickListener(this);
 			break;
+
 		default:
 			break;
 		}
-		mTagSortDialog.show();
+//		mTagSortDialog.show();
 
 	}
+
+
 
 	public class SearchAdapter extends BaseAdapter {
 
@@ -1412,5 +1463,23 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		// 将应用的appid注册到微信
 		AppInstance.mWXAPI.registerApp(Weixin_APP_ID);
 	}
-
+	private void addLinearLayout() {
+		ll_dialog_wheelview_two0 = (LinearLayout)findViewById(R.id.ll_dialog_wheelview_two0);
+		ll_dialog_wheelview_two1 = (LinearLayout)findViewById(R.id.ll_dialog_wheelview_two1);
+		ll_dialog_wheelview_two2 = (LinearLayout)findViewById(R.id.ll_dialog_wheelview_two2);
+		ll_dialog_wheelview_two3 = (LinearLayout)findViewById(R.id.ll_dialog_wheelview_two3);
+		ll_dialog_wheelview_two4 = (LinearLayout)findViewById(R.id.ll_dialog_wheelview_two4);
+		layoutList=new ArrayList<LinearLayout>();
+		layoutList.add(ll_dialog_wheelview_two0);
+		layoutList.add(ll_dialog_wheelview_two1);
+		layoutList.add(ll_dialog_wheelview_two2);
+		layoutList.add(ll_dialog_wheelview_two3);
+		layoutList.add(ll_dialog_wheelview_two4);
+	}
+	private void closeOtherWheelView(int i) {
+		if(i>=0){
+			layoutList.get(i).setVisibility(View.GONE);
+			this.layoutIndex=-1;
+		}
+	}
 }

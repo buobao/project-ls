@@ -80,6 +80,7 @@
         android:id="@+id/rlyt_bottomContainer_modelOneWheelView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:clickable="true"
         android:layout_below="@id/rylt_wheelViewContainer_modelOneWheelView" >
 
         <Button

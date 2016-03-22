@@ -47,6 +47,7 @@
     <string name="houserdetail">房源详情</string>
     <string name="lookhousereason">查看房间原因</string>
     <string name="genjinmiaoshu">跟进描述</string>
+    <string name="chakanmiaoshu">查看描述</string>
     <string name="basic_info">基本信息</string>
     <string name="add_explain">添加说明</string>
     <string name="mianji">面积</string>
@@ -57,6 +58,7 @@
     <string name="input_other_info">输入其他信息</string>
     <string name="time_add_custormer">委托日期2015-06-11</string>
     <string name="input_genjin_info">输入跟进信息</string>
+    <string name="input_chakan_info">请输入查看房间原因</string>
     <string name="writdecribe">文字描述</string>
     <string name="housedecribe">添加对房屋的描述</string>
     <string name="time_addhousemanage">拍摄于1991/08/27</string>

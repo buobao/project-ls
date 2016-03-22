@@ -9,10 +9,10 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/model_wheel_view_two" />
+        layout="@layout/model_wheel_view_price" />
 
     <View
-        android:id="@+id/backView_dialogTwoWheelview"
+        android:id="@+id/backView_dialogPriceWheelview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_half" />

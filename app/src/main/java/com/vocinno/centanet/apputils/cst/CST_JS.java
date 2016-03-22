@@ -62,6 +62,8 @@ public final class CST_JS {
 	public static String NOTIFY_NATIVE_ADD_HOU_CUST_TRACK_RESULT = "notify_native_hou_cust_track_result";
 	// 片区
 	public static String NOTIFY_NATIVE_GET_AREA_RESULT = "notify_native_get_area_result";
+	//看房理由
+	public static String NOTIFY_NATIVE_DOROOMVIEW_RESULT = "notify_native_doroomview_result";
 	// 电话号码是否重复
 	public static String NOTIFY_NATIVE_CHECK_PNONENO = "notify_native_check_pnoneno";
 
@@ -136,7 +138,23 @@ public final class CST_JS {
 	public static String JS_HouseResource_url = "url";
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_HouseResource_getList = "getHouseList";
-
+	public static String JS_Function_HouseResource_getShiHao = "doRoomview";
+	public static String JS_CommonParam_Heason = "reason";
+	public static String JS_CommonParam_HelCode = "delCode";
+	public static String JS_CommonParam_HouseId = "houseId";
+	// 请求参数 发送查看房间原因
+	public static String getJsonStringForLookShiHao(String reason,
+													String delCode,
+													String houseId,
+													String type) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_CommonParam_Heason, reason);
+		jsonObject.addProperty(JS_CommonParam_HelCode, delCode);
+		jsonObject.addProperty(JS_CommonParam_HouseId, houseId);
+		jsonObject.addProperty(JS_CommonParam_Type, type);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
+	}
 	// 请求参数 type:1 price square frame tag page pageSize sidx(acre/price)
 	// sord(asc/desc)
 	public static String getJsonStringForHouseListGetList(String type,

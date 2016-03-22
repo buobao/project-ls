@@ -19,7 +19,9 @@
         android:layout_below="@id/view_line_modelFourWheelView"
         android:orientation="vertical" >
 
-        <TableRow>
+        <TableRow
+            android:clickable="true"
+            >
 
             <View
                 android:layout_width="0dp"
@@ -101,7 +103,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:clickable="true"
+                >
 
                 <View
                     android:layout_width="0dp"
@@ -208,6 +212,7 @@
         android:id="@+id/rlyt_bottomContainer_modelFourWheelView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:clickable="true"
         android:layout_below="@id/tlyt_wheelContainer_modelFourWheelView" >
 
         <Button

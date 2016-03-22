@@ -673,17 +673,32 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					}
 					mTvPrice.setText(bPrice.setScale(2,
 							BigDecimal.ROUND_HALF_UP) + "");
-					mTvDetail.setText(mHouseDetail.getFrame()
-							+ "  "
-							+ mHouseDetail.getSquare()
-							+ "㎡  "
-							+ mHouseDetail.getFloor()
-							+ "  "
-							+ mHouseDetail.getOrient()
-							+ "  "
-							+ b.setScale(2, BigDecimal.ROUND_HALF_UP)
-									.doubleValue() + "元/㎡ "
-							+ mHouseDetail.getActiveTime());
+
+					String delCode=mHouseDetail.getDelCode().substring(4,5);
+					if("Z".equalsIgnoreCase(delCode)){
+						mTvDetail.setText(mHouseDetail.getFrame()
+								+ "  "
+								+ mHouseDetail.getSquare()
+								+ "㎡  "
+								+ mHouseDetail.getFloor()
+								+ "  "
+								+ mHouseDetail.getOrient()
+								+ "  "
+								+ mHouseDetail.getActiveTime());
+					}else{
+						mTvDetail.setText(mHouseDetail.getFrame()
+								+ "  "
+								+ mHouseDetail.getSquare()
+								+ "㎡  "
+								+ mHouseDetail.getFloor()
+								+ "  "
+								+ mHouseDetail.getOrient()
+								+ "  "
+								+ b.setScale(2, BigDecimal.ROUND_HALF_UP)
+								.doubleValue() + "万/㎡ "
+								+ mHouseDetail.getActiveTime());
+					}
+
 				}
 				mTvLouceng.setText("楼层：");
 //				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());

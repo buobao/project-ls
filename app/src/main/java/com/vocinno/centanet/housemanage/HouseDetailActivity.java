@@ -149,7 +149,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public int setContentLayoutId() {
-		modelDialog=ModelDialog.getModelDialog(this);
+		if(modelDialog==null){
+			modelDialog=ModelDialog.getModelDialog(this);
+		}
 		return R.layout.activity_house_detail;
 	}
 
@@ -268,6 +270,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		if(isGenJin){
 			modelDialog.show();
 			isGenJin=false;
+		}
+		if(getIntent().getBooleanExtra("key",false)){
+			modelDialog.show();
 		}
 		MethodsJni
 				.callProxyFun(
@@ -523,6 +528,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		if(modelDialog!=null&&modelDialog.isShowing()){
+			modelDialog.dismiss();
+		}
 		if (name.equals(CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT)) {
 			// 借用钥匙返回
 			String strJson = (String) data;
@@ -739,7 +747,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
 				}
 			}
-			modelDialog.dismiss();
 			isFirstDataCall = isFirstDataCall + 1;
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT)) {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,

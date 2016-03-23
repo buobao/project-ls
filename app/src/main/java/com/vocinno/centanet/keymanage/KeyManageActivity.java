@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyHorizontalScrollView;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
@@ -27,6 +28,7 @@ import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -168,6 +170,10 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 	}
 
 	private void getInitData() {
+		if(modelDialog==null){
+			modelDialog= ModelDialog.getModelDialog(this);
+		}
+		modelDialog.show();
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_KeyProxy,
 				CST_JS.JS_Function_KeyProxy_getMyKeyList,
 				CST_JS.getJsonStringForGetMyKeyList());
@@ -210,206 +216,206 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					Log.d("slide", "slidelistview down isFromOpenLeft:"
-							+ isFromOpenLeft + " isFromOpenRight:"
-							+ isFromOpenRight + " x:" + event.getRawX());
-					x = event.getRawX();
-					y = event.getRawY();
-					if (x < 60) {
-						return false;
-					}
-					position = ((ListView) view).pointToPosition((int) x,
-							(int) event.getY())
-							- ((ListView) view).getFirstVisiblePosition();
-					if ((isFromOpenRight || isFromOpenLeft) && lastPostion >= 0
-							&& position != lastPostion) {
-						// 上次未关闭，本次不能选择新行
-						position = lastPostion;
-					}
-					rootView = ((ListView) view).getChildAt(position);
-					if (rootView != null) {
-						mHolderGiveKey = (ViewHolderGiveKey) rootView.getTag();
-						scrollView = (MyHorizontalScrollView) rootView
-								.findViewById(R.id.scrollView_itemKeyManageListView);
-						mHolderViewItem = scrollView;
-						mStrtrKeyNo = mHolderGiveKey.mStrKeyNum;
-					}
-					// 如果该行还未加载完毕或该行为footer
-					if (rootView == null || scrollView == null) {
-						return false;
-					}
-					lastPostion = position;
-					if (mScreenWidth <= 0) {
-						mScreenWidth = getWindowManager().getDefaultDisplay()
-								.getWidth();
-						maxDistantLeft = scrollView.findViewById(
-								R.id.llyt_leftContainer_itemKeyManageListView)
-								.getMeasuredWidth();
-						maxDistantRight = scrollView.findViewById(
-								R.id.touchFlyt_giveKey_itemKeyManageListView)
-								.getMeasuredWidth();
-						mHolderRightWidth = maxDistantLeft;
-						mHolderLeftWidth = maxDistantLeft;
-					}
-					if (!isFromOpenLeft && !isFromOpenRight) {
-						return false;
-					}
-					break;
-				case MotionEvent.ACTION_UP:
-					// 如果该行还未加载完毕或该行为footer
-					if (rootView == null || scrollView == null || x < 60) {
-						return false;
-					} else if (Math.abs(event.getRawX() - x) <= 5
-							&& Math.abs(event.getRawY() - y) <= 5) {
-						Log.d("wanggsx", "wanggsxclick");
+					case MotionEvent.ACTION_DOWN:
+						Log.d("slide", "slidelistview down isFromOpenLeft:"
+								+ isFromOpenLeft + " isFromOpenRight:"
+								+ isFromOpenRight + " x:" + event.getRawX());
+						x = event.getRawX();
+						y = event.getRawY();
+						if (x < 60) {
+							return false;
+						}
+						position = ((ListView) view).pointToPosition((int) x,
+								(int) event.getY())
+								- ((ListView) view).getFirstVisiblePosition();
+						if ((isFromOpenRight || isFromOpenLeft) && lastPostion >= 0
+								&& position != lastPostion) {
+							// 上次未关闭，本次不能选择新行
+							position = lastPostion;
+						}
+						rootView = ((ListView) view).getChildAt(position);
+						if (rootView != null) {
+							mHolderGiveKey = (ViewHolderGiveKey) rootView.getTag();
+							scrollView = (MyHorizontalScrollView) rootView
+									.findViewById(R.id.scrollView_itemKeyManageListView);
+							mHolderViewItem = scrollView;
+							mStrtrKeyNo = mHolderGiveKey.mStrKeyNum;
+						}
+						// 如果该行还未加载完毕或该行为footer
+						if (rootView == null || scrollView == null) {
+							return false;
+						}
+						lastPostion = position;
+						if (mScreenWidth <= 0) {
+							mScreenWidth = getWindowManager().getDefaultDisplay()
+									.getWidth();
+							maxDistantLeft = scrollView.findViewById(
+									R.id.llyt_leftContainer_itemKeyManageListView)
+									.getMeasuredWidth();
+							maxDistantRight = scrollView.findViewById(
+									R.id.touchFlyt_giveKey_itemKeyManageListView)
+									.getMeasuredWidth();
+							mHolderRightWidth = maxDistantLeft;
+							mHolderLeftWidth = maxDistantLeft;
+						}
+						if (!isFromOpenLeft && !isFromOpenRight) {
+							return false;
+						}
+						break;
+					case MotionEvent.ACTION_UP:
+						// 如果该行还未加载完毕或该行为footer
+						if (rootView == null || scrollView == null || x < 60) {
+							return false;
+						} else if (Math.abs(event.getRawX() - x) <= 5
+								&& Math.abs(event.getRawY() - y) <= 5) {
+							Log.d("wanggsx", "wanggsxclick");
 
-						// MethodsDeliverData.mKeyType = -1;
-						// MethodsDeliverData.mDelCode = mKeyListData.get(
-						// position - 1).getDelCode();
-						// MethodsExtra.startActivity(mContext,
-						// HouseDetailActivity.class);
+							// MethodsDeliverData.mKeyType = -1;
+							// MethodsDeliverData.mDelCode = mKeyListData.get(
+							// position - 1).getDelCode();
+							// MethodsExtra.startActivity(mContext,
+							// HouseDetailActivity.class);
 
-						onItemClickListener(position);
+							onItemClickListener(position);
 
-						return false;
-					}
-					if (scrollView.getScrollX() < maxDistantLeft) {
-						Log.d("wanggsx", "scrollview up 左");
-						// 左侧操作
-						if (isNeedOpenWellLeft) {
-							// Log.d("wanggsx", "scrollview up 开");
-							scrollView.smoothScrollTo(0, 0);
-							isFromOpenLeft = true;
-							mHolderGiveKey.mImgViewRtnKey
-									.setOnClickListener(new OnClickListener() {
-										@Override
-										public void onClick(View arg0) {
-											setReturnKeyFinish(mHolderGiveKey.mStrKeyNum);
-											scrollView.post(new Runnable() {
-												@Override
-												public void run() {
-													scrollView.smoothScrollTo(
-															maxDistantLeft, 0);
-													isFromOpenLeft = false;
-												}
-											});
-										}
-									});
+							return false;
+						}
+						if (scrollView.getScrollX() < maxDistantLeft) {
+							Log.d("wanggsx", "scrollview up 左");
+							// 左侧操作
+							if (isNeedOpenWellLeft) {
+								// Log.d("wanggsx", "scrollview up 开");
+								scrollView.smoothScrollTo(0, 0);
+								isFromOpenLeft = true;
+								mHolderGiveKey.mImgViewRtnKey
+										.setOnClickListener(new OnClickListener() {
+											@Override
+											public void onClick(View arg0) {
+												setReturnKeyFinish(mHolderGiveKey.mStrKeyNum);
+												scrollView.post(new Runnable() {
+													@Override
+													public void run() {
+														scrollView.smoothScrollTo(
+																maxDistantLeft, 0);
+														isFromOpenLeft = false;
+													}
+												});
+											}
+										});
+							} else {
+								// Log.d("wanggsx", "scrollview up 关");
+								scrollView.smoothScrollTo(maxDistantLeft, 0);
+								isFromOpenLeft = false;
+							}
+						} else if (scrollView.getScrollX() > maxDistantLeft) {
+							Log.d("wanggsx", "scrollview up 右");
+							// 右侧操作
+							if (isNeedOpenWellRight) {
+								// Log.d("wanggsx", "scrollview up 开");
+								scrollView.smoothScrollTo(maxDistantRight
+										+ maxDistantLeft, 0);
+								isFromOpenRight = true;
+								setGiveKeyStart();
+							} else {
+								// Log.d("wanggsx", "scrollview up 关");
+								scrollView.smoothScrollTo(maxDistantLeft, 0);
+								isFromOpenRight = false;
+								setCancelGiveKey();
+							}
 						} else {
-							// Log.d("wanggsx", "scrollview up 关");
-							scrollView.smoothScrollTo(maxDistantLeft, 0);
+							Log.d("wanggsx", "scrollview up 中");
 							isFromOpenLeft = false;
-						}
-					} else if (scrollView.getScrollX() > maxDistantLeft) {
-						Log.d("wanggsx", "scrollview up 右");
-						// 右侧操作
-						if (isNeedOpenWellRight) {
-							// Log.d("wanggsx", "scrollview up 开");
-							scrollView.smoothScrollTo(maxDistantRight
-									+ maxDistantLeft, 0);
-							isFromOpenRight = true;
-							setGiveKeyStart();
-						} else {
-							// Log.d("wanggsx", "scrollview up 关");
-							scrollView.smoothScrollTo(maxDistantLeft, 0);
 							isFromOpenRight = false;
-							setCancelGiveKey();
+							isNeedOpenWellLeft = false;
+							isNeedOpenWellRight = false;
 						}
-					} else {
-						Log.d("wanggsx", "scrollview up 中");
-						isFromOpenLeft = false;
-						isFromOpenRight = false;
-						isNeedOpenWellLeft = false;
-						isNeedOpenWellRight = false;
-					}
-					if (!isFromOpenLeft && !isFromOpenRight) {
-						return false;
-					}
-					break;
-				case MotionEvent.ACTION_MOVE:
-					// 如果该行还未加载完毕或该行为footer
-					if (rootView == null || scrollView == null || x < 60) {
-						return false;
-					}
-					thisDistantX = event.getRawX() - x;
-					thisDistantY = event.getRawY() - y;
-					if (Math.abs(thisDistantY / thisDistantX) > 2
-							&& (!isFromOpenLeft && !isFromOpenRight)) {
-						// 竖直方向滚动，事件传给listview
-						return false;
-					} else if (Math.abs(thisDistantX) < 5
-							&& Math.abs(thisDistantY) < 5) {
-						// 避免跟点击事件冲突
-						return true;
-					}
-
-					if (thisDistantX < 0) {
-						// 向左滑动
-						if (isFromOpenLeft) {
-							// 关闭左侧
-							if (thisDistantX < -maxDistantLeft) {
-								thisDistantX = -maxDistantLeft;
-							}
-							if (thisDistantX < -maxDistantLeft / 3) {
-								isNeedOpenWellLeft = false;
-							} else {
-								isNeedOpenWellLeft = true;
-							}
-							scrollView.smoothScrollTo(-(int) thisDistantX, 0);
-						} else if (!isFromOpenRight) {
-							// 打开右侧
-							if (thisDistantX < -maxDistantRight) {
-								// 左滑必须有个距离限制
-								thisDistantX = -maxDistantRight;
-							}
-							if (thisDistantX < -maxDistantRight / 5) {
-								isNeedOpenWellRight = true;
-							} else {
-								isNeedOpenWellRight = false;
-							}
-							scrollView.smoothScrollTo(-(int) thisDistantX
-									+ maxDistantLeft, 0);
-						} else if (isFromOpenRight) {
-							return true;
-						} else {
+						if (!isFromOpenLeft && !isFromOpenRight) {
 							return false;
 						}
-
-					} else {
-						// 向右滑动
-						if (isFromOpenRight) {
-							// 关闭右侧
-							if (thisDistantX > maxDistantRight) {
-								thisDistantX = maxDistantRight;
-							}
-							if (thisDistantX > maxDistantRight / 5) {
-								isNeedOpenWellRight = false;
-							} else {
-								isNeedOpenWellRight = true;
-							}
-							scrollView.smoothScrollTo(-(int) thisDistantX
-									+ maxDistantLeft + maxDistantRight, 0);
-						} else if (!isFromOpenLeft) {
-							// 打开左侧
-							if (thisDistantX > maxDistantLeft) {
-								// 左滑必须有个距离限制
-								thisDistantX = maxDistantLeft;
-							}
-							if (thisDistantX > maxDistantLeft / 3) {
-								isNeedOpenWellLeft = true;
-							} else {
-								isNeedOpenWellLeft = false;
-							}
-							scrollView.smoothScrollTo(-(int) thisDistantX
-									+ maxDistantLeft, 0);
-						} else if (isFromOpenLeft) {
-							return true;
-						} else {
+						break;
+					case MotionEvent.ACTION_MOVE:
+						// 如果该行还未加载完毕或该行为footer
+						if (rootView == null || scrollView == null || x < 60) {
 							return false;
 						}
-					}
-					break;
+						thisDistantX = event.getRawX() - x;
+						thisDistantY = event.getRawY() - y;
+						if (Math.abs(thisDistantY / thisDistantX) > 2
+								&& (!isFromOpenLeft && !isFromOpenRight)) {
+							// 竖直方向滚动，事件传给listview
+							return false;
+						} else if (Math.abs(thisDistantX) < 5
+								&& Math.abs(thisDistantY) < 5) {
+							// 避免跟点击事件冲突
+							return true;
+						}
+
+						if (thisDistantX < 0) {
+							// 向左滑动
+							if (isFromOpenLeft) {
+								// 关闭左侧
+								if (thisDistantX < -maxDistantLeft) {
+									thisDistantX = -maxDistantLeft;
+								}
+								if (thisDistantX < -maxDistantLeft / 3) {
+									isNeedOpenWellLeft = false;
+								} else {
+									isNeedOpenWellLeft = true;
+								}
+								scrollView.smoothScrollTo(-(int) thisDistantX, 0);
+							} else if (!isFromOpenRight) {
+								// 打开右侧
+								if (thisDistantX < -maxDistantRight) {
+									// 左滑必须有个距离限制
+									thisDistantX = -maxDistantRight;
+								}
+								if (thisDistantX < -maxDistantRight / 5) {
+									isNeedOpenWellRight = true;
+								} else {
+									isNeedOpenWellRight = false;
+								}
+								scrollView.smoothScrollTo(-(int) thisDistantX
+										+ maxDistantLeft, 0);
+							} else if (isFromOpenRight) {
+								return true;
+							} else {
+								return false;
+							}
+
+						} else {
+							// 向右滑动
+							if (isFromOpenRight) {
+								// 关闭右侧
+								if (thisDistantX > maxDistantRight) {
+									thisDistantX = maxDistantRight;
+								}
+								if (thisDistantX > maxDistantRight / 5) {
+									isNeedOpenWellRight = false;
+								} else {
+									isNeedOpenWellRight = true;
+								}
+								scrollView.smoothScrollTo(-(int) thisDistantX
+										+ maxDistantLeft + maxDistantRight, 0);
+							} else if (!isFromOpenLeft) {
+								// 打开左侧
+								if (thisDistantX > maxDistantLeft) {
+									// 左滑必须有个距离限制
+									thisDistantX = maxDistantLeft;
+								}
+								if (thisDistantX > maxDistantLeft / 3) {
+									isNeedOpenWellLeft = true;
+								} else {
+									isNeedOpenWellLeft = false;
+								}
+								scrollView.smoothScrollTo(-(int) thisDistantX
+										+ maxDistantLeft, 0);
+							} else if (isFromOpenLeft) {
+								return true;
+							} else {
+								return false;
+							}
+						}
+						break;
 				}
 				return true;
 			}
@@ -486,7 +492,10 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 		MethodsDeliverData.mKeyType = -1;
 		MethodsDeliverData.mDelCode = mKeyListData.get(position - 1)
 				.getDelCode();
-		MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
+		Intent intent=new Intent(this, HouseDetailActivity.class);
+		intent.putExtra("key",true);
+		startActivity(intent);
+//		MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 	}
 
 	// 开启借用钥匙模式，此时需要设置钥匙的密码
@@ -596,6 +605,9 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		if(modelDialog!=null&&modelDialog.isShowing()){
+			modelDialog.dismiss();
+		}
 		String strJson = (String) data;
 		JSReturn jsReturn;
 		Log.d("notifCallBack", "notif name=" + name + " data=" + data);

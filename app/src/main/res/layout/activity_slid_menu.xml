@@ -32,7 +32,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_sell_house_main_page_slid_menus"
                 android:gravity="center_vertical|left"
-                android:text="出售房源"
+                android:text="@string/house_chushou"
                 android:textColor="#F4F5F6"
                 android:textSize="18dp" />
         </RelativeLayout>
@@ -63,7 +63,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_rent_house_main_page_slid_menus"
                 android:gravity="center_vertical|left"
-                android:text="出租房源"
+                android:text="@string/house_chuzu"
                  android:textColor="#F4F5F6"
                 android:textSize="18dp"  />
         </RelativeLayout>
@@ -103,7 +103,7 @@
     <RelativeLayout
         android:id="@+id/rylt_mid_1_sild_menu"
         android:layout_width="250dp"
-        android:layout_height="91dp"
+        android:layout_height="136dp"
         android:layout_below="@+id/rlyt_top_sild_menu"
         android:layout_marginTop="8dp"
         android:background="@color/gray_slid_menu_item_bg"
@@ -128,14 +128,44 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_my_house_main_page_slid_menus"
                 android:gravity="center_vertical|left"
-                android:text="我的房源"
+                android:text="我的出售"
                 android:textColor="#F4F5F6"
                 android:textSize="18dp"  />
         </RelativeLayout>
+        <View
+            android:id="@+id/view_line_32"
+            android:layout_below="@+id/rlyt_my_house_main_page_slid_menus"
+            android:layout_width="match_parent"
+            android:layout_height="0.33dp"
+            android:layout_marginLeft="33dp"
+            android:background="#D1D1D1" />
+        <RelativeLayout
+            android:id="@+id/rlyt_my_house_main_page_slid_menus2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/view_line_32"
+            android:paddingLeft="30dp" >
 
+            <ImageView
+                android:id="@+id/img_my_house_main_page_slid_menus2"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/homeside_myhouse_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_my_house_main_page_slid_menus2"
+                android:gravity="center_vertical|left"
+                android:text="我的出租"
+                android:textColor="#F4F5F6"
+                android:textSize="18dp"  />
+        </RelativeLayout>
         <View
             android:id="@+id/view_line_3"
-            android:layout_below="@+id/rlyt_my_house_main_page_slid_menus"
+            android:layout_below="@+id/rlyt_my_house_main_page_slid_menus2"
             android:layout_width="match_parent"
             android:layout_height="0.33dp"
               android:layout_marginLeft="33dp"

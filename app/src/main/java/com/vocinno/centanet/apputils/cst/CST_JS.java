@@ -157,12 +157,17 @@ public final class CST_JS {
 	}
 	// 请求参数 type:1 price square frame tag page pageSize sidx(acre/price)
 	// sord(asc/desc)
+	private static String zOrS="";
+	public static void setZOrS(String param){
+		zOrS=param;
+	}
 	public static String getJsonStringForHouseListGetList(String type,
 														  String price, String square, String frame, String tag,
 														  String userType, int page, int pagesize, String sidx, String sord,
 														  String searchId, String searchType) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(JS_CommonParam_Type, type);
+		jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
 		jsonObject.addProperty(JS_HouseResource_Price, price);
 		jsonObject.addProperty(JS_HouseResource_Square, square);
 		jsonObject.addProperty(JS_HouseResource_Frame, frame);

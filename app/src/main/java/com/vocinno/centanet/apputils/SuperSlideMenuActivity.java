@@ -158,7 +158,8 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
-		case R.id.rlyt_my_house_main_page_slid_menus:
+		case R.id.rlyt_my_house_main_page_slid_menus://我的出售
+			Log.i("--------------","---------------");
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
@@ -180,6 +181,9 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
+			case R.id.rlyt_my_house_main_page_slid_menus2://我的出租
+
+				break;
 		case R.id.rlyt_key_house_main_page_slid_menus:
 			if (!(AppInstance.mListActivitys.get(AppInstance.mListActivitys
 					.size() - 1) instanceof KeyManageActivity)) {

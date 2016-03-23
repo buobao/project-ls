@@ -63,6 +63,7 @@ import com.vocinno.utils.MethodsJson;
  */
 public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private boolean isInitView = false;
+	public static boolean zOrS=false;//true 出售，false 出租
 	private enum PaiXuType {
 		None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
 	}
@@ -296,10 +297,16 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 						R.string.house_yuekan, null);
 				break;
 			case HouseType.WO_DE:
-				// 我的
+				// 我的出售
 				mType = HouseType.WO_DE;
-				MethodsExtra.findHeadTitle1(mContext, mRootView,
-						R.string.house_my, null);
+				if(zOrS){
+					MethodsExtra.findHeadTitle1(mContext, mRootView,
+							R.string.house_my, null);
+				}else{
+					MethodsExtra.findHeadTitle1(mContext, mRootView,
+							R.string.house_my2, null);
+				}
+
 				break;
 			default:
 				break;
@@ -333,8 +340,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		case HouseType.WO_DE:
 			// 我的
 			mType = HouseType.WO_DE;
-			MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_my,
-					null);
+			if(zOrS){
+				MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_my,
+						null);
+			}else{
+				MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_my2,
+						null);
+			}
+
 			break;
 		default:
 			break;

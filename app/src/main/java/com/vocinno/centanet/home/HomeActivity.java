@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperActivity;
+import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
@@ -122,6 +123,8 @@ public class HomeActivity extends SuperActivity {
 		switch (v.getId()) {
 		case R.id.tv_home_HomeActivity:
 			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
+			CST_JS.setZOrS("s");
+			HouseManageActivity.zOrS=true;
 			MethodsExtra.startActivity(mContext, HouseManageActivity.class);
 			break;
 		case R.id.tv_customerManage_HomeActivity:

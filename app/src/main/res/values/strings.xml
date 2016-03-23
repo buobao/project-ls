@@ -138,10 +138,11 @@
     <string name="title_activity_key_borrow_detail">KeyBorrowDetailActivity</string>
     <!-- 房源管理 -->
     <string name="house_manage">房源管理</string>
-    <string name="house_chuzu">出租房源</string>
-    <string name="house_chushou">出售房源</string>
+    <string name="house_chuzu">附近出租</string>
+    <string name="house_chushou">附近出售</string>
     <string name="house_yuekan">预约房源</string>
-    <string name="house_my">我的房源</string>
+    <string name="house_my">我的出售</string>
+    <string name="house_my2">我的出租</string>
     <string name="house_public">抢公房</string>
     <string name="house_near">附近楼盘</string>
     <string name="house_image_detail">添加详情</string>

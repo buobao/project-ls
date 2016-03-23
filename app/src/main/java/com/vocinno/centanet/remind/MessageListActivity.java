@@ -6,6 +6,7 @@ import java.util.List;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.MessageItem;
 import com.vocinno.utils.MethodsExtra;
@@ -84,6 +85,10 @@ public class MessageListActivity extends SuperSlideMenuActivity implements
 
 	@Override
 	public void initData() {
+		if(modelDialog==null){
+			modelDialog= ModelDialog.getModelDialog(this);
+		}
+		modelDialog.show();
 		mListAdapter = new MessageListAdapter(mContext);
 		mListView.setAdapter(mListAdapter);
 		// 添加通知
@@ -126,6 +131,9 @@ public class MessageListActivity extends SuperSlideMenuActivity implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		if(modelDialog!=null&&modelDialog.isShowing()){
+			modelDialog.dismiss();
+		}
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				MessageItem.class);

@@ -30,8 +30,10 @@ import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data.WheelType;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
+import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
+import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
@@ -262,8 +264,8 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT, TAG);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO,TAG);
 		mWheelViewChoosePlace.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.area));
-		mWheelViewChoosePianqu.setData(new ArrayList<String>());
+				.getListDatas(CST_Wheel_Data.WheelType.area), CustomUtils.getWindowWidth(this));
+		mWheelViewChoosePianqu.setData(new ArrayList<String>(),CustomUtils.getWindowWidth(this));
 		mWheelViewChooseAreaLast.setData(CST_Wheel_Data
 				.getListDatas(CST_Wheel_Data.WheelType.squareEnd));
 		mWheelViewChooseAreaTop.setData(CST_Wheel_Data

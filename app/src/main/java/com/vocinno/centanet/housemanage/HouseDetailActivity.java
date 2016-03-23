@@ -13,6 +13,7 @@ import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.model.BorrowKey;
@@ -63,7 +64,7 @@ import android.widget.RelativeLayout;
  * 
  */
 public class HouseDetailActivity extends SuperSlideMenuActivity {
-
+//	private ModelDialog modelDialog;
 	private HouseDetail mHouseDetail = null;
 	private ScrollView mScrollView = null;
 
@@ -94,7 +95,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	private int isFirstDataCall = 0;
 	private ImageView mImageView;
 	private Drawable drawable;
-
+	private boolean isGenJin=false;
 	private static final int Scroll_to_Top = 100001;
 
 	@Override
@@ -148,6 +149,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public int setContentLayoutId() {
+		modelDialog=ModelDialog.getModelDialog(this);
 		return R.layout.activity_house_detail;
 	}
 
@@ -252,17 +254,21 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT, TAG);
 		// 调用初始化数据
-		MethodsJni
+		/*MethodsJni
 				.callProxyFun(
 						CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getHouseDetail,
-						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
+						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));*/
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		isFirstDataCall = 0;
+		if(isGenJin){
+			modelDialog.show();
+			isGenJin=false;
+		}
 		MethodsJni
 				.callProxyFun(
 						CST_JS.JS_ProxyName_HouseResource,
@@ -393,6 +399,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			} else {
 				MethodsExtra.toast(mContext, "mHouseDetail不能为空");
 			}
+			isGenJin=true;
 			MethodsExtra
 					.startActivity(mContext, AddFollowInHouseActivity.class);
 			break;
@@ -571,6 +578,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					});
 
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_HOU_DETAIL_RESULT)) {
+
 			// 这里再多次进入的时候会被多次调用，导致图片数据重叠，增加。暂时做了修复。
 			if (isFirstDataCall == 0) {
 				mHouseUi.setVisibility(View.VISIBLE);
@@ -731,6 +739,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
 				}
 			}
+			modelDialog.dismiss();
 			isFirstDataCall = isFirstDataCall + 1;
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT)) {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,

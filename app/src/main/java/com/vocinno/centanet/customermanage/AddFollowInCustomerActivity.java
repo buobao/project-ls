@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
@@ -127,6 +128,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initData() {
+		modelDialog= ModelDialog.getModelDialog(this);
 		mCustorCode = MethodsDeliverData.string;
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
@@ -158,6 +160,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 								.getJsonStringForAddTrackInfo(mCustorCode,
 										content));
 			}
+			modelDialog.show();
 			mSubmitView.setImageDrawable(getResources().getDrawable(
 					R.drawable.universal_button_undone));
 //			mSubmitView.setClickable(false);
@@ -177,6 +180,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		modelDialog.dismiss();
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
 		if (jsReturn.isSuccess()) {

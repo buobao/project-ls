@@ -473,7 +473,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/black"
+            android:background="@color/red_main_red"
             android:visibility="visible" >
 
             <TextView

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import cn.jpush.android.api.JPushInterface;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.SlideMenu;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.home.HomeActivity;
@@ -40,7 +41,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 
 	public SlideMenu mSlidMenu;
 	public LinearLayout mLlytContainer;
-
+	public ModelDialog modelDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

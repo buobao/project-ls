@@ -36,6 +36,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.66dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="#F6F6F6" />
 
         <TextView

@@ -15,6 +15,7 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.SlideMenu;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.home.HomeActivity;
@@ -34,7 +35,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 	public Activity mContext = null;
 	public Handler mHander = null;
 	public static View mRootView = null;
-
+	public MyDialog.Builder myDialog;
 	private RelativeLayout mRyltSellHouse, mRyltRentHouse, mRyltSeeHouse,
 			mRyltMyHouse, mRyltKeyHouse, mRyltRemind, mRyltMyCustomer,
 			mRyltGrabHouse, mRyltGrabCustomer, mRyltInputPassword, mRyltScan;

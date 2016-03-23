@@ -5,6 +5,8 @@ import java.util.List;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
 import com.vocinno.centanet.model.CustomerDetail;
@@ -18,6 +20,7 @@ import com.vocinno.utils.MethodsJson;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -38,7 +41,6 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	private ImageView mImgViewPhone, mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
 	private Drawable drawable;
-
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 
 	public CustomerDetailActivity() {
@@ -180,10 +182,14 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			}
 			break;
 		case R.id.rlyt_seize_customerDetailActivity:
-			// 抢
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-					CST_JS.JS_Function_CustomerList_claimCustomer,
-					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+			if(modelDialog==null){
+				modelDialog=ModelDialog.getModelDialog(this);
+			}
+			modelDialog.show();
+				// 抢
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+						CST_JS.JS_Function_CustomerList_claimCustomer,
+						CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 		default:
 			break;
 		}
@@ -218,10 +224,24 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		if(modelDialog!=null&&modelDialog.isShowing()){
+			modelDialog.dismiss();
+		}
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				CustomerDetail.class);
 		if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
+			myDialog=new MyDialog.Builder(this);
+			myDialog.setTitle("提示");
+			myDialog.setMessage(jsReturn.getMsg());
+			myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+//			myDialog.setNegativeButton("取消",null);
+			myDialog.create().show();
 			return;
 		}
 		mDetail = (CustomerDetail) jsReturn.getObject();

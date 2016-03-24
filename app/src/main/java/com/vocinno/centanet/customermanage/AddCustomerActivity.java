@@ -267,13 +267,13 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				.getListDatas(CST_Wheel_Data.WheelType.area), CustomUtils.getWindowWidth(this));
 		mWheelViewChoosePianqu.setData(new ArrayList<String>(),CustomUtils.getWindowWidth(this));
 		mWheelViewChooseAreaLast.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.squareEnd));
+				.getListDatas(CST_Wheel_Data.WheelType.squareEnd),CustomUtils.getWindowWidth(this)/2);
 		mWheelViewChooseAreaTop.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.squareStart));
+				.getListDatas(CST_Wheel_Data.WheelType.squareStart),CustomUtils.getWindowWidth(this)/2);
 		mWheelViewChoosePriceLast.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd));
+				.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd),CustomUtils.getWindowWidth(this)/2);
 		mWheelViewChoosePriceTop.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart));
+				.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart),CustomUtils.getWindowWidth(this)/2);
 		mWheelViewChoosePlace.setEnable(true);
 		mWheelViewChoosePianqu.setEnable(true);
 		mWheelViewChooseAreaLast.setEnable(true);

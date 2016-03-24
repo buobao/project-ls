@@ -683,7 +683,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					.replaceAll("元", "");
 			if (endString.trim().equals("不限")
 					|| Integer.parseInt(startString.trim()
-					.replaceAll("万", "").replaceAll("元", "")) <= Integer
+					.replaceAll("万", "").replaceAll("元", "")) < Integer
 					.parseInt(endString.trim().replaceAll("万", "")
 							.replaceAll("元", ""))) {
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -699,7 +699,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				layoutIndex=-1;
 				showDialog();
 			} else {
-				MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
+				MethodsExtra.toast(mContext, "最高价格应大于最低价格");
 			}
 			break;
 		case R.id.btn_submit_modelTwoWheelView:

@@ -283,10 +283,10 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			JSReturn jsReturn2 = MethodsJson.jsonToJsReturn(strJson,
 					Object.class);
 			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, "恭喜你抢到啦～～");
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
 				finish();
 			} else {
-				MethodsExtra.toast(mContext, "没抢到，不要哭哦～");
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
 	}

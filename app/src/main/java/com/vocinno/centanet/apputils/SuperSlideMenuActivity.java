@@ -353,7 +353,17 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 	public void onBackPressed() {
 		onBack();
 	}
-
+	public void showDialog(){
+		if(this.modelDialog==null){
+			this.modelDialog=ModelDialog.getModelDialog(this);
+		}
+		this.modelDialog.show();
+	}
+	public void dismissDialog(){
+		if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+			this.modelDialog.dismiss();
+		}
+	}
 	public abstract void onBack();
 
 	// 数据回调函数(来自通知)

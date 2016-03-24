@@ -67,7 +67,6 @@ import android.widget.RelativeLayout;
  * 
  */
 public class HouseDetailActivity extends SuperSlideMenuActivity {
-//	private ModelDialog modelDialog;
 	private HouseDetail mHouseDetail = null;
 	private ScrollView mScrollView = null;
 
@@ -395,7 +394,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			showCallCosturmerDialog();
 			break;
 		case R.id.rlyt_qiang_houseDetailActivity:
-			modelDialog.show();
+			showDialog();
 			// 抢
 			MethodsJni
 					.callProxyFun(
@@ -619,6 +618,19 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				String strJson = (String) data;
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(strJson,
 						HouseDetail.class);
+				if (!jReturn.isSuccess()) {
+					myDialog = new MyDialog.Builder(this);
+					myDialog.setMessage(jReturn.getMsg());
+					myDialog.setTitle("提示");
+					myDialog.setPositiveButton("确实", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							onBack();
+						}
+					});
+					myDialog.create().show();
+				} else {
 				mHouseDetail = (HouseDetail) jReturn.getObject();
 				final List<Image> images = mHouseDetail.getImg();
 				boolean isNotTheSame = false;
@@ -668,7 +680,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 									String filePath = MethodsFile
 											.getAutoFileDirectory()
 											+ MethodsFile
-													.getFileNameFromPath(url);
+											.getFileNameFromPath(url);
 									MethodsFile.downloadImgByUrl(url, filePath);
 									mArrayListBitmapPaths.add(filePath);
 									View view0 = mArrayListViews.get(i);
@@ -716,8 +728,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					mTvPrice.setText(bPrice.setScale(2,
 							BigDecimal.ROUND_HALF_UP) + "");
 
-					String delCode=mHouseDetail.getDelCode().substring(4,5);
-					if("Z".equalsIgnoreCase(delCode)){
+					String delCode = mHouseDetail.getDelCode().substring(4, 5);
+					if ("Z".equalsIgnoreCase(delCode)) {
 						mTvDetail.setText(mHouseDetail.getFrame()
 								+ "  "
 								+ mHouseDetail.getSquare()
@@ -727,7 +739,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 								+ mHouseDetail.getOrient()
 								+ "  "
 								+ mHouseDetail.getActiveTime());
-					}else{
+					} else {
 						mTvDetail.setText(mHouseDetail.getFrame()
 								+ "  "
 								+ mHouseDetail.getSquare()
@@ -772,6 +784,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					// mLvTracks, 70, tracks.size());
 					MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
 				}
+			}
 			}
 			isFirstDataCall = isFirstDataCall + 1;
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT)) {

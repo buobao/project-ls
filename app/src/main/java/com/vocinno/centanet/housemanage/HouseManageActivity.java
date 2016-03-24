@@ -41,6 +41,7 @@ import com.vocinno.centanet.apputils.AppInstance;
 import com.vocinno.centanet.apputils.SuperSlideMenuFragmentActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
@@ -299,15 +300,15 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			case HouseType.WO_DE:
 				// 我的出售
 				mType = HouseType.WO_DE;
-				if(zOrS){
 					MethodsExtra.findHeadTitle1(mContext, mRootView,
 							R.string.house_my, null);
-				}else{
-					MethodsExtra.findHeadTitle1(mContext, mRootView,
-							R.string.house_my2, null);
-				}
-
 				break;
+			case HouseType.WO_DEZU:
+					// 我的出售
+					mType = HouseType.WO_DEZU;
+						MethodsExtra.findHeadTitle1(mContext, mRootView,
+								R.string.house_my2, null);
+					break;
 			default:
 				break;
 			}
@@ -340,14 +341,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		case HouseType.WO_DE:
 			// 我的
 			mType = HouseType.WO_DE;
-			if(zOrS){
 				MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_my,
 						null);
-			}else{
-				MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_my2,
-						null);
-			}
-
+			break;
+		case HouseType.WO_DEZU:
+				// 我的出售
+			mType = HouseType.WO_DEZU;
+			MethodsExtra.findHeadTitle1(mContext, mRootView,
+					R.string.house_my2, null);
 			break;
 		default:
 			break;
@@ -359,7 +360,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			// 获取数据
 			getDataFromNetwork(mType, 1);
 		} else {
-			callData();
+			callData(houseType);
 			mArrayFragments[mCurrentPageIndex].notifyDatasetChanged();
 		}
 		mScrollTagView.selectedTab1(mFragmentTagIndexs[mCurrentPageIndex],
@@ -405,9 +406,12 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			type = HouseType.WO_DE;
 			break;
 		case 4:
-			type = HouseType.GONG_FANG;
+			type = HouseType.WO_DEZU;
 			break;
 		case 5:
+			type = HouseType.GONG_FANG;
+			break;
+		case 6:
 			type = HouseType.YAO_SHI;
 			break;
 		default:
@@ -432,11 +436,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		case HouseType.WO_DE:
 			pageIndex = 3;
 			break;
-		case HouseType.GONG_FANG:
+		case HouseType.WO_DEZU:
 			pageIndex = 4;
 			break;
-		case HouseType.YAO_SHI:
+		case HouseType.GONG_FANG:
 			pageIndex = 5;
+			break;
+		case HouseType.YAO_SHI:
+			pageIndex = 6;
 			break;
 		default:
 			break;
@@ -452,7 +459,15 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		mUserType[index] = ""; // 所有类型
 	}
 
-	private void callData() {
+	private void callData(int type) {
+		switch (type){
+			case 4:
+				CST_JS.setZOrS("s");
+				break;
+			case 5:
+				CST_JS.setZOrS("r");
+				break;
+		}
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 				CST_JS.JS_Function_HouseResource_getList, CST_JS
 						.getJsonStringForHouseListGetList("" + mType,
@@ -485,7 +500,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	void initViewPager() {
 		mPagerAdapter = new PagerAdapter(mContext.getSupportFragmentManager());
 		// 将数据进行分类并分别传入每一个FourKindsHouseFragment中进行使用
-		for (int i = 0; i <= 3; i++) {
+		for (int i = 0; i <= 4; i++) {
 			FourKindsHouseFragment fragment = new FourKindsHouseFragment(i);
 			mArrayFragments[i] = fragment;
 			mPagerAdapter.addFragment(fragment);
@@ -575,8 +590,10 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										"price", "asc", "", ""));
 			}
 			mSearchDialog.dismiss();
+			showDialog();
 			break;
 		case R.id.tv_sortArea_HouseManageActivity:
+
 			// 按照价面积排序
 			if (mPaiXuType == PaiXuType.None) {
 				mPaiXuType = PaiXuType.mTvAreaSortUp;
@@ -624,6 +641,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										"acre", "asc", "", ""));
 			}
 			mSearchDialog.dismiss();
+			showDialog();
 			break;
 		case R.id.btn_submit_modelOneWheelView://类型--确定
 			// 类型筛选（没有接口）
@@ -643,6 +661,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									"", "", ""));
 			ll_dialog_wheelview_two4.setVisibility(View.GONE);
 			layoutIndex=-1;
+			showDialog();
 			break;
 		case  R.id.btn_submit_modelPriceWheelView:
 			WheelView wheelStart0 = (WheelView) findViewById(R.id.wheelview_start_modelPriceWheelView);
@@ -651,7 +670,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			String endString = wheelEnd0.getSelectedText().trim()
 					.equals("不限") ? wheelEnd0.getSelectedText().trim()
 					: wheelEnd0.getSelectedText().split("万")[0];
-			if (mType != HouseType.CHU_ZU) {
+			if (mType != HouseType.CHU_ZU&&mType != HouseType.WO_DEZU) {
 				startString += "0000";
 				if (!"不限".equals(endString)) {
 					endString += "0000";
@@ -678,6 +697,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										20, "", "", "", ""));
 				ll_dialog_wheelview_two0.setVisibility(View.GONE);
 				layoutIndex=-1;
+				showDialog();
 			} else {
 				MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
 			}
@@ -773,6 +793,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mUserType[mCurrentPageIndex], 1, 20,
 										"", "", "", ""));
 			}
+			showDialog();
 			break;
 		case R.id.btn_submit_modelFourWheelView://户型--确定
 			WheelView mWheelView1 = (WheelView) findViewById(R.id.wheelview_first_modelFourWheelView);
@@ -795,6 +816,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									"", "", ""));
 			ll_dialog_wheelview_two2.setVisibility(View.GONE);
 			layoutIndex=-1;
+			showDialog();
 			break;
 		case R.id.btn_submit_dialogTagSelector://标签--确定
 			// 标签
@@ -810,6 +832,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									"", "", ""));
 			ll_dialog_wheelview_two3.setVisibility(View.GONE);
 			layoutIndex=-1;
+			showDialog();
 			break;
 		case R.id.backView_dialogOneWheelview://类型--取消
 			ll_dialog_wheelview_two4.setVisibility(View.GONE);
@@ -1010,7 +1033,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					list.add(i * 100 + "");
 				}
 				WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelPriceWheelView);
-				if (mType == HouseType.CHU_ZU) {
+				if (mType == HouseType.CHU_ZU||mType == HouseType.WO_DEZU) {
 					mWheelViewL
 							.setData(CST_Wheel_Data
 									.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart),CustomUtils.getWindowWidth(this));
@@ -1038,7 +1061,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				}
 				mWheelViewL.setEnable(true);
 				WheelView mWheelViewT = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
-				if (mType == HouseType.CHU_ZU) {
+				if (mType == HouseType.CHU_ZU||mType == HouseType.WO_DEZU) {
 					mWheelViewT.setData(CST_Wheel_Data
 							.getListDatas(CST_Wheel_Data.WheelType.priceChuzuEnd), CustomUtils.getWindowWidth(this));
 					// 初始化位置
@@ -1347,6 +1370,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 	// 调用数据
 	void getDataFromNetwork(int type, int page) {
+		switch (type){
+			case 4:
+				CST_JS.setZOrS("s");
+			break;
+			case 5:
+				CST_JS.setZOrS("r");
+			break;
+		}
 		if (mPaiXuType == PaiXuType.None) {
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_getList, CST_JS
@@ -1414,6 +1445,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		dismissDialog();
 		if (name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
 				|| name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)) {
 			// 更新

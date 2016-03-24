@@ -2,6 +2,7 @@ package com.vocinno.centanet.apputils;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.SlideMenu;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.home.HomeActivity;
@@ -35,7 +36,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 	public FragmentActivity mContext = null;
 	public Handler mHander = null;
 	public static View mRootView = null;
-
+	public ModelDialog modelDialog;
 	private RelativeLayout mRyltSellHouse, mRyltRentHouse, mRyltSeeHouse,
 			mRyltMyHouse,mRyltMyHouse2, mRyltKeyHouse, mRyltRemind, mRyltMyCustomer,
 			mRyltGrabHouse, mRyltGrabCustomer, mRyltInputPassword, mRyltScan;
@@ -208,7 +209,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
 					AppInstance.mHouseManageActivity
-							.switchHouseType(HouseType.WO_DE);
+							.switchHouseType(HouseType.WO_DEZU);
 				} else if (AppInstance.mListActivitys
 						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
@@ -375,7 +376,17 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 		System.gc();
 		super.onDestroy();
 	}
-
+	public void showDialog(){
+		if(this.modelDialog==null){
+			this.modelDialog=ModelDialog.getModelDialog(this);
+		}
+		this.modelDialog.show();
+	}
+	public void dismissDialog(){
+		if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+			this.modelDialog.dismiss();
+		}
+	}
 	@Override
 	public void onBackPressed() {
 		onBack();

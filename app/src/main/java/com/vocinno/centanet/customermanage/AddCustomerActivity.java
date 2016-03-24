@@ -526,7 +526,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 							.equals("不限")
 							|| Integer.parseInt(mWheelViewChoosePriceTop
 							.getSelectedText().trim().replaceAll("万", "")
-							.replaceAll("元", "")) <= Integer
+							.replaceAll("元", "")) < Integer
 							.parseInt(mWheelViewChoosePriceLast
 									.getSelectedText().trim()
 									.replaceAll("万", "")
@@ -537,7 +537,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 								+ mWheelViewChoosePriceLast.getSelectedText());
 						closePriceContainer();
 					} else {
-						MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
+						MethodsExtra.toast(mContext, "最高价格应大于最低价格");
 					}
 				}
 				break;

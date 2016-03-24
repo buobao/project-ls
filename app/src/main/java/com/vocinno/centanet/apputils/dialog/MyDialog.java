@@ -142,9 +142,9 @@ public class MyDialog extends Dialog {
 			} else if (contentView != null) {
 				// if no message set
 				// add the contentView to the dialog body
-				((LinearLayout) layout.findViewById(R.id.message))
+				((LinearLayout) layout.findViewById(R.id.ll_dialog))
 						.removeAllViews();
-				((LinearLayout) layout.findViewById(R.id.message)).addView(
+				((LinearLayout) layout.findViewById(R.id.ll_dialog)).addView(
 						contentView, new LayoutParams(
 								LayoutParams.WRAP_CONTENT,
 								LayoutParams.WRAP_CONTENT));

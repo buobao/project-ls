@@ -36,7 +36,7 @@ public class HomeActivity extends SuperActivity {
 
 	private TextView mTvHouseManage, mTvCustomerManage, mTvKeyManage,
 			mTvGrabHouse, mTvGrabCustomer, mTvRemind;
-	private View mViewBlur, mViewBlurBorder;
+	private View mViewBlur;//, mViewBlurBorder;
 
 	private LinearLayout mLlytScan, mLlytInputPassword;
 	// 背景图片
@@ -55,9 +55,9 @@ public class HomeActivity extends SuperActivity {
 					mImgViewBackground.setImageBitmap(mBitmap);
 					MethodsFile.doBlurForViewBkgBitmap(mContext, mBitmap, 20,
 							mViewBlur, 1f);
-					MethodsFile.doBlurForViewBkgBitmap(mContext, mBitmap, 14,
+					/*MethodsFile.doBlurForViewBkgBitmap(mContext, mBitmap, 14,
 							mViewBlurBorder, 1f);
-					setAlpha(mViewBlurBorder, 0.8f);
+					setAlpha(mViewBlurBorder, 0.8f);*/
 					break;
 				default:
 					break;
@@ -90,7 +90,7 @@ public class HomeActivity extends SuperActivity {
 		MethodsExtra.findHeadTitle1(mContext, mRootView, 0, "地产三级平台");
 		mImgViewBackground = (ImageView) findViewById(R.id.imgView_background_HomeActivity);
 		mViewBlur = findViewById(R.id.tv_blur_modelLayerGradit);
-		mViewBlurBorder = findViewById(R.id.tv_blurBorder_modelLayerGradit);
+//		mViewBlurBorder = findViewById(R.id.tv_blurBorder_modelLayerGradit);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class HomeActivity extends SuperActivity {
 		mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
 		Bitmap bp = MethodsFile
 				.getScaledBitmap(BitmapFactory.decodeResource(getResources(),
-						R.drawable.test01), mIntScreenWithHeight[0],
+						R.drawable.homeimg), mIntScreenWithHeight[0],
 						(mIntScreenWithHeight[1] - MethodsData.dip2px(mContext,
 								25)) / 2, 0, 0);
 

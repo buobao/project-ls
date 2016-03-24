@@ -18,7 +18,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="359dp"
         android:background="@color/transparent_half"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,19 +31,16 @@
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="@drawable/gradit_shaper_start"
-            android:visibility="visible" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/gradit_shaper_top"
-            android:visibility="visible" />
-
+            android:visibility="gone" />
         <View
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@drawable/gradit_shaper_bottom" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/gradit_shaper_top"
+            android:visibility="gone" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"

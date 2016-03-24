@@ -273,7 +273,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			mArrayFragments[mCurrentPageIndex] = fragment;
 			resetSearchCondation(mCurrentPageIndex);
 		} else if (mType == HouseType.CHU_SHOU || mType == HouseType.CHU_ZU
-				|| mType == HouseType.YUE_KAN || mType == HouseType.WO_DE) {
+				|| mType == HouseType.YUE_KAN || mType == HouseType.WO_DE|| mType == HouseType.WO_DEZU2) {
 			if (isInitView == false) {
 				initViewPager();
 				isInitView = true;
@@ -303,9 +303,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					MethodsExtra.findHeadTitle1(mContext, mRootView,
 							R.string.house_my, null);
 				break;
-			case HouseType.WO_DEZU:
+			case HouseType.WO_DEZU2:
 					// 我的出售
-					mType = HouseType.WO_DEZU;
+					mType = HouseType.WO_DEZU2;
 						MethodsExtra.findHeadTitle1(mContext, mRootView,
 								R.string.house_my2, null);
 					break;
@@ -339,14 +339,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					R.string.house_yuekan, null);
 			break;
 		case HouseType.WO_DE:
-			// 我的
+			// 我的出售
 			mType = HouseType.WO_DE;
 				MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_my,
 						null);
 			break;
-		case HouseType.WO_DEZU:
-				// 我的出售
-			mType = HouseType.WO_DEZU;
+		case HouseType.WO_DEZU2:
+				// 我的出租
+			mType = HouseType.WO_DEZU2;
 			MethodsExtra.findHeadTitle1(mContext, mRootView,
 					R.string.house_my2, null);
 			break;
@@ -406,7 +406,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			type = HouseType.WO_DE;
 			break;
 		case 4:
-			type = HouseType.WO_DEZU;
+			type = HouseType.WO_DEZU2;
 			break;
 		case 5:
 			type = HouseType.GONG_FANG;
@@ -436,7 +436,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		case HouseType.WO_DE:
 			pageIndex = 3;
 			break;
-		case HouseType.WO_DEZU:
+		case HouseType.WO_DEZU2:
 			pageIndex = 4;
 			break;
 		case HouseType.GONG_FANG:
@@ -670,7 +670,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			String endString = wheelEnd0.getSelectedText().trim()
 					.equals("不限") ? wheelEnd0.getSelectedText().trim()
 					: wheelEnd0.getSelectedText().split("万")[0];
-			if (mType != HouseType.CHU_ZU&&mType != HouseType.WO_DEZU) {
+			if (mType != HouseType.CHU_ZU&&mType != HouseType.WO_DEZU2) {
 				startString += "0000";
 				if (!"不限".equals(endString)) {
 					endString += "0000";
@@ -1033,7 +1033,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					list.add(i * 100 + "");
 				}
 				WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelPriceWheelView);
-				if (mType == HouseType.CHU_ZU||mType == HouseType.WO_DEZU) {
+				if (mType == HouseType.CHU_ZU||mType == HouseType.WO_DEZU2) {
 					mWheelViewL
 							.setData(CST_Wheel_Data
 									.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart),CustomUtils.getWindowWidth(this));
@@ -1061,7 +1061,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				}
 				mWheelViewL.setEnable(true);
 				WheelView mWheelViewT = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
-				if (mType == HouseType.CHU_ZU||mType == HouseType.WO_DEZU) {
+				if (mType == HouseType.CHU_ZU||mType == HouseType.WO_DEZU2) {
 					mWheelViewT.setData(CST_Wheel_Data
 							.getListDatas(CST_Wheel_Data.WheelType.priceChuzuEnd), CustomUtils.getWindowWidth(this));
 					// 初始化位置

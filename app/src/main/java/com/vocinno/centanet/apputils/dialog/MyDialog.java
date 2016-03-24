@@ -31,7 +31,11 @@ public class MyDialog extends Dialog {
 		private View contentView;
 		private OnClickListener positiveButtonClickListener;
 		private OnClickListener negativeButtonClickListener;
-
+		private boolean isCancelable=false;
+		public Builder setCanceledOnTouchOutside(boolean cancelable) {
+			isCancelable=cancelable;
+			return this;
+		}
 		public Builder(Context context) {
 			this.context = context;
 		}
@@ -95,6 +99,7 @@ public class MyDialog extends Dialog {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// instantiate the dialog with the custom Theme
 			final MyDialog dialog = new MyDialog(context, R.style.Dialog);
+			dialog.setCanceledOnTouchOutside(this.isCancelable);
 			View layout = inflater.inflate(R.layout.my_dialog, null);
 			dialog.addContentView(layout, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));

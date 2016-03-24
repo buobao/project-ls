@@ -14,6 +14,7 @@ import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.model.BorrowKey;
@@ -31,7 +32,9 @@ import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -372,6 +375,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			showBorrowKey();
 			break;
 		case R.id.rlyt_borrowKey_houseDetailActivity:
+			mBorrowKey.setEnabled(false);
 			// 钥匙借用
 			MethodsJni
 					.callProxyFun(
@@ -391,6 +395,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			showCallCosturmerDialog();
 			break;
 		case R.id.rlyt_qiang_houseDetailActivity:
+			modelDialog.show();
 			// 抢
 			MethodsJni
 					.callProxyFun(
@@ -532,6 +537,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			modelDialog.dismiss();
 		}
 		if (name.equals(CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT)) {
+			mBorrowKey.setEnabled(true);
 			// 借用钥匙返回
 			String strJson = (String) data;
 			JSReturn jReturn = MethodsJson.jsonToJsReturn(strJson,
@@ -541,10 +547,30 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			if (borrowKey != null) {
 				if (borrowKey.isSuccess() == false) {
 					// 钥匙不存在
+					myDialog=new MyDialog.Builder(this);
+					myDialog.setMessage(borrowKey.getMsg());
+					myDialog.setTitle("提示");
+					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					myDialog.create().show();
 					MethodsDeliverData.mKeyType = 4;
 				} else {
 					// 借钥匙操作
-					finish();
+					myDialog=new MyDialog.Builder(this);
+					myDialog.setMessage(borrowKey.getMsg());
+					myDialog.setTitle("提示");
+					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							finish();
+						}
+					});
+					myDialog.create().show();
 				}
 			} else {
 				// 钥匙不存在
@@ -552,7 +578,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 				MethodsDeliverData.mKeyType = 4;
 			}
-			showBorrowKey();
+//////////////			showBorrowKey();
 
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_CONTACT_LIST_RESULT)) {
 			String strJson = (String) data;
@@ -752,10 +778,20 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 					Object.class);
 			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, "恭喜你抢到啦～～");
-				onBack();
+//				MethodsExtra.toast(mContext, jsReturn.getMsg());
+				myDialog=new MyDialog.Builder(this);
+				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						onBack();
+					}
+				});
+				myDialog.setTitle("提示");
+				myDialog.setMessage(jsReturn.getMsg());
+				myDialog.create().show();
 			} else {
-				MethodsExtra.toast(mContext, "没抢到，不要哭哦～");
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
 

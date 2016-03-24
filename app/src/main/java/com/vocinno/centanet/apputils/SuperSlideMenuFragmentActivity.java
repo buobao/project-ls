@@ -209,7 +209,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
 					AppInstance.mHouseManageActivity
-							.switchHouseType(HouseType.WO_DEZU);
+							.switchHouseType(HouseType.WO_DEZU2);
 				} else if (AppInstance.mListActivitys
 						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;

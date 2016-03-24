@@ -76,13 +76,13 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private PagerAdapter mPagerAdapter;
 	private int mType = HouseType.WO_DE; // 默认是我的房源(包括出租、出售、约看、我的)，否则认为是公房列表或钥匙房源列表
 	private int mCurrentPageIndex = getPageIndexFromType(mType);
-	private int[] mFragmentTagIndexs = { -1, -1, -1, -1, -1, -1 };
+	private int[] mFragmentTagIndexs = { -1, -1, -1, -1, -1, -1, -1 };
 
 	// 每一页，一共四页
 	private FourKindsHouseFragment[] mArrayFragments = { null, null, null,
-			null, null, null };
-	public List[] mArrayHouseItemList = { null, null, null, null, null, null };
-	public int[] mPageIndexs = { 1, 1, 1, 1, 1, 1 };
+			null, null, null, null };
+	public List[] mArrayHouseItemList = { null, null, null, null, null, null , null };
+	public int[] mPageIndexs = { 1, 1, 1, 1, 1, 1,1 };
 	private int mWheelViewLWidth;
 	// 标题栏按钮
 	private View mViewBack, mViewMore;
@@ -97,11 +97,11 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private GridViewAdapter mHouseTagAdapter;
 	// 用于排序以及筛选的条件参数
 	private PaiXuType mPaiXuType = PaiXuType.None;
-	private String[] mPrice = { null, null, null, null, null, null };// 价格
-	private String[] mSquare = { null, null, null, null, null, null };// 面积
-	private String[] mFrame = { null, null, null, null, null, null };// 户型
-	private String[] mTags = { null, null, null, null, null, null };// 标签
-	private String[] mUserType = { null, null, null, null, null, null };// 类型
+	private String[] mPrice = { null, null, null, null, null, null , null };// 价格
+	private String[] mSquare = { null, null, null, null, null, null, null  };// 面积
+	private String[] mFrame = { null, null, null, null, null, null , null };// 户型
+	private String[] mTags = { null, null, null, null, null, null , null };// 标签
+	private String[] mUserType = { null, null, null, null, null, null, null  };// 类型
 	private List<EstateSearchItem> mSearchListData;
 	private TextView mTvAreaSort, mTvPriceSort;
 	private Drawable drawable;

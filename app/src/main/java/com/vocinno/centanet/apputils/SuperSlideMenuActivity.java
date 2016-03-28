@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import cn.jpush.android.api.JPushInterface;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.SlideMenu;
@@ -37,7 +38,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 	public static View mRootView = null;
 	public MyDialog.Builder myDialog;
 	private RelativeLayout mRyltSellHouse, mRyltRentHouse, mRyltSeeHouse,
-			mRyltMyHouse, mRyltKeyHouse, mRyltRemind, mRyltMyCustomer,
+			mRyltMyHouse,mRyltMyHouse2, mRyltKeyHouse, mRyltRemind, mRyltMyCustomer,
 			mRyltGrabHouse, mRyltGrabCustomer, mRyltInputPassword, mRyltScan;
 
 	public SlideMenu mSlidMenu;
@@ -59,6 +60,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 		mRyltRentHouse = (RelativeLayout) findViewById(R.id.rlyt_rent_house_main_page_slid_menus);
 		mRyltSeeHouse = (RelativeLayout) findViewById(R.id.rlyt_see_house_main_page_slid_menus);
 		mRyltMyHouse = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus);
+		mRyltMyHouse2 = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
 		mRyltKeyHouse = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
 		mRyltMyCustomer = (RelativeLayout) findViewById(R.id.rlyt_my_customer_main_page_slid_menus);
 		mRyltGrabHouse = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
@@ -70,6 +72,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 		mRyltRentHouse.setOnClickListener(this);
 		mRyltSeeHouse.setOnClickListener(this);
 		mRyltMyHouse.setOnClickListener(this);
+		mRyltMyHouse2.setOnClickListener(this);
 		mRyltKeyHouse.setOnClickListener(this);
 		mRyltMyCustomer.setOnClickListener(this);
 		mRyltGrabHouse.setOnClickListener(this);
@@ -169,10 +172,10 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 				AppInstance.mHouseManageActivity
 						.switchHouseType(HouseType.WO_DE);
 			} else if (AppInstance.mListActivitys
-					.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
-				MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
+					.get(AppInstance.mListActivitys.size() - 2) instanceof HouseManageActivity) {
+				MethodsDeliverData.mIntHouseType = HouseType.WO_DEZU2;
 				AppInstance.mListActivitys.get(
-						AppInstance.mListActivitys.size() - 1).finish();
+						AppInstance.mListActivitys.size() - 2).finish();
 				startActivity(new Intent(mContext, HouseManageActivity.class));
 			} else {
 				MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
@@ -182,7 +185,28 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			sendMessageCloseMenu();
 			break;
 			case R.id.rlyt_my_house_main_page_slid_menus2://我的出租
-
+				CST_JS.setZOrS("r");
+				HouseManageActivity.zOrS=false;
+				if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
+						|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
+						|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
+						&& AppInstance.mListActivitys
+						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
+					AppInstance.mHouseManageActivity
+							.switchHouseType(HouseType.WO_DEZU2);
+				} else if (AppInstance.mListActivitys
+						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
+					AppInstance.mListActivitys.get(
+							AppInstance.mListActivitys.size() - 1).finish();
+					startActivity(new Intent(mContext, HouseManageActivity.class));
+				} else {
+					MethodsDeliverData.mIntHouseType = HouseType.WO_DEZU2;
+					MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+					clearActivity();
+				}
+				sendMessageCloseMenu();
 				break;
 		case R.id.rlyt_key_house_main_page_slid_menus:
 			if (!(AppInstance.mListActivitys.get(AppInstance.mListActivitys

@@ -54,7 +54,7 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
         rb_reason2 = (RadioButton) findViewById(R.id.rb_reason2);
         rb_reason3 = (RadioButton) findViewById(R.id.rb_reason3);
         rb_reason4 = (RadioButton) findViewById(R.id.rb_reason4);
-        rb_reason4.setChecked(true);
+        rb_reason1.setChecked(true);
     }
 
     @Override

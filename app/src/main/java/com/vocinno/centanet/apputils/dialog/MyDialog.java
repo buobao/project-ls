@@ -122,14 +122,8 @@ public class MyDialog extends Dialog {
 			Window dialogWindow =dialog.getWindow();
 			int width = wm.getDefaultDisplay().getWidth();
 //			int height = wm.getDefaultDisplay().getHeight();
-			if(isFullWidth){
 
-			}else{
-				WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-				p.height = (int) (width* 0.6); // 高度设置为屏幕的0.6
-				p.width = (int) (width * 0.6); // 宽度设置为屏幕的0.65
-				dialogWindow.setAttributes(p);
-			}
+
 			if(isBottomDialog){
 				dialogWindow.setGravity(Gravity.BOTTOM);
 			}
@@ -186,7 +180,11 @@ public class MyDialog extends Dialog {
 
 			}
 			dialog.setContentView(layout);
-				return dialog;
+			WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+			p.height = (int) (width* 0.6); // 高度设置为屏幕的0.6
+			p.width = (int) (width * 0.6); // 宽度设置为屏幕的0.65
+			dialogWindow.setAttributes(p);
+			return dialog;
 		}
 
 	}

@@ -34,6 +34,7 @@ public final class CST_JS {
 	public static String NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT = "notify_native_customerinfo_result";
 	public static String NOTIFY_NATIVE_ADD_CUSTOMER_RESULT = "notify_native_add_customer_result";
 	public static String NOTIFY_NATIVE_CUST_TRACK_RESULT = "notify_native_cust_track_result";
+	public static String NOTIFY_NATIVE_HOU_ADD_TRACK_RESULT = "notify_native_hou_add_track_result";
 	// 抢公客
 	public static String NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT = "notify_native_claim_customer_result";
 

@@ -1,5 +1,7 @@
 package com.vocinno.centanet.keymanage.adapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.vocinno.centanet.R;
@@ -106,6 +108,10 @@ public class KeyListAdapter extends BaseAdapter {
 					.findViewById(R.id.tv_address_itemKeyManageListView);
 			holder.mKeyNumb = (TextView) convertView
 					.findViewById(R.id.tv_detail_itemKeyManageListView);
+			holder.tv_fenhang = (TextView) convertView
+					.findViewById(R.id.tv_fenhang_itemKeyManageListView);
+			holder.tv_time = (TextView) convertView
+					.findViewById(R.id.tv_time_itemKeyManageListView);
 			holder.mBorrowState01 = (TextView) convertView
 					.findViewById(R.id.tv_price01_itemKeyManageListView);
 			holder.mBorrowState02 = (TextView) convertView
@@ -202,9 +208,14 @@ public class KeyListAdapter extends BaseAdapter {
 		// 地址
 		holder.mHouseAddress.setText(keyItem.getAddr());
 		// 钥匙编号
-		holder.mKeyNumb.setText(keyItem.getKeyNum() + " " + keyItem.getStore());
+		holder.mKeyNumb.setText(keyItem.getKeyNum());
+		holder.tv_fenhang.setText(keyItem.getStore());
 		// 借用时间
-		holder.mBorrowState01.setText(keyItem.getBorrowTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd=HH:mm:ss");
+		Date date= new Date(keyItem.getBorrowTime());
+		String[] dateString=sdf.format(date).split("=");
+		holder.mBorrowState01.setText(dateString[0]);
+		holder.tv_time.setText(dateString[1]+"借用");
 
 		if (keyItem.getIsWaitingConfirm().equals("true")) {
 			holder.mBorrowState01.setVisibility(View.GONE);

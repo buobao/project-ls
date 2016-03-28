@@ -2,12 +2,14 @@ package com.vocinno.centanet.keymanage;
 
 import java.util.ArrayList;
 
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.View;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyList;
 import com.vocinno.utils.MethodsExtra;
@@ -26,7 +28,7 @@ public class KeyGetInActivity extends SuperActivity {
 	private EditText mEtPwdOne, mEtPwdTwo, mEtPwdThree, mEtPwdFour, mEtPwdText;
 	private KeyboardUtil mKbUtil;
 	private boolean isFinishStartKeyListActivity = false;
-
+	private MyDialog.Builder myDialog;
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
@@ -110,6 +112,7 @@ public class KeyGetInActivity extends SuperActivity {
 
 	@Override
 	public void initData() {
+		myDialog=new MyDialog.Builder(this);
 		mKbUtil = new KeyboardUtil(mContext, mRootView);
 		ArrayList<EditText> list = new ArrayList<EditText>();
 		list.add(mEtPwdOne);
@@ -118,10 +121,10 @@ public class KeyGetInActivity extends SuperActivity {
 		list.add(mEtPwdFour);
 		list.add(mEtPwdText);
 		mKbUtil.setListEditText(list);
-		mEtPwdOne.setInputType(InputType.TYPE_NULL);
+		/*mEtPwdOne.setInputType(InputType.TYPE_NULL);
 		mEtPwdTwo.setInputType(InputType.TYPE_NULL);
 		mEtPwdThree.setInputType(InputType.TYPE_NULL);
-		mEtPwdFour.setInputType(InputType.TYPE_NULL);
+		mEtPwdFour.setInputType(InputType.TYPE_NULL);*/
 
 	}
 
@@ -138,9 +141,18 @@ public class KeyGetInActivity extends SuperActivity {
 					KeyList.class);
 			if (jsReturn.isSuccess()) {
 				if (!isFinishStartKeyListActivity) {
-					MethodsExtra.toast(mContext, jsReturn.getMsg());
-					mHander.sendEmptyMessageDelayed(R.id.doSuccess, 50);
-					isFinishStartKeyListActivity = true;
+//					MethodsExtra.toast(mContext, jsReturn.getMsg());
+					myDialog.setMessage(jsReturn.getMsg());
+					myDialog.setTitle("提示");
+					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							mHander.sendEmptyMessageDelayed(R.id.doSuccess, 50);
+							isFinishStartKeyListActivity = true;
+						}
+					});
+					myDialog.create().show();
 				}
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());

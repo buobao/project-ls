@@ -25,6 +25,8 @@ public class ViewHolderGiveKey {
 	public String mStrKeyNum = null;
 	public TextView mTvTime;
 	public TextView mTvTishi;
+	public TextView tv_fenhang;
+	public TextView tv_time;
 
 	/**
 	 * 输入借用钥匙的pin密码

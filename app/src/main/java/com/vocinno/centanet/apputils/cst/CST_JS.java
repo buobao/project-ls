@@ -167,8 +167,11 @@ public final class CST_JS {
 														  String userType, int page, int pagesize, String sidx, String sord,
 														  String searchId, String searchType) {
 		JsonObject jsonObject = new JsonObject();
+		if(!"3".equals(type)){//预约不传delType
+			jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
+		}
 		jsonObject.addProperty(JS_CommonParam_Type, type);
-		jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
+
 		jsonObject.addProperty(JS_HouseResource_Price, price);
 		jsonObject.addProperty(JS_HouseResource_Square, square);
 		jsonObject.addProperty(JS_HouseResource_Frame, frame);

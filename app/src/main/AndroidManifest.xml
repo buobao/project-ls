@@ -81,6 +81,7 @@
         <activity
             android:name=".StartActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|screenSize"
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <activity
@@ -112,6 +113,7 @@
         <activity
             android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|screenSize"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
 
         <!-- 房源管理模块 -->
@@ -270,6 +272,7 @@
 
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
@@ -282,7 +285,7 @@
 
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
-            android:configChanges="orientation|keyboard"
+            android:configChanges="orientation|keyboard|screenSize"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
@@ -350,7 +353,7 @@
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity"/>

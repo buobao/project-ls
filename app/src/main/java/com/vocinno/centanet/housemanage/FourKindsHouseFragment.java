@@ -32,7 +32,7 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 	public int mCurTagIndex = 0;
 	public XListView mLvHouseList;
 	private HouseListAdapter mLvHouseListAdapter;
-
+	public static boolean isRefreshOrLoadMore=false;
 	public FourKindsHouseFragment() {
 	}
 	@SuppressLint("ValidFragment")
@@ -148,12 +148,14 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 
 	@Override
 	public void onRefresh() {
+		isRefreshOrLoadMore=true;
 		((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex] = 1;
 		((HouseManageActivity) getActivity()).getDataFromNetwork(mType, 1);
 	}
 
 	@Override
 	public void onLoadMore() {
+		isRefreshOrLoadMore=true;
 		((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex]++;
 		((HouseManageActivity) getActivity()).getDataFromNetwork(mType,
 				((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex]);

@@ -93,7 +93,10 @@ public class HouseListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final HouseItem item = mListHouses.get(position);
-
+		String delCode = item.getDelCode().substring(4, 5);
+		if(!"S".equalsIgnoreCase(delCode)){
+			holder.mTvUnitprice.setVisibility(View.INVISIBLE);
+		}
 		holder.mTvAddr.setText(item.getAddr());
 		if (item.getKeyStatus().equals("在店")
 				&& Integer.parseInt(item.getKeyCount()) > 0) {

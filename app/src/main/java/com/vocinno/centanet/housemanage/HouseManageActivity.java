@@ -125,6 +125,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 						mArrayFragments[mCurrentPageIndex]
 								.notifyDatasetChanged();
 					}
+					dismissDialog();
 					break;
 				// case R.id.FINISH_LOAD_MORE:
 				// .setPullLoadEnable(false);
@@ -1442,6 +1443,11 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mTags[mCurrentPageIndex], page, 20, "", "",
 									"", ""));
 		}
+		if(FourKindsHouseFragment.isRefreshOrLoadMore){//防止下拉刷新上拉加载出现loading框
+			FourKindsHouseFragment.isRefreshOrLoadMore=false;
+		}else{
+			showDialog();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1473,6 +1479,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					((HouseManageActivity) mContext).mArrayHouseItemList[pageIndex] = jsReturn
 							.getListDatas();
 					Log.d(TAG, "wanggsx 赋值");
+//					showDialog();
 				}
 
 				msg.what = R.id.FINISH_LOAD_ALL_DATA;

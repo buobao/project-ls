@@ -46,6 +46,7 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
+import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
@@ -862,8 +863,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			}
 			Log.i("LinearLayout=2=id=", ll2.getId() + "===");
 			break;
-		case R.id.backView_dialogTagSelector:
-			mTagSortDialog.dismiss();
+		case R.id.backView_dialogTagSelector://标签--取消
+			ll_dialog_wheelview_two3.setVisibility(View.GONE);
+			layoutIndex=-1;
 			break;
 		case R.id.img_left_mhead1:
 			onBack();
@@ -1208,10 +1210,11 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			}else {
 				closeOtherWheelView(layoutIndex);
 				// 标签
-				GridView gridView = (GridView)findViewById(R.id.gridView_dialogTagSelector);
+				CustomGridView gridView = (CustomGridView)findViewById(R.id.gridView_dialogTagSelector);
 				gridView.setColumnWidth((mIntScreenWidthHeight[0] - 30) / 4);
 				Button btnSubmit = (Button)findViewById(R.id.btn_submit_dialogTagSelector);
 				View backView =findViewById(R.id.backView_dialogTagSelector);
+				backView.setOnClickListener(this);
 				List<String> listTags = new ArrayList<String>();
 				if (isNeedRecoverFromLast) {
 					String[] strTags = mTags[mCurrentPageIndex].split("-");
@@ -1225,7 +1228,6 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 						listTags);
 				gridView.setAdapter(mHouseTagAdapter);
 				btnSubmit.setOnClickListener(this);
-				backView.setOnClickListener(this);
 				win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 				gridView.setItemChecked(0, true);

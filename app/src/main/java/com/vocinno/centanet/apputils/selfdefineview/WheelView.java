@@ -27,6 +27,13 @@ import com.vocinno.centanet.R;
  */
 public class WheelView extends View {
 	/**
+	 * 防止内容过多，wheelView无法缩短宽度
+	 */
+	private int wvWidth=0;
+	public void setWvWidth(int width){
+		wvWidth=width;
+	}
+	/**
 	 * 控件宽度
 	 */
 	private float mControlWidth;
@@ -220,7 +227,11 @@ public class WheelView extends View {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 //		mControlWidth = getWidth();
 		if (mControlWidth != 0) {
-			setMeasuredDimension((int) mControlWidth, mItemNumber * mUnitHeight);
+			if(wvWidth==0){
+				setMeasuredDimension((int) mControlWidth, mItemNumber * mUnitHeight);
+			}else{
+				setMeasuredDimension(wvWidth, mItemNumber * mUnitHeight);
+			}
 		}
 		invalidate();
 	}
@@ -543,6 +554,11 @@ public class WheelView extends View {
 	 * @param data
 	 */
 	public void resetData(ArrayList<String> data) {
+		setData(data);
+		invalidate();
+	}
+	public void resetData(ArrayList<String> data,int centerX) {
+		this.mControlWidth=centerX;
 		setData(data);
 		invalidate();
 	}

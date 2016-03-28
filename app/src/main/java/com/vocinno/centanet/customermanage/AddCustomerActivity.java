@@ -49,7 +49,6 @@ import org.json.JSONObject;
  */
 @SuppressLint("CutPasteId")
 public class AddCustomerActivity extends SuperSlideMenuActivity {
-
 	private Map<String, String> mapPianQu = new HashMap<String, String>();
 	private ModelDialog modelDialog;
 	private static enum ConnectionType {

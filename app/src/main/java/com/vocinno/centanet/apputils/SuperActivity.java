@@ -1,5 +1,7 @@
 package com.vocinno.centanet.apputils;
 
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.utils.MethodsJni;
 
 import cn.jpush.android.api.JPushInterface;
@@ -16,7 +18,7 @@ public abstract class SuperActivity extends Activity implements OnClickListener 
 	public Activity mContext = null;
 	public Handler mHander = null;
 	public static View mRootView = null;
-
+	public ModelDialog modelDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,5 +91,15 @@ public abstract class SuperActivity extends Activity implements OnClickListener 
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	public void showDialog(){
+		if(this.modelDialog==null){
+			this.modelDialog=ModelDialog.getModelDialog(this);
+		}
+		this.modelDialog.show();
+	}
+	public void dismissDialog(){
+		if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+			this.modelDialog.dismiss();
+		}
+	}
 }

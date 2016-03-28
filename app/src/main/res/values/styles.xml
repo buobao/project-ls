@@ -25,6 +25,13 @@
         <!-- 模糊 -->
     </style>
 
+
+    <style name="Dialog_FS" parent="@android:style/Theme.Dialog">
+        <item name="android:listPreferredItemPaddingLeft">0dip</item>
+        <item name="android:listPreferredItemPaddingRight">0dip</item>
+        <item name="android:listPreferredItemPaddingStart">0dip</item>
+        <item name="android:listPreferredItemPaddingEnd">0dip</item>
+    </style>
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.

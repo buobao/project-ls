@@ -14,7 +14,7 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.input.keyboard.KeyboardUtil;
-
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
@@ -75,7 +75,6 @@ public class KeyGetInActivity extends SuperActivity {
 		mEtPwdThree = (EditText) findViewById(R.id.et_pwdThree_keyGetInActivity);
 		mEtPwdFour = (EditText) findViewById(R.id.et_pwdFour_keyGetInActivity);
 		mEtPwdText = (EditText) findViewById(R.id.et_pwdText_keyGetInActivity);
-
 	}
 
 	@Override
@@ -98,6 +97,7 @@ public class KeyGetInActivity extends SuperActivity {
 			public void afterTextChanged(Editable arg0) {
 				if (mEtPwdText.getText() != null
 						&& mEtPwdText.getText().toString().length() == 4) {
+					showDialog();
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_KeyProxy,
 							CST_JS.JS_Function_KeyProxy_confirmPincode, CST_JS
 									.getJsonStringForConfirmPincode(mEtPwdText
@@ -132,17 +132,18 @@ public class KeyGetInActivity extends SuperActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		dismissDialog();
 		if (name.equals(CST_JS.NOTIFY_NATIVE_CONFIRM_PINCODE)) {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 					KeyList.class);
 			if (jsReturn.isSuccess()) {
 				if (!isFinishStartKeyListActivity) {
-					MethodsExtra.toast(mContext, "处理成功");
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
 					mHander.sendEmptyMessageDelayed(R.id.doSuccess, 50);
 					isFinishStartKeyListActivity = true;
 				}
 			} else {
-				MethodsExtra.toast(mContext, "处理失败");
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
 	}

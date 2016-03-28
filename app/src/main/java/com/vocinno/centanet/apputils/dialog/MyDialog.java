@@ -3,14 +3,21 @@ package com.vocinno.centanet.apputils.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Rect;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.model.CustomerDetail;
+import com.vocinno.utils.CustomUtils;
 
 public class MyDialog extends Dialog {
 
@@ -32,9 +39,17 @@ public class MyDialog extends Dialog {
 		private OnClickListener positiveButtonClickListener;
 		private OnClickListener negativeButtonClickListener;
 		private boolean isCancelable=false;
+		private boolean isFullWidth=false;
+		private boolean isBottomDialog=false;
 		public Builder setCanceledOnTouchOutside(boolean cancelable) {
 			isCancelable=cancelable;
 			return this;
+		}
+		public void setFullWidth(boolean isFullWidth) {
+			this.isFullWidth=isFullWidth;
+		}
+		public void setBottomDialog(boolean isBottomDialog) {
+			this.isBottomDialog=isBottomDialog;
 		}
 		public Builder(Context context) {
 			this.context = context;
@@ -98,11 +113,26 @@ public class MyDialog extends Dialog {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// instantiate the dialog with the custom Theme
-			final MyDialog dialog = new MyDialog(context, R.style.Dialog);
+			final MyDialog dialog=new MyDialog(context, R.style.Dialog);
 			dialog.setCanceledOnTouchOutside(this.isCancelable);
 			View layout = inflater.inflate(R.layout.my_dialog, null);
-			dialog.addContentView(layout, new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+			WindowManager wm = (WindowManager) context
+					.getSystemService(Context.WINDOW_SERVICE);
+			Window dialogWindow =dialog.getWindow();
+			int width = wm.getDefaultDisplay().getWidth();
+//			int height = wm.getDefaultDisplay().getHeight();
+			if(isFullWidth){
+
+			}else{
+				WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+				p.height = (int) (width* 0.6); // 高度设置为屏幕的0.6
+				p.width = (int) (width * 0.6); // 宽度设置为屏幕的0.65
+				dialogWindow.setAttributes(p);
+			}
+			if(isBottomDialog){
+				dialogWindow.setGravity(Gravity.BOTTOM);
+			}
 			// set the dialog title
 			((TextView) layout.findViewById(R.id.title)).setText(title);
 			// set the confirm button
@@ -151,11 +181,12 @@ public class MyDialog extends Dialog {
 						.removeAllViews();
 				((LinearLayout) layout.findViewById(R.id.ll_dialog)).addView(
 						contentView, new LayoutParams(
-								LayoutParams.WRAP_CONTENT,
+								LayoutParams.MATCH_PARENT,
 								LayoutParams.WRAP_CONTENT));
+
 			}
 			dialog.setContentView(layout);
-			return dialog;
+				return dialog;
 		}
 
 	}

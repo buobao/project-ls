@@ -1,7 +1,10 @@
 package com.vocinno.centanet.housemanage.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.mylibrary.photos.PhotoReadyHandler;
+import com.example.mylibrary.photos.SelectPhotoManager;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.EditPicDetailActivity;
 import com.vocinno.utils.MethodsData;
@@ -14,6 +17,8 @@ import com.vocinno.utils.media.camera.CameraActivity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 public class HousePicGridViewAdapter extends BaseAdapter {
 
 	private Activity mContext;
@@ -33,7 +39,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 	private List<String> mImageList;
 	private List<String> mImageDescription;
 	private String mType;
-
+	private MyInterface myInterface;
 	public HousePicGridViewAdapter() {
 	}
 
@@ -42,13 +48,23 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 		this.mInflater = (LayoutInflater) this.mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mType = type;
+		this.myInterface=(MyInterface)mContext;
 	}
 
 	public void setData(List<String> imageList, List<String> imageDescription) {
 		this.mImageList = imageList;
 		this.mImageDescription = imageDescription;
 	}
-
+	public void addData(List<String> imageList, List<String> imageDescription) {
+		if(this.mImageList==null){
+			this.mImageList=new ArrayList<String>();
+		}
+		if(this.mImageDescription==null){
+			this.mImageDescription=new ArrayList<String>();
+		}
+		this.mImageList.addAll(imageList);
+		this.mImageDescription.addAll(imageDescription);
+	}
 	public void setCount(int number) {
 		mCellNumber = number;
 	}
@@ -89,29 +105,32 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 		final int index = position;
 		if (index == mCellNumber - 1) {
 			holder.mImgHousePic.setImageResource(R.drawable.work_icon_add);
+			holder.mImgHousePic.setOnClickListener(getListSize());
 		} else {
 			holder.mImgHousePic.setImageBitmap(MethodsFile.decodeFile(
 					this.mImageList.get(index), false, true));
-		}
-		// 点击进行图片描述编辑
-		holder.mImgHousePic.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (index != mCellNumber - 1) {
-					// 记录类型，方便再resume中进行操作
-					MethodsDeliverData.mHouseType = mType;
-					MethodsDeliverData.mEditorImage = mImageList.get(index);
-					MethodsDeliverData.mEditorImageDescriptionString = mImageDescription
-							.get(index);
-					MethodsExtra.startActivity(mContext,
-							EditPicDetailActivity.class);
-				} else {
-					choosePicOrCamera();
+			// 点击进行图片描述编辑
+			holder.mImgHousePic.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (index != mCellNumber - 1) {
+						// 记录类型，方便再resume中进行操作
+						MethodsDeliverData.mHouseType = mType;
+						MethodsDeliverData.mEditorImage = mImageList.get(index);
+						MethodsDeliverData.mEditorImageDescriptionString = mImageDescription
+								.get(index);
+						MethodsExtra.startActivity(mContext,
+								EditPicDetailActivity.class);
+					} else {
+						//choosePicOrCamera();
+					}
 				}
-			}
-		});
+			});
+		}
+
 		return convertView;
 	}
+
 
 	public class ViewHolder {
 		ImageView mImgHousePic;
@@ -137,15 +156,10 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 		mTvPic.setOnClickListener(itemClick);
 		mTvCancel.setOnClickListener(itemClick);
 	}
-
 	public OnClickListener itemClick = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			if (mImageList != null && mImageList.size() >= 9) {
-				MethodsExtra.toast(mContext, "图片不能超过9张！");
-				return;
-			}
 			if (mImageList != null) {
 				MethodsDeliverData.hasImageNum = mImageList.size();
 			} else {
@@ -156,7 +170,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 				// 启动相机.
 				mChooseDialog.dismiss();
 				MethodsDeliverData.mHouseType = mType;
-				MethodsExtra.startActivity(mContext, CameraActivity.class);
+				myInterface.takePhoto();
 				break;
 			case R.id.tv_choosePic_HousePicGridViewAdapter:
 				// 跳转到指定的activity
@@ -173,4 +187,20 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 			}
 		}
 	};
+
+	@NonNull
+	private OnClickListener getListSize() {
+		return new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mImageList != null && mImageList.size() >=9) {
+					MethodsExtra.toast(mContext, "图片不能超过9张！");
+					return;
+				}else{
+					choosePicOrCamera();
+				}
+			}
+		};
+	}
+
 }

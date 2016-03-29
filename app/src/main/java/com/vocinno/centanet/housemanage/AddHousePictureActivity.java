@@ -3,11 +3,14 @@ package com.vocinno.centanet.housemanage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.mylibrary.photos.PhotoReadyHandler;
+import com.example.mylibrary.photos.SelectPhotoManager;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.ImageForJsParams;
 import com.vocinno.centanet.housemanage.adapter.HousePicGridViewAdapter;
+import com.vocinno.centanet.housemanage.adapter.MyInterface;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.UploadImageResult;
 import com.vocinno.utils.MethodsDeliverData;
@@ -15,7 +18,10 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+import com.vocinno.utils.media.camera.PreviewActivity;
 
+import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -32,8 +38,10 @@ import android.widget.Toast;
  * @author Administrator
  * 
  */
-public class AddHousePictureActivity extends SuperSlideMenuActivity {
+public class AddHousePictureActivity extends SuperSlideMenuActivity implements MyInterface {
 
+	private HousePicGridViewAdapter officeAdapter;
+	private HousePicGridViewAdapter houseTypeAdapter;
 	private GridView mGridViewHouseTypePic; // 房型图
 	private GridView mGridViewRoomPic; // 室
 	private GridView mGridViewOfficePic; // 厅
@@ -220,14 +228,14 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity {
 					changeImageDescription(mHouseTypeImgsDescripList);
 				}
 
-				HousePicGridViewAdapter houseTypeAdapter = new HousePicGridViewAdapter(
-						mContext, "houseType");
+				houseTypeAdapter = new HousePicGridViewAdapter(
+						this, "houseType");
 				if (MethodsDeliverData.mListImages.size() != 0) {
 					mTvHouseTypePicNumber.setText("房型图" + "("
 							+ mHouseTypeImgsList.size() + "/9" + ")");
-					houseTypeAdapter.setData(mHouseTypeImgsList,
-							mHouseTypeImgsDescripList);
-					mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
+					//houseTypeAdapter.setData(mHouseTypeImgsList,
+					//		mHouseTypeImgsDescripList);
+					//mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
 					MethodsDeliverData.mListImages = new ArrayList<String>();
 					MethodsDeliverData.mHouseType = "";
 				}
@@ -262,7 +270,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity {
 					changeImageDescription(mOfficeTypeImgsDescripList);
 				}
 
-				HousePicGridViewAdapter officeAdapter = new HousePicGridViewAdapter(
+				officeAdapter = new HousePicGridViewAdapter(
 						mContext, "office");
 				if (MethodsDeliverData.mListImages.size() != 0) {
 					mTvOfficePicNumber.setText("厅("
@@ -543,5 +551,39 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity {
 	public void notifCallBack(String name, String className, Object data) {
 
 	}
+	@Override
+	public void takePhoto() {
+		SelectPhotoManager.getInstance().setPhotoReadyHandler(new PhotoReadyHandler() {
+			@Override
+			public void onPhotoReady(int from, String imgPath) {
+				Log.i("=imgPath=", "==" + imgPath);
+//				mHouseTypeImgsList.add(imgPath);
+//				MethodsDeliverData.mListImagePath.add(imgPath);
+				Intent intent = new Intent(AddHousePictureActivity.this,
+						AddHousePictureDescriptionActivity.class);
+				intent.putExtra("path", imgPath);
+				startActivityForResult(intent, 101);
+//				houseTypeAdapter.notifyDataSetChanged();
+			}
+		});
+		SelectPhotoManager.setImgSavePath(Environment.getExternalStorageDirectory().getPath() + "/vocinno");
+		SelectPhotoManager.getInstance().start(this,0);
+	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode==101&&resultCode==102){
+			String path = data.getStringExtra("path");
+			String describe = data.getStringExtra("describe");
+			mHouseTypeImgsList.add(path);
+			mTvHouseTypePicNumber.setText("房型图" + "("+ mHouseTypeImgsList.size() + "/9" + ")");
+			mHouseTypeImgsDescripList.add(describe);
+			houseTypeAdapter.addData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
+			mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
+
+		}else{
+			SelectPhotoManager.getInstance().onActivityResult(requestCode, resultCode, data);
+		}
+	}
 }

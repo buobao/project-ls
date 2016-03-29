@@ -22,14 +22,22 @@
             android:orientation="vertical">
 			<RelativeLayout 
 			    android:layout_width = "match_parent"
-			    android:layout_height="210dp"
+			    android:layout_height="320dp"
 			    android:background="@color/white">
-			    <ImageView
-			        android:id = "@+id/img_houseDetailPic_AddHouseImageDetailActivity"
-			        android:layout_width="match_parent"
-			        android:layout_height= "match_parent"
-			        android:scaleType="fitXY"
-			        android:background="@drawable/h_manage_icon_down"/>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="center"
+					>
+					<ImageView
+						android:id = "@+id/img_houseDetailPic_AddHouseImageDetailActivity"
+						android:layout_width="match_parent"
+						android:layout_height= "match_parent"
+						android:adjustViewBounds="true"
+						android:scaleType="centerInside"
+						android:background="@drawable/scan_mask"/>
+				</LinearLayout>
 			</RelativeLayout>
 			<RelativeLayout 
 			    android:layout_width = "match_parent"
@@ -55,7 +63,7 @@
 			    <EditText 
 			        android:id="@+id/et_houseImageDetail_AddHouseImageDetailActivity"
 			        android:layout_width="match_parent"
-			        android:layout_height="wrap_content"
+			        android:layout_height="match_parent"
 			        android:background="@null"
 			        android:ems="20"
 			        android:editable="true"
@@ -87,8 +95,10 @@
 			        android:layout_height="wrap_content"
 			        android:layout_centerHorizontal="true"
 			        android:layout_marginTop="5dp"
-			        android:text="(1/4)"
-			        android:textSize="13sp"/>
+			        android:text="(1/1)"
+			        android:textSize="13sp"
+					android:visibility="invisible"
+					/>
 			    <TextView 
 			        android:id="@+id/tv_timeImageNumber_AddHouseImageDetailActivity"
 			        android:layout_width="wrap_content"
@@ -108,59 +118,90 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:background="#F6F6F6">
-        
-        <RelativeLayout 
-            android:id="@+id/rlyt_leftButton_AddHouseImageDetailActivity"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:background="@color/white">
-            
-            <TextView 
-                android:id="@+id/tv_leftButton_AddHouseImageDetailActivity"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical|left"
-                android:text="@string/last"
-                android:textSize="13sp"/>
-           <ImageView
-                android:id="@+id/img_officeRightPic_AddHouseImageDetailActivity"
-                android:layout_width="10dp"
-                android:layout_height="10dp"               
-                android:layout_toLeftOf="@+id/tv_leftButton_AddHouseImageDetailActivity"		
-                android:layout_centerVertical="true"
-                android:background="@drawable/work_icon_before"/>               
-        </RelativeLayout>
-        
-        <View 
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:background="#E2E2E2"/>
-        <RelativeLayout 
-            android:id="@+id/rlyt_rightButton_AddHouseImageDetailActivity"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:background="@color/white">
-            
-            <TextView 
-                android:id="@+id/tv_rightButton_AddHouseImageDetailActivity"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_vertical|left"
-                android:text="@string/next"
-                android:textSize="13sp"/>
-            <ImageView 
-                android:id="@+id/img_rightButton_AddHouseImageDetailActivity"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_toRightOf="@+id/tv_rightButton_AddHouseImageDetailActivity"
-                android:layout_centerVertical="true"
-                android:background="@drawable/work_icon_next"/>
-        </RelativeLayout>
+        android:background="#F6F6F6"
+		android:gravity="center"
+		>
+        <LinearLayout
+			android:id="@+id/ll_delete_img"
+			android:layout_width="match_parent"
+			android:background="@color/white"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:drawableLeft="@drawable/work_icon_delete"
+				android:text="删除"
+				/>
+		</LinearLayout>
+        <LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:visibility="gone"
+			android:gravity="center"
+			android:background="@color/white"
+			>
+			<RelativeLayout
+				android:id="@+id/rlyt_leftButton_AddHouseImageDetailActivity"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1.0"
+				android:background="@color/white"
+				android:gravity="center"
+				>
+
+				<TextView
+					android:id="@+id/tv_leftButton_AddHouseImageDetailActivity"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_centerInParent="true"
+					android:gravity="center_vertical|left"
+					android:text="@string/last"
+					android:textSize="13sp"/>
+				<ImageView
+					android:id="@+id/img_officeRightPic_AddHouseImageDetailActivity"
+					android:layout_width="10dp"
+					android:layout_height="10dp"
+					android:layout_toLeftOf="@+id/tv_leftButton_AddHouseImageDetailActivity"
+					android:layout_centerVertical="true"
+					android:background="@drawable/work_icon_before"/>
+
+
+			</RelativeLayout>
+
+			<View
+				android:layout_width="0.5dp"
+				android:layout_height="match_parent"
+				android:background="#E2E2E2"/>
+			<RelativeLayout
+				android:id="@+id/rlyt_rightButton_AddHouseImageDetailActivity"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1.0"
+				android:background="@color/white">
+
+				<TextView
+					android:id="@+id/tv_rightButton_AddHouseImageDetailActivity"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_centerHorizontal="true"
+					android:gravity="center_vertical|left"
+					android:text="@string/next"
+					android:textSize="13sp"/>
+				<ImageView
+					android:id="@+id/img_rightButton_AddHouseImageDetailActivity"
+					android:layout_width="10dp"
+					android:layout_height="10dp"
+					android:layout_toRightOf="@+id/tv_rightButton_AddHouseImageDetailActivity"
+					android:layout_centerVertical="true"
+					android:background="@drawable/work_icon_next"/>
+			</RelativeLayout>
+		</LinearLayout>
+
     </LinearLayout>
 	
 	

@@ -13,6 +13,12 @@ import android.widget.GridView;
  */
 public class MyGridView extends GridView {
 
+	/*@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		// 不能滚动
+		getParent().requestDisallowInterceptTouchEvent(true);
+		return super.onInterceptTouchEvent(ev);
+	}*/
 	public MyGridView(Context context) {
 		super(context);
 	}
@@ -21,13 +27,16 @@ public class MyGridView extends GridView {
 		super(context, attrs);
 	}
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// 不能滚动
-		getParent().requestDisallowInterceptTouchEvent(true);
-		return super.onInterceptTouchEvent(ev);
+	public MyGridView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
 	}
 
+	@Override
+	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+		int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+		super.onMeasure(widthMeasureSpec, expandSpec);
+	}
 
 
 }

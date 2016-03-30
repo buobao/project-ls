@@ -39,6 +39,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 	private List<String> mImageList;
 	private List<String> mImageDescription;
 	private String mType;
+//	private int type;//0,1,2,3,4,5 房型，室，厅，厨，卫，其他
 	private MyInterface myInterface;
 	public HousePicGridViewAdapter() {
 	}
@@ -91,13 +92,14 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
+		final ViewHolder holder;
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(
 					R.layout.item_house_pic_add_house_pic, null);
 			holder.mImgHousePic = (ImageView) convertView
 					.findViewById(R.id.img_house_pic_add_house_pic_activity);
+			holder.tv_img_path = (TextView) convertView.findViewById(R.id.tv_img_path);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -109,18 +111,18 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 		} else {
 			holder.mImgHousePic.setImageBitmap(MethodsFile.decodeFile(
 					this.mImageList.get(index), false, true));
+			holder.tv_img_path.setText(this.mImageList.get(index));
 			// 点击进行图片描述编辑
 			holder.mImgHousePic.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (index != mCellNumber - 1) {
-						// 记录类型，方便再resume中进行操作
+						myInterface.editPhoto(mType, holder.tv_img_path.getText().toString(), mImageDescription.get(index));
+						/*// 记录类型，方便再resume中进行操作
 						MethodsDeliverData.mHouseType = mType;
 						MethodsDeliverData.mEditorImage = mImageList.get(index);
-						MethodsDeliverData.mEditorImageDescriptionString = mImageDescription
-								.get(index);
-						MethodsExtra.startActivity(mContext,
-								EditPicDetailActivity.class);
+						MethodsDeliverData.mEditorImageDescriptionString = mImageDescription.get(index);
+						MethodsExtra.startActivity(mContext,EditPicDetailActivity.class);*/
 					} else {
 						//choosePicOrCamera();
 					}
@@ -134,6 +136,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 
 	public class ViewHolder {
 		ImageView mImgHousePic;
+		TextView tv_img_path;
 	}
 
 	private void choosePicOrCamera() {
@@ -170,7 +173,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 				// 启动相机.
 				mChooseDialog.dismiss();
 				MethodsDeliverData.mHouseType = mType;
-				myInterface.takePhoto();
+				myInterface.takePhoto(mType);
 				break;
 			case R.id.tv_choosePic_HousePicGridViewAdapter:
 				// 跳转到指定的activity

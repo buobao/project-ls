@@ -164,6 +164,7 @@ public class MyDialog extends Dialog {
 				// if no confirm button just set the visibility to GONE
 				layout.findViewById(R.id.negativeButton).setVisibility(
 						View.GONE);
+				layout.findViewById(R.id.v_xian).setVisibility(View.GONE);
 			}
 			// set the content message
 			if (message != null) {

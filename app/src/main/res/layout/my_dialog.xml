@@ -63,10 +63,10 @@
                 android:textSize="15dp" />
 
             <View
+                android:id="@+id/v_xian"
                 android:layout_width="1dp"
                 android:layout_height="fill_parent"
                 android:background="#ffd0d0d0"
-                android:layout_marginBottom="8dp"
                 />
             <Button
                 android:id="@+id/positiveButton"

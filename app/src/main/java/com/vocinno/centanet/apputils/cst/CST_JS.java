@@ -67,6 +67,7 @@ public final class CST_JS {
 	public static String NOTIFY_NATIVE_DOROOMVIEW_RESULT = "notify_native_doroomview_result";
 	// 电话号码是否重复
 	public static String NOTIFY_NATIVE_CHECK_PNONENO = "notify_native_check_pnoneno";
+	public static String NOTIFY_NATIVE_UPLOAD_IMGS_RESULT = "notify_native_upload_imgs_result";
 
 	// -----------------------------------公共参数------------------------------------------
 	// 参数赋值(默认值)

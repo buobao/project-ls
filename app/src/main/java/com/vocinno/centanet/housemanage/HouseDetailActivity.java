@@ -357,8 +357,10 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				myPagerAdapter.destory();
 			}
 			mTvPagerIndicator.setText("0/0");
-			MethodsExtra.startActivity(mContext,
+			Intent intent=new Intent(mContext,
 					AddHousePictureActivity.class);
+			intent.putExtra("delCode",mHouseDetail.getDelCode());
+			MethodsExtra.startActivity(this,intent);
 			break;
 		case R.id.llyt_seeFollowUp_HouseDetailActivity:
 			mMenuDialog.dismiss();

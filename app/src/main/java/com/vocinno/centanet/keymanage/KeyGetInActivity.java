@@ -141,8 +141,10 @@ public class KeyGetInActivity extends SuperActivity {
 					KeyList.class);
 			if (jsReturn.isSuccess()) {
 				if (!isFinishStartKeyListActivity) {
-//					MethodsExtra.toast(mContext, jsReturn.getMsg());
-					myDialog.setMessage(jsReturn.getMsg());
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
+					mHander.sendEmptyMessageDelayed(R.id.doSuccess, 50);
+					isFinishStartKeyListActivity = true;
+					/*myDialog.setMessage(jsReturn.getMsg());
 					myDialog.setTitle("提示");
 					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 						@Override
@@ -152,7 +154,7 @@ public class KeyGetInActivity extends SuperActivity {
 							isFinishStartKeyListActivity = true;
 						}
 					});
-					myDialog.create().show();
+					myDialog.create().show();*/
 				}
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());

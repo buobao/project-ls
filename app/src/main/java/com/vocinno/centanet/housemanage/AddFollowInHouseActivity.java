@@ -30,7 +30,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 	private String mHouseCode = null;
 	private TextView mTvDate;
 	private EditText mEtContent;
-
+	public static boolean isSucessSave=false;
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_follow_in_customer;
@@ -116,6 +116,9 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 		mHouseCode = MethodsDeliverData.string;
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
+		mHouseCode = MethodsDeliverData.string;
+		MethodsJni.addNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_HOU_ADD_TRACK_RESULT, TAG);
 		mTvDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 				.format(new Date()));
 	}
@@ -163,6 +166,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 				Object.class);
 		if (jsReturn.isSuccess()) {
 			MethodsExtra.toast(mContext, "保存成功");
+			isSucessSave=true;
 			finish();
 		}
 	}

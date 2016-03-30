@@ -117,6 +117,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 		mCusterCode = MethodsDeliverData.string;
 		MethodsDeliverData.string = null;
+		showDialog();
 		// 调用数据
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getCustomerInfo,
@@ -182,10 +183,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			}
 			break;
 		case R.id.rlyt_seize_customerDetailActivity:
-			if(modelDialog==null){
-				modelDialog=ModelDialog.getModelDialog(this);
-			}
-			modelDialog.show();
+			showDialog();
 				// 抢
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_claimCustomer,
@@ -224,9 +222,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		if(modelDialog!=null&&modelDialog.isShowing()){
-			modelDialog.dismiss();
-		}
+		dismissDialog();
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				CustomerDetail.class);

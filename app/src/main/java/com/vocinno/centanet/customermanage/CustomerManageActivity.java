@@ -37,7 +37,7 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	private int mPageIndex = 1;
 	private List<CustomerItem> mListCustomers = new ArrayList<CustomerItem>();
 	private List<CustomerItem> mListCustomersLast = new ArrayList<CustomerItem>();
-
+	private boolean isReFreshOrLoadMore=false;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -145,6 +145,11 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 
 	// 调用数据
 	private void getDataFromNetwork(int page) {
+		if(isReFreshOrLoadMore){
+			isReFreshOrLoadMore=false;
+		}else{
+			showDialog();
+		}
 		String strReq = CST_JS.getJsonStringForCustomerList(
 				(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
 						: CST_JS.JS_CustomerList_Type_Public), page, 8);
@@ -155,6 +160,7 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		dismissDialog();
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				CustomerList.class);
@@ -227,6 +233,7 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	@Override
 	public void onRefresh() {
 		mPageIndex = 1;
+		isReFreshOrLoadMore=true;
 		getDataFromNetwork(mPageIndex);
 	}
 
@@ -237,6 +244,7 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 		if (!isLoading) {
 			isLoading = true;
 			getDataFromNetwork(++mPageIndex);
+			isReFreshOrLoadMore=true;
 		}
 	}
 

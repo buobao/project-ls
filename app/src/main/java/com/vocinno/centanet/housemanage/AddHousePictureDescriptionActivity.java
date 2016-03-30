@@ -1,12 +1,18 @@
 package com.vocinno.centanet.housemanage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.ImageUtil;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +20,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,14 +29,18 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
 	private int mAddImageTotalNumber = 5;
 	private int mImageCount = 1;
 	private int mType = -1;
-	private TextView mTvImageCount;
+	private TextView mTvImageCount,tv_time;
 	private TextView mTvNextStep;
 	private ImageView mImgNextIcon, mImgHouseImage;
 	private EditText mEtImgDescription;
 	private RelativeLayout mReltNextBtn;
 	private RelativeLayout mReltLastBtn;
 	private Bitmap mNewBitmap;
-
+	private LinearLayout ll_delete_img;
+	private String path;
+	private String describe;
+	private ImageView mSubmit;
+	private Intent intent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,9 +69,14 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
 
 	@Override
 	public void initView() {
+		intent = getIntent();
+		path=intent.getStringExtra("path");
+		Bitmap bitmap = ImageUtil.File2Bitmap(path);
 		MethodsExtra.findHeadTitle1(mContext, mRootView,
 				R.string.house_image_detail, null);
 		mViewBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
+		ll_delete_img = (LinearLayout) findViewById(R.id.ll_delete_img);
+		ll_delete_img.setOnClickListener(this);
 		mTvImageCount = (TextView) findViewById(R.id.tv_countImageNumber_AddHouseImageDetailActivity);
 		mTvNextStep = (TextView) findViewById(R.id.tv_rightButton_AddHouseImageDetailActivity);
 		mImgNextIcon = (ImageView) findViewById(R.id.img_rightButton_AddHouseImageDetailActivity);
@@ -68,6 +84,15 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
 		mReltLastBtn = (RelativeLayout) findViewById(R.id.rlyt_leftButton_AddHouseImageDetailActivity);
 		mImgHouseImage = (ImageView) findViewById(R.id.img_houseDetailPic_AddHouseImageDetailActivity);
 		mEtImgDescription = (EditText) findViewById(R.id.et_houseImageDetail_AddHouseImageDetailActivity);
+		tv_time = (TextView) findViewById(R.id.tv_timeImageNumber_AddHouseImageDetailActivity);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyy-MM-dd");
+		Date date=new Date();
+		tv_time.setText("拍摄于:"+sdf.format(date));
+		mImgHouseImage.setImageBitmap(bitmap);
+
+
+		mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, mRootView, 0, R.drawable.universal_button_done);
+		mSubmit.setOnClickListener(this);
 	}
 
 	@Override
@@ -80,6 +105,22 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.ll_delete_img:
+			//MethodsDeliverData.mListImagePath.add(path);
+			onBack();
+			break;
+		case R.id.img_right_mhead1:
+			/*MethodsDeliverData.mListImagePath.add(path);
+			MethodsDeliverData.mListImages.add(path);*/
+			showDialog();
+			String describe=mEtImgDescription.getText().toString();
+			Intent intent=new Intent();
+			intent.putExtra("path", path);
+			intent.putExtra("describe",describe);
+			this.setResult(102, intent);
+			this.finish();
+			dismissDialog();
+			break;
 		case R.id.img_left_mhead1:
 			onBack();
 			break;

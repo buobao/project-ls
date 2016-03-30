@@ -232,6 +232,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initData() {
+		showDialog();
 		mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
 		// 初始化ViewPager adapter
 		mHander.sendEmptyMessageDelayed(R.id.doUpdate, 50);
@@ -532,9 +533,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		if(modelDialog!=null&&modelDialog.isShowing()){
-			modelDialog.dismiss();
-		}
+		dismissDialog();
 		if (name.equals(CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT)) {
 			mBorrowKey.setEnabled(true);
 			// 借用钥匙返回

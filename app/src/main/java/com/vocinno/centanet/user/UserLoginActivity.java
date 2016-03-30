@@ -39,6 +39,7 @@ public class UserLoginActivity extends SuperActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
+				dismissDialog();
 				switch (msg.what) {
 				case R.id.doSuccess:
 					if (!mIsLoginedJustNow) {
@@ -113,6 +114,7 @@ public class UserLoginActivity extends SuperActivity {
 				MethodsExtra.toast(mContext, "请输入密码");
 				return;
 			}
+			showDialog();
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
 					CST_JS.JS_Function_Login_login,
 					CST_JS.getJsonStringForLogin(userAccount, userPassword));

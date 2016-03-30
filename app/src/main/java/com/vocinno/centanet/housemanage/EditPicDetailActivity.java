@@ -61,7 +61,7 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 				.setText(MethodsDeliverData.mEditorImageDescriptionString);
 		// mEtImageDescription.setFocusable(false);
 		// mEtImageDescription.setFocusableInTouchMode(false);
-		mEtImageDescription.setEnabled(false);
+//		mEtImageDescription.setEnabled(false);
 	}
 
 	@Override

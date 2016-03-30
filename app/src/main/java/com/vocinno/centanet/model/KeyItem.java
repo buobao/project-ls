@@ -45,8 +45,9 @@ public class KeyItem {
 		this.store = store;
 	}
 
-	public String getBorrowTime() {
-		return MethodsData.getFriendDateTime(borrowTime);
+	public long getBorrowTime() {
+//		return MethodsData.getFriendDateTime(borrowTime);
+		return this.borrowTime;
 	}
 
 	public void setBorrowTime(long borrowTime) {

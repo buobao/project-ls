@@ -34,6 +34,7 @@ public final class CST_JS {
 	public static String NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT = "notify_native_customerinfo_result";
 	public static String NOTIFY_NATIVE_ADD_CUSTOMER_RESULT = "notify_native_add_customer_result";
 	public static String NOTIFY_NATIVE_CUST_TRACK_RESULT = "notify_native_cust_track_result";
+	public static String NOTIFY_NATIVE_HOU_ADD_TRACK_RESULT = "notify_native_hou_add_track_result";
 	// 抢公客
 	public static String NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT = "notify_native_claim_customer_result";
 
@@ -166,8 +167,11 @@ public final class CST_JS {
 														  String userType, int page, int pagesize, String sidx, String sord,
 														  String searchId, String searchType) {
 		JsonObject jsonObject = new JsonObject();
+		if(!"3".equals(type)){//预约不传delType
+			jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
+		}
 		jsonObject.addProperty(JS_CommonParam_Type, type);
-		jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
+
 		jsonObject.addProperty(JS_HouseResource_Price, price);
 		jsonObject.addProperty(JS_HouseResource_Square, square);
 		jsonObject.addProperty(JS_HouseResource_Frame, frame);

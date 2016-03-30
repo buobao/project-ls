@@ -30,6 +30,7 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
             android:paddingBottom="15dp"
+            android:gravity="center"
             android:paddingTop="25dp" >
 
             <EditText
@@ -37,10 +38,11 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                android:cursorVisible="false"
                 android:ems="1"
                 android:gravity="center"
+                android:inputType="numberPassword"
                 android:lines="1"
+                android:cursorVisible="false"
                 android:textColor="@color/black"
                 android:textSize="24sp" >
             </EditText>
@@ -53,6 +55,7 @@
                 android:background="@color/white"
                 android:cursorVisible="false"
                 android:ems="1"
+                android:inputType="numberPassword"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -64,6 +67,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="@color/white"
                 android:cursorVisible="false"
+                android:inputType="numberPassword"
                 android:ems="1"
                 android:gravity="center"
                 android:textColor="@color/black"
@@ -79,6 +83,7 @@
                 android:ems="1"
                 android:gravity="center"
                 android:textColor="@color/black"
+                android:inputType="numberPassword"
                 android:textSize="24sp" />
 
             <EditText

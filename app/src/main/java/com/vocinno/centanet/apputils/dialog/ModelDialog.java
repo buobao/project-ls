@@ -18,6 +18,7 @@ public class ModelDialog extends Dialog {
         super(context, style);
         setContentView(layout);
         Window window = getWindow();
+        this.setCanceledOnTouchOutside(false);
         WindowManager.LayoutParams params = window.getAttributes();
         // float density = getDensity(context);
         // params.width = (int) (default_width * density);

@@ -3,6 +3,7 @@ package com.vocinno.centanet.customermanage.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +23,7 @@ public class CustormerListAdapter extends BaseAdapter {
 	private CustomerManageActivity mContext;
 	private LayoutInflater mInflater;
 	private List<CustomerItem> mListCustomers;
-
+	private boolean selectSOrZ=false;
 	public void setListDatas(List<CustomerItem> listCustomers) {
 		mListCustomers = listCustomers;
 		notifyDataSetChanged();
@@ -35,7 +36,14 @@ public class CustormerListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mListCustomers = listCustomers;
 	}
-
+	public CustormerListAdapter(CustomerManageActivity mContext,
+								List<CustomerItem> listCustomers,boolean selectSOrZ) {
+		this.mContext = mContext;
+		this.mInflater = (LayoutInflater) this.mContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.mListCustomers = listCustomers;
+		this.selectSOrZ=selectSOrZ;
+	}
 	@Override
 	public int getCount() {
 		if (mListCustomers == null) {
@@ -102,13 +110,20 @@ public class CustormerListAdapter extends BaseAdapter {
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				MethodsDeliverData.string = item.getCustCode();
-				MethodsExtra.startActivity(mContext,
-						CustomerDetailActivity.class);
-				if (mContext.isMyCustomerType) {
-					MethodsDeliverData.flag1 = -1;
-				} else {
-					MethodsDeliverData.flag1 = 1;
+				if(selectSOrZ){
+					Intent intent=new Intent();
+					intent.putExtra("custCode",item.getCustCode());
+					mContext.setResult(101,intent);
+					mContext.finish();
+				}else{
+					MethodsDeliverData.string = item.getCustCode();
+					MethodsExtra.startActivity(mContext,
+							CustomerDetailActivity.class);
+					if (mContext.isMyCustomerType) {
+						MethodsDeliverData.flag1 = -1;
+					} else {
+						MethodsDeliverData.flag1 = 1;
+					}
 				}
 			}
 		});

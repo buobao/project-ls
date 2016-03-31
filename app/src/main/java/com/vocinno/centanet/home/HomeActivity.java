@@ -87,7 +87,7 @@ public class HomeActivity extends SuperActivity {
 		mTvRemind = (TextView) findViewById(R.id.tv_myRemind_HomeActivity);
 		mLlytInputPassword = (LinearLayout) findViewById(R.id.llyt_password_HomeActivity);
 		mLlytScan = (LinearLayout) findViewById(R.id.llyt_scan_HomeActivity);
-		MethodsExtra.findHeadTitle1(mContext, mRootView, 0, "地产三级平台");
+		MethodsExtra.findHeadTitle1(mContext, mRootView, 0,getString(R.string.app_name));
 		mImgViewBackground = (ImageView) findViewById(R.id.imgView_background_HomeActivity);
 		mViewBlur = findViewById(R.id.tv_blur_modelLayerGradit);
 //		mViewBlurBorder = findViewById(R.id.tv_blurBorder_modelLayerGradit);

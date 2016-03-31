@@ -157,16 +157,14 @@ public class NewImageGridActivity extends Activity {
 		mDialog.dismiss();
 	}
 
-	@Override
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
-
 		case KeyEvent.KEYCODE_BACK:
 			// NewBimp.drr.clear();
 			NewImageGridActivity.this.finish();
 			break;
-
 		}
 		return super.onKeyDown(keyCode, event);
-	}
+	}*/
 }

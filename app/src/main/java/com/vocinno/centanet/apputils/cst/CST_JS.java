@@ -1,6 +1,7 @@
 package com.vocinno.centanet.apputils.cst;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -75,6 +76,7 @@ public final class CST_JS {
 	public static String JS_CommonParam_Page = "page";
 	public static String JS_CommonParam_Pagesize = "pageSize";
 	public static String JS_CommonParam_Type = "type";
+	public static String JS_CommonParam_ReqType = "reqType";
 	public static String jS_CommonParam_Name = "name";
 	public static String jS_CommonParam_Content = "content";
 	public static String jS_CommonParam_Att = "att";
@@ -136,6 +138,9 @@ public final class CST_JS {
 	public static String JS_HouseResource_custCode = "custCode";
 	public static String JS_HouseResource_lookCode = "lookCode";
 	public static String JS_HouseResource_remark = "remark";
+	public static String JS_HouseResource_startTime = "startTime";
+	public static String JS_HouseResource_endTime = "endTime";
+	public static String JS_HouseResource_isBackWrite = "isBackWrite";
 
 	public static String JS_HouseResource_url = "url";
 	// Function >>>>>>>>>>>>>>>>>>>>>>
@@ -328,6 +333,20 @@ public final class CST_JS {
 		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}
+	//开始时间，结束时间，是否回写
+	public static String getJsonStringForAddHouCustomerTrack(String delCode,
+															 String custCode, String lookCode, String remark,Long start,Long end,String isBackWrite) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_KeyProxy_DelCode, delCode);
+		jsonObject.addProperty(JS_HouseResource_custCode, custCode);
+		jsonObject.addProperty(JS_HouseResource_lookCode, lookCode);
+		jsonObject.addProperty(JS_HouseResource_remark, remark);
+		jsonObject.addProperty(JS_HouseResource_startTime, start);
+		jsonObject.addProperty(JS_HouseResource_endTime, end);
+		jsonObject.addProperty(JS_HouseResource_isBackWrite, isBackWrite);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
+	}
 
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_HouseResource_addHouTrack = "addHouTrack";
@@ -409,7 +428,18 @@ public final class CST_JS {
 		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}
-
+	//回传查询
+	public static String getJsonStringForCustomerList(String type, int page,
+													  int pagesize,String sOrZ) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_CommonParam_Type, type);
+		jsonObject.addProperty(JS_CommonParam_ReqType, sOrZ);
+		jsonObject.addProperty(JS_CommonParam_Page, page);
+		jsonObject.addProperty(JS_CommonParam_Pagesize,
+				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
+	}
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_CustomerList_getCustomerInfo = "getCustomerInfo";
 

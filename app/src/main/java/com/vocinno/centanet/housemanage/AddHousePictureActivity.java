@@ -30,10 +30,13 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 增加实勘
@@ -93,10 +96,10 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 
 	private final int UPLOAD_COMPLETED = 10002;
 	private final int UPLOAD_PIC_FAIL = 10001;
-	private View mPbUploading;
 	private boolean mHasUploadSuccess = false;
 	private String delCode;
-
+	private EditText et_miaoshu;
+	private CheckBox cb_ishd;
 	@Override
 	public Handler setHandler() {
 
@@ -108,7 +111,6 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					case UPLOAD_COMPLETED:
 					mHasUploadSuccess = true;
 //					MethodsExtra.toast(mContext, "图片上传成功");
-//					mPbUploading.setVisibility(View.GONE);
 					String teString = CST_JS.getJsonStringForUploadImages(
 							delCode, mUploadImages);
 					Log.d("wan", "wanggsx uploadsuccess string:" + teString);
@@ -119,7 +121,6 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					dismissDialog();
 					if (!mHasUploadSuccess) {
 						MethodsExtra.toast(mContext, "文件上传失败");
-//						mPbUploading.setVisibility(View.GONE);
 					}
 					break;
 				default:
@@ -194,7 +195,8 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 		mGridViewOtherPic = (GridView) findViewById(R.id.gv_showGridviewOther_AddHousePicDetailActivity);
 
 		mRyltSubmit = (RelativeLayout) findViewById(R.id.rlyt_changeSure_AddHousePicDetailActivity);
-		mPbUploading = findViewById(R.id.pb_uploading_AddHousePicDetailActivity);
+		et_miaoshu = (EditText) findViewById(R.id.et_miaoshu);
+		cb_ishd = (CheckBox) findViewById(R.id.cb_ishd);
 	}
 
 	@Override
@@ -349,6 +351,17 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 
 	}
 	public void  uploadImg(){
+		// 计算总共需要上传的图片数量
+		mUploadTotalImage = mHouseTypeImgsList.size()
+				+ mRoomTypeImgsList.size() + mOfficeTypeImgsList.size()
+				+ mOtherTypeImgsList.size()
+				+ mToiletTypeImgsList.size()
+				+ mKitchenTypeImgsList.size();
+		if(mUploadTotalImage<=0){
+			MethodsExtra.toast(mContext, "当前没有可上传的图片");
+			return;
+		}
+
 		myDialog.setTitle("提示");
 		myDialog.setMessage("是否上传图片?");
 		myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -376,16 +389,9 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 	}
 	private void uploadAndConnectJs() {
 		showDialog();
-//		mPbUploading.setVisibility(View.VISIBLE);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				// 计算总共需要上传的图片数量
-				mUploadTotalImage = mHouseTypeImgsList.size()
-						+ mRoomTypeImgsList.size() + mOfficeTypeImgsList.size()
-						+ mOtherTypeImgsList.size()
-						+ mToiletTypeImgsList.size()
-						+ mKitchenTypeImgsList.size();
 				uploadImage(ImageForJsParams.PIC_TYPE_HOUSE,
 						mHouseTypeImgsList, mHouseTypeImgsDescripList);
 				uploadImage(ImageForJsParams.PIC_TYPE_LIVINGROOMT,

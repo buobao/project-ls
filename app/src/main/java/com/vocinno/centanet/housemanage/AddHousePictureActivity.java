@@ -20,6 +20,7 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+import com.vocinno.utils.imageutils.selector.SelectorImageActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,7 +42,7 @@ import android.widget.TextView;
  * 
  */
 public class AddHousePictureActivity extends SuperSlideMenuActivity implements MyInterface {
-	private String takePhotoType,editType;//判断拍照和修改
+	private String takePhotoType,editType,selectType;//判断拍照相册和修改
 	//房型，室，厅，厨房，卫生间，其他
 	private HousePicGridViewAdapter houseTypeAdapter,roomAdapter,officeAdapter, kitchenAdapter, toiletAdapter,otherAdapter;
 	private GridView mGridViewHouseTypePic; // 房型图
@@ -622,10 +624,16 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 	public void editPhoto(String type,String imgPath, String describe) {
 		Intent intent=new Intent(this, EditPicDetailActivity.class);
 		intent.putExtra("path",imgPath);
-		intent.putExtra("describe", describe);
+		intent.putExtra("describe", "");
 		editType=type;
 //		MethodsExtra.startActivity(this, EditPicDetailActivity.class);
 		startActivityForResult(intent, 201);//编辑图片
+	}
+	@Override
+	public void selectPhoto(String type) {
+		selectType=type;
+		Intent intent=new Intent(this, SelectorImageActivity.class);
+		startActivityForResult(intent, 301);//选择图片
 	}
 	@Override
 	public void takePhoto(final String type) {
@@ -646,26 +654,6 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 		SelectPhotoManager.setImgSavePath(Environment.getExternalStorageDirectory().getPath() + "/vocinno");
 		SelectPhotoManager.getInstance().start(this, 0);
 	}
-
-	/***
-	 * private List<String> mHouseTypeImgsList = new ArrayList<String>();
-	 private List<String> mRoomTypeImgsList = new ArrayList<String>();
-	 private List<String> mOfficeTypeImgsList = new ArrayList<String>();
-	 private List<String> mKitchenTypeImgsList = new ArrayList<String>();
-	 private List<String> mToiletTypeImgsList = new ArrayList<String>();
-	 private List<String> mOtherTypeImgsList = new ArrayList<String>();
-
-	 private List<String> mHouseTypeImgsDescripList = new ArrayList<String>();
-	 private List<String> mRoomTypeImgsDescripList = new ArrayList<String>();
-	 private List<String> mOfficeTypeImgsDescripList = new ArrayList<String>();
-	 private List<String> mKitchenTypeImgsDescripList = new ArrayList<String>();
-	 private List<String> mToiletTypeImgsDescripList = new ArrayList<String>();
-	 private List<String> mOtherTypeImgsDescripList = new ArrayList<String>();
-	 * @param requestCode
-	 * @param resultCode
-	 * @param data
-	 */
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -678,14 +666,14 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					mHouseTypeImgsDescripList.add(describe);
 //					mTvHouseTypePicNumber.setText("房型图" + "(" + mHouseTypeImgsList.size() + "/9" + ")");
 					mTvHouseTypePicNumber.setText(getFormatString("houseType", mHouseTypeImgsList));
-					houseTypeAdapter.addData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
+					houseTypeAdapter.setData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
 					mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
 					break;
 				case "room":
 					mRoomTypeImgsList.add(path);
 					mRoomTypeImgsDescripList.add(describe);
 					mTvRoomPicNumber.setText(getFormatString("room", mRoomTypeImgsList));// R.string.shi+
-					roomAdapter.addData(mRoomTypeImgsList, mRoomTypeImgsDescripList);
+					roomAdapter.setData(mRoomTypeImgsList, mRoomTypeImgsDescripList);
 					mGridViewRoomPic.setAdapter(roomAdapter);
 					break;
 				case "office":
@@ -693,7 +681,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					mOfficeTypeImgsList.add(path);
 					mOfficeTypeImgsDescripList.add(describe);
 					mTvOfficePicNumber.setText(getFormatString("office", mOfficeTypeImgsList));// R.string.shi+
-					officeAdapter.addData(mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
+					officeAdapter.setData(mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
 					mGridViewOfficePic.setAdapter(officeAdapter);
 					break;
 				case "kitchen":
@@ -701,7 +689,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					mKitchenTypeImgsList.add(path);
 					mKitchenTypeImgsDescripList.add(describe);
 					mTvKitchenPicNumber.setText(getFormatString("kitchen", mKitchenTypeImgsList));// R.string.shi+
-					kitchenAdapter.addData(mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
+					kitchenAdapter.setData(mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
 					mGridViewKitchenPic.setAdapter(kitchenAdapter);
 
 					break;
@@ -710,7 +698,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					mToiletTypeImgsList.add(path);
 					mToiletTypeImgsDescripList.add(describe);
 					mTvToiletPicNumber.setText(getFormatString("toilet", mToiletTypeImgsList));// R.string.shi+
-					toiletAdapter.addData(mToiletTypeImgsList, mToiletTypeImgsDescripList);
+					toiletAdapter.setData(mToiletTypeImgsList, mToiletTypeImgsDescripList);
 					mGridViewToiletPic.setAdapter(toiletAdapter);
 					break;
 				case "other":
@@ -718,138 +706,175 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 					mOtherTypeImgsList.add(path);
 					mOtherTypeImgsDescripList.add(describe);
 					mTvOtherPicNumber.setText(getFormatString("toilet", mOtherTypeImgsList));// R.string.shi+
-					otherAdapter.addData(mOtherTypeImgsList, mOtherTypeImgsDescripList);
+					otherAdapter.setData(mOtherTypeImgsList, mOtherTypeImgsDescripList);
 					mGridViewOtherPic.setAdapter(otherAdapter);
 					break;
 			}
 
 		}else if(requestCode==201){//编辑图片
-			String path=data.getStringExtra("path");
-			boolean different=data.getBooleanExtra("different",false);
-			switch (resultCode){
-				case 202://完成修改
-					if(different){
-						String describe=data.getStringExtra("describe");
-						switch (editType){//houseType room office kitchen toilet  other
+			if(data!=null){
+				String path=data.getStringExtra("path");
+				boolean different=data.getBooleanExtra("different",false);
+				switch (resultCode){
+					case 202://完成修改
+						if(different){
+							String describe=data.getStringExtra("describe");
+							switch (editType){//houseType room office kitchen toilet  other
+								case "houseType":
+									if(mHouseTypeImgsList.contains(path)){
+										int index=mHouseTypeImgsList.indexOf(path);
+										mHouseTypeImgsDescripList.set(index, describe);
+										//houseTypeAdapter.setData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
+										//mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
+									}
+									break;
+								case "room":
+									if(mRoomTypeImgsList.contains(path)){
+										int index=mRoomTypeImgsList.indexOf(path);
+										mRoomTypeImgsDescripList.set(index, describe);
+										//roomAdapter.setData(mRoomTypeImgsList, mRoomTypeImgsDescripList);
+										//mGridViewRoomPic.setAdapter(roomAdapter);
+									}
+									break;
+								case "office":
+									if(mOfficeTypeImgsList.contains(path)){
+										int index=mOfficeTypeImgsList.indexOf(path);
+										mOfficeTypeImgsDescripList.set(index, describe);
+										//officeAdapter.setData(mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
+										//mGridViewOfficePic.setAdapter(officeAdapter);
+									}
+									break;
+								case "kitchen":
+									if(mKitchenTypeImgsList.contains(path)){
+										int index=mKitchenTypeImgsList.indexOf(path);
+										mKitchenTypeImgsDescripList.set(index, describe);
+										//kitchenAdapter.setData(mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
+										//mGridViewKitchenPic.setAdapter(kitchenAdapter);
+									}
+									break;
+								case "toilet":
+									if(mToiletTypeImgsList.contains(path)){
+										int index=mToiletTypeImgsList.indexOf(path);
+										mToiletTypeImgsDescripList.set(index, describe);
+										//toiletAdapter.setData(mToiletTypeImgsList, mToiletTypeImgsDescripList);
+										//mGridViewToiletPic.setAdapter(toiletAdapter);
+									}
+									break;
+								case "other":
+									if(mOtherTypeImgsList.contains(path)){
+										int index=mOtherTypeImgsList.indexOf(path);
+										mOtherTypeImgsDescripList.set(index, describe);
+										//otherAdapter.setData(mOtherTypeImgsList, mOtherTypeImgsDescripList);
+										//mGridViewOtherPic.setAdapter(otherAdapter);
+									}
+									break;
+							}
+						}
+						break;
+					case 203://删除
+						switch (editType){//houseType room office  toilet balcony  other
 							case "houseType":
 								if(mHouseTypeImgsList.contains(path)){
 									int index=mHouseTypeImgsList.indexOf(path);
-									mHouseTypeImgsDescripList.set(index, describe);
-									//houseTypeAdapter.setData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
-									//mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
+									mHouseTypeImgsList.remove(index);
+//								mHouseTypeImgsDescripList.remove(index);
+									mTvHouseTypePicNumber.setText(getFormatString("houseType", mHouseTypeImgsList));
+									houseTypeAdapter.setData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
+									mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
 								}
 								break;
 							case "room":
 								if(mRoomTypeImgsList.contains(path)){
 									int index=mRoomTypeImgsList.indexOf(path);
-									mRoomTypeImgsDescripList.set(index, describe);
-									//roomAdapter.setData(mRoomTypeImgsList, mRoomTypeImgsDescripList);
-									//mGridViewRoomPic.setAdapter(roomAdapter);
+									mRoomTypeImgsList.remove(index);
+//								mRoomTypeImgsDescripList.remove(index);
+									mTvRoomPicNumber.setText(getFormatString("room", mRoomTypeImgsList));
+									roomAdapter.setData(mRoomTypeImgsList, mRoomTypeImgsDescripList);
+									mGridViewRoomPic.setAdapter(roomAdapter);
 								}
 								break;
 							case "office":
 								if(mOfficeTypeImgsList.contains(path)){
 									int index=mOfficeTypeImgsList.indexOf(path);
-									mOfficeTypeImgsDescripList.set(index, describe);
-									//officeAdapter.setData(mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
-									//mGridViewOfficePic.setAdapter(officeAdapter);
+									mOfficeTypeImgsList.remove(index);
+//								mOfficeTypeImgsDescripList.remove(index);
+									mTvOfficePicNumber.setText(getFormatString("office", mOfficeTypeImgsList));
+									officeAdapter.setData(mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
+									mGridViewOfficePic.setAdapter(officeAdapter);
 								}
 								break;
 							case "kitchen":
 								if(mKitchenTypeImgsList.contains(path)){
 									int index=mKitchenTypeImgsList.indexOf(path);
-									mKitchenTypeImgsDescripList.set(index, describe);
-									//kitchenAdapter.setData(mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
-									//mGridViewKitchenPic.setAdapter(kitchenAdapter);
+									mKitchenTypeImgsList.remove(index);
+//								mKitchenTypeImgsDescripList.remove(index);
+									mTvKitchenPicNumber.setText(getFormatString("kitchen", mKitchenTypeImgsList));
+									kitchenAdapter.setData(mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
+									mGridViewKitchenPic.setAdapter(kitchenAdapter);
 								}
 								break;
 							case "toilet":
 								if(mToiletTypeImgsList.contains(path)){
 									int index=mToiletTypeImgsList.indexOf(path);
-									mToiletTypeImgsDescripList.set(index, describe);
-									//toiletAdapter.setData(mToiletTypeImgsList, mToiletTypeImgsDescripList);
-									//mGridViewToiletPic.setAdapter(toiletAdapter);
+									mToiletTypeImgsList.remove(index);
+//								mToiletTypeImgsDescripList.remove(index);
+									mTvToiletPicNumber.setText(getFormatString("toilet", mToiletTypeImgsList));
+									toiletAdapter.setData(mToiletTypeImgsList, mToiletTypeImgsDescripList);
+									mGridViewToiletPic.setAdapter(toiletAdapter);
 								}
 								break;
 							case "other":
 								if(mOtherTypeImgsList.contains(path)){
 									int index=mOtherTypeImgsList.indexOf(path);
-									mOtherTypeImgsDescripList.set(index, describe);
-									//otherAdapter.setData(mOtherTypeImgsList, mOtherTypeImgsDescripList);
-									//mGridViewOtherPic.setAdapter(otherAdapter);
+									mOtherTypeImgsList.remove(index);
+//								mOtherTypeImgsDescripList.remove(index);
+									mTvOtherPicNumber.setText(getFormatString("other", mOtherTypeImgsList));
+									toiletAdapter.setData(mOtherTypeImgsList, mOtherTypeImgsDescripList);
+									mGridViewOtherPic.setAdapter(toiletAdapter);
 								}
 								break;
 						}
-					}
-				break;
-				case 203://删除
-					switch (editType){//houseType room office  toilet balcony  other
-						case "houseType":
-							if(mHouseTypeImgsList.contains(path)){
-								int index=mHouseTypeImgsList.indexOf(path);
-								mHouseTypeImgsList.remove(index);
-								mHouseTypeImgsDescripList.remove(index);
-								mTvHouseTypePicNumber.setText(getFormatString("houseType", mHouseTypeImgsList));
-								houseTypeAdapter.setData(mHouseTypeImgsList, mHouseTypeImgsDescripList);
-								mGridViewHouseTypePic.setAdapter(houseTypeAdapter);
-							}
-							break;
-						case "room":
-							if(mRoomTypeImgsList.contains(path)){
-								int index=mRoomTypeImgsList.indexOf(path);
-								mRoomTypeImgsList.remove(index);
-								mRoomTypeImgsDescripList.remove(index);
-								mTvRoomPicNumber.setText(getFormatString("room", mRoomTypeImgsList));
-								roomAdapter.setData(mRoomTypeImgsList, mRoomTypeImgsDescripList);
-								mGridViewRoomPic.setAdapter(roomAdapter);
-							}
-							break;
-						case "office":
-							if(mOfficeTypeImgsList.contains(path)){
-								int index=mOfficeTypeImgsList.indexOf(path);
-								mOfficeTypeImgsList.remove(index);
-								mOfficeTypeImgsDescripList.remove(index);
-								mTvOfficePicNumber.setText(getFormatString("office", mOfficeTypeImgsList));
-								officeAdapter.setData(mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
-								mGridViewOfficePic.setAdapter(officeAdapter);
-							}
-							break;
-						case "kitchen":
-							if(mKitchenTypeImgsList.contains(path)){
-								int index=mKitchenTypeImgsList.indexOf(path);
-								mKitchenTypeImgsList.remove(index);
-								mKitchenTypeImgsDescripList.remove(index);
-								mTvKitchenPicNumber.setText(getFormatString("kitchen", mKitchenTypeImgsList));
-								kitchenAdapter.setData(mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
-								mGridViewKitchenPic.setAdapter(kitchenAdapter);
-							}
-							break;
-						case "toilet":
-							if(mToiletTypeImgsList.contains(path)){
-								int index=mToiletTypeImgsList.indexOf(path);
-								mToiletTypeImgsList.remove(index);
-								mToiletTypeImgsDescripList.remove(index);
-								mTvToiletPicNumber.setText(getFormatString("toilet", mToiletTypeImgsList));
-								toiletAdapter.setData(mToiletTypeImgsList, mToiletTypeImgsDescripList);
-								mGridViewToiletPic.setAdapter(toiletAdapter);
-							}
-							break;
-						case "other":
-							if(mOtherTypeImgsList.contains(path)){
-								int index=mOtherTypeImgsList.indexOf(path);
-								mOtherTypeImgsList.remove(index);
-								mOtherTypeImgsDescripList.remove(index);
-								mTvOtherPicNumber.setText(getFormatString("other", mOtherTypeImgsList));
-								toiletAdapter.setData(mOtherTypeImgsList, mOtherTypeImgsDescripList);
-								mGridViewOtherPic.setAdapter(toiletAdapter);
-							}
-							break;
-					}
-				break;
+						break;
 			}
-		}else{
+
+			}
+		}else if(requestCode==301&&resultCode==RESULT_OK){
+			List<String> list=data.getStringArrayListExtra("pathList");
+			switch (selectType){
+				/*private TextView mTvHouseTypePicNumber;
+	private TextView mTvRoomPicNumber;
+	private TextView mTvOfficePicNumber;
+	private TextView mTvKitchenPicNumber;
+	private TextView mTvToiletPicNumber;
+	private TextView mTvOtherPicNumber;*/
+				case "houseType":
+					addImgPath(mHouseTypeImgsList,list,"houseType",mTvHouseTypePicNumber,mGridViewHouseTypePic,houseTypeAdapter);
+				break;
+				case "room":
+					addImgPath(mRoomTypeImgsList,list,"room",mTvRoomPicNumber,mGridViewRoomPic,roomAdapter);
+					break;
+				case "office":
+					addImgPath(mOfficeTypeImgsList,list,"office",mTvOfficePicNumber,mGridViewOfficePic,officeAdapter);
+					break;
+				case "kitchen":
+					addImgPath(mKitchenTypeImgsList,list,"kitchen",mTvKitchenPicNumber,mGridViewKitchenPic,kitchenAdapter);
+					break;
+				case "toilet":
+					addImgPath(mToiletTypeImgsList,list,"toilet",mTvToiletPicNumber,mGridViewToiletPic,toiletAdapter);
+					break;
+				case "other":
+					addImgPath(mOtherTypeImgsList,list,"other",mTvOtherPicNumber,mGridViewOtherPic,otherAdapter);
+					break;
+			}
+		}else if(requestCode==1&&resultCode==-1){
 			SelectPhotoManager.getInstance().onActivityResult(requestCode, resultCode, data);
 		}
+	}
+	public void addImgPath(List list,List addList,String type,TextView textView,GridView view,HousePicGridViewAdapter adapter){
+		list.addAll(addList);
+		textView.setText(getFormatString(type, list));
+		adapter.setData(list, mHouseTypeImgsDescripList);
+		view.setAdapter(adapter);
 	}
 	public String getFormatString(String type, List list){
 		String format="";

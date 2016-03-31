@@ -73,7 +73,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white" >
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,15 +87,27 @@
 
         <TextView
             android:id="@+id/tv_startTime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="#00000000"
             android:hint="请填写开始时间"
             android:gravity="center|left"
-            android:maxLength="30"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColorHint="#D1D1D1"
             android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/iv_start_time_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/time_clear_normal"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:visibility="invisible"
+            />
     </LinearLayout>
     <View
         android:layout_width="400dp"
@@ -104,6 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
+        android:orientation="horizontal"
         >
 
         <TextView
@@ -116,15 +131,27 @@
 
         <TextView
             android:id="@+id/tv_endTime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="#00000000"
             android:hint="请填写结束时间"
             android:gravity="center|left"
-            android:maxLength="30"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColorHint="#D1D1D1"
             android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/iv_end_time_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/time_clear_normal"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:visibility="invisible"
+            />
     </LinearLayout>
     <View
         android:layout_width="400dp"
@@ -195,11 +222,12 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_write_time"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="12dp"
         android:gravity="center_vertical|right"
-        android:text="填写时间2015-06-11"
+        android:text="填写时间:"
         android:textColor="#D1D1D1"
         android:textSize="11sp" />
 

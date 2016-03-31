@@ -3,11 +3,13 @@ package com.vocinno.centanet.housemanage;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.ImageUtil;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -95,29 +97,35 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tv_delete_img:
-			intent.putExtra("path",imgPath);
-			setResult(203,intent);
-			this.finish();
+			myDialog=new MyDialog.Builder(this);
+			myDialog.setTitle("提示");
+			myDialog.setMessage("是否删除图片?");
+			myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					intent.putExtra("path", imgPath);
+					setResult(203, intent);
+					EditPicDetailActivity.this.finish();
+				}
+			});
+			myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			myDialog.create().show();
 			break;
 			case R.id.tv_save_img:
-			intent.putExtra("path",imgPath);
-			if(imgDescribe.equals(mEtImageDescription.getText().toString())){
-				intent.putExtra("different",false);
-			}else{
-				intent.putExtra("different",true);
-				intent.putExtra("describe",mEtImageDescription.getText().toString());
-			}
-			setResult(202,intent);
-			this.finish();
+			saveImg();
 			break;
 
 		case R.id.img_left_mhead1:
 			finish();
 			break;
 		case R.id.img_right_mhead1:
-			MethodsDeliverData.mChangedImageDescriptionString = mEtImageDescription
-					.getText().toString();
-			finish();
+			saveImg();
 			break;
 		case R.id.img_allow_EditPicDetailActivity:
 			// mEtImageDescription.setFocusableInTouchMode(true);
@@ -127,6 +135,18 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 		default:
 			break;
 		}
+	}
+
+	private void saveImg() {
+		intent.putExtra("path",imgPath);
+		if(imgDescribe.equals(mEtImageDescription.getText().toString())){
+			intent.putExtra("different",false);
+		}else{
+			intent.putExtra("different",true);
+			intent.putExtra("describe",mEtImageDescription.getText().toString());
+		}
+		setResult(202,intent);
+		this.finish();
 	}
 
 	@Override

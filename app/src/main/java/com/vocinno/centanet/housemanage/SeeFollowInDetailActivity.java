@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
@@ -32,8 +33,11 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
@@ -47,6 +51,9 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	private View dialogView;
 	private WheelView wv_year,wv_month,wv_day,wv_hour,wv_min;
 	private String dayText;
+	private ImageView iv_start_time_clear,iv_end_time_clear;
+	private boolean isStartTime=false;
+	private Date startTime,endTime;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -81,10 +88,19 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 		mRemark = (EditText) findViewById(R.id.tv_remark_SeeFollowInDetailActivity);
 		mRemark.setGravity(Gravity.LEFT);
 
+		iv_start_time_clear = (ImageView) findViewById(R.id.iv_start_time_clear);
+		iv_start_time_clear.setOnClickListener(this);
+		iv_end_time_clear = (ImageView) findViewById(R.id.iv_end_time_clear);
+		iv_end_time_clear.setOnClickListener(this);
+
 		tv_startTime = (TextView) findViewById(R.id.tv_startTime);
 		tv_startTime.setOnClickListener(this);
+
 		tv_endTime = (TextView) findViewById(R.id.tv_endTime);
 		tv_endTime.setOnClickListener(this);
+
+		TextView  tv_write_time = (TextView)findViewById(R.id.tv_write_time);
+		tv_write_time.setText(new SimpleDateFormat("yyyy-MM-hh").format(new Date()));
 	}
 
 	@Override
@@ -399,7 +415,18 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+		case R.id.iv_start_time_clear:
+			tv_startTime.setText(null);
+			startTime=null;
+			iv_start_time_clear.setVisibility(View.INVISIBLE);
+			break;
+		case R.id.iv_end_time_clear:
+			tv_endTime.setText(null);
+			endTime=null;
+			iv_end_time_clear.setVisibility(View.INVISIBLE);
+			break;
 		case R.id.bt_submit:
+			setDate();
 			dialog.dismiss();
 			break;
 		case R.id.bt_cancel:
@@ -410,9 +437,11 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			if(dialog==null){
 				dialog=new MyDialog(this);
 			}
+			isStartTime=true;
 			dialogView.findViewById(R.id.bt_cancel).setOnClickListener(this);
 			dialogView.findViewById(R.id.bt_submit).setOnClickListener(this);
 			dialog.setContentView(dialogView);
+			dialog.setCanceledOnTouchOutside(false);
 			setDialogFullWidth();
 			dialog.show();
 
@@ -422,9 +451,11 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			if(dialog==null){
 				dialog=new MyDialog(this);
 			}
+			isStartTime=false;
 			dialogView.findViewById(R.id.bt_cancel).setOnClickListener(this);
 			dialogView.findViewById(R.id.bt_submit).setOnClickListener(this);
 			dialog.setContentView(dialogView);
+			dialog.setCanceledOnTouchOutside(false);
 			setDialogFullWidth();
 			dialog.show();
 			break;
@@ -479,5 +510,30 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			MethodsExtra.toast(mContext, jsReturn.getMsg());
 		}
 	}
+	public Date setDate(){
+		String year=wv_year.getSelectedText();
+		String month=wv_month.getSelectedText();
+		String day=wv_day.getSelectedText();
+		String hour=wv_hour.getSelectedText();
+		String min=wv_min.getSelectedText();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Date parseDate = sdf.parse(year + "-" + month + "-" + day + " " + hour + ":" + min);
+			String dateFormat = sdf.format(parseDate);
+			if(isStartTime){
+				tv_startTime.setText(dateFormat);
+				startTime=parseDate;
+				iv_start_time_clear.setVisibility(View.VISIBLE);
+			}else{
+				tv_endTime.setText(dateFormat);
+				endTime=parseDate;
+				iv_end_time_clear.setVisibility(View.VISIBLE);
+			}
+			return parseDate;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 
+	}
 }

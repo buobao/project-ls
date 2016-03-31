@@ -426,33 +426,28 @@
                         android:button="@drawable/selector_huixie"/>
                     </LinearLayout>
                 </RelativeLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="#E2E2E2" />
+                <RelativeLayout
+                    android:id="@+id/rlyt_changeSure_AddHousePicDetailActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/white" >
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/work_icon_refer"
+                        android:drawablePadding="3dp"
+                        android:text="@string/submit" />
+                </RelativeLayout>
             </LinearLayout>
-
-
         </ScrollView>
-
-        <RelativeLayout
-            android:id="@+id/rlyt_changeSure_AddHousePicDetailActivity"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:background="@color/white" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableLeft="@drawable/work_icon_refer"
-                android:drawablePadding="3dp"
-                android:text="@string/submit" />
-        </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

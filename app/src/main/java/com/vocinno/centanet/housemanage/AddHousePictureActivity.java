@@ -431,7 +431,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 				List<UploadImageResult> imageResult = jsReturn.getListDatas();
 				ImageForJsParams tempData = new ImageForJsParams();
 				tempData.setType(type);
-				tempData.setDesc(descriptionList2.get(index));
+//				tempData.setDesc(descriptionList2.get(index));
 				tempData.setPic(imageResult.get(0).getFileId());
 				mUploadImages.add(tempData);
 				mUploadCount = mUploadCount + 1;

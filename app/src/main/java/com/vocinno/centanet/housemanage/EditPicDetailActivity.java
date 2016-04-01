@@ -13,8 +13,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -147,13 +149,30 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 		options.inJustDecodeBounds = false;         //计算缩放比
 		int be = (int) (options.outHeight / (float)600);
 		if (be <= 0) be = 1;
-		options.inSampleSize = be;        //
+		options.inSampleSize = calculateInSampleSize(options);        //
 //	重新读入图片，注意这次要把options.inJustDecodeBounds 设为false
 		bitmap = BitmapFactory.decodeFile(path, options);
 		int w = bitmap.getWidth();
 		int h = bitmap.getHeight();
 		System.out.println(w + "   " + h);
-		ImageView iv = new ImageView(this);
 		imageView.setImageBitmap(bitmap);
+	}
+	public int calculateInSampleSize(BitmapFactory.Options options) {
+//		int reqWidth=mImgHouseDetail.getWidth();
+//		int reqHeight=mImgHouseDetail.getHeight();
+		Display display = getWindowManager().getDefaultDisplay(); //Activity#getWindowManager()
+		Point size = new Point();
+		display.getSize(size);
+		int reqWidth = size.x;
+		int reqHeight = size.y;
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+		if (height > reqHeight || width > reqWidth) {
+			final int heightRatio = Math.round((float) height/ (float) reqHeight);
+			final int widthRatio = Math.round((float) width / (float) reqWidth);
+			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+		}
+		return inSampleSize;
 	}
 }

@@ -381,6 +381,11 @@ public final class CST_JS {
 		return "{\"delCode\":\"" + delCode + "\",\"pics\":"
 				+ new Gson().toJson(listImages) + "}";
 	}
+	//添加描述和是否高清
+	public static String getJsonStringForUploadImages(String delCode,
+													  ArrayList<ImageForJsParams> listImages,String desc,int isHD) {
+		return "{\"delCode\":\"" + delCode + "\",\"desc\":\""+desc+"\",\"isHD\":\""+isHD+"\",\"pics\":"+ new Gson().toJson(listImages) + "}";
+	}
 
 	// 片区
 	// Function >>>>>>>>>>>>>>>>>>>>>>

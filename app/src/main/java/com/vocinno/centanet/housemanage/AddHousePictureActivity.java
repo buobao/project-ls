@@ -109,10 +109,15 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 				AddHousePictureActivity.this.closeMenu(msg);
 				switch (msg.what) {
 					case UPLOAD_COMPLETED:
+					showDialog();
 					mHasUploadSuccess = true;
 //					MethodsExtra.toast(mContext, "图片上传成功");
-					String teString = CST_JS.getJsonStringForUploadImages(
-							delCode, mUploadImages);
+					String miaoShu=et_miaoshu.getText().toString();//描述
+					int isHD=0;
+					if(cb_ishd.isChecked()){
+						isHD=1;
+					}
+					String teString = CST_JS.getJsonStringForUploadImages(delCode, mUploadImages,miaoShu,isHD);
 					Log.d("wan", "wanggsx uploadsuccess string:" + teString);
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_uploadImages,

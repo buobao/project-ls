@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
@@ -433,7 +434,6 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			break;
 		case R.id.bt_submit:
 			setDate();
-			dialog.dismiss();
 			break;
 		case R.id.bt_cancel:
 			dialog.dismiss();
@@ -490,6 +490,25 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 //		checkIsFinish();
 	}
 
+	private boolean CompareTimeSize(long time) {
+		if(isStartTime){
+			if(endTime!=null){//选择开始时间并且之前已经选了结束时间
+				if(endTime-time<=0){
+					MethodsExtra.toast(this,"开始时间应小于结束时间");
+					return false;
+				}
+			}
+		}else{
+			if(startTime!=null){//选择结束时间并且之前已经选了开始时间
+				if(time-startTime<=0){
+					MethodsExtra.toast(this,"结束时间应大于开始时间");
+					return false;
+				}
+			}
+		}
+		return  true;
+	}
+
 	private void setDialogFullWidth() {
 		Window win = dialog.getWindow();
 		win.setGravity(Gravity.BOTTOM);
@@ -533,21 +552,28 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			Date parseDate = sdf.parse(year + "-" + month + "-" + day + " " + hour + ":" + min);
 			String dateFormat = sdf.format(parseDate);
 			if(isStartTime){
-				tv_startTime.setText(dateFormat);
-				startTime=parseDate.getTime();
-				Log.i("startTime=========","startTime"+startTime);
-				iv_start_time_clear.setVisibility(View.VISIBLE);
+
+				if(CompareTimeSize(parseDate.getTime())){
+					tv_startTime.setText(dateFormat);
+					startTime=parseDate.getTime();
+					Log.i("startTime=========","startTime"+startTime);
+					iv_start_time_clear.setVisibility(View.VISIBLE);
+					dialog.dismiss();
+				}
 			}else{
-				tv_endTime.setText(dateFormat);
-				endTime=parseDate.getTime();
-				Log.i("endTime=========","endTime"+endTime);
-				iv_end_time_clear.setVisibility(View.VISIBLE);
+				if(CompareTimeSize(parseDate.getTime())){
+					tv_endTime.setText(dateFormat);
+					endTime=parseDate.getTime();
+					iv_end_time_clear.setVisibility(View.VISIBLE);
+					Log.i("endTime=========", "endTime" + endTime);
+					dialog.dismiss();
+				}
 			}
 			return parseDate;
 		} catch (ParseException e) {
 			e.printStackTrace();
+			dialog.dismiss();
 			return null;
 		}
-
 	}
 }

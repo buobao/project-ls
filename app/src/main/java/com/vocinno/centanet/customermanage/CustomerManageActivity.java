@@ -3,6 +3,7 @@ package com.vocinno.centanet.customermanage;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -38,6 +39,8 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	private List<CustomerItem> mListCustomers = new ArrayList<CustomerItem>();
 	private List<CustomerItem> mListCustomersLast = new ArrayList<CustomerItem>();
 	private boolean isReFreshOrLoadMore=false;
+	private String sOrZ;//用来判断客源跟进跳转查询出售还是出租的客源列表
+	private Intent intent;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -102,8 +105,15 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 
 	@Override
 	public void initData() {
-		mListAdapter = new CustormerListAdapter(
-				(CustomerManageActivity) mContext, null);
+		intent=getIntent();
+		sOrZ=intent.getStringExtra("sOrZ");
+		if("S".equalsIgnoreCase(sOrZ)||"Z".equalsIgnoreCase(sOrZ)){
+			mListAdapter = new CustormerListAdapter(
+					(CustomerManageActivity) mContext, null,true);
+		}else{
+			mListAdapter = new CustormerListAdapter(
+					(CustomerManageActivity) mContext, null);
+		}
 		mLvCustormers.setAdapter(mListAdapter);
 		if (MethodsDeliverData.flag == 1) {
 			MethodsDeliverData.flag1 = 1;
@@ -145,14 +155,26 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 
 	// 调用数据
 	private void getDataFromNetwork(int page) {
+
 		if(isReFreshOrLoadMore){
 			isReFreshOrLoadMore=false;
 		}else{
 			showDialog();
 		}
-		String strReq = CST_JS.getJsonStringForCustomerList(
-				(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-						: CST_JS.JS_CustomerList_Type_Public), page, 8);
+		String strReq;
+		if("S".equalsIgnoreCase(sOrZ)){
+			  strReq = CST_JS.getJsonStringForCustomerList(
+					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
+							: CST_JS.JS_CustomerList_Type_Public), page, 8,"S");
+		}else if("Z".equalsIgnoreCase(sOrZ)){
+			  strReq = CST_JS.getJsonStringForCustomerList(
+					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
+							: CST_JS.JS_CustomerList_Type_Public), page, 8,"Z");
+		}else{
+			  strReq = CST_JS.getJsonStringForCustomerList(
+					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
+							: CST_JS.JS_CustomerList_Type_Public), page, 8);
+		}
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getList, strReq);
 	}

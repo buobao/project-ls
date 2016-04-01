@@ -602,6 +602,8 @@ public final class MethodsFile {
             /* 设置传送的method=POST */
             con.setRequestMethod("POST");
 			/* setRequestProperty */
+//            con.setConnectTimeout(240000);
+//            con.setReadTimeout(240000);   //读取超时
             con.setRequestProperty("Connection", "Keep-Alive");
             con.setRequestProperty("Charset", "UTF-8");
             con.setRequestProperty("Content-Type",

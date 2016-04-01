@@ -117,7 +117,8 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (index != mCellNumber - 1) {
-						myInterface.editPhoto(mType, holder.tv_img_path.getText().toString(), mImageDescription.get(index));
+//						myInterface.editPhoto(mType,holder.tv_img_path.getText().toString(), mImageDescription.get(index));
+						myInterface.editPhoto(mType,mImageList.get(index),"");
 						/*// 记录类型，方便再resume中进行操作
 						MethodsDeliverData.mHouseType = mType;
 						MethodsDeliverData.mEditorImage = mImageList.get(index);
@@ -179,8 +180,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 				// 跳转到指定的activity
 				mChooseDialog.dismiss();
 				MethodsDeliverData.mHouseType = mType;
-				MethodsExtra.startActivity(mContext,
-						SelectorImageActivity.class);
+				myInterface.selectPhoto(mType);
 				break;
 			case R.id.tv_cancel_HousePicGridViewAdapter:
 				mChooseDialog.dismiss();

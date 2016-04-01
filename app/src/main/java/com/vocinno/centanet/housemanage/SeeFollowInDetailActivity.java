@@ -2,6 +2,7 @@ package com.vocinno.centanet.housemanage;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +15,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
@@ -22,6 +25,7 @@ import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
+import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.SeeFollowIn;
@@ -32,14 +36,17 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	private View mViewBack, mSubmitView;
-	private TextView mHouseCode;
-	private EditText mRemark, mCustCode, mLookCode;
+	private TextView mHouseCode,mCustCode;
+	private EditText mRemark, mLookCode;
 	private HouseDetail mHouseDetail = null;
 	private SeeFollowIn mSeeFollowIn;
 	private TextView tv_startTime, tv_endTime;
@@ -47,6 +54,12 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	private View dialogView;
 	private WheelView wv_year,wv_month,wv_day,wv_hour,wv_min;
 	private String dayText;
+	private ImageView iv_start_time_clear,iv_end_time_clear;
+	private boolean isStartTime=false;
+	private Long startTime,endTime;
+	private CheckBox cb_huixie;
+	private String mDelCode;
+	private View rootView;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -73,18 +86,29 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 		MethodsExtra.findHeadTitle1(mContext, mRootView,
 				R.string.followin_look, null);
 		mViewBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
-				R.drawable.universal_button_undone);
+		rootView=mRootView;
+		mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,R.drawable.universal_button_undone);
 		mHouseCode = (TextView) findViewById(R.id.tv_housecode_SeeFollowInDetailActivity);
-		mCustCode = (EditText) findViewById(R.id.tv_custcode_SeeFollowInDetailActivity);
+		mCustCode = (TextView) findViewById(R.id.tv_custcode_SeeFollowInDetailActivity);
+		mCustCode.setOnClickListener(this);
 		mLookCode = (EditText) findViewById(R.id.tv_lookcode_SeeFollowInDetailActivity);
 		mRemark = (EditText) findViewById(R.id.tv_remark_SeeFollowInDetailActivity);
 		mRemark.setGravity(Gravity.LEFT);
+		cb_huixie = (CheckBox) findViewById(R.id.cb_huixie);
+
+		iv_start_time_clear = (ImageView) findViewById(R.id.iv_start_time_clear);
+		iv_start_time_clear.setOnClickListener(this);
+		iv_end_time_clear = (ImageView) findViewById(R.id.iv_end_time_clear);
+		iv_end_time_clear.setOnClickListener(this);
 
 		tv_startTime = (TextView) findViewById(R.id.tv_startTime);
 		tv_startTime.setOnClickListener(this);
+
 		tv_endTime = (TextView) findViewById(R.id.tv_endTime);
 		tv_endTime.setOnClickListener(this);
+
+		TextView  tv_write_time = (TextView)findViewById(R.id.tv_write_time);
+		tv_write_time.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 	}
 
 	@Override
@@ -94,25 +118,6 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 
 		mSubmitView.setClickable(false);
 
-		mCustCode.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-									  int count) {
-				checkIsFinish();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-										  int after) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-
-			}
-		});
 
 		mLookCode.addTextChangedListener(new TextWatcher() {
 
@@ -141,7 +146,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 									  int count) {
-				Log.d("wan", "onTextChanged start:before:count " + start + ":"
+				/*Log.d("wan", "onTextChanged start:before:count " + start + ":"
 						+ before + ":" + count);
 				int selEndIndex = Selection.getSelectionEnd(mRemark.getText());
 				String string = mRemark.getText().toString();
@@ -163,14 +168,13 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 						}
 						MethodsExtra.toast(mContext, "描述不能超过500字");
 					}
-				}
-				checkIsFinish();
+				}*/
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 										  int arg2, int arg3) {
-				String string = mRemark.getText().toString();
+				/*String string = mRemark.getText().toString();
 				Log.d("wan",
 						"wanggsx beforeTextChanged len = " + string.length());
 				if (string.length() == 500) {
@@ -178,11 +182,12 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 					lastEndIndex = Selection.getSelectionEnd(mRemark.getText());
 				} else {
 					strBeforeText = null;
-				}
+				}*/
 			}
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
+				checkIsFinish();
 			}
 		});
 	}
@@ -353,13 +358,14 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	@Override
 	public void initData() {
 		mHouseCode.setText(MethodsDeliverData.mDelCode);
+		mDelCode=MethodsDeliverData.mDelCode.substring(4,5);
 		// 注册通知
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_ADD_HOU_CUST_TRACK_RESULT, TAG);
 	}
 
 	private void checkIsFinish() {
-		Boolean isFinish = true;
+		boolean isFinish = true;
 		if (mCustCode.getText() == null
 				|| mCustCode.getText().toString().length() == 0) {
 			isFinish = false;
@@ -372,7 +378,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			isFinish = false;
 		} else if (mRemark.getText().toString().length() < 10) {
 			isFinish = false;
-		} else {
+		} /*else {
 			String string = mRemark.getText().toString();
 			boolean isHasChinese = false;
 			for (int i = 0; i < string.length(); i++) {
@@ -384,14 +390,25 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			if (!isHasChinese && string.length() < 20) {
 				isFinish = false;
 			}
-		}
+		}*/
 		if (isFinish) {
-			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
-					0, R.drawable.universal_button_done);
+			Log.i("isFinish======","isFinish=="+isFinish);
+			mSubmitView = MethodsExtra.findHeadRightView1(mContext, rootView, 0, R.drawable.universal_button_done);
 			mSubmitView.setClickable(true);
 		} else {
-			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
-					0, R.drawable.universal_button_undone);
+			mSubmitView = MethodsExtra.findHeadRightView1(mContext, rootView,0, R.drawable.universal_button_undone);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode==100&&resultCode==101){
+			if(data!=null){
+				String custCode = data.getStringExtra("custCode");
+				mCustCode.setText(custCode);
+				checkIsFinish();
+			}
 		}
 	}
 
@@ -399,7 +416,23 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+		case R.id.tv_custcode_SeeFollowInDetailActivity:
+			Intent intent=new Intent(this, CustomerManageActivity.class);
+			intent.putExtra("sOrZ",mDelCode);
+			startActivityForResult(intent,100);
+			break;
+		case R.id.iv_start_time_clear:
+			tv_startTime.setText(null);
+			startTime=null;
+			iv_start_time_clear.setVisibility(View.INVISIBLE);
+			break;
+		case R.id.iv_end_time_clear:
+			tv_endTime.setText(null);
+			endTime=null;
+			iv_end_time_clear.setVisibility(View.INVISIBLE);
+			break;
 		case R.id.bt_submit:
+			setDate();
 			dialog.dismiss();
 			break;
 		case R.id.bt_cancel:
@@ -410,9 +443,11 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			if(dialog==null){
 				dialog=new MyDialog(this);
 			}
+			isStartTime=true;
 			dialogView.findViewById(R.id.bt_cancel).setOnClickListener(this);
 			dialogView.findViewById(R.id.bt_submit).setOnClickListener(this);
 			dialog.setContentView(dialogView);
+			dialog.setCanceledOnTouchOutside(false);
 			setDialogFullWidth();
 			dialog.show();
 
@@ -422,9 +457,11 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			if(dialog==null){
 				dialog=new MyDialog(this);
 			}
+			isStartTime=false;
 			dialogView.findViewById(R.id.bt_cancel).setOnClickListener(this);
 			dialogView.findViewById(R.id.bt_submit).setOnClickListener(this);
 			dialog.setContentView(dialogView);
+			dialog.setCanceledOnTouchOutside(false);
 			setDialogFullWidth();
 			dialog.show();
 			break;
@@ -432,10 +469,15 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			onBack();
 			break;
 		case R.id.img_right_mhead1:
+			showDialog();
+			String isBack="0";
+			if(cb_huixie.isChecked()){
+				isBack="1";
+			}
 			String string = CST_JS.getJsonStringForAddHouCustomerTrack(
 					MethodsDeliverData.mDelCode,
 					mCustCode.getText().toString(), mLookCode.getText()
-							.toString(), mRemark.getText().toString());
+							.toString(), mRemark.getText().toString(),startTime,endTime,isBack);
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_addHouCustomerTrack,
 					string);
@@ -445,7 +487,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 		default:
 			break;
 		}
-		checkIsFinish();
+//		checkIsFinish();
 	}
 
 	private void setDialogFullWidth() {
@@ -469,15 +511,43 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		dismissDialog();
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				SeeFollowIn.class);
 		if (jsReturn.isSuccess()) {
-			MethodsExtra.toast(mContext, "保存成功");
+			MethodsExtra.toast(mContext,jsReturn.getMsg());
 			finish();
 		} else {
 			MethodsExtra.toast(mContext, jsReturn.getMsg());
 		}
 	}
+	public Date setDate(){
+		String year=wv_year.getSelectedText();
+		String month=wv_month.getSelectedText();
+		String day=wv_day.getSelectedText();
+		String hour=wv_hour.getSelectedText();
+		String min=wv_min.getSelectedText();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Date parseDate = sdf.parse(year + "-" + month + "-" + day + " " + hour + ":" + min);
+			String dateFormat = sdf.format(parseDate);
+			if(isStartTime){
+				tv_startTime.setText(dateFormat);
+				startTime=parseDate.getTime();
+				Log.i("startTime=========","startTime"+startTime);
+				iv_start_time_clear.setVisibility(View.VISIBLE);
+			}else{
+				tv_endTime.setText(dateFormat);
+				endTime=parseDate.getTime();
+				Log.i("endTime=========","endTime"+endTime);
+				iv_end_time_clear.setVisibility(View.VISIBLE);
+			}
+			return parseDate;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 
+	}
 }

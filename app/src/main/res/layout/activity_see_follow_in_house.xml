@@ -36,9 +36,9 @@
 
     <View
         android:layout_width="400dp"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginLeft="15dp"
-        android:background="#00000000" />
+        android:background="@color/gray_text_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,13 +53,14 @@
             android:text="客户编号"
             android:textSize="16sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/tv_custcode_SeeFollowInDetailActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="#00000000"
-            android:hint="请填写房源编号"
+            android:hint="请填写客户编号"
+            android:gravity="center|left"
             android:maxLength="30"
             android:textColorHint="#D1D1D1"
             android:textSize="14sp" />
@@ -67,13 +68,15 @@
 
     <View
         android:layout_width="400dp"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginLeft="15dp"
-        android:background="#00000000" />
+        android:background="@color/gray_text_color" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white" >
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,25 +88,38 @@
 
         <TextView
             android:id="@+id/tv_startTime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="#00000000"
             android:hint="请填写开始时间"
             android:gravity="center|left"
-            android:maxLength="30"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColorHint="#D1D1D1"
             android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/iv_start_time_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/time_clear_normal"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:visibility="invisible"
+            />
     </LinearLayout>
     <View
         android:layout_width="400dp"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginLeft="15dp"
-        android:background="#00000000" />
+        android:background="@color/gray_text_color" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
+        android:orientation="horizontal"
         >
 
         <TextView
@@ -116,21 +132,33 @@
 
         <TextView
             android:id="@+id/tv_endTime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="#00000000"
             android:hint="请填写结束时间"
             android:gravity="center|left"
-            android:maxLength="30"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColorHint="#D1D1D1"
             android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/iv_end_time_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/time_clear_normal"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:visibility="invisible"
+            />
     </LinearLayout>
     <View
         android:layout_width="400dp"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginLeft="15dp"
-        android:background="#00000000" />
+        android:background="@color/gray_text_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -156,7 +184,31 @@
             android:textColorHint="#D1D1D1"
             android:textSize="14sp" />
     </LinearLayout>
+    <View
+        android:layout_width="400dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:background="@color/gray_text_color" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white" >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="是否回写"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cb_huixie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:button="@drawable/selector_huixie"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -187,19 +239,22 @@
                 android:layout_marginRight="15dp"
                 android:background="@color/white"
                 android:gravity="left"
+                android:maxLength="500"
                 android:hint="请填写对房屋的描述"
                 android:singleLine="false"
                 android:textColorHint="#D1D1D1"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_write_time"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="12dp"
         android:gravity="center_vertical|right"
-        android:text="填写时间2015-06-11"
+        android:text="填写时间:"
         android:textColor="#D1D1D1"
         android:textSize="11sp" />
 

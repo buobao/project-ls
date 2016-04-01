@@ -13,6 +13,7 @@ import com.vocinno.utils.imageutils.selector.photos.NewImageGridAdapter.TextCall
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -99,8 +100,11 @@ public class NewImageGridActivity extends Activity {
 				for (; it.hasNext();) {
 					list.add(it.next());
 				}
-
-				if (NewBimp.act_bool) {
+				Intent intent=new Intent();
+				intent.putStringArrayListExtra("pathList", list);
+				setResult(RESULT_OK,intent);
+				finish();
+				/*if (NewBimp.act_bool) {
 					// Intent intent = new Intent(NewImageGridActivity.this,
 					// NewPublishedActivity.class);
 					// startActivity(intent);
@@ -111,7 +115,7 @@ public class NewImageGridActivity extends Activity {
 							AddHousePictureDescriptionActivity.class, 0);
 					setResult(RESULT_OK);
 					finish();
-				}
+				}*/
 			}
 
 		});
@@ -153,16 +157,14 @@ public class NewImageGridActivity extends Activity {
 		mDialog.dismiss();
 	}
 
-	@Override
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
-
 		case KeyEvent.KEYCODE_BACK:
 			// NewBimp.drr.clear();
 			NewImageGridActivity.this.finish();
 			break;
-
 		}
 		return super.onKeyDown(keyCode, event);
-	}
+	}*/
 }

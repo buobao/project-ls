@@ -320,7 +320,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/red"
+            android:background="@color/white"
             android:visibility="gone" >
 
             <TextView
@@ -329,7 +329,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="借用"
-                android:textColor="@color/white"
+                android:textColor="@color/bg_main"
                 android:textSize="16sp" />
 
             <ImageView

@@ -376,6 +376,11 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int arg0) {
+				/*if(arg0==2){
+					mScrollTagView.setVisibility(View.GONE);
+				}else{
+					mScrollTagView.setVisibility(View.VISIBLE);
+				}*/
 				switchHouseType(getTypeFromPageIndex(arg0));
 			}
 

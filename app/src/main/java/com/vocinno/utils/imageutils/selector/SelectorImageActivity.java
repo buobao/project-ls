@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.utils.imageutils.selector.photos.NewAlbumHelper;
 import com.vocinno.utils.imageutils.selector.photos.NewBimp;
 import com.vocinno.utils.imageutils.selector.photos.NewImageBucket;
@@ -31,7 +32,7 @@ public class SelectorImageActivity extends Activity {
 	NewAlbumHelper helper;
 	public static final String EXTRA_IMAGE_LIST = "imagelist";
 	public static Bitmap bimap;
-
+	public ModelDialog modelDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class SelectorImageActivity extends Activity {
 	 * 初始化view视图
 	 */
 	private void initView() {
+		showDialog();
 		gridView = (GridView) findViewById(R.id.gridview);
 		// 对详细相册进行排序
 		for (int i = 0; i < dataList.size(); i++) {
@@ -85,6 +87,7 @@ public class SelectorImageActivity extends Activity {
 				}
 			}
 		});
+		dismissDialog();
 	}
 
 	@Override
@@ -113,5 +116,16 @@ public class SelectorImageActivity extends Activity {
 			break;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+	public void showDialog(){
+		if(this.modelDialog==null){
+			this.modelDialog= ModelDialog.getModelDialog(this);
+		}
+		this.modelDialog.show();
+	}
+	public void dismissDialog(){
+		if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+			this.modelDialog.dismiss();
+		}
 	}
 }

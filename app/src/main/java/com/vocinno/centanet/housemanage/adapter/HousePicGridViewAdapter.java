@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.mylibrary.photos.PhotoReadyHandler;
 import com.example.mylibrary.photos.SelectPhotoManager;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.EditPicDetailActivity;
 import com.vocinno.utils.MethodsData;
@@ -109,8 +110,14 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 			holder.mImgHousePic.setImageResource(R.drawable.work_icon_add);
 			holder.mImgHousePic.setOnClickListener(getListSize());
 		} else {
-			holder.mImgHousePic.setImageBitmap(MethodsFile.decodeFile(
-					this.mImageList.get(index), false, true));
+			/*holder.mImgHousePic.setImageBitmap(MethodsFile.decodeFile(
+					this.mImageList.get(index), false, true));*/
+
+			String imagePath = this.mImageList.get(index);
+			String imageUrl = ImageDownloader.Scheme.FILE.wrap(imagePath);
+			MethodsFile.downloadImgByUrl(imageUrl, holder.mImgHousePic);
+
+
 			holder.tv_img_path.setText(this.mImageList.get(index));
 			// 点击进行图片描述编辑
 			holder.mImgHousePic.setOnClickListener(new OnClickListener() {

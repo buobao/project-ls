@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.AddHousePictureDescriptionActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -32,8 +33,8 @@ import android.widget.Toast;
 
 public class NewImageGridActivity extends Activity {
 	public static final String EXTRA_IMAGE_LIST = "imagelist";
-
-	private ProgressDialog mDialog;
+	public ModelDialog modelDialog;
+//	private ProgressDialog mDialog;
 	private ImageView launch_photostore_content_break;
 	private TextView launch_photostore_content_name;
 
@@ -77,8 +78,8 @@ public class NewImageGridActivity extends Activity {
 					}
 				});
 
-		mDialog = new ProgressDialog(NewImageGridActivity.this);
-		mDialog.setMessage("选择图片中，请稍后。。");
+//		mDialog = new ProgressDialog(NewImageGridActivity.this);
+//		mDialog.setMessage("选择图片中，请稍后。。");
 		helper = NewAlbumHelper.getHelper();
 		helper.init(getApplicationContext());
 
@@ -93,7 +94,7 @@ public class NewImageGridActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				mDialog.show();
+//				mDialog.show();
 				ArrayList<String> list = new ArrayList<String>();
 				Collection<String> c = adapter.map.values();
 				Iterator<String> it = c.iterator();
@@ -125,7 +126,7 @@ public class NewImageGridActivity extends Activity {
 	 * 
 	 */
 	private void initView() {
-
+		showDialog();
 		gridView = (GridView) findViewById(R.id.gridview_content);
 		gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		Log.v("==dataList.size()=", dataList.size() + "");
@@ -148,13 +149,13 @@ public class NewImageGridActivity extends Activity {
 			}
 
 		});
-
+		dismissDialog();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mDialog.dismiss();
+//		mDialog.dismiss();
 	}
 
 	/*@Override
@@ -167,4 +168,15 @@ public class NewImageGridActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}*/
+	public void showDialog(){
+		if(this.modelDialog==null){
+			this.modelDialog= ModelDialog.getModelDialog(this);
+		}
+		this.modelDialog.show();
+	}
+	public void dismissDialog(){
+		if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+			this.modelDialog.dismiss();
+		}
+	}
 }

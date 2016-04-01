@@ -507,7 +507,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					if (mWheelViewChooseAreaLast.getSelectedText().trim()
 							.equals("不限")
 							|| Integer.parseInt(mWheelViewChooseAreaTop
-							.getSelectedText().trim().replaceAll("平米", "")) <= Integer
+							.getSelectedText().trim().replaceAll("平米", "")) < Integer
 							.parseInt(mWheelViewChooseAreaLast
 									.getSelectedText().trim()
 									.replaceAll("平米", ""))) {
@@ -517,7 +517,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 								+ mWheelViewChooseAreaLast.getSelectedText());
 						closeAreaContainer();
 					} else {
-						MethodsExtra.toast(mContext, "最大面积不能小于最小面积");
+						MethodsExtra.toast(mContext, "最大面积应大于最小面积");
 					}
 				} else if (mRyltChoosePriceContaner.getVisibility() == View.VISIBLE) {
 					// 价格

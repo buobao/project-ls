@@ -754,7 +754,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 						+ "";
 				mSquare[mCurrentPageIndex] = startString1 + "-" + endString1;
 				if (endString1.equals("不限")
-						|| Integer.parseInt(startString1.trim()) <= Integer
+						|| Integer.parseInt(startString1.trim()) < Integer
 								.parseInt(endString1.trim())) {
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_getList, CST_JS
@@ -768,7 +768,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					ll_dialog_wheelview_two1.setVisibility(View.GONE);
 					layoutIndex=-1;
 				} else {
-					MethodsExtra.toast(mContext, "最大面积不能小于最小面积");
+					MethodsExtra.toast(mContext, "最大面积应大于最小面积");
 				}
 
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 2) {

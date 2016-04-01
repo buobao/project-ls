@@ -769,6 +769,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					layoutIndex=-1;
 				} else {
 					MethodsExtra.toast(mContext, "最大面积应大于最小面积");
+					return;
 				}
 
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 2) {

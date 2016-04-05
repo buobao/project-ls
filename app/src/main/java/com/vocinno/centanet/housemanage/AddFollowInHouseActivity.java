@@ -6,6 +6,7 @@ import java.util.Date;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -63,24 +64,30 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 							R.drawable.universal_button_undone));
 					mSubmitView.setClickable(false);
 				} else {
-					if (string.trim().length() > 500) {
-						if (strBeforeText != null) {
-							mEtContent.setText(strBeforeText);
-							Selection.setSelection(mEtContent.getText(),
-									lastEndIndex);
-						} else {
-							mEtContent.setText(string.substring(0, 500));
-							if (selEndIndex > 500) {
-								selEndIndex = 500;
+					if(string.trim().length() >= 10){
+						mSubmitView.setImageDrawable(getResources().getDrawable(
+								R.drawable.universal_button_done));
+						mSubmitView.setClickable(true);
+						if (string.trim().length() > 500) {
+							if (strBeforeText != null) {
+								mEtContent.setText(strBeforeText);
+								Selection.setSelection(mEtContent.getText(),
+										lastEndIndex);
+							} else {
+								mEtContent.setText(string.substring(0, 500));
+								if (selEndIndex > 500) {
+									selEndIndex = 500;
+								}
+								Selection.setSelection(mEtContent.getText(),
+										selEndIndex);
 							}
-							Selection.setSelection(mEtContent.getText(),
-									selEndIndex);
+							MethodsExtra.toast(mContext, "描述不能超过500字");
 						}
-						MethodsExtra.toast(mContext, "描述不能超过500字");
+					}else{
+						mSubmitView.setImageDrawable(getResources().getDrawable(
+								R.drawable.universal_button_undone));
+						mSubmitView.setClickable(false);
 					}
-					mSubmitView.setImageDrawable(getResources().getDrawable(
-							R.drawable.universal_button_done));
-					mSubmitView.setClickable(true);
 				}
 			}
 
@@ -109,6 +116,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
+		mSubmitView.setClickable(false);
 	}
 
 	@Override
@@ -145,7 +153,6 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 								.getJsonStringForAddHouTrack(
 										MethodsDeliverData.mDelCode, content));
 			}
-			finish();
 			break;
 		case R.id.img_left_mhead1:
 			onBack();
@@ -165,8 +172,9 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
 		if (jsReturn.isSuccess()) {
-			MethodsExtra.toast(mContext, "保存成功");
+			MethodsExtra.toast(mContext, jsReturn.getMsg());
 			isSucessSave=true;
+			setResult(ConstantResult.REFRESH);
 			finish();
 		}
 	}

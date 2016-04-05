@@ -66,7 +66,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 				if (string == null || string.trim().length() < 10) {
 					mSubmitView.setImageDrawable(getResources().getDrawable(
 							R.drawable.universal_button_undone));
-//					mSubmitView.setClickable(false);
+					mSubmitView.setClickable(false);
 				} else {
 					if (string.trim().length() > 500) {
 						if (strBeforeText != null) {
@@ -124,6 +124,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
+		mSubmitView.setClickable(false);
 	}
 
 	@Override
@@ -163,7 +164,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 			modelDialog.show();
 			mSubmitView.setImageDrawable(getResources().getDrawable(
 					R.drawable.universal_button_undone));
-//			mSubmitView.setClickable(false);
+			mSubmitView.setClickable(false);
 			break;
 		case R.id.img_left_mhead1:
 			onBack();
@@ -184,13 +185,14 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
 		if (jsReturn.isSuccess()) {
-			MethodsExtra.toast(mContext, "保存成功");
-			String content = mEtContent.getText().toString();
+//			MethodsExtra.toast(mContext, jsReturn.getMsg());
+			/*String content = mEtContent.getText().toString();
 			String time = mTvDate.getText().toString();
 			Intent intent = new Intent();
 			intent.putExtra("content", content);
 			intent.putExtra("time", time);
-			setResult(10, intent);
+			setResult(10, intent);*/
+			setResult(ConstantResult.REFRESH);
 			finish();
 		}
 	}

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +47,7 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
+import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseList;
@@ -502,6 +504,16 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
 		getDataFromNetwork(mType, mPageIndexs[mCurrentPageIndex]);
 		registerWeiXin();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (resultCode){
+			case ConstantResult.REFRESH:
+				getDataFromNetwork(mType, mPageIndexs[mCurrentPageIndex]);
+			break;
+		}
 	}
 
 	void initViewPager() {

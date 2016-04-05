@@ -16,6 +16,7 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
+import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.ContactDetail;
@@ -95,11 +96,10 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	private ArrayList<View> mArrayListViews = new ArrayList<View>();
 	private ArrayList<String> mArrayListBitmapPaths = new ArrayList<String>();
 	private int isFirstDataCall = 0;
-	private ImageView mImageView;
+	private RelativeLayout mRlView;
 	private Drawable drawable;
-	private boolean isGenJin=false;
 	private static final int Scroll_to_Top = 100001;
-
+	private String LouCeng;//防止刷新页面楼层号消失用来保存变量
 	@Override
 	@SuppressLint("HandlerLeak")
 	public Handler setHandler() {
@@ -178,7 +178,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		mllytDataContainer = (LinearLayout) findViewById(R.id.llyt_dataContainer_houseDetailActivity);
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_houseDetailActivity);
 		mEnsureUser = (LinearLayout) findViewById(R.id.llyt_qianpei_houseDetailActivity);
-		mImageView = (ImageView) findViewById(R.id.img_genjin_houseDetailActivity);
+		mRlView = (RelativeLayout) findViewById(R.id.rlimg_genjin_houseDetailActivity);
 		mTvQiang = (TextView) findViewById(R.id.tv_seize_houseSoueceDetailActivity);
 		mHouseUi = (RelativeLayout) findViewById(R.id.relt_house_detail_layout);
 		mTvName = (TextView) findViewById(R.id.tv_name_houseDetailActivity);
@@ -208,7 +208,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		mPassKey.setOnClickListener(this);
 		mGrabHouse.setOnClickListener(this);
 		mQiang.setOnClickListener(this);
-		mImageView.setOnClickListener(this);
+		mRlView.setOnClickListener(this);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -251,6 +251,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		showBorrowKey();
 		// 注册通知
 		MethodsJni.addNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_DOROOMVIEW_RESULT, TAG);
+		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CONTACT_LIST_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_HOU_DETAIL_RESULT, TAG);
@@ -259,29 +261,20 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT, TAG);
 		// 调用初始化数据
-		/*MethodsJni
+		MethodsJni
 				.callProxyFun(
 						CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getHouseDetail,
-						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));*/
+						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		isFirstDataCall = 0;
-		if(isGenJin){
-			modelDialog.show();
-			isGenJin=false;
-		}
 		if(getIntent().getBooleanExtra("key",false)){
 			modelDialog.show();
 		}
-		MethodsJni
-				.callProxyFun(
-						CST_JS.JS_ProxyName_HouseResource,
-						CST_JS.JS_Function_HouseResource_getHouseDetail,
-						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
 	}
 
 	@Override
@@ -294,6 +287,15 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
 				break;
+			case ConstantResult.REFRESH:
+				showDialog();
+				// 调用初始化数据
+				MethodsJni
+						.callProxyFun(
+								CST_JS.JS_ProxyName_HouseResource,
+								CST_JS.JS_Function_HouseResource_getHouseDetail,
+								CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
+				break;
 		}
 	}
 
@@ -303,10 +305,14 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		switch (v.getId()) {
 		case R.id.tv_lookshihao_houseDetailActivity:
 			if(!mHouseDetail.isRequireReason()){//false不需要原因，true需要
-				String roomNo=mHouseDetail.roomNo;
+				showDialog();
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+						CST_JS.JS_Function_HouseResource_getShiHao, CST_JS
+								.getJsonStringForLookShiHao("查看室号", mHouseDetail.getDelCode(), mHouseDetail.getHouseId(), "10080001"));
+				/*String roomNo=mHouseDetail.roomNo;
 				tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
 				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
-				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
+				tv_shihao_houseDetailActivity.setText("室号："+roomNo);*/
 			}else{
 				String delCode=mHouseDetail.getDelCode();
 				String houseId=mHouseDetail.getHouseId();
@@ -405,15 +411,15 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 							CST_JS.JS_Function_HouseResource_claimHouse,
 							CST_JS.getJsonStringForClaimHouse(MethodsDeliverData.mDelCode));
 			break;
-		case R.id.img_genjin_houseDetailActivity:
+		case R.id.rlimg_genjin_houseDetailActivity:
 			if (mHouseDetail != null && mHouseDetail.getDelCode() != null) {
 				MethodsDeliverData.mDelCode = mHouseDetail.getDelCode();
 			} else {
 				MethodsExtra.toast(mContext, "mHouseDetail不能为空");
 			}
-			isGenJin=true;
-			MethodsExtra
-					.startActivity(mContext, AddFollowInHouseActivity.class);
+//			MethodsExtra.startActivity(mContext, AddFollowInHouseActivity.class);
+			Intent l=new Intent(mContext, AddFollowInHouseActivity.class);
+			startActivityForResult(l,10);
 			break;
 		default:
 			break;
@@ -536,7 +542,21 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
 		dismissDialog();
-		if (name.equals(CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT)) {
+		if (name.equals(CST_JS.NOTIFY_NATIVE_DOROOMVIEW_RESULT)) {
+			String strJson = (String) data;
+			JSReturn jReturnHouseDetail = MethodsJson.jsonToJsReturn(strJson,
+					HouseDetail.class);
+			HouseDetail mHouseDetail = (HouseDetail) jReturnHouseDetail.getObject();
+			if(jReturnHouseDetail.isSuccess()){
+				String roomNo= mHouseDetail.getRoomNO();
+				tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
+				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+				LouCeng=mHouseDetail.getFloor();
+				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
+			}else{
+				MethodsExtra.toast(mContext, jReturnHouseDetail.getMsg());
+			}
+		}else if (name.equals(CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT)) {
 			mBorrowKey.setEnabled(true);
 			// 借用钥匙返回
 			String strJson = (String) data;
@@ -755,7 +775,17 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					}
 
 				}
-				mTvLouceng.setText("楼层：");
+				if(mHouseDetail.isShowroom()){
+					mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+					tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
+					tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
+				}else{
+					if(LouCeng!=null){
+						mTvLouceng.setText("楼层："+LouCeng);
+					}else{
+						mTvLouceng.setText("楼层：");
+					}
+				}
 //				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
 				mTvYear.setText("年代：" + mHouseDetail.getYear());
@@ -798,7 +828,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-						onBack();
+						setResult(ConstantResult.REFRESH);
+						finish();
 					}
 				});
 				myDialog.setTitle("提示");

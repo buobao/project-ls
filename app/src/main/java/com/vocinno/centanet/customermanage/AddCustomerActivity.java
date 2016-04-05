@@ -54,7 +54,6 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	private static enum ConnectionType {
 		none, connTel, connQQ, connWeixin
 	};
-
 	private View mBackView, mSubmitView;
 	private RelativeLayout mRyltConnectionBanner, mRyltTypeBanner,
 			mRyltPlaceBanner, mRyltAreaBanner, mRyltPriceBanner,
@@ -96,6 +95,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
 		mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
 				R.drawable.universal_button_undone);
+		mSubmitView.setEnabled(false);
 		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.addcustomer,
 				null);
 		mEtOtherInfo = (EditText) findViewById(R.id.et_otherInfo_addCustomerActivity);
@@ -332,8 +332,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				String oldP = mTvCustormerPrice.getText().toString()
 						.replace("万", "").replace("元", "");
 				if ("buy".equals(reqType)) {
-					price = oldP.substring(0, oldP.indexOf("-")) + "0000"
-							+ oldP.substring(oldP.indexOf("-") - 1, oldP.length());
+					price = oldP.substring(0, oldP.indexOf("-")) + "0000"+ oldP.substring(oldP.indexOf("-") , oldP.length());
 					if (!price.endsWith("不限")) {
 						price += "0000";
 					}
@@ -627,10 +626,12 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
 					0, R.drawable.universal_button_done);
 			mSubmitView.setClickable(true);
+			mSubmitView.setEnabled(true);
 		} else {
 			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
 					0, R.drawable.universal_button_undone);
 			mSubmitView.setClickable(false);
+			mSubmitView.setEnabled(false);
 		}
 	}
 
@@ -745,7 +746,8 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			modelDialog.dismiss();
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
 			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, "新建客源成功");
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+//				setResult(ConstantResult.REFRESH);
 				finish();
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());

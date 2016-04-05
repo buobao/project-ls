@@ -127,7 +127,16 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
 		// 调用数据
 		getDataFromNetwork(mPageIndex);
+	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (resultCode){
+			case ConstantResult.REFRESH:
+				getDataFromNetwork(mPageIndex);
+			break;
+		}
 	}
 
 	@Override

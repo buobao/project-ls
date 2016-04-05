@@ -117,8 +117,11 @@ public class CustormerListAdapter extends BaseAdapter {
 					mContext.finish();
 				}else{
 					MethodsDeliverData.string = item.getCustCode();
-					MethodsExtra.startActivity(mContext,
+					/*MethodsExtra.startActivity(mContext,
+							CustomerDetailActivity.class);*/
+					Intent intent=new Intent(mContext,
 							CustomerDetailActivity.class);
+					mContext.startActivityForResult(intent,10);
 					if (mContext.isMyCustomerType) {
 						MethodsDeliverData.flag1 = -1;
 					} else {

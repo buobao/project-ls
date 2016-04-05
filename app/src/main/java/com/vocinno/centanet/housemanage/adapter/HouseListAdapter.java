@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.utils.MethodsDeliverData;
@@ -13,6 +14,7 @@ import com.vocinno.utils.MethodsFile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -119,7 +121,7 @@ public class HouseListAdapter extends BaseAdapter {
 
 		if (item.getDelCode().charAt(4) == 'Z') {
 			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,
-					BigDecimal.ROUND_HALF_UP) + "元/㎡");
+					BigDecimal.ROUND_HALF_UP) + "万/㎡");
 			try {
 				bPrice = new BigDecimal(item.getPrice());
 			} catch (Exception e) {
@@ -130,7 +132,7 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mTvUnit.setText("元");
 		} else {
 			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,
-					BigDecimal.ROUND_HALF_UP) + "元/㎡");// 单价
+					BigDecimal.ROUND_HALF_UP) + "万/㎡");// 单价
 			try {
 				bPrice = new BigDecimal(
 						Double.parseDouble(item.getPrice()) / 10000);
@@ -173,7 +175,9 @@ public class HouseListAdapter extends BaseAdapter {
 					MethodsDeliverData.flag = -1;
 					MethodsDeliverData.mKeyType = -1;
 				}
-				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
+//				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
+				Intent intent=new Intent(mContext, HouseDetailActivity.class);
+				((HouseManageActivity) mContext).startActivityForResult(intent, 10);
 			}
 		});
 		return convertView;

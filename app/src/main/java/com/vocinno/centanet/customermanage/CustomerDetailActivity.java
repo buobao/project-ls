@@ -138,11 +138,11 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			break;
 		case R.id.imgView_addTrack_customerDetailActivity:
 			MethodsDeliverData.string = mCusterCode;
-
 			// listTracks
 			Intent intent = new Intent(mContext,
 					AddFollowInCustomerActivity.class);
-			MethodsExtra.startActivityForResult(mContext, 10, intent);
+//			MethodsExtra.startActivityForResult(mContext, 10, intent);
+			startActivityForResult(intent,10);
 			// MethodsExtra.startActivity(mContext,
 			// AddFollowInCustomerActivity.class);
 			break;
@@ -204,20 +204,30 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (data == null) {
+		super.onActivityResult(requestCode, resultCode, data);
+		/*if (data == null) {
 			return;
-		}
-		if (requestCode == 10) {
-			Track track = new Track();
+		}*/
+		if (resultCode == ConstantResult.REFRESH) {
+			showDialog();
+			// 调用数据
+			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+					CST_JS.JS_Function_CustomerList_getCustomerInfo,
+					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+
+			if (MethodsDeliverData.flag1 == 1) {
+				MethodsDeliverData.flag1 = -1;
+				mGrabCustomer.setVisibility(View.VISIBLE);
+			}
+			/*Track track = new Track();
 			track.setTracktime(data.getStringExtra("time"));
 			track.setContent(data.getStringExtra("content"));
 			listTracks.add(listTracks.size(), track);
 			adapter = new CustomerDetailAdapter(mContext, listTracks);
 			mLvTracks.setAdapter(adapter);
 			mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-			adapter.notifyDataSetChanged();
+			adapter.notifyDataSetChanged();*/
 		}
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -280,6 +290,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 					Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
+				setResult(ConstantResult.REFRESH);
 				finish();
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());

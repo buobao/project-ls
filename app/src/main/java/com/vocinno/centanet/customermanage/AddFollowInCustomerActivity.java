@@ -129,6 +129,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initData() {
+		TAG = this.getClass().getName();
 		modelDialog= ModelDialog.getModelDialog(this);
 		mCustorCode = MethodsDeliverData.string;
 		MethodsJni.addNotificationObserver(
@@ -176,6 +177,7 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void onBack() {
+		MethodsJni.removeAllNotifications(TAG);
 		finish();
 	}
 

@@ -652,170 +652,170 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					});
 					myDialog.create().show();
 				} else {
-				mHouseDetail = (HouseDetail) jReturn.getObject();
-				final List<Image> images = mHouseDetail.getImg();
-				boolean isNotTheSame = false;
-				if (mListImages != null && mListImages.size() == images.size()) {
-					for (int i = 0; i < mListImages.size(); i++) {
-						Image image0 = mListImages.get(i);
-						Image image1 = images.get(i);
-						Log.d(TAG,
-								"wanggsxHouseImage 数据回调 比较 " + image0.getUrl()
-										+ ":" + image0.getType() + "<>"
-										+ image1.getUrl() + ":"
-										+ image1.getType());
-						if (image0.getUrl() != image1.getUrl()
-								|| image0.getType() != image1.getType()) {
-							isNotTheSame = true;
-						}
-					}
-				} else {
-					isNotTheSame = true;
-				}
-				if (!isNotTheSame) {
-					return;
-				} else {
-					mListImages = images;
-					Log.d(TAG,
-							"wanggsxHouseImage 数据回调 图片数量：" + mListImages.size());
-				}
-				if (images != null && images.size() >= 1) {
-					Log.d(TAG, "wanggsxHouseImage 数据回调 创建图片路径列表");
-					mArrayListViews.clear();
-					for (int i = 0; i < images.size(); i++) {
-						mArrayListViews
-								.add(LayoutInflater
-										.from(mContext)
-										.inflate(
-												R.layout.model_viewpager_adapter_item_view,
-												null));
-					}
-					mArrayListBitmapPaths.clear();
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								for (int i = 0; i < mArrayListViews.size()
-										&& i < images.size(); i++) {
-									String url = images.get(i).getUrl();
-									String filePath = MethodsFile
-											.getAutoFileDirectory()
-											+ MethodsFile
-											.getFileNameFromPath(url);
-									MethodsFile.downloadImgByUrl(url, filePath);
-									mArrayListBitmapPaths.add(filePath);
-									View view0 = mArrayListViews.get(i);
-									ImageView mImageView = (ImageView) view0
-											.findViewById(R.id.imgView_modelViewPagerAdapterItemView);
-									mImageView.setTag(filePath);
-								}
-
-								mHander.sendEmptyMessage(R.id.doRequest);
-							} catch (Exception e) {
+					mHouseDetail = (HouseDetail) jReturn.getObject();
+					final List<Image> images = mHouseDetail.getImg();
+					boolean isNotTheSame = false;
+					if (mListImages != null && mListImages.size() == images.size()) {
+						for (int i = 0; i < mListImages.size(); i++) {
+							Image image0 = mListImages.get(i);
+							Image image1 = images.get(i);
+							Log.d(TAG,
+									"wanggsxHouseImage 数据回调 比较 " + image0.getUrl()
+											+ ":" + image0.getType() + "<>"
+											+ image1.getUrl() + ":"
+											+ image1.getType());
+							if (image0.getUrl() != image1.getUrl()
+									|| image0.getType() != image1.getType()) {
+								isNotTheSame = true;
 							}
 						}
-					}).start();
-				}
-				BigDecimal b, bPrice;
-				try {
-					b = new BigDecimal(mHouseDetail.getUnitprice());// 保留两位小数
-				} catch (Exception e) {
-					b = new BigDecimal("0.00");
-				}
-
-				mTvName.setText(mHouseDetail.getAddr());
-				if (mHouseDetail.getDelCode().charAt(4) == 'Z') {
-					mTvPriceUnit.setText("元");
-					try {
-						bPrice = new BigDecimal(mHouseDetail.getPrice());
-					} catch (Exception e) {
-						bPrice = new BigDecimal("0.00");
+					} else {
+						isNotTheSame = true;
 					}
-					mTvPrice.setText(bPrice.setScale(2,
-							BigDecimal.ROUND_HALF_UP) + "");
-					mTvDetail.setText(mHouseDetail.getFrame() + "  "
-							+ mHouseDetail.getSquare() + " " + "㎡  "
-							+ mHouseDetail.getFloor() + "  "
-							+ mHouseDetail.getOrient() + " "
-							+ mHouseDetail.getActiveTime());
-				} else {
-					mTvPriceUnit.setText("万");
-					try {
-						bPrice = new BigDecimal(Double.parseDouble(mHouseDetail
-								.getPrice()) / 10000);
-					} catch (Exception e) {
-						bPrice = new BigDecimal("0.00");
+					if (!isNotTheSame) {
+						return;
+					} else {
+						mListImages = images;
+						Log.d(TAG,
+								"wanggsxHouseImage 数据回调 图片数量：" + mListImages.size());
 					}
-					mTvPrice.setText(bPrice.setScale(2,
-							BigDecimal.ROUND_HALF_UP) + "");
+					if (images != null && images.size() >= 1) {
+						Log.d(TAG, "wanggsxHouseImage 数据回调 创建图片路径列表");
+						mArrayListViews.clear();
+						for (int i = 0; i < images.size(); i++) {
+							mArrayListViews
+									.add(LayoutInflater
+											.from(mContext)
+											.inflate(
+													R.layout.model_viewpager_adapter_item_view,
+													null));
+						}
+						mArrayListBitmapPaths.clear();
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								try {
+									for (int i = 0; i < mArrayListViews.size()
+											&& i < images.size(); i++) {
+										String url = images.get(i).getUrl();
+										String filePath = MethodsFile
+												.getAutoFileDirectory()
+												+ MethodsFile
+												.getFileNameFromPath(url);
+										MethodsFile.downloadImgByUrl(url, filePath);
+										mArrayListBitmapPaths.add(filePath);
+										View view0 = mArrayListViews.get(i);
+										ImageView mImageView = (ImageView) view0
+												.findViewById(R.id.imgView_modelViewPagerAdapterItemView);
+										mImageView.setTag(filePath);
+									}
 
-					String delCode = mHouseDetail.getDelCode().substring(4, 5);
-					if ("Z".equalsIgnoreCase(delCode)) {
-						mTvDetail.setText(mHouseDetail.getFrame()
-								+ "  "
-								+ mHouseDetail.getSquare()
-								+ "㎡  "
-								+ mHouseDetail.getFloor()
-								+ "  "
-								+ mHouseDetail.getOrient()
-								+ "  "
+									mHander.sendEmptyMessage(R.id.doRequest);
+								} catch (Exception e) {
+								}
+							}
+						}).start();
+					}
+					BigDecimal b, bPrice;
+					try {
+						b = new BigDecimal(mHouseDetail.getUnitprice());// 保留两位小数
+					} catch (Exception e) {
+						b = new BigDecimal("0.00");
+					}
+
+					mTvName.setText(mHouseDetail.getAddr());
+					if (mHouseDetail.getDelCode().charAt(4) == 'Z') {
+						mTvPriceUnit.setText("元");
+						try {
+							bPrice = new BigDecimal(mHouseDetail.getPrice());
+						} catch (Exception e) {
+							bPrice = new BigDecimal("0.00");
+						}
+						mTvPrice.setText(bPrice.setScale(2,
+								BigDecimal.ROUND_HALF_UP) + "");
+						mTvDetail.setText(mHouseDetail.getFrame() + "  "
+								+ mHouseDetail.getSquare() + " " + "㎡  "
+								+ mHouseDetail.getFloor() + "  "
+								+ mHouseDetail.getOrient() + " "
 								+ mHouseDetail.getActiveTime());
 					} else {
-						mTvDetail.setText(mHouseDetail.getFrame()
-								+ "  "
-								+ mHouseDetail.getSquare()
-								+ "㎡  "
-								+ mHouseDetail.getFloor()
-								+ "  "
-								+ mHouseDetail.getOrient()
-								+ "  "
-								+ b.setScale(2, BigDecimal.ROUND_HALF_UP)
-								.doubleValue() + "万/㎡ "
-								+ mHouseDetail.getActiveTime());
-					}
+						mTvPriceUnit.setText("万");
+						try {
+							bPrice = new BigDecimal(Double.parseDouble(mHouseDetail
+									.getPrice()) / 10000);
+						} catch (Exception e) {
+							bPrice = new BigDecimal("0.00");
+						}
+						mTvPrice.setText(bPrice.setScale(2,
+								BigDecimal.ROUND_HALF_UP) + "");
 
-				}
-				if(mHouseDetail.isShowroom()){
-					mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
-					tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
-					tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
-				}else{
-					if(LouCeng!=null){
-						mTvLouceng.setText("楼层："+LouCeng);
+						String delCode = mHouseDetail.getDelCode().substring(4, 5);
+						if ("Z".equalsIgnoreCase(delCode)) {
+							mTvDetail.setText(mHouseDetail.getFrame()
+									+ "  "
+									+ mHouseDetail.getSquare()
+									+ "㎡  "
+									+ mHouseDetail.getFloor()
+									+ "  "
+									+ mHouseDetail.getOrient()
+									+ "  "
+									+ mHouseDetail.getActiveTime());
+						} else {
+							mTvDetail.setText(mHouseDetail.getFrame()
+									+ "  "
+									+ mHouseDetail.getSquare()
+									+ "㎡  "
+									+ mHouseDetail.getFloor()
+									+ "  "
+									+ mHouseDetail.getOrient()
+									+ "  "
+									+ b.setScale(2, BigDecimal.ROUND_HALF_UP)
+									.doubleValue() + "万/㎡ "
+									+ mHouseDetail.getActiveTime());
+						}
+
+					}
+					if(mHouseDetail.isShowroom()){
+						mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+						tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
+						tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
 					}else{
-						mTvLouceng.setText("楼层：");
+						if(LouCeng!=null){
+							mTvLouceng.setText("楼层："+LouCeng);
+						}else{
+							mTvLouceng.setText("楼层：");
+						}
+					}
+	//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+					mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
+					mTvYear.setText("年代：" + mHouseDetail.getYear());
+					mTvBankuai.setText("板块：" + mHouseDetail.getArea());
+					mTvSaleTime.setText("放盘时间：" + mHouseDetail.getDelDate());
+
+					List<Exclude> excludes = mHouseDetail.getExclude();
+					if (excludes != null && excludes.size() >= 1) {
+						mEnsureUser.setVisibility(View.VISIBLE);
+						HouseDetailSignAdapter adapter = new HouseDetailSignAdapter(
+								mContext, excludes);
+						mLvSigns.setAdapter(adapter);
+						// MethodsExtra.resetListHeightWithFixItemHeight(mContext,
+						// mLvSigns, 62, excludes.size());
+						MethodsExtra.resetListHeightBasedOnChildren(mLvSigns);
+
+					} else {
+						mEnsureUser.setVisibility(View.GONE);
+					}
+
+					List<Track> tracks = mHouseDetail.getTrack();
+					if (tracks != null && tracks.size() >= 1) {
+						HouseDetailTrackAdapter houseDetailAdapter = new HouseDetailTrackAdapter(
+								mContext, tracks);
+						mLvTracks.setAdapter(houseDetailAdapter);
+						// MethodsExtra.resetListHeightWithFixItemHeight(mContext,
+						// mLvTracks, 70, tracks.size());
+						MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
 					}
 				}
-//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
-				mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
-				mTvYear.setText("年代：" + mHouseDetail.getYear());
-				mTvBankuai.setText("板块：" + mHouseDetail.getArea());
-				mTvSaleTime.setText("放盘时间：" + mHouseDetail.getDelDate());
-
-				List<Exclude> excludes = mHouseDetail.getExclude();
-				if (excludes != null && excludes.size() >= 1) {
-					mEnsureUser.setVisibility(View.VISIBLE);
-					HouseDetailSignAdapter adapter = new HouseDetailSignAdapter(
-							mContext, excludes);
-					mLvSigns.setAdapter(adapter);
-					// MethodsExtra.resetListHeightWithFixItemHeight(mContext,
-					// mLvSigns, 62, excludes.size());
-					MethodsExtra.resetListHeightBasedOnChildren(mLvSigns);
-
-				} else {
-					mEnsureUser.setVisibility(View.GONE);
-				}
-
-				List<Track> tracks = mHouseDetail.getTrack();
-				if (tracks != null && tracks.size() >= 1) {
-					HouseDetailTrackAdapter houseDetailAdapter = new HouseDetailTrackAdapter(
-							mContext, tracks);
-					mLvTracks.setAdapter(houseDetailAdapter);
-					// MethodsExtra.resetListHeightWithFixItemHeight(mContext,
-					// mLvTracks, 70, tracks.size());
-					MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
-				}
-			}
 			}
 			isFirstDataCall = isFirstDataCall + 1;
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT)) {

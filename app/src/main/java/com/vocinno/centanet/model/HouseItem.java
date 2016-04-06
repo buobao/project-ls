@@ -21,8 +21,17 @@ public class HouseItem {
 	private String keyUser = "";// 当前借用人姓名
 	private String keyUserPhone = "";// 当前借用人电话
 	private String keyCount = "-1";
+	private int isHD;
 
 	// private Image prieviewImg = new Image();
+
+	public int getIsHD() {
+		return isHD;
+	}
+
+	public void setIsHD(int isHD) {
+		this.isHD = isHD;
+	}
 
 	public String getDelCode() {
 		return delCode;

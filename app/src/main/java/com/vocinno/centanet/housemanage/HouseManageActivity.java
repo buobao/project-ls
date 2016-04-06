@@ -236,7 +236,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					}
 				});
 		mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
-		if (mType == HouseType.GONG_FANG) {
+		if (mType == HouseType.GONG_FANG||mType == HouseType.GONG_FANGZU) {
 			// 公房
 			MethodsDeliverData.mIntHouseType = HouseType.NONE;
 			MethodsExtra.findHeadTitle1(mContext, mRootView,
@@ -279,7 +279,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		} else if (mType == HouseType.CHU_SHOU || mType == HouseType.CHU_ZU
 				|| mType == HouseType.YUE_KAN || mType == HouseType.WO_DE|| mType == HouseType.WO_DEZU2) {
 			if (isInitView == false) {
-				initViewPager();
+				initViewPager(4);
 				isInitView = true;
 			}
 			switch (mType) {
@@ -516,10 +516,10 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		}
 	}
 
-	void initViewPager() {
+	void initViewPager(int count) {
 		mPagerAdapter = new PagerAdapter(mContext.getSupportFragmentManager());
 		// 将数据进行分类并分别传入每一个FourKindsHouseFragment中进行使用
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 0; i <= count; i++) {
 			FourKindsHouseFragment fragment = new FourKindsHouseFragment(i);
 			mArrayFragments[i] = fragment;
 			mPagerAdapter.addFragment(fragment);

@@ -70,6 +70,8 @@ public class HouseListAdapter extends BaseAdapter {
 					.findViewById(R.id.img_image_itemHouseListView);
 			holder.mImgViewKeyIcon = (ImageView) convertView
 					.findViewById(R.id.img_keyIcon_itemHouseListView);
+			holder.mImgisHD = (ImageView) convertView
+					.findViewById(R.id.img_ishd);
 			holder.mTvAddr = (TextView) convertView
 					.findViewById(R.id.tv_addr_itemHouseListView);
 			holder.mTvDetail = (TextView) convertView
@@ -100,6 +102,12 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mTvUnitprice.setVisibility(View.INVISIBLE);
 		}
 		holder.mTvAddr.setText(item.getAddr());
+
+		if(item.getIsHD()==1){
+			holder.mImgisHD.setVisibility(View.VISIBLE);
+		}else{
+			holder.mImgisHD.setVisibility(View.GONE);
+		}
 		if (item.getKeyStatus().equals("在店")
 				&& Integer.parseInt(item.getKeyCount()) > 0) {
 			holder.mImgViewKeyIcon.setVisibility(View.VISIBLE);
@@ -186,6 +194,7 @@ public class HouseListAdapter extends BaseAdapter {
 	public class ViewHolder {
 		ImageView mImgViewImage;
 		ImageView mImgViewKeyIcon;
+		ImageView mImgisHD;
 		TextView mTvAddr;
 		TextView mTvDetail;
 		TextView mTvUnitprice;

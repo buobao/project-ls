@@ -23,7 +23,13 @@
             android:layout_margin="0dp"
             android:background="@color/lightgrey"
             android:scaleType="fitXY" />
-
+        <ImageView
+            android:id="@+id/img_ishd"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/is_hd"
+            android:visibility="gone" />
         <ImageView
             android:id="@+id/img_keyIcon_itemHouseListView"
             android:layout_width="25dp"

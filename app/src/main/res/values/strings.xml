@@ -157,5 +157,6 @@
     <string name="remind_my">我的提醒</string>
     <string name="remind_chengjkiao">成交提醒</string>
     <string name="title_activity_house_reason">HouseReasonActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>

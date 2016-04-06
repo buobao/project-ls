@@ -42,6 +42,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	private CustomerDetail mDetail = null;
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
+	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true;//防止重复加载数据
 	public CustomerDetailActivity() {
 
 	}
@@ -53,11 +54,11 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			public void handleMessage(Message msg) {
 				CustomerDetailActivity.this.closeMenu(msg);
 				switch (msg.what) {
-				case RESET_LISTVIEW_TRACK:
-					MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
-					break;
-				default:
-					break;
+					case RESET_LISTVIEW_TRACK:
+						MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
+						break;
+					default:
+						break;
 				}
 			}
 		};
@@ -115,7 +116,6 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 		mCusterCode = MethodsDeliverData.string;
-		MethodsDeliverData.string = null;
 		showDialog();
 		// 调用数据
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
@@ -132,72 +132,73 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
-		case R.id.img_left_mhead1:
-			onBack();
-			break;
-		case R.id.imgView_addTrack_customerDetailActivity:
-			MethodsDeliverData.string = mCusterCode;
-			// listTracks
-			Intent intent = new Intent(mContext,
-					AddFollowInCustomerActivity.class);
+			case R.id.img_left_mhead1:
+				onBack();
+				break;
+			case R.id.imgView_addTrack_customerDetailActivity:
+				MethodsDeliverData.string = mCusterCode;
+				// listTracks
+				Intent intent = new Intent(mContext,
+						AddFollowInCustomerActivity.class);
 //			MethodsExtra.startActivityForResult(mContext, 10, intent);
-			MethodsExtra.startActivityForResult(mContext,10,intent);
-			// MethodsExtra.startActivity(mContext,
-			// AddFollowInCustomerActivity.class);
-			break;
-		case R.id.imgView_phone_customerDetailActivity:
-			if (mDetail != null && mDetail.getPhone() != null) {
-				MethodsExtra.tel(mContext, mDetail.getPhone());
-			} else {
-				MethodsExtra.toast(mContext, "该房源没有维护电话号码");
-			}
-			break;
-		case R.id.imgView_qq_customerDetailActivity:
-			// MethodsExtra.openQQChat(mContext, "504964825");
-			if (mDetail != null && !TextUtils.isEmpty(mDetail.getQq())
-					&& !mDetail.getQq().equals("null")) {
-				MethodsExtra.openQQChat(mContext, mDetail.getQq());
-			} else {
-				MethodsExtra.toast(mContext, "该房源没有维护QQ号码");
-			}
-			break;
-		case R.id.imgView_wx_customerDetailActivity:
-			if (mDetail != null && !TextUtils.isEmpty(mDetail.getWechat())
-					&& !mDetail.getWechat().equals("null")) {
-				try {
-					// 登录微信
-					Intent intent1 = new Intent();
-					ComponentName cmp = new ComponentName("com.tencent.mm",
-							"com.tencent.mm.ui.LauncherUI");
-					intent1.setAction(Intent.ACTION_MAIN);
-					intent1.addCategory(Intent.CATEGORY_LAUNCHER);
-					intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					intent1.setComponent(cmp);
-					startActivity(intent1);
-				} catch (Exception e) {
-					MethodsExtra.toast(mContext, "没有安装微信");
+				MethodsExtra.startActivityForResult(mContext,10,intent);
+				// MethodsExtra.startActivity(mContext,
+				// AddFollowInCustomerActivity.class);
+				break;
+			case R.id.imgView_phone_customerDetailActivity:
+				if (mDetail != null && mDetail.getPhone() != null) {
+					MethodsExtra.tel(mContext, mDetail.getPhone());
+				} else {
+					MethodsExtra.toast(mContext, "该房源没有维护电话号码");
 				}
-			} else {
-				MethodsExtra.toast(mContext, "该房源没有维护微信号码");
-			}
-			break;
-		case R.id.rlyt_seize_customerDetailActivity:
-			mGrabCustomer.setClickable(false);
-			showDialog();
-			// 抢
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-			mGrabCustomer.setClickable(true);
-		default:
-			break;
+				break;
+			case R.id.imgView_qq_customerDetailActivity:
+				// MethodsExtra.openQQChat(mContext, "504964825");
+				if (mDetail != null && !TextUtils.isEmpty(mDetail.getQq())
+						&& !mDetail.getQq().equals("null")) {
+					MethodsExtra.openQQChat(mContext, mDetail.getQq());
+				} else {
+					MethodsExtra.toast(mContext, "该房源没有维护QQ号码");
+				}
+				break;
+			case R.id.imgView_wx_customerDetailActivity:
+				if (mDetail != null && !TextUtils.isEmpty(mDetail.getWechat())
+						&& !mDetail.getWechat().equals("null")) {
+					try {
+						// 登录微信
+						Intent intent1 = new Intent();
+						ComponentName cmp = new ComponentName("com.tencent.mm",
+								"com.tencent.mm.ui.LauncherUI");
+						intent1.setAction(Intent.ACTION_MAIN);
+						intent1.addCategory(Intent.CATEGORY_LAUNCHER);
+						intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						intent1.setComponent(cmp);
+						startActivity(intent1);
+					} catch (Exception e) {
+						MethodsExtra.toast(mContext, "没有安装微信");
+					}
+				} else {
+					MethodsExtra.toast(mContext, "该房源没有维护微信号码");
+				}
+				break;
+			case R.id.rlyt_seize_customerDetailActivity:
+				mGrabCustomer.setClickable(false);
+				showDialog();
+				// 抢
+				robRefresh=true;
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+				mGrabCustomer.setClickable(true);
+			default:
+				break;
 		}
 	}
 
 	@Override
 	public void onBack() {
-		MethodsJni.removeNotificationObserver(
+		/*MethodsJni.removeNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
 		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
+				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);*/
 		finish();
 	}
 
@@ -208,16 +209,19 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			return;
 		}*/
 		if (resultCode == ConstantResult.REFRESH) {
+			/*MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 			showDialog();
+			firstRefresh=true;
 			// 调用数据
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-					CST_JS.JS_Function_CustomerList_getCustomerInfo,
-					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_getCustomerInfo,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 
 			if (MethodsDeliverData.flag1 == 1) {
 				MethodsDeliverData.flag1 = -1;
 				mGrabCustomer.setVisibility(View.VISIBLE);
-			}
+			}*/
+			firstRefresh=true;
+			initData();
+
 			/*Track track = new Track();
 			track.setTracktime(data.getStringExtra("time"));
 			track.setContent(data.getStringExtra("content"));
@@ -236,60 +240,69 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				CustomerDetail.class);
 		if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
-			mDetail = (CustomerDetail) jsReturn.getObject();
-			mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
-			mTvCustomerName.setText("姓名：" + mDetail.getName());
-			mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
-			if (mDetail.isPay() == false) {
-				mTvMoney.setText(R.string.money_false);
-			} else {
-				mTvMoney.setText(R.string.money_true);
-			}
-			// 填充跟踪信息列表
-			listTracks = mDetail.getTracks();
-			if (listTracks != null && listTracks.size() >= 1) {
-				adapter = new CustomerDetailAdapter(mContext, listTracks);
-				mLvTracks.setAdapter(adapter);
-				mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-			}
-			// 填充需求信息
-			List<Requets> listReqs = mDetail.getRequets();
-			if (listReqs != null && listReqs.size() >= 1) {
-				Requets req = listReqs.get(0);
-				mTvType.setText("类型：" + req.getReqType());// 类型
-				mTvAcreage.setText("区域：" + req.getAcreage());
-				mTvPrice.setText("租价：" + req.getPrice());// 价格
-				mTvTenancyTime.setText("租期：" + req.getTenancyTime());
-			}
-			// 联系方式
-			if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
-				mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
-			}
-			if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
-				mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
-			}
-			if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
-				mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
+			if(firstRefresh){
+				mDetail = (CustomerDetail) jsReturn.getObject();
+				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
+				mTvCustomerName.setText("姓名：" + mDetail.getName());
+				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
+				if (mDetail.isPay() == false) {
+					mTvMoney.setText(R.string.money_false);
+				} else {
+					mTvMoney.setText(R.string.money_true);
+				}
+				// 填充跟踪信息列表
+				listTracks = mDetail.getTracks();
+				if (listTracks != null && listTracks.size() >= 1) {
+					adapter = new CustomerDetailAdapter(mContext, listTracks);
+					mLvTracks.setAdapter(adapter);
+					mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
+				}
+				// 填充需求信息
+				List<Requets> listReqs = mDetail.getRequets();
+				if (listReqs != null && listReqs.size() >= 1) {
+					Requets req = listReqs.get(0);
+					mTvType.setText("类型：" + req.getReqType());// 类型
+					mTvAcreage.setText("区域：" + req.getAcreage());
+					mTvPrice.setText("租价：" + req.getPrice());// 价格
+					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
+				}
+				// 联系方式
+				if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
+					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
+				}
+				if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
+					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
+				}
+				if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
+					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
+				}
+				firstRefresh=false;
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
 			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				setResult(ConstantResult.REFRESH);
-				onBack();
-			} else {
-				if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
-					/*MyDialog.Builder dialog=new MyDialog.Builder(this);
-					dialog.setTitle("提示");
-					dialog.setMessage(jsReturn.getMsg());
-					dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					});
-					dialog.create().show();*/
+				if(returnRefresh){
 					MethodsExtra.toast(mContext, jsReturn.getMsg());
+					setResult(ConstantResult.REFRESH);
+					returnRefresh=false;
+					onBack();
 				}
+			} else {
+				if(robRefresh){
+					if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
+						MyDialog.Builder dialog=new MyDialog.Builder(this);
+						dialog.setTitle("提示");
+						dialog.setMessage(jsReturn.getMsg());
+						dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						});
+						dialog.create().show();
+					}
+					robRefresh=false;
+				}
+//				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
 	}

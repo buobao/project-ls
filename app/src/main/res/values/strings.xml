@@ -72,8 +72,9 @@
     <string name="submit">提交</string>
     <string name="picture">相机胶卷</string>
     <string name="louceng">楼层：</string>
+    <string name="serverurl">http://10.4.19.211:8081/aist-filesvr-web/servlet/fileUpload</string>//测试环境
+    <string name="serverurl3">http://a.sh.centanet.com/aist-filesvr-web/servlet/fileUpload</string>//正式环境
     <string name="serverurl1">http://10.4.19.205:8081/aist-filesvr-web/servlet/fileUpload</string>
-    <string name="serverurl">http://10.4.19.211:8081/aist-filesvr-web/servlet/fileUpload</string>
     <string name="serverurl2">http://61.152.255.241:8081/aist-filesvr-web/servlet/fileUpload</string>
     <string name="niandai">年代：</string>
     <string name="bankuai">板块：</string>

@@ -42,7 +42,6 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	private CustomerDetail mDetail = null;
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
-	private boolean firstRefresh=true,robRefresh=true;//防止重复加载数据
 	public CustomerDetailActivity() {
 
 	}
@@ -210,7 +209,6 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 		}*/
 		if (resultCode == ConstantResult.REFRESH) {
 			showDialog();
-			firstRefresh=true;
 			// 调用数据
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 					CST_JS.JS_Function_CustomerList_getCustomerInfo,
@@ -238,43 +236,40 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				CustomerDetail.class);
 		if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
-			if(firstRefresh){
-				mDetail = (CustomerDetail) jsReturn.getObject();
-				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
-				mTvCustomerName.setText("姓名：" + mDetail.getName());
-				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
-				if (mDetail.isPay() == false) {
-					mTvMoney.setText(R.string.money_false);
-				} else {
-					mTvMoney.setText(R.string.money_true);
-				}
-				// 填充跟踪信息列表
-				listTracks = mDetail.getTracks();
-				if (listTracks != null && listTracks.size() >= 1) {
-					adapter = new CustomerDetailAdapter(mContext, listTracks);
-					mLvTracks.setAdapter(adapter);
-					mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-				}
-				// 填充需求信息
-				List<Requets> listReqs = mDetail.getRequets();
-				if (listReqs != null && listReqs.size() >= 1) {
-					Requets req = listReqs.get(0);
-					mTvType.setText("类型：" + req.getReqType());// 类型
-					mTvAcreage.setText("区域：" + req.getAcreage());
-					mTvPrice.setText("租价：" + req.getPrice());// 价格
-					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
-				}
-				// 联系方式
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
-					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
-				}
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
-					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
-				}
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
-					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
-				}
-				firstRefresh=false;
+			mDetail = (CustomerDetail) jsReturn.getObject();
+			mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
+			mTvCustomerName.setText("姓名：" + mDetail.getName());
+			mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
+			if (mDetail.isPay() == false) {
+				mTvMoney.setText(R.string.money_false);
+			} else {
+				mTvMoney.setText(R.string.money_true);
+			}
+			// 填充跟踪信息列表
+			listTracks = mDetail.getTracks();
+			if (listTracks != null && listTracks.size() >= 1) {
+				adapter = new CustomerDetailAdapter(mContext, listTracks);
+				mLvTracks.setAdapter(adapter);
+				mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
+			}
+			// 填充需求信息
+			List<Requets> listReqs = mDetail.getRequets();
+			if (listReqs != null && listReqs.size() >= 1) {
+				Requets req = listReqs.get(0);
+				mTvType.setText("类型：" + req.getReqType());// 类型
+				mTvAcreage.setText("区域：" + req.getAcreage());
+				mTvPrice.setText("租价：" + req.getPrice());// 价格
+				mTvTenancyTime.setText("租期：" + req.getTenancyTime());
+			}
+			// 联系方式
+			if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
+				mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
+			}
+			if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
+				mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
+			}
+			if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
+				mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
 			if (jsReturn.isSuccess()) {
@@ -282,22 +277,19 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 				setResult(ConstantResult.REFRESH);
 				onBack();
 			} else {
-				if(robRefresh){
-					if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
-						MyDialog.Builder dialog=new MyDialog.Builder(this);
-						dialog.setTitle("提示");
-						dialog.setMessage(jsReturn.getMsg());
-						dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-							}
-						});
-						dialog.create().show();
-					}
-					robRefresh=false;
+				if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
+					/*MyDialog.Builder dialog=new MyDialog.Builder(this);
+					dialog.setTitle("提示");
+					dialog.setMessage(jsReturn.getMsg());
+					dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					dialog.create().show();*/
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
 				}
-//				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
 	}

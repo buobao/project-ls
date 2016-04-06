@@ -643,7 +643,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					myDialog = new MyDialog.Builder(this);
 					myDialog.setMessage(jReturn.getMsg());
 					myDialog.setTitle("提示");
-					myDialog.setPositiveButton("确实", new DialogInterface.OnClickListener() {
+					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();

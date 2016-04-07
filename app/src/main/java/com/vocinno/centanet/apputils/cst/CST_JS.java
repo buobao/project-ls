@@ -418,6 +418,8 @@ public final class CST_JS {
 	public static String JS_CustomerList_Area = "area";
 	public static String JS_CustomerList_Other = "other";
 	public static String JS_CustomerList_districtCode = "districtCode";
+	//客源联系人列表--通知
+	public static String NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT = "notify_native_get_customer_contact_result";
 
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_CustomerList_getList = "getCustomerList";
@@ -447,6 +449,7 @@ public final class CST_JS {
 	}
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_CustomerList_getCustomerInfo = "getCustomerInfo";
+	public static String JS_Function_CustomerList_CustContactList = "custContactList";
 
 	// 请求参数custCode
 	public static String getJsonStringForGetCustomerInfo(String custCode) {
@@ -455,7 +458,13 @@ public final class CST_JS {
 		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}
-
+	//请求参数custCode
+	public static String getJsonStringForGetCustContactList(String custCode) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_CustomerList_CustCode, custCode);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
+	}
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_CustomerList_claimCustomer = "claimCustomer";
 

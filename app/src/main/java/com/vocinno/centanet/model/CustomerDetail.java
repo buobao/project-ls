@@ -9,8 +9,17 @@ public class CustomerDetail {
 	private String phone = ""; // 联系电话
 	private String qq = ""; // 联系qq
 	private String wechat = ""; // 微信
+	private List<Content> content = new ArrayList<Content>();
 	private List<Requets> requets = new ArrayList<Requets>();
 	private List<Track> tracks = new ArrayList<Track>();
+
+	public List<Content> getContent() {
+		return content;
+	}
+
+	public void setContent(List<Content> content) {
+		this.content = content;
+	}
 
 	private String paymentType = ""; // 付款方式
 
@@ -97,4 +106,24 @@ public class CustomerDetail {
 		this.tracks = tracks;
 	}
 
+	public class Content{
+		private String name;
+		private String phone;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public void setPhone(String phone) {
+			this.phone = phone;
+		}
+	}
 }

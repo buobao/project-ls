@@ -974,6 +974,22 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			closeOtherWheelView(layoutIndex);
 			showMenuDialog();
 			break;
+			case R.id.btn_search_dialogSearchHouseManage:
+				mLvHostory.setVisibility(View.GONE);
+				String editString=mEtSearch.getText().toString().trim();
+				if(editString==null||editString.length()<=0){
+//					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+					MethodsExtra.toast(mContext,"请输入搜索条件");
+				}else{
+					// 在打字期间添加搜索栏数据
+					MethodsJni.callProxyFun(
+							CST_JS.JS_ProxyName_HouseResource,
+							CST_JS.JS_Function_HouseResource_searchEstateName,
+							CST_JS.getJsonStringForHouseListSearchEstateName(
+									editString.toString(), 1, 20));
+					mLvHostory.setVisibility(View.VISIBLE);
+				}
+				break;
 		default:
 			break;
 		}
@@ -1004,7 +1020,8 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			mTvSearchInMap.setVisibility(View.VISIBLE);
 		}
 	}
-
+	private ListView mLvHostory;
+	private EditText mEtSearch;
 	private void showSearchDialog() {
 		mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
 		mSearchDialog.setContentView(R.layout.dialog_search_house_manage);
@@ -1019,13 +1036,13 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				new ArrayList<EstateSearchItem>());
 		mListView.setAdapter(mSearch);
 
-		final EditText mEtSearch = (EditText) mSearchDialog
+		    mEtSearch = (EditText) mSearchDialog
 				.findViewById(R.id.et_search_dialogSearchHouseManage);
 		Button mBtnSearch = (Button) mSearchDialog
 				.findViewById(R.id.btn_search_dialogSearchHouseManage);
 		TextView mTvAround = (TextView) mSearchDialog
 				.findViewById(R.id.tv_around_dialogSearchHouseManage);
-		final ListView mLvHostory = (ListView) mSearchDialog
+		 mLvHostory = (ListView) mSearchDialog
 				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		Button mBtnClean = (Button) mSearchDialog
 				.findViewById(R.id.btn_close_dialogSearchHouseManage);
@@ -1056,13 +1073,13 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				// 在打字期间添加搜索栏数据
+				/*// 在打字期间添加搜索栏数据
 				MethodsJni.callProxyFun(
 						CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_searchEstateName,
 						CST_JS.getJsonStringForHouseListSearchEstateName(
 								arg0.toString(), 1, 20));
-				mLvHostory.setVisibility(View.VISIBLE);
+				mLvHostory.setVisibility(View.VISIBLE);*/
 			}
 		});
 
@@ -1603,9 +1620,14 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 					EstateSearchItem.class);
-			mSearchListData = jsReturn.getListDatas();
-			SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
-			mListView.setAdapter(mSearch);
+			if(jsReturn.getListDatas().size()>0){
+				mSearchListData = jsReturn.getListDatas();
+				SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+				mListView.setAdapter(mSearch);
+			}else{
+				MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+				//抱歉没有搜索到该房源
+			}
 		}
 	}
 

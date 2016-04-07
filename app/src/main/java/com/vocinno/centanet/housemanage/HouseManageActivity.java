@@ -67,6 +67,7 @@ import com.vocinno.utils.MethodsJson;
  */
 public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private boolean isInitView = false;
+	private boolean isGongFangInitView = false;
 	public static boolean zOrS=false;//true 出售，false 出租
 	private enum PaiXuType {
 		None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
@@ -76,16 +77,16 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private LinearLayout mLlytPublicContainer;
 	// ViewPager 分页参数
 	public ViewPager mViewPager;
+	public ViewPager viewpager_gongfang;//抢公房售、租
 	private PagerAdapter mPagerAdapter;
 	private int mType = HouseType.WO_DE; // 默认是我的房源(包括出租、出售、约看、我的)，否则认为是公房列表或钥匙房源列表
 	private int mCurrentPageIndex = getPageIndexFromType(mType);
-	private int[] mFragmentTagIndexs = { -1, -1, -1, -1, -1, -1, -1 };
+	private int[] mFragmentTagIndexs = { -1, -1, -1, -1, -1, -1, -1,-1 };//7
 
 	// 每一页，一共四页
-	private FourKindsHouseFragment[] mArrayFragments = { null, null, null,
-			null, null, null, null };
-	public List[] mArrayHouseItemList = { null, null, null, null, null, null , null };
-	public int[] mPageIndexs = { 1, 1, 1, 1, 1, 1,1 };
+	private FourKindsHouseFragment[] mArrayFragments = { null, null, null,null, null, null, null, null };//7
+	public List[] mArrayHouseItemList = { null, null, null, null, null, null , null, null };
+	public int[] mPageIndexs = { 1, 1, 1, 1, 1, 1,1,1 };
 	private int mWheelViewLWidth;
 	// 标题栏按钮
 	private View mViewBack, mViewMore;
@@ -100,11 +101,11 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	private GridViewAdapter mHouseTagAdapter;
 	// 用于排序以及筛选的条件参数
 	private PaiXuType mPaiXuType = PaiXuType.None;
-	private String[] mPrice = { null, null, null, null, null, null , null };// 价格
-	private String[] mSquare = { null, null, null, null, null, null, null  };// 面积
-	private String[] mFrame = { null, null, null, null, null, null , null };// 户型
-	private String[] mTags = { null, null, null, null, null, null , null };// 标签
-	private String[] mUserType = { null, null, null, null, null, null, null  };// 类型
+	private String[] mPrice = { null, null, null, null, null, null , null , null };// 价格
+	private String[] mSquare = { null, null, null, null, null, null, null  , null };// 面积
+	private String[] mFrame = { null, null, null, null, null, null , null  , null};// 户型
+	private String[] mTags = { null, null, null, null, null, null , null  , null};// 标签
+	private String[] mUserType = { null, null, null, null, null, null, null  , null };// 类型
 	private List<EstateSearchItem> mSearchListData;
 	private TextView mTvAreaSort, mTvPriceSort;
 	private Drawable drawable;
@@ -236,13 +237,48 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					}
 				});
 		mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
+		viewpager_gongfang = (ViewPager) mRootView.findViewById(R.id.viewpager_gongfang);
 		if (mType == HouseType.GONG_FANG||mType == HouseType.GONG_FANGZU) {
+			mViewPager.setVisibility(View.GONE);
+			viewpager_gongfang.setVisibility(View.VISIBLE);
+			if (isGongFangInitView == false) {
+				mPagerAdapter = new PagerAdapter(mContext.getSupportFragmentManager());
+				FourKindsHouseFragment fragment = new FourKindsHouseFragment(5);
+				mArrayFragments[5] = fragment;
+				mPagerAdapter.addFragment(fragment);
+				fragment = new FourKindsHouseFragment(7);
+				mArrayFragments[7] = fragment;
+				mPagerAdapter.addFragment(fragment);
+				resetSearchCondation(5);
+				resetSearchCondation(7);//数组下标
+				viewpager_gongfang.setAdapter(mPagerAdapter);
+				isGongFangInitView = true;
+			}
+			switch (mType) {
+				case HouseType.GONG_FANG:
+					viewpager_gongfang.setCurrentItem(0);
+					viewpager_gongfang.setVerticalScrollbarPosition(0);
+					// 公房售
+					mType = HouseType.GONG_FANG;
+					MethodsExtra.findHeadTitle1(mContext, mRootView,
+							R.string.house_publicshou, null);
+					break;
+				case HouseType.GONG_FANGZU:
+					viewpager_gongfang.setCurrentItem(1);
+					viewpager_gongfang.setVerticalScrollbarPosition(1);
+					// 公房租
+					mType = HouseType.GONG_FANGZU;
+					MethodsExtra.findHeadTitle1(mContext, mRootView,
+							R.string.house_publiczu, null);
+					break;
+				default:
+					viewpager_gongfang.setCurrentItem(0);
+					viewpager_gongfang.setVerticalScrollbarPosition(0);
+					break;
+			}
 			// 公房
 			MethodsDeliverData.mIntHouseType = HouseType.NONE;
-			MethodsExtra.findHeadTitle1(mContext, mRootView,
-					R.string.house_public, null);
-			mViewPager.setVisibility(View.GONE);
-			mLlytPublicContainer = (LinearLayout) mRootView
+	/*		mLlytPublicContainer = (LinearLayout) mRootView
 					.findViewById(R.id.llyt_containerForFragment_houseManageActivity);
 			mLlytPublicContainer.setVisibility(View.VISIBLE);
 
@@ -256,7 +292,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					fragment);
 			fragmentTransaction.commit();
 			mArrayFragments[mCurrentPageIndex] = fragment;
-			resetSearchCondation(mCurrentPageIndex);
+			resetSearchCondation(mCurrentPageIndex);*/
 		} else if (mType == HouseType.YAO_SHI) {
 			// 钥匙列表
 			MethodsDeliverData.mIntHouseType = HouseType.NONE;
@@ -396,6 +432,48 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 			}
 		});
+		viewpager_gongfang.setOnPageChangeListener(new OnPageChangeListener() {
+			@Override
+			public void onPageSelected(int arg0) {
+//				switchHouseType(getTypeFromPageIndex(arg0));
+				switch (arg0) {
+					case 0:
+						// 抢公房售
+						mType = HouseType.GONG_FANG;
+						MethodsExtra.findHeadTitle1(mContext, mRootView,
+								R.string.house_publicshou, null);
+						break;
+					case 1:
+						// 抢公房租
+						mType = HouseType.GONG_FANGZU;
+						MethodsExtra.findHeadTitle1(mContext, mRootView,
+								R.string.house_publiczu, null);
+						break;
+					default:
+						break;
+				}
+
+				mCurrentPageIndex = getPageIndexFromType(mType);
+				mViewPager.setCurrentItem(mCurrentPageIndex);
+				// 调用数据
+				if (mArrayHouseItemList[mCurrentPageIndex] == null) {
+					// 获取数据
+					getDataFromNetwork(mType, 1);
+				} else {
+					callData(arg0==0?4:7);//HouseType.FANG，GONG_FANGZU
+					mArrayFragments[mCurrentPageIndex].notifyDatasetChanged();
+				}
+				mScrollTagView.selectedTab1(mFragmentTagIndexs[mCurrentPageIndex],
+						false, false);
+
+			}
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
 	}
 
 	// pageIndex 转 type
@@ -451,6 +529,9 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		case HouseType.GONG_FANG:
 			pageIndex = 5;
 			break;
+		case HouseType.GONG_FANGZU:
+			pageIndex = 7;//mCurrentPageIndex数组条件下标
+			break;
 		case HouseType.YAO_SHI:
 			pageIndex = 6;
 			break;
@@ -473,7 +554,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			case 4:
 				CST_JS.setZOrS("s");
 				break;
-			case 5:
+			case 7:
 				CST_JS.setZOrS("r");
 				break;
 		}

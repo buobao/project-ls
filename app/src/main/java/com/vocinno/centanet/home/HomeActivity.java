@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperActivity;
@@ -122,7 +124,8 @@ public class HomeActivity extends SuperActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_home_HomeActivity:
-			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
+//			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
+			MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
 			CST_JS.setZOrS("s");
 			HouseManageActivity.zOrS=true;
 			MethodsExtra.startActivity(mContext, HouseManageActivity.class);
@@ -166,5 +169,18 @@ public class HomeActivity extends SuperActivity {
 	public void notifCallBack(String name, String className, Object data) {
 
 	}
-
+	private long exitTime = 0;
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+			if((System.currentTimeMillis()-exitTime) > 2000){
+				Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				exitTime = System.currentTimeMillis();
+			} else {
+				finish();
+				System.exit(0);
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

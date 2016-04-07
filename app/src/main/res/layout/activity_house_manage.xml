@@ -28,7 +28,12 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager_gongfang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
         <LinearLayout
             android:id="@+id/ll_dialog_wheelview_two0"
             android:layout_width="match_parent"

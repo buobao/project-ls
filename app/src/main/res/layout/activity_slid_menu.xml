@@ -200,7 +200,7 @@
     <RelativeLayout
         android:id="@+id/rylt_mid_2_sild_menu"
         android:layout_width="250dp"
-        android:layout_height="137dp"
+        android:layout_height="182dp"
         android:layout_marginTop="8dp"
         android:background="@color/gray_slid_menu_item_bg"
         android:layout_below="@+id/rylt_mid_1_sild_menu"
@@ -258,7 +258,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_grab_house_main_page_slid_menus"
                 android:gravity="center_vertical|left"
-                android:text="抢公房"
+                android:text="抢公售"
                  android:textColor="#F4F5F6"
                 android:textSize="18dp"  />
         </RelativeLayout>
@@ -270,10 +270,41 @@
             android:layout_height="0.33dp"
               android:layout_marginLeft="33dp"
             android:background="#D1D1D1"/>
+        <RelativeLayout
+            android:layout_below="@+id/view_line_5"
+            android:id="@+id/rlyt_grab_house_main_page_slid_menus2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:paddingLeft="33dp" >
 
+            <ImageView
+                android:id="@+id/img_grab_house_main_page_slid_menus2"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/homeside_grabhouse_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_grab_house_main_page_slid_menus2"
+                android:gravity="center_vertical|left"
+                android:text="抢公租"
+                android:textColor="#F4F5F6"
+                android:textSize="18dp"  />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_line_52"
+            android:layout_below="@+id/rlyt_grab_house_main_page_slid_menus2"
+            android:layout_width="match_parent"
+            android:layout_height="0.33dp"
+            android:layout_marginLeft="33dp"
+            android:background="#D1D1D1"/>
         <RelativeLayout
             android:id="@+id/rlyt_grab_customer_main_page_slid_menus"
-            android:layout_below="@+id/view_line_5"
+            android:layout_below="@+id/view_line_52"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:paddingLeft="33dp" >

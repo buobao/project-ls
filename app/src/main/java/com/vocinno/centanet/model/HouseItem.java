@@ -22,8 +22,17 @@ public class HouseItem {
 	private String keyUserPhone = "";// 当前借用人电话
 	private String keyCount = "-1";
 	private int isHD;
-
+	private String delegationType;//10015001  售  10015002  租
+	public static final String SHOU="10015001";
+	public static final String ZU="10015002";
 	// private Image prieviewImg = new Image();
+	public String getDelegationType() {
+		return delegationType;
+	}
+
+	public void setDelegationType(String delegationType) {
+		this.delegationType = delegationType;
+	}
 
 	public int getIsHD() {
 		return isHD;

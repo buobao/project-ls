@@ -1,253 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent" >
-
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    android:background="@color/home_page_red"
+    >
+    <include layout="@layout/header_title_model1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        >
         <ImageView
+            android:paddingTop="20dp"
             android:id="@+id/imgView_background_HomeActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:layout_marginTop="24dp"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/homeimg"/>
 
-        <!-- 蒙版图层 -->
+    </LinearLayout>
 
-        <include layout="@layout/model_blur_gradit_layer" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_fangyuan"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:maxHeight="140dp"
+                android:src="@drawable/index_icon_1"
+                />
+            <ImageView
+                android:id="@+id/iv_keyuan"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:maxHeight="140dp"
+                android:src="@drawable/index_icon_2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+            <ImageView
+                android:id="@+id/iv_yaoshi"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:maxHeight="140dp"
+                android:src="@drawable/index_icon_3"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="vertical" >
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/tv_home_HomeActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@drawable/home_housing_icon"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="25dp"
-                        android:text="房源管理"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:background="#64D1D1D1" />
-
-                    <TextView
-                        android:id="@+id/tv_customerManage_HomeActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@drawable/home_customer_icon"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="25dp"
-                        android:text="客源管理"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp"
-                    android:background="#64D1D1D1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/tv_keyManage_HomeActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@drawable/home_key_icon"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="25dp"
-                        android:text="钥匙管理"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="0.33dp"
-                        android:layout_height="match_parent"
-                        android:background="#64D1D1D1" />
-
-                    <TextView
-                        android:id="@+id/tv_grabHouse_HomeActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@drawable/home_grabhouse_icon"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="25dp"
-                        android:text="抢公房"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp"
-                    android:background="#64D1D1D1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/tv_grabCustomer_HomeActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@drawable/home_grabcustomer_icon"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="25dp"
-                        android:text="抢公客"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="0.33dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:background="#64D1D1D1" />
-
-                    <TextView
-                        android:id="@+id/tv_myRemind_HomeActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="5dp"
-                        android:drawableTop="@drawable/home_remind_icon"
-                        android:gravity="center_horizontal"
-                        android:paddingTop="25dp"
-                        android:text="我的提醒"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginTop="10dp"
-                android:background="#64D1D1D1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:id="@+id/llyt_password_HomeActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.85" >
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/home_password_icon" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|right"
-                        android:layout_weight="1.15"
-                        android:gravity="left"
-                        android:text="输PIN码"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="#64D1D1D1" />
-
-                <LinearLayout
-                    android:id="@+id/llyt_scan_HomeActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.85" >
-
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/home_scan_icon" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|right"
-                        android:layout_weight="1.15"
-                        android:gravity="left"
-                        android:text="扫一扫"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-                </LinearLayout>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_qianggongfang"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:maxHeight="140dp"
+                android:src="@drawable/index_icon_4"
+                />
+            <ImageView
+                android:id="@+id/iv_qianggongke"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:maxHeight="140dp"
+                android:src="@drawable/index_icon_5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+            <ImageView
+                android:id="@+id/iv_tixing"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:maxHeight="140dp"
+                android:src="@drawable/index_icon_6"
+                />
         </LinearLayout>
 
-        <include layout="@layout/header_title_model1" />
-    </FrameLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:background="@color/home_page_bottom"
+            android:layout_marginTop="20dp"
+            >
+            <LinearLayout
+                android:id="@+id/ll_pinma"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/index_icon_7"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="输PIN码"
+                    android:textColor="@color/home_page_red"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/home_page_red"
+                />
+            <LinearLayout
+                android:id="@+id/ll_saoyisao"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/index_icon_8"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="扫一扫"
+                    android:textColor="@color/home_page_red"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

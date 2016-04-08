@@ -23,6 +23,7 @@ import com.vocinno.centanet.model.ContactDetail;
 import com.vocinno.centanet.model.ContactItem;
 import com.vocinno.centanet.model.Exclude;
 import com.vocinno.centanet.model.HouseDetail;
+import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.Image;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Track;
@@ -375,8 +376,10 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			} else {
 				MethodsExtra.toast(mContext, "mHouseDetail不能为空");
 			}
-			MethodsExtra.startActivity(mContext,
-					SeeFollowInDetailActivity.class);
+			Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
+			it.putExtra("delegationType",mHouseDetail.getDelegationType());
+			startActivity(it);
+//			MethodsExtra.startActivity(mContext,SeeFollowInDetailActivity.class);
 			break;
 		case R.id.rlyt_passKey_houseDetailActivity:
 			MethodsDeliverData.mKeyType = 3;
@@ -724,7 +727,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					}
 
 					mTvName.setText(mHouseDetail.getAddr());
-					if (mHouseDetail.getDelCode().charAt(4) == 'Z') {
+//					if (mHouseDetail.getDelCode().charAt(4) == 'Z') {
+					if (HouseItem.ZU.equals(mHouseDetail.getDelegationType())) {//Z
 						mTvPriceUnit.setText("元");
 						try {
 							bPrice = new BigDecimal(mHouseDetail.getPrice());
@@ -749,8 +753,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						mTvPrice.setText(bPrice.setScale(2,
 								BigDecimal.ROUND_HALF_UP) + "");
 
-						String delCode = mHouseDetail.getDelCode().substring(4, 5);
-						if ("Z".equalsIgnoreCase(delCode)) {
+//						String delCode = mHouseDetail.getDelCode().substring(4, 5);
+//						if ("Z".equalsIgnoreCase(delCode)) {
+						if (HouseItem.ZU.equals(mHouseDetail.getDelegationType())) {
 							mTvDetail.setText(mHouseDetail.getFrame()
 									+ "  "
 									+ mHouseDetail.getSquare()

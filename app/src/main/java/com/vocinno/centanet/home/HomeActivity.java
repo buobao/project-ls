@@ -21,6 +21,7 @@ import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
+import com.vocinno.centanet.model.Image;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
@@ -30,17 +31,16 @@ import com.zbar.lib.CaptureActivity;
 
 /**
  * 主页
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 public class HomeActivity extends SuperActivity {
 
-	private TextView mTvHouseManage, mTvCustomerManage, mTvKeyManage,
+	private TextView /*mTvHouseManage,*/ /*mTvCustomerManage*/ mTvKeyManage,
 			mTvGrabHouse, mTvGrabCustomer, mTvRemind;
-	private View mViewBlur;//, mViewBlurBorder;
-
-	private LinearLayout mLlytScan, mLlytInputPassword;
+	private ImageView iv_fangyuan,iv_keyuan,iv_yaoshi,iv_qianggongfang,iv_qianggongke,iv_tixing;
+	private LinearLayout ll_pinma,ll_saoyisao;
 	// 背景图片
 	private ImageView mImgViewBackground;
 	private Bitmap mBitmap = null;
@@ -53,16 +53,10 @@ public class HomeActivity extends SuperActivity {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case R.id.doRequest:
-					mImgViewBackground.setImageBitmap(mBitmap);
-					MethodsFile.doBlurForViewBkgBitmap(mContext, mBitmap, 20,
-							mViewBlur, 1f);
-					/*MethodsFile.doBlurForViewBkgBitmap(mContext, mBitmap, 14,
-							mViewBlurBorder, 1f);
-					setAlpha(mViewBlurBorder, 0.8f);*/
-					break;
-				default:
-					break;
+					case R.id.doRequest:
+						break;
+					default:
+						break;
 				}
 
 			}
@@ -81,30 +75,30 @@ public class HomeActivity extends SuperActivity {
 
 	@Override
 	public void initView() {
-		mTvHouseManage = (TextView) findViewById(R.id.tv_home_HomeActivity);
-		mTvCustomerManage = (TextView) findViewById(R.id.tv_customerManage_HomeActivity);
-		mTvKeyManage = (TextView) findViewById(R.id.tv_keyManage_HomeActivity);
-		mTvGrabHouse = (TextView) findViewById(R.id.tv_grabHouse_HomeActivity);
-		mTvGrabCustomer = (TextView) findViewById(R.id.tv_grabCustomer_HomeActivity);
-		mTvRemind = (TextView) findViewById(R.id.tv_myRemind_HomeActivity);
-		mLlytInputPassword = (LinearLayout) findViewById(R.id.llyt_password_HomeActivity);
-		mLlytScan = (LinearLayout) findViewById(R.id.llyt_scan_HomeActivity);
+		iv_fangyuan = (ImageView) findViewById(R.id.iv_fangyuan);
+		iv_keyuan = (ImageView) findViewById(R.id.iv_keyuan);
+		iv_yaoshi = (ImageView) findViewById(R.id.iv_yaoshi);
+		iv_qianggongfang = (ImageView) findViewById(R.id.iv_qianggongfang);
+		iv_qianggongke = (ImageView) findViewById(R.id.iv_qianggongke);
+		iv_tixing = (ImageView) findViewById(R.id.iv_tixing);
+		ll_pinma = (LinearLayout) findViewById(R.id.ll_pinma);
+		ll_saoyisao = (LinearLayout) findViewById(R.id.ll_saoyisao);
 		MethodsExtra.findHeadTitle1(mContext, mRootView, 0,getString(R.string.app_name));
 		mImgViewBackground = (ImageView) findViewById(R.id.imgView_background_HomeActivity);
-		mViewBlur = findViewById(R.id.tv_blur_modelLayerGradit);
+		mImgViewBackground.setBackgroundResource(R.drawable.homeimg);
 //		mViewBlurBorder = findViewById(R.id.tv_blurBorder_modelLayerGradit);
 	}
 
 	@Override
 	public void setListener() {
-		mTvHouseManage.setOnClickListener(this);
-		mTvCustomerManage.setOnClickListener(this);
-		mTvKeyManage.setOnClickListener(this);
-		mTvGrabHouse.setOnClickListener(this);
-		mTvGrabCustomer.setOnClickListener(this);
-		mTvRemind.setOnClickListener(this);
-		mLlytInputPassword.setOnClickListener(this);
-		mLlytScan.setOnClickListener(this);
+		iv_fangyuan.setOnClickListener(this);
+		iv_keyuan.setOnClickListener(this);
+		iv_yaoshi.setOnClickListener(this);
+		iv_qianggongfang.setOnClickListener(this);
+		iv_qianggongke.setOnClickListener(this);
+		iv_tixing.setOnClickListener(this);
+		ll_pinma.setOnClickListener(this);
+		ll_saoyisao.setOnClickListener(this);
 	}
 
 	@Override
@@ -112,51 +106,50 @@ public class HomeActivity extends SuperActivity {
 		mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
 		Bitmap bp = MethodsFile
 				.getScaledBitmap(BitmapFactory.decodeResource(getResources(),
-						R.drawable.homeimg), mIntScreenWithHeight[0],
+								R.drawable.homeimg), mIntScreenWithHeight[0],
 						(mIntScreenWithHeight[1] - MethodsData.dip2px(mContext,
 								25)) / 2, 0, 0);
 
 		mBitmap = MethodsFile.getBitmapWithVerticalMirror(bp);
-		mHander.sendEmptyMessageDelayed(R.id.doRequest, 50);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_home_HomeActivity:
+			case R.id.iv_fangyuan:
 //			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-			MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
-			CST_JS.setZOrS("s");
-			HouseManageActivity.zOrS=true;
-			MethodsExtra.startActivity(mContext, HouseManageActivity.class);
-			break;
-		case R.id.tv_customerManage_HomeActivity:
-			MethodsDeliverData.isMyCustomer = true;
-			MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
-			break;
-		case R.id.tv_keyManage_HomeActivity:
-			MethodsExtra.startActivity(mContext, KeyManageActivity.class);
-			break;
-		case R.id.tv_grabHouse_HomeActivity:
-			MethodsDeliverData.flag = 1;
-			MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-			MethodsExtra.startActivity(mContext, HouseManageActivity.class);
-			break;
-		case R.id.tv_grabCustomer_HomeActivity:
-			MethodsDeliverData.flag = 1;
-			MethodsDeliverData.isMyCustomer = false;
-			MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
-			break;
-		case R.id.tv_myRemind_HomeActivity:
-			MethodsDeliverData.flag = -1;
-			MethodsExtra.startActivity(mContext, MessageListActivity.class);
-			break;
-		case R.id.llyt_password_HomeActivity:
-			MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
-			break;
-		case R.id.llyt_scan_HomeActivity:
-			MethodsExtra.startActivity(mContext, CaptureActivity.class);
-			break;
+				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
+				CST_JS.setZOrS("s");
+				HouseManageActivity.zOrS=true;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			case R.id.iv_keyuan:
+				MethodsDeliverData.isMyCustomer = true;
+				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
+				break;
+			case R.id.iv_yaoshi:
+				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+				break;
+			case R.id.iv_qianggongfang:
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			case R.id.iv_qianggongke:
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.isMyCustomer = false;
+				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
+				break;
+			case R.id.iv_tixing:
+				MethodsDeliverData.flag = -1;
+				MethodsExtra.startActivity(mContext, MessageListActivity.class);
+				break;
+			case R.id.ll_pinma:
+				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+				break;
+			case R.id.ll_saoyisao:
+				MethodsExtra.startActivity(mContext, CaptureActivity.class);
+				break;
 		}
 	}
 

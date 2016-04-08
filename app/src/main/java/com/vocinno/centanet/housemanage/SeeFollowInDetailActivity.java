@@ -61,6 +61,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	private CheckBox cb_huixie;
 	private String mDelCode;
 	private View rootView;
+	private String delegationType;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -358,6 +359,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	}
 	@Override
 	public void initData() {
+		delegationType=getIntent().getStringExtra("delegationType");
 		mHouseCode.setText(MethodsDeliverData.mDelCode);
 		mDelCode=MethodsDeliverData.mDelCode.substring(4,5);
 		// 注册通知
@@ -419,7 +421,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 		switch (v.getId()) {
 		case R.id.tv_custcode_SeeFollowInDetailActivity:
 			Intent intent=new Intent(this, CustomerManageActivity.class);
-			intent.putExtra("sOrZ",mDelCode);
+			intent.putExtra("delegationType",delegationType);
 			startActivityForResult(intent,100);
 			break;
 		case R.id.iv_start_time_clear:

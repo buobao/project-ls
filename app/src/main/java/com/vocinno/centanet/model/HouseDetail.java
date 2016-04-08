@@ -25,9 +25,17 @@ public class HouseDetail {
 	private boolean isPublic = false;// 是否是公房
 	private boolean isRequireReason = false;// 是否需要原因
 	private String year = "";
-
+	private String delegationType;//10015001  售  10015002  租
 	public String getRoomNO() {
 		return roomNO;
+	}
+
+	public String getDelegationType() {
+		return delegationType;
+	}
+
+	public void setDelegationType(String delegationType) {
+		this.delegationType = delegationType;
 	}
 
 	public void setRoomNO(String roomNO) {

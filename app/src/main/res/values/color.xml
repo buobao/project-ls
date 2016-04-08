@@ -9,6 +9,8 @@
     <color name="lightgray">#F0F0F0</color>
     <color name="lightblack">#ff202020</color>
     <color name="red">#FF0000</color>
+    <color name="home_page_red">#D74A39</color>
+    <color name="home_page_bottom">#6C231A</color>
     <color name="green">#00ff00</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_half">#70000000</color>

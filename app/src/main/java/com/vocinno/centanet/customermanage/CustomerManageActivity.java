@@ -14,6 +14,7 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.customermanage.adapter.CustormerListAdapter;
 import com.vocinno.centanet.model.CustomerItem;
 import com.vocinno.centanet.model.CustomerList;
+import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -39,7 +40,8 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	private List<CustomerItem> mListCustomers = new ArrayList<CustomerItem>();
 	private List<CustomerItem> mListCustomersLast = new ArrayList<CustomerItem>();
 	private boolean isReFreshOrLoadMore=false;
-	private String sOrZ;//用来判断客源跟进跳转查询出售还是出租的客源列表
+//	private String sOrZ;//用来判断客源跟进跳转查询出售还是出租的客源列表
+	private String delegationType;//用来判断客源跟进跳转查询出售还是出租的客源列表
 	private Intent intent;
 	@Override
 	public Handler setHandler() {
@@ -106,8 +108,9 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	@Override
 	public void initData() {
 		intent=getIntent();
-		sOrZ=intent.getStringExtra("sOrZ");
-		if("S".equalsIgnoreCase(sOrZ)||"Z".equalsIgnoreCase(sOrZ)){
+//		sOrZ=intent.getStringExtra("sOrZ");
+		delegationType=intent.getStringExtra("delegationType");
+		if(HouseItem.SHOU.equals(delegationType)||HouseItem.ZU.equals(delegationType)){
 			mListAdapter = new CustormerListAdapter(
 					(CustomerManageActivity) mContext, null,true);
 		}else{
@@ -171,11 +174,13 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 			showDialog();
 		}
 		String strReq;
-		if("S".equalsIgnoreCase(sOrZ)){
+//		if("S".equalsIgnoreCase(sOrZ)){
+		if(HouseItem.SHOU.equals(delegationType)){
 			  strReq = CST_JS.getJsonStringForCustomerList(
 					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
 							: CST_JS.JS_CustomerList_Type_Public), page, 8,"S");
-		}else if("Z".equalsIgnoreCase(sOrZ)){
+//		}else if("Z".equalsIgnoreCase(sOrZ)){
+		}else if(HouseItem.ZU.equals(delegationType)){
 			  strReq = CST_JS.getJsonStringForCustomerList(
 					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
 							: CST_JS.JS_CustomerList_Type_Public), page, 8,"Z");

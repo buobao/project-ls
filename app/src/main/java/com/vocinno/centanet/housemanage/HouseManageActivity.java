@@ -974,25 +974,30 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			closeOtherWheelView(layoutIndex);
 			showMenuDialog();
 			break;
-			case R.id.btn_search_dialogSearchHouseManage:
-				mLvHostory.setVisibility(View.GONE);
-				String editString=mEtSearch.getText().toString().trim();
-				if(editString==null||editString.length()<=0){
-//					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
-					MethodsExtra.toast(mContext,"请输入搜索条件");
-				}else{
-					// 在打字期间添加搜索栏数据
-					MethodsJni.callProxyFun(
-							CST_JS.JS_ProxyName_HouseResource,
-							CST_JS.JS_Function_HouseResource_searchEstateName,
-							CST_JS.getJsonStringForHouseListSearchEstateName(
-									editString.toString(), 1, 20));
-					mLvHostory.setVisibility(View.VISIBLE);
-				}
-				break;
+		case R.id.btn_search_dialogSearchHouseManage://搜索
+//			searchHouse();
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void searchHouse(String editString) {
+		mLvHostory.setVisibility(View.GONE);
+//		showDialog();
+//		String editString=mEtSearch.getText().toString().trim();
+		if(editString==null||editString.length()<=0){
+//					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+//            MethodsExtra.toast(mContext, "请输入搜索条件");
+        }else{
+            // 在打字期间添加搜索栏数据
+            MethodsJni.callProxyFun(
+					CST_JS.JS_ProxyName_HouseResource,
+					CST_JS.JS_Function_HouseResource_searchEstateName,
+					CST_JS.getJsonStringForHouseListSearchEstateName(
+							editString, 1, 20));
+            mLvHostory.setVisibility(View.VISIBLE);
+        }
 	}
 
 	private void showMenuDialog() {
@@ -1073,6 +1078,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
+				searchHouse(arg0.toString().trim());
 				/*// 在打字期间添加搜索栏数据
 				MethodsJni.callProxyFun(
 						CST_JS.JS_ProxyName_HouseResource,
@@ -1089,11 +1095,12 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 									long arg3) {
 				int type = mType;
-				if (mType == 1) {
+				/*if (mType == 1) {
 					type = 2;
 				} else if (mType == 2) {
 					type = 1;
-				}
+				}*/
+				showDialog();
 				String reqparm = CST_JS
 						.getJsonStringForHouseListGetList(type + "",
 								mPrice[mCurrentPageIndex],
@@ -1620,14 +1627,19 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 					EstateSearchItem.class);
-			if(jsReturn.getListDatas().size()>0){
-				mSearchListData = jsReturn.getListDatas();
-				SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
-				mListView.setAdapter(mSearch);
+			if(jsReturn.isSuccess()){
+				if(jsReturn.getListDatas().size()>0){
+					mSearchListData = jsReturn.getListDatas();
+					SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+					mListView.setAdapter(mSearch);
+				}else{
+					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+					//抱歉没有搜索到该房源
+				}
 			}else{
-				MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
-				//抱歉没有搜索到该房源
+				MethodsExtra.toast(mContext,jsReturn.getMsg());
 			}
+
 		}
 	}
 

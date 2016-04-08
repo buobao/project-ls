@@ -134,15 +134,17 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT, TAG);
-		mCusterCode = MethodsDeliverData.string;
+//		mCusterCode = MethodsDeliverData.string;
+		mCusterCode=getIntent().getStringExtra("custCode");
 		showDialog();
 		// 调用数据
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getCustomerInfo,
 				CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 		if (MethodsDeliverData.flag1 == 1) {
-			MethodsDeliverData.flag1 = -1;
+//			MethodsDeliverData.flag1 = -1;
 			mGrabCustomer.setVisibility(View.VISIBLE);
+			mImgViewPhone.setVisibility(View.GONE);
 		}else{
 			mImgViewPhone.setVisibility(View.VISIBLE);
 		}
@@ -222,10 +224,10 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void onBack() {
-		/*MethodsJni.removeNotificationObserver(
+		MethodsJni.removeNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
 		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);*/
+				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 		finish();
 	}
 
@@ -247,7 +249,12 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 				mGrabCustomer.setVisibility(View.VISIBLE);
 			}*/
 			firstRefresh=true;
-			initData();
+			showDialog();
+			// 调用数据
+			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+					CST_JS.JS_Function_CustomerList_getCustomerInfo,
+					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+//			initData();
 
 			/*Track track = new Track();
 			track.setTracktime(data.getStringExtra("time"));

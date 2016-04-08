@@ -97,8 +97,9 @@ public class HouseListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final HouseItem item = mListHouses.get(position);
-		String delCode = item.getDelCode().substring(4, 5);
-		if(!"S".equalsIgnoreCase(delCode)){
+//		String delCode = item.getDelCode().substring(4, 5);
+		String delegationType= item.getDelegationType();
+		if(!HouseItem.SHOU.equalsIgnoreCase(delegationType)){
 			holder.mTvUnitprice.setVisibility(View.INVISIBLE);
 		}
 		holder.mTvAddr.setText(item.getAddr());
@@ -127,7 +128,7 @@ public class HouseListAdapter extends BaseAdapter {
 			}
 		}
 
-		if (item.getDelCode().charAt(4) == 'Z') {
+		if (HouseItem.ZU.equalsIgnoreCase(delegationType)) {
 			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,
 					BigDecimal.ROUND_HALF_UP) + "万/㎡");
 			try {

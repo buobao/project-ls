@@ -1,5 +1,8 @@
 package com.vocinno.centanet.user;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -12,7 +15,9 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInit;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.SuperActivity;
+import com.vocinno.centanet.apputils.UpdateManager;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
@@ -142,9 +147,38 @@ public class UserLoginActivity extends SuperActivity {
 			msg.what = R.id.doSuccess;
 			msg.obj = jReturn.getMsg();
 		} else {
-			msg.what = R.id.doFail;
-			msg.obj = jReturn.getMsg();
+			if("0".equals(jReturn.getCode())){
+				//MethodsExtra.toast(this,jReturn.getMsg());
+				downloadApp(jReturn.getMsg());
+			}else{
+				msg.what = R.id.doFail;
+				msg.obj = jReturn.getMsg();
+			}
 		}
 		mHander.sendMessage(msg);
+	}
+
+	private void downloadApp(String msg) {
+		MyDialog.Builder myDialog=new MyDialog.Builder(this);
+		myDialog.setTitle("提示");
+		myDialog.setMessage(msg);
+		myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				/*UpdateManager um=new UpdateManager(mContext);
+				um.showDownloadDialog();*/
+				dialog.dismiss();
+				final Uri uri = Uri.parse(getString(R.string.download_url));
+				final Intent it = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(it);
+			}
+		});
+		myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		myDialog.create().show();
 	}
 }

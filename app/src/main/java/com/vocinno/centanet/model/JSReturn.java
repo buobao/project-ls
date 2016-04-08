@@ -16,7 +16,7 @@ public class JSReturn {
 	private String msg = "";
 	private String empId = "";
 	private Params params = new Params();
-
+	private String code;
 	public Object content = null;
 
 	public boolean isSuccess() {
@@ -49,6 +49,14 @@ public class JSReturn {
 
 	public void setPageSize(String pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public int getTotal() {

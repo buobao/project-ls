@@ -76,5 +76,11 @@
         <item name="android:background">@drawable/bg_radio_reason_selector</item>
         <item name="android:button">@null</item>
     </style>
+    <style name="progressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal</item>
+        <item name="android:minHeight">5dip</item>
+        <item name="android:maxHeight">5dip</item>
+    </style>
 
 </resources>

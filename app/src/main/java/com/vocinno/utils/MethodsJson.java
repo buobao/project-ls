@@ -79,6 +79,9 @@ public final class MethodsJson {
 						jsonObject.getString("params"), Params.class);
 				jsReturn.setParams(param);
 			}
+			if (jsonObject.has("code")) {
+				jsReturn.setCode(jsonObject.getString("code"));
+			}
 
 			if (clazz == null || clazz == Object.class) {
 				return jsReturn;

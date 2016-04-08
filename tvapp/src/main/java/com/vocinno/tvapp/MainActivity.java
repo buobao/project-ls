@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.example.tvapp.R;
+import com.vocinno.tvapp.R;
 
 public class MainActivity extends Activity {
     private WebView wv_mainpage;

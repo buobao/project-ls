@@ -27,6 +27,8 @@ import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.MethodsNetwork;
 
+import java.util.Calendar;
+
 /**
  * 用户登录
  * 
@@ -92,7 +94,24 @@ public class UserLoginActivity extends SuperActivity {
 	 */
 	@Override
 	public void setListener() {
-		mBtnLogin.setOnClickListener(this);
+		mBtnLogin.setOnClickListener(new NoDoubleClickListener() {
+			@Override
+			public void onNoDoubleClick(View v) {
+				String userAccount = mEtUserAccount.getText().toString().trim();
+				String userPassword = mEtUserpassword.getText().toString().trim();
+				if (MethodsData.isEmptyString(userAccount)) {
+					MethodsExtra.toast(mContext, "请输入用户名");
+					return;
+				} else if (MethodsData.isEmptyString(userPassword)) {
+					MethodsExtra.toast(mContext, "请输入密码");
+					return;
+				}
+				showDialog();
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
+						CST_JS.JS_Function_Login_login,
+						CST_JS.getJsonStringForLogin(userAccount, userPassword));
+			}
+		});
 	}
 
 	/**
@@ -110,19 +129,6 @@ public class UserLoginActivity extends SuperActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_userLogin_UserLoginActivity:
-			String userAccount = mEtUserAccount.getText().toString().trim();
-			String userPassword = mEtUserpassword.getText().toString().trim();
-			if (MethodsData.isEmptyString(userAccount)) {
-				MethodsExtra.toast(mContext, "请输入用户名");
-				return;
-			} else if (MethodsData.isEmptyString(userPassword)) {
-				MethodsExtra.toast(mContext, "请输入密码");
-				return;
-			}
-			showDialog();
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
-					CST_JS.JS_Function_Login_login,
-					CST_JS.getJsonStringForLogin(userAccount, userPassword));
 			break;
 		default:
 			break;
@@ -181,4 +187,35 @@ public class UserLoginActivity extends SuperActivity {
 		});
 		myDialog.create().show();
 	}
+	public abstract class NoDoubleClickListener implements View.OnClickListener {
+
+		public static final int MIN_CLICK_DELAY_TIME = 1000;
+		private long lastClickTime = 0;
+
+		@Override
+		public void onClick(View v) {
+			long currentTime = Calendar.getInstance().getTimeInMillis();
+			if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {
+				lastClickTime = currentTime;
+				onNoDoubleClick(v);
+			}
+		}
+
+		protected abstract void onNoDoubleClick(View v);
+	}
+	/*public void onNoDoubleClick(View v){
+		String userAccount = mEtUserAccount.getText().toString().trim();
+		String userPassword = mEtUserpassword.getText().toString().trim();
+		if (MethodsData.isEmptyString(userAccount)) {
+			MethodsExtra.toast(mContext, "请输入用户名");
+			return;
+		} else if (MethodsData.isEmptyString(userPassword)) {
+			MethodsExtra.toast(mContext, "请输入密码");
+			return;
+		}
+		showDialog();
+		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
+				CST_JS.JS_Function_Login_login,
+				CST_JS.getJsonStringForLogin(userAccount, userPassword));
+	}*/
 }

@@ -152,9 +152,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public int setContentLayoutId() {
-		if(modelDialog==null){
-			modelDialog=ModelDialog.getModelDialog(this);
-		}
 		return R.layout.activity_house_detail;
 	}
 

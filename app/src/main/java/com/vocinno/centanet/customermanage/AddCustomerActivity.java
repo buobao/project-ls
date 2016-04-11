@@ -55,26 +55,27 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		none, connTel, connQQ, connWeixin
 	};
 	private View mBackView, mSubmitView;
-	private RelativeLayout mRyltConnectionBanner, mRyltTypeBanner,
+	private RelativeLayout /*mRyltConnectionBanner, */mRyltTypeBanner,
 			mRyltPlaceBanner, mRyltAreaBanner, mRyltPriceBanner,
-			mRyltPianquBanner, mRyltPhone, mRyltQQ, mRyltQiuzu, mRyltQiumai,
+			mRyltPianquBanner, /*mRyltPhone,*//* mRyltQQ,*/ mRyltQiuzu, mRyltQiumai,
 			mRyltChoosePlaceContainer, mRyltChoosePriceContaner,
-			mRyltChoosePianquContainer, mRyltChooseAreaContainer, mRyltWX;
+			mRyltChoosePianquContainer, mRyltChooseAreaContainer/*, mRyltWX*/;
 
-	private ImageView mImgConnectionRight, mImgTypeRight, mImgPlaceRight,
-			mImgPianquRight, mImgAreaRight, mImgPriceRight, mImgPhoneImage,
-			mImgPhoneIcon, mImgQQImage, mImgQQIcon, mImgWXImage, mImgWXIcon;
-	private LinearLayout mLlytConntectTypeContainer, mLlytTypeContainer;
+	private ImageView /*mImgConnectionRight,*/ mImgTypeRight, mImgPlaceRight,
+			mImgPianquRight, mImgAreaRight, mImgPriceRight/*,*/ /*mImgPhoneImage,*/
+	/*mImgPhoneIcon,*/ /*mImgQQImage, *//*mImgQQIcon,*/ /*mImgWXImage, *//*mImgWXIcon*/;
+	private LinearLayout /*mLlytConntectTypeContainer,*/ mLlytTypeContainer;
 	private ImageView mImgQiumai, mImgQiuzu;
 	private TextView mTvCustormerArea, mTvCustormerPrice, mTvCustormerPlace,
 
-	mTvCustormerNumber, mTvCustormerType, mTvCustormerPianqu;
+	mTvCustormerType, mTvCustormerPianqu;
+	private EditText mEtCustormerNumber;
 	private Button mBtnSubmitChoosePlace, mBtnSubmitChoosePianqu,
 			mBtnSubmitChooseArea, mBtnSubmitChoosePrice;
 	private WheelView mWheelViewChoosePlace, mWheelViewChoosePianqu,
 			mWheelViewChooseAreaLast, mWheelViewChooseAreaTop,
 			mWheelViewChoosePriceTop, mWheelViewChoosePriceLast;
-	private EditText mEtConnectionNumber, mEtCustormerName, mEtOtherInfo;
+	private EditText /*mEtConnectionNumber, */mEtCustormerName, mEtOtherInfo;
 
 	private static final int MESSAGE_CLOSE_CHOOSER = 1001;
 	private static final int MESSAGE_REFRESH_WHEELVIEWPIANQU = 1002;
@@ -89,7 +90,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	@Override
 	public void initView() {
 		// 需要获取的输入控件
-		mEtConnectionNumber = (EditText) findViewById(R.id.et_connectionNumber_addCustomerActivity);
+//		mEtConnectionNumber = (EditText) findViewById(R.id.et_connectionNumber_addCustomerActivity);
 		mEtCustormerName = (EditText) findViewById(R.id.et_name_addCustomerActivity);
 		// 需要添加点击事件的RelativeLayout
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
@@ -99,28 +100,64 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.addcustomer,
 				null);
 		mEtOtherInfo = (EditText) findViewById(R.id.et_otherInfo_addCustomerActivity);
-		mRyltConnectionBanner = (RelativeLayout) findViewById(R.id.rlyt_connectionBanner_addCustomerActivity);
+//		mRyltConnectionBanner = (RelativeLayout) findViewById(R.id.rlyt_connectionBanner_addCustomerActivity);
 		mRyltTypeBanner = (RelativeLayout) findViewById(R.id.rlyt_typeBanner_addCustomerActivity);
 		mRyltPlaceBanner = (RelativeLayout) findViewById(R.id.rlyt_placeBanner_addCustomerActivity);
 		mRyltPianquBanner = (RelativeLayout) findViewById(R.id.rlyt_pianquBanner_addCustomerActivity);
 		mRyltAreaBanner = (RelativeLayout) findViewById(R.id.rlyt_areaBanner_addCustomerActivity);
 		mRyltPriceBanner = (RelativeLayout) findViewById(R.id.rlyt_priceBanner_addCustomerActivity);
 		// 点击Relative之后需要改变的右边的img
-		mImgConnectionRight = (ImageView) findViewById(R.id.img_connectionRight_addCustomerActivity);
+//		mImgConnectionRight = (ImageView) findViewById(R.id.img_connectionRight_addCustomerActivity);
 		mImgTypeRight = (ImageView) findViewById(R.id.img_chooseType_addCustomerActivity);
 		mImgPlaceRight = (ImageView) findViewById(R.id.img_choosePlace_addCustomerActivity);
 		mImgPianquRight = (ImageView) findViewById(R.id.img_choosePianqu_addCustomerActivity);
 		mImgAreaRight = (ImageView) findViewById(R.id.img_chooseArea_addCustomerActivity);
 		mImgPriceRight = (ImageView) findViewById(R.id.img_choosePrice_addCustomerActivity);
 		// 点击Relative之后需要改变的textview
-		mTvCustormerNumber = (TextView) findViewById(R.id.tv_connect_addCustomerActivity);
+		mEtCustormerNumber = (EditText) findViewById(R.id.tv_connect_addCustomerActivity);
+		mEtCustormerNumber.setOnClickListener(this);
+		mEtCustormerNumber.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				mStrTel = mEtCustormerNumber.getText().toString().trim();
+				checkIsFinish();
+			}
+		});
+		/*mEtCustormerNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(!hasFocus){
+					mStrTel=mEtCustormerNumber.getText().toString().trim();
+//					MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+					if (isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel)) {
+						String phoneJson = CST_JS.getJsonStringForCheckPhoneNORepeated(mStrTel);
+						MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+								CST_JS.JS_Function_CustomerList_addCustomer_checkPhoneNORepeated, phoneJson);
+						//closeConnectionTypeContainer();
+					} else {
+						MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+						mEtCustormerNumber.setFocusable(true);
+//						requestFocusFromTouch
+						mEtCustormerNumber.setFocusableInTouchMode(true);
+					}
+				}
+			}
+		});*/
 		mTvCustormerType = (TextView) findViewById(R.id.tv_type_addCustomerActivity);
 		mTvCustormerPlace = (TextView) findViewById(R.id.tv_changePlace_addCustomerActivity);
 		mTvCustormerPianqu = (TextView) findViewById(R.id.tv_changePianqu_addCustomerActivity);
 		mTvCustormerArea = (TextView) findViewById(R.id.tv_changeArea_addCustomerActivity);
 		mTvCustormerPrice = (TextView) findViewById(R.id.tv_changePrice_addCustomerActivity);
 		// 点击Relative之后需要显示的控件
-		mLlytConntectTypeContainer = (LinearLayout) findViewById(R.id.llyt_connectionType_addCustomerActivity);
+//		mLlytConntectTypeContainer = (LinearLayout) findViewById(R.id.llyt_connectionType_addCustomerActivity);
 		mLlytTypeContainer = (LinearLayout) findViewById(R.id.llyt_chooseCustormerType_addCustomerActivity);
 		mRyltChoosePlaceContainer = (RelativeLayout) findViewById(R.id.rlyt_choosePlace_addCustomerActivity);
 		mRyltChoosePianquContainer = (RelativeLayout) findViewById(R.id.rlyt_choosePianqu_addCustomerActivity);
@@ -133,17 +170,17 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				.setText(R.string.maxarea);
 		mRyltChoosePriceContaner = (RelativeLayout) findViewById(R.id.rlyt_choosePrice_addCustomerActivity);
 		// 原本隐藏起来的控件里需要加点击监听的
-		mRyltPhone = (RelativeLayout) findViewById(R.id.rlyt_phone_addCustomerActivity);
-		mImgPhoneImage = (ImageView) findViewById(R.id.img_phone_addCustomerActivity);
-		mImgPhoneIcon = (ImageView) findViewById(R.id.img_addPhone_addCustomerActivity);
+//		mRyltPhone = (RelativeLayout) findViewById(R.id.rlyt_phone_addCustomerActivity);
+//		mImgPhoneImage = (ImageView) findViewById(R.id.img_phone_addCustomerActivity);
+//		mImgPhoneIcon = (ImageView) findViewById(R.id.img_addPhone_addCustomerActivity);
 
-		mRyltQQ = (RelativeLayout) findViewById(R.id.rlyt_qq_addCustomerActivity);
-		mImgQQImage = (ImageView) findViewById(R.id.img_qq_addCustomerActivity);
-		mImgQQIcon = (ImageView) findViewById(R.id.img_addqq_addCustomerActivity);
+//		mRyltQQ = (RelativeLayout) findViewById(R.id.rlyt_qq_addCustomerActivity);
+//		mImgQQImage = (ImageView) findViewById(R.id.img_qq_addCustomerActivity);
+//		mImgQQIcon = (ImageView) findViewById(R.id.img_addqq_addCustomerActivity);
 
-		mRyltWX = (RelativeLayout) findViewById(R.id.rlyt_wx_addCustomerActivity);
-		mImgWXImage = (ImageView) findViewById(R.id.img_wx_addCustomerActivity);
-		mImgWXIcon = (ImageView) findViewById(R.id.img_addwx_addCustomerActivity);
+//		mRyltWX = (RelativeLayout) findViewById(R.id.rlyt_wx_addCustomerActivity);
+//		mImgWXImage = (ImageView) findViewById(R.id.img_wx_addCustomerActivity);
+//		mImgWXIcon = (ImageView) findViewById(R.id.img_addwx_addCustomerActivity);
 
 		mRyltQiuzu = (RelativeLayout) findViewById(R.id.rlyt_isChooseQiuzu_addCustomerActivity);
 		mRyltQiumai = (RelativeLayout) findViewById(R.id.rlyt_isChooseQiumai_addCustomerActivity);
@@ -176,9 +213,9 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	@Override
 	public void setListener() {
 
-		mRyltPhone.setOnClickListener(this);
-		mRyltQQ.setOnClickListener(this);
-		mRyltWX.setOnClickListener(this);
+//		mRyltPhone.setOnClickListener(this);
+//		mRyltQQ.setOnClickListener(this);
+//		mRyltWX.setOnClickListener(this);
 		mRyltQiuzu.setOnClickListener(this);
 		mRyltQiumai.setOnClickListener(this);
 		mBtnSubmitChoosePlace.setOnClickListener(this);
@@ -188,10 +225,10 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 
 		mBackView.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
-		findViewById(R.id.et_connectionNumberOK_addCustomerActivity)
-				.setOnClickListener(this);
+//		findViewById(R.id.et_connectionNumberOK_addCustomerActivity)
+//				.setOnClickListener(this);
 		;
-		mRyltConnectionBanner.setOnClickListener(this);
+//		mRyltConnectionBanner.setOnClickListener(this);
 		mRyltTypeBanner.setOnClickListener(this);
 		mRyltPlaceBanner.setOnClickListener(this);
 		mRyltPianquBanner.setOnClickListener(this);
@@ -199,7 +236,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		mRyltPriceBanner.setOnClickListener(this);
 
 		mSubmitView.setClickable(false);
-		mEtConnectionNumber.addTextChangedListener(new TextWatcher() {
+		/*mEtConnectionNumber.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 									  int count) {
@@ -230,9 +267,9 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					default:
 						break;
 				}
-				mTvCustormerNumber.setText(checkConnText());
+//				mTvCustormerNumber.setText(checkConnText());
 			}
-		});
+		});*/
 
 		mEtCustormerName.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -261,18 +298,18 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				CST_JS.NOTIFY_NATIVE_ADD_CUSTOMER_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT, TAG);
-		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO,TAG);
+		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO, TAG);
 		mWheelViewChoosePlace.setData(CST_Wheel_Data
 				.getListDatas(CST_Wheel_Data.WheelType.area), CustomUtils.getWindowWidth(this));
-		mWheelViewChoosePianqu.setData(new ArrayList<String>(),CustomUtils.getWindowWidth(this));
+		mWheelViewChoosePianqu.setData(new ArrayList<String>(), CustomUtils.getWindowWidth(this));
 		mWheelViewChooseAreaLast.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.squareEnd),CustomUtils.getWindowWidth(this)/2);
+				.getListDatas(CST_Wheel_Data.WheelType.squareEnd), CustomUtils.getWindowWidth(this) / 2);
 		mWheelViewChooseAreaTop.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.squareStart),CustomUtils.getWindowWidth(this)/2);
+				.getListDatas(CST_Wheel_Data.WheelType.squareStart), CustomUtils.getWindowWidth(this) / 2);
 		mWheelViewChoosePriceLast.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd),CustomUtils.getWindowWidth(this)/2);
+				.getListDatas(CST_Wheel_Data.WheelType.priceChushouEnd), CustomUtils.getWindowWidth(this) / 2);
 		mWheelViewChoosePriceTop.setData(CST_Wheel_Data
-				.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart),CustomUtils.getWindowWidth(this)/2);
+				.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart), CustomUtils.getWindowWidth(this) / 2);
 		mWheelViewChoosePlace.setEnable(true);
 		mWheelViewChoosePianqu.setEnable(true);
 		mWheelViewChooseAreaLast.setEnable(true);
@@ -313,6 +350,11 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+			case R.id.tv_connect_addCustomerActivity:
+				mEtCustormerNumber.setFocusable(true);
+				mEtCustormerNumber.setFocusableInTouchMode(true);
+				checkIsFinish();
+				break;
 			case R.id.img_left_mhead1:
 				onBack();
 				break;
@@ -369,6 +411,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				mWheelViewChoosePriceLast.setSelectItem(0);
 				mWheelViewChoosePriceTop.invalidate();
 				mWheelViewChoosePriceLast.invalidate();
+				checkIsFinish();
 				break;
 			case R.id.rlyt_isChooseQiumai_addCustomerActivity:
 				// 求购
@@ -389,15 +432,15 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				mWheelViewChoosePriceLast.setSelectItem(0);
 				mWheelViewChoosePriceTop.invalidate();
 				mWheelViewChoosePriceLast.invalidate();
+				checkIsFinish();
 				break;
 			// 如果六个选择全选了 才给提交
 			// 分别是 名字 电话 类型 地点 面积 价格
-			case R.id.et_connectionNumberOK_addCustomerActivity:
-			case R.id.rlyt_connectionBanner_addCustomerActivity:
+//			case R.id.et_connectionNumberOK_addCustomerActivity:
+			/*case R.id.rlyt_connectionBanner_addCustomerActivity:
 				if (mLlytConntectTypeContainer.getVisibility() == View.GONE) {
 					mLlytConntectTypeContainer.setVisibility(View.VISIBLE);
-					mImgConnectionRight
-							.setBackgroundResource(R.drawable.h_manage_icon_up);
+//					mImgConnectionRight.setBackgroundResource(R.drawable.h_manage_icon_up);
 					checkOpenOrClose(mLlytConntectTypeContainer.getId());
 					if (mCurrConnType == ConnectionType.none) {
 						addPhoneNumber();
@@ -412,8 +455,9 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 						MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
 					}
 				}
-				break;
+				break;*/
 			case R.id.rlyt_typeBanner_addCustomerActivity:
+				setLoseFocus();
 				if (mLlytTypeContainer.getVisibility() == View.GONE) {
 					mLlytTypeContainer.setVisibility(View.VISIBLE);
 					mImgTypeRight
@@ -423,8 +467,10 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					closeTypeContainer();
 				}
 				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				checkIsFinish();
 				break;
 			case R.id.rlyt_placeBanner_addCustomerActivity:
+				setLoseFocus();
 				if (mRyltChoosePlaceContainer.getVisibility() == View.GONE) {
 					mRyltChoosePlaceContainer.setVisibility(View.VISIBLE);
 					mImgPlaceRight
@@ -434,8 +480,10 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					closePlaceContainer();
 				}
 				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				checkIsFinish();
 				break;
 			case R.id.rlyt_pianquBanner_addCustomerActivity:
+				setLoseFocus();
 				if (mRyltChoosePianquContainer.getVisibility() == View.GONE
 						&& mWheelViewChoosePianqu.getListSize() >= 1) {
 					mRyltChoosePianquContainer.setVisibility(View.VISIBLE);
@@ -448,8 +496,10 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					closePianquContainer();
 				}
 				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				checkIsFinish();
 				break;
 			case R.id.rlyt_areaBanner_addCustomerActivity:
+				setLoseFocus();
 				if (mRyltChooseAreaContainer.getVisibility() == View.GONE) {
 					mRyltChooseAreaContainer.setVisibility(View.VISIBLE);
 					mImgAreaRight
@@ -459,8 +509,10 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					closeAreaContainer();
 				}
 				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				checkIsFinish();
 				break;
 			case R.id.rlyt_priceBanner_addCustomerActivity:
+				setLoseFocus();
 				if (mRyltChoosePriceContaner.getVisibility() == View.GONE) {
 					mRyltChoosePriceContaner.setVisibility(View.VISIBLE);
 					mImgPriceRight
@@ -470,16 +522,17 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 					closePriceContainer();
 				}
 				MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
+				checkIsFinish();
 				break;
-			case R.id.rlyt_phone_addCustomerActivity:
+			/*case R.id.rlyt_phone_addCustomerActivity:
 				addPhoneNumber();
-				break;
-			case R.id.rlyt_qq_addCustomerActivity:
-				addQQNumber();
-				break;
-			case R.id.rlyt_wx_addCustomerActivity:
-				addWXNumber();
-				break;
+				break;*/
+//			case R.id.rlyt_qq_addCustomerActivity:
+//				addQQNumber();
+//				break;
+//			case R.id.rlyt_wx_addCustomerActivity:
+//				addWXNumber();
+//				break;
 			case R.id.btn_submit_modelOneWheelView:
 				if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {
 					mWheelViewChoosePianqu.setData(new ArrayList<String>());
@@ -499,6 +552,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 							.getSelectedText());
 					closePianquContainer();
 				}
+				checkIsFinish();
 				break;
 			case R.id.btn_submit_modelTwoWheelView:
 				if (mRyltChooseAreaContainer.getVisibility() == View.VISIBLE) {
@@ -538,53 +592,53 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 						MethodsExtra.toast(mContext, "最高价格应大于最低价格");
 					}
 				}
+				checkIsFinish();
 				break;
 			default:
 				break;
 		}
-		checkIsFinish();
 	}
 
 	private void iconTest() {
-		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact01);
-		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq01);
-		mImgWXImage.setImageResource(R.drawable.c_manage_icon_wechat01);
+//		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact01);
+//		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq01);
+//		mImgWXImage.setImageResource(R.drawable.c_manage_icon_wechat01);
 
-		mImgPhoneIcon.setImageResource(R.drawable.add);
-		mImgQQIcon.setImageResource(R.drawable.add);
-		mImgWXIcon.setImageResource(R.drawable.add);
+//		mImgPhoneIcon.setImageResource(R.drawable.add);
+//		mImgQQIcon.setImageResource(R.drawable.add);
+//		mImgWXIcon.setImageResource(R.drawable.add);
 	}
 
 	private void addPhoneNumber() {
 		iconTest();
-		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact);
-		mImgPhoneIcon.setImageResource(R.drawable.h_manage_icon_choose);
-		mEtConnectionNumber.setHint(R.string.addphonenumber);
+//		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact);
+//		mImgPhoneIcon.setImageResource(R.drawable.h_manage_icon_choose);
+//		mEtConnectionNumber.setHint(R.string.addphonenumber);
 		mCurrConnType = ConnectionType.connTel;
 
-		mEtConnectionNumber.setText(mStrTel);
-		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
+//		mEtConnectionNumber.setText(mStrTel);
+//		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 	}
 
 	private void addQQNumber() {
 		iconTest();
-		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq);
-		mImgQQIcon.setImageResource(R.drawable.h_manage_icon_choose);
-		mEtConnectionNumber.setHint(R.string.addqqnumber);
+//		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq);
+//		mImgQQIcon.setImageResource(R.drawable.h_manage_icon_choose);
+//		mEtConnectionNumber.setHint(R.string.addqqnumber);
 		mCurrConnType = ConnectionType.connQQ;
-		mEtConnectionNumber.setText(mStrQQ);
-		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
+//		mEtConnectionNumber.setText(mStrQQ);
+//		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
 	}
 
 	private void addWXNumber() {
 		iconTest();
-		mImgWXImage.setImageResource(R.drawable.c_manage_icon_wechat);
-		mImgWXIcon.setImageResource(R.drawable.h_manage_icon_choose);
-		mEtConnectionNumber.setHint(R.string.addwxnumber);
+//		mImgWXImage.setImageResource(R.drawable.c_manage_icon_wechat);
+//		mImgWXIcon.setImageResource(R.drawable.h_manage_icon_choose);
+//		mEtConnectionNumber.setHint(R.string.addwxnumber);
 		mCurrConnType = ConnectionType.connWeixin;
-		mEtConnectionNumber.setText(mStrWeixin);
-		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_TEXT);
+//		mEtConnectionNumber.setText(mStrWeixin);
+//		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_TEXT);
 	}
 
 	@Override
@@ -600,28 +654,26 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 
 	private void checkIsFinish() {
 		boolean isFinish = true;
-		if (mEtCustormerName.getText() == null
-				|| mEtCustormerName.getText().toString().length() == 0) {
+		if (mEtCustormerName.getText() == null || mEtCustormerName.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mStrQQ == null && mStrTel == null && mStrWeixin == null) {
+		} else if (mStrTel == null) {
 			isFinish = false;
-		} else if (mTvCustormerType.getText() == null
-				|| mTvCustormerType.getText().toString().length() == 0) {
+		} else if (mTvCustormerType.getText() == null || mTvCustormerType.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mTvCustormerPlace.getText() == null
-				|| mTvCustormerPlace.getText().toString().length() == 0) {
+		} else if (mEtCustormerNumber.getText() == null || mEtCustormerNumber.getText().toString().length() == 0) {//mEtCustormerNumber
 			isFinish = false;
-		} else if (mTvCustormerPianqu.getText() == null
-				|| mTvCustormerPianqu.getText().toString().length() == 0) {
+		} else if (mTvCustormerPlace.getText() == null || mTvCustormerPlace.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mTvCustormerArea.getText() == null
-				|| mTvCustormerArea.getText().toString().length() == 0) {
+		} else if (mTvCustormerPianqu.getText() == null || mTvCustormerPianqu.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mTvCustormerPrice.getText() == null
-				|| mTvCustormerPrice.getText().toString().length() == 0) {
+		} else if (mTvCustormerArea.getText() == null || mTvCustormerArea.getText().toString().length() == 0) {
+			isFinish = false;
+		} else if (mTvCustormerPrice.getText() == null || mTvCustormerPrice.getText().toString().length() == 0) {
 			isFinish = false;
 		}
-
+		if(!(isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel))) {
+			isFinish = false;
+		}
 		if (isFinish) {
 			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
 					0, R.drawable.universal_button_done);
@@ -652,9 +704,9 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			closeAreaContainer();
 		}
 
-		if (intId != mLlytConntectTypeContainer.getId()) {
+		/*if (intId != mLlytConntectTypeContainer.getId()) {
 			closeConnectionTypeContainer();
-		}
+		}*/
 
 		if (intId != mLlytTypeContainer.getId()) {
 			closeTypeContainer();
@@ -682,9 +734,8 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	}
 
 	private void closeConnectionTypeContainer() {
-		mLlytConntectTypeContainer.setVisibility(View.GONE);
-		mImgConnectionRight
-				.setBackgroundResource(R.drawable.h_manage_icon_down);
+//		mLlytConntectTypeContainer.setVisibility(View.GONE);
+//		mImgConnectionRight.setBackgroundResource(R.drawable.h_manage_icon_down);
 	}
 
 	private void closeTypeContainer() {
@@ -709,10 +760,12 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 	}
 
 	public static boolean isMobileNO(String mobiles) {
-		Pattern p = Pattern
-				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(17[0,7]))\\d{8}$");
-		Matcher m = p.matcher(mobiles);
-		return m.matches();
+		if(mobiles!=null){
+			Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(17[0,7]))\\d{8}$");
+			Matcher m = p.matcher(mobiles);
+			return m.matches();
+		}
+		return false;
 	}
 
 	@Override
@@ -754,5 +807,15 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			}
 		}
 	}
-
+	public void setLoseFocus(){
+		if(isMobileNO(mStrTel) && !TextUtils.isEmpty(mStrTel)){
+			if(mEtCustormerNumber.isFocusable()){
+				mEtCustormerNumber.setFocusable(false);
+			}
+		}else{
+			MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+			mEtCustormerNumber.setFocusable(true);
+			mEtCustormerNumber.setFocusableInTouchMode(true);
+		}
+	}
 }

@@ -24,6 +24,8 @@ public class HouseDetail {
 	private String att = "";// 纬度
 	private boolean isPublic = false;// 是否是公房
 	private boolean isRequireReason = false;// 是否需要原因
+	private boolean showroomInfo   = false;// 是否显示室号
+	private boolean showroomBtn   = false;// 是否显示查看室号按钮
 	private String year = "";
 	private String delegationType;//10015001  售  10015002  租
 	public String getRoomNO() {
@@ -44,6 +46,22 @@ public class HouseDetail {
 
 	public boolean getShowroom() {
 		return showroom;
+	}
+
+	public boolean isShowroomInfo() {
+		return showroomInfo;
+	}
+
+	public void setShowroomInfo(boolean showroomInfo) {
+		this.showroomInfo = showroomInfo;
+	}
+
+	public boolean isShowroomBtn() {
+		return showroomBtn;
+	}
+
+	public void setShowroomBtn(boolean showroomBtn) {
+		this.showroomBtn = showroomBtn;
 	}
 
 	public void setShowroom(boolean showroom) {

@@ -780,17 +780,34 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						}
 
 					}
-					if(mHouseDetail.isShowroom()){
+
+					if(mHouseDetail.isShowroomBtn()){
+						if(mHouseDetail.isShowroomInfo()){
+							mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+							tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
+							tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
+						}else{
+							tv_lookshihao_houseDetailActivity.setVisibility(View.VISIBLE);
+							if(LouCeng!=null){
+								mTvLouceng.setText("楼层："+LouCeng);
+							}else{
+								mTvLouceng.setText("楼层：");
+							}
+						}
+					}else{
+						if(mHouseDetail.isShowroomInfo()){
+							mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+							tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
+							tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
+						}
+					}
+				/*	if(mHouseDetail.isShowroom()){
 						mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 						tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
 						tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
 					}else{
-						if(LouCeng!=null){
-							mTvLouceng.setText("楼层："+LouCeng);
-						}else{
-							mTvLouceng.setText("楼层：");
-						}
-					}
+
+					}*/
 	//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 					mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
 					mTvYear.setText("年代：" + mHouseDetail.getYear());

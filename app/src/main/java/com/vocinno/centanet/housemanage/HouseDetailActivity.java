@@ -567,7 +567,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			if (borrowKey != null) {
 				if (borrowKey.isSuccess() == false) {
 					// 钥匙不存在
-					myDialog=new MyDialog.Builder(this);
+					/*myDialog=new MyDialog.Builder(this);
 					myDialog.setMessage(borrowKey.getMsg());
 					myDialog.setTitle("提示");
 					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -576,10 +576,11 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 							dialog.dismiss();
 						}
 					});
-					myDialog.create().show();
+					myDialog.create().show();*/
+					MethodsExtra.toast(mContext,borrowKey.getMsg());
 					MethodsDeliverData.mKeyType = 4;
 				} else {
-					// 借钥匙操作
+					/*// 借钥匙操作
 					myDialog=new MyDialog.Builder(this);
 					myDialog.setMessage(borrowKey.getMsg());
 					myDialog.setTitle("提示");
@@ -590,7 +591,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 							finish();
 						}
 					});
-					myDialog.create().show();
+					myDialog.create().show();*/
+					MethodsExtra.toast(mContext, borrowKey.getMsg());
 				}
 			} else {
 				// 钥匙不存在
@@ -640,7 +642,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(strJson,
 						HouseDetail.class);
 				if (!jReturn.isSuccess()) {
-					myDialog = new MyDialog.Builder(this);
+					MethodsExtra.toast(mContext, jReturn.getMsg());
+					/*myDialog = new MyDialog.Builder(this);
 					myDialog.setMessage(jReturn.getMsg());
 					myDialog.setTitle("提示");
 					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -650,7 +653,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 							onBack();
 						}
 					});
-					myDialog.create().show();
+					myDialog.create().show();*/
 				} else {
 					mHouseDetail = (HouseDetail) jReturn.getObject();
 					final List<Image> images = mHouseDetail.getImg();
@@ -824,8 +827,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 					Object.class);
 			if (jsReturn.isSuccess()) {
-//				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				myDialog=new MyDialog.Builder(this);
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+				/*myDialog=new MyDialog.Builder(this);
 				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -836,7 +839,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				});
 				myDialog.setTitle("提示");
 				myDialog.setMessage(jsReturn.getMsg());
-				myDialog.create().show();
+				myDialog.create().show();*/
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}

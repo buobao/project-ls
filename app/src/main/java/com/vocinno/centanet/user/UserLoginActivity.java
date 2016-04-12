@@ -9,13 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInit;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.SuperActivity;
-import com.vocinno.centanet.apputils.UpdateManager;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.home.HomeActivity;

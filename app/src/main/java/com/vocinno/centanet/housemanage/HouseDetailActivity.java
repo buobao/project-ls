@@ -1,42 +1,7 @@
 package com.vocinno.centanet.housemanage;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.centanet.apputils.SharedPreferencesUtils;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
-import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
-import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
-import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.apputils.dialog.MyDialog;
-import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
-import com.vocinno.centanet.customermanage.ConstantResult;
-import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
-import com.vocinno.centanet.model.BorrowKey;
-import com.vocinno.centanet.model.ContactDetail;
-import com.vocinno.centanet.model.ContactItem;
-import com.vocinno.centanet.model.Exclude;
-import com.vocinno.centanet.model.HouseDetail;
-import com.vocinno.centanet.model.HouseItem;
-import com.vocinno.centanet.model.Image;
-import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.model.Track;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -57,10 +22,43 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXTextObject;
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.AppInstance;
+import com.vocinno.centanet.apputils.SharedPreferencesUtils;
+import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
+import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
+import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
+import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
+import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
+import com.vocinno.centanet.model.BorrowKey;
+import com.vocinno.centanet.model.ContactDetail;
+import com.vocinno.centanet.model.ContactItem;
+import com.vocinno.centanet.model.Exclude;
+import com.vocinno.centanet.model.HouseDetail;
+import com.vocinno.centanet.model.HouseItem;
+import com.vocinno.centanet.model.Image;
+import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.Track;
+import com.vocinno.utils.MethodsData;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsFile;
+import com.vocinno.utils.MethodsJni;
+import com.vocinno.utils.MethodsJson;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 房源详情
@@ -841,10 +839,13 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			}
 			isFirstDataCall = isFirstDataCall + 1;
 		} else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT)) {
+			//抢公房
 			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 					Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
+				setResult(ConstantResult.REFRESH);
+				onBack();
 				/*myDialog=new MyDialog.Builder(this);
 				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override

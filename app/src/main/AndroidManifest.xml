@@ -80,8 +80,8 @@
         <!-- 系统启动相关模块 -->
         <activity
             android:name=".StartActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <activity
@@ -112,8 +112,13 @@
         <!-- 主页模块 -->
         <activity
             android:name=".home.HomeActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"/>
+        <activity
+            android:name=".home.HomeActivity2"
+            android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
 
         <!-- 房源管理模块 -->
@@ -407,14 +412,20 @@
             android:name=".housemanage.HouseReasonActivity"
             android:label="@string/title_activity_house_reason"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            >
+            android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="google_play_services_version"/>
+        <activity
+            android:name=".home.BaseActivity"
+            android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"/>
     </application>
 
 </manifest>

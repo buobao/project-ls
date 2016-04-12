@@ -2,24 +2,17 @@ package com.vocinno.tvapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
-
-import com.vocinno.tvapp.R;
 
 public class MainActivity extends Activity {
     private WebView wv_mainpage;
-    private String pageUrl = "http://trade.sh.centaline.com.cn/trade-web/mobile/dashboard/box/select";
+//    private String pageUrl = "http://trade.sh.centaline.com.cn/trade-web/mobile/dashboard/box/select";
+//    private String pageUrl = "http://10.4.19.205:8083/trade-web//mobile/dashboard/box/showRLightList?orgId=FF5BC56E0E4B45289DAA5721A494C7C5";
+    private String pageUrl = "http://trade.sh.centaline.com.cn/trade-web/mobile/dashboard/box/showRLightList?orgId=FF5BC56E0E4B45289DAA5721A494C7C5";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,8 +1,5 @@
 package com.vocinno.centanet.housemanage;
 
-import java.util.List;
-
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +10,10 @@ import android.view.View;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperFragment;
 import com.vocinno.centanet.housemanage.adapter.HouseListAdapter;
-import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
+
+import java.util.List;
 
 /**
  * 房源管理
@@ -149,6 +147,9 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 	@Override
 	public void onRefresh() {
 		isRefreshOrLoadMore=true;
+		HouseManageActivity.mEtSearch.setText("");
+		HouseManageActivity.searchId="";
+		HouseManageActivity.searchType="";
 		((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex] = 1;
 		((HouseManageActivity) getActivity()).getDataFromNetwork(mType, 1);
 	}

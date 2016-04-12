@@ -1,6 +1,5 @@
 package com.vocinno.centanet;
 
-import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;

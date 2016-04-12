@@ -21,7 +21,6 @@ import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
-import com.vocinno.centanet.model.Image;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;

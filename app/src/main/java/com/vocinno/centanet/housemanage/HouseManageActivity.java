@@ -1,8 +1,5 @@
 package com.vocinno.centanet.housemanage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -31,7 +28,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,7 +38,6 @@ import com.vocinno.centanet.apputils.AppInstance;
 import com.vocinno.centanet.apputils.SuperSlideMenuFragmentActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
@@ -59,6 +54,9 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 房源管理
  *
@@ -66,6 +64,8 @@ import com.vocinno.utils.MethodsJson;
  *
  */
 public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
+	public static String searchId ="";
+	public static String searchType ="";
 	private boolean isInitView = false;
 	private boolean isGongFangInitView = false;
 	public static boolean zOrS=false;//true 出售，false 出租
@@ -566,7 +566,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 								mFrame[mCurrentPageIndex],
 								mTags[mCurrentPageIndex],
 								mUserType[mCurrentPageIndex], 1, 20, "", "",
-								"", ""));
+								searchId, searchType));
 	}
 
 	@Override
@@ -652,7 +652,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"price", "asc", "", ""));
+										"price", "asc", searchId, searchType));
 			} else if (mPaiXuType == PaiXuType.mTvPriceSortDown) {
 				mPaiXuType = PaiXuType.mTvPriceSortUp;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -663,7 +663,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"price", "asc", "", ""));
+										"price", "asc", searchId, searchType));
 
 			} else if (mPaiXuType == PaiXuType.mTvPriceSortUp) {
 				mPaiXuType = PaiXuType.mTvPriceSortDown;
@@ -675,7 +675,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"price", "desc", "", ""));
+										"price", "desc", searchId, searchType));
 
 			} else {
 				mPaiXuType = PaiXuType.mTvPriceSortUp;
@@ -687,7 +687,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"price", "asc", "", ""));
+										"price", "asc", searchId, searchType));
 			}
 			mSearchDialog.dismiss();
 			showDialog();
@@ -705,7 +705,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"acre", "asc", "", ""));
+										"acre", "asc", searchId, searchType));
 			} else if (mPaiXuType == PaiXuType.mTvAreaSortUp) {
 				mPaiXuType = PaiXuType.mTvAreaSortDown;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -716,7 +716,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"acre", "desc", "", ""));
+										"acre", "desc",searchId, searchType));
 			} else if (mPaiXuType == PaiXuType.mTvAreaSortDown) {
 				mPaiXuType = PaiXuType.mTvAreaSortUp;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -727,7 +727,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"acre", "asc", "", ""));
+										"acre", "asc", searchId, searchType));
 			} else {
 				mPaiXuType = PaiXuType.mTvAreaSortUp;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -738,7 +738,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"acre", "asc", "", ""));
+										"acre", "asc", searchId, searchType));
 			}
 			mSearchDialog.dismiss();
 			showDialog();
@@ -758,7 +758,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], 1, 20, "",
-									"", "", ""));
+									"", searchId, searchType));
 			ll_dialog_wheelview_two4.setVisibility(View.GONE);
 			layoutIndex=-1;
 			showDialog();
@@ -794,7 +794,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1,
-										20, "", "", "", ""));
+										20, "", "", searchId, searchType));
 				ll_dialog_wheelview_two0.setVisibility(View.GONE);
 				layoutIndex=-1;
 				showDialog();
@@ -857,7 +857,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 											mFrame[mCurrentPageIndex],
 											mTags[mCurrentPageIndex],
 											mUserType[mCurrentPageIndex], 1,
-											20, "", "", "", ""));
+											20, "", "", searchId, searchType));
 					ll_dialog_wheelview_two1.setVisibility(View.GONE);
 					layoutIndex=-1;
 				} else {
@@ -877,7 +877,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"", "", "", ""));
+										"", "", searchId, searchType));
 				ll_dialog_wheelview_two2.setVisibility(View.GONE);
 				layoutIndex=-1;
 			} else if (mFragmentTagIndexs[mCurrentPageIndex] == 3) {
@@ -892,7 +892,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 										mFrame[mCurrentPageIndex],
 										mTags[mCurrentPageIndex],
 										mUserType[mCurrentPageIndex], 1, 20,
-										"", "", "", ""));
+										"", "", searchId, searchType));
 			}
 			showDialog();
 			break;
@@ -914,7 +914,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], 1, 20, "",
-									"", "", ""));
+									"", searchId, searchType));
 			ll_dialog_wheelview_two2.setVisibility(View.GONE);
 			layoutIndex=-1;
 			showDialog();
@@ -930,7 +930,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], 1, 20, "",
-									"", "", ""));
+									"", searchId, searchType));
 			ll_dialog_wheelview_two3.setVisibility(View.GONE);
 			layoutIndex=-1;
 			showDialog();
@@ -1026,7 +1026,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		}
 	}
 	private ListView mLvHostory;
-	private EditText mEtSearch;
+	public static EditText mEtSearch;
 	private void showSearchDialog() {
 		mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
 		mSearchDialog.setContentView(R.layout.dialog_search_house_manage);
@@ -1056,7 +1056,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 		mBtnClean.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				mEtSearch.setText("");
+//				mEtSearch.setText("");
 				mLvHostory.setVisibility(View.GONE);
 			}
 		});
@@ -1100,6 +1100,8 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				} else if (mType == 2) {
 					type = 1;
 				}*/
+				searchId=mSearchListData.get(arg2).getSearchId() + "";
+				searchType=mSearchListData.get(arg2).getSearchType();
 				showDialog();
 				String reqparm = CST_JS
 						.getJsonStringForHouseListGetList(type + "",
@@ -1107,9 +1109,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 								mSquare[mCurrentPageIndex],
 								mFrame[mCurrentPageIndex],
 								mTags[mCurrentPageIndex],
-								mUserType[mCurrentPageIndex], 1, 20, "", "",
-								mSearchListData.get(arg2).getSearchId() + "",
-								mSearchListData.get(arg2).getSearchType());
+								mUserType[mCurrentPageIndex], 1, 20, "", "",searchId,searchType);
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getList, reqparm);
 				mSearchDialog.dismiss();
@@ -1513,7 +1513,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mTags[mCurrentPageIndex], page, 20, "", "",
-									"", ""));
+									searchId, searchType));
 		} else if (mPaiXuType == PaiXuType.mTvPriceSortDown) {
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_getList, CST_JS
@@ -1523,7 +1523,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], page, 20,
-									"price", "desc", "", ""));
+									"price", "desc", searchId, searchType));
 		} else if (mPaiXuType == PaiXuType.mTvPriceSortUp) {
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_getList, CST_JS
@@ -1533,7 +1533,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], page, 20,
-									"price", "asc", "", ""));
+									"price", "asc", searchId, searchType));
 
 		} else if (mPaiXuType == PaiXuType.mTvAreaSortUp) {
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
@@ -1544,7 +1544,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], page, 20,
-									"acre", "asc", "", ""));
+									"acre", "asc", searchId, searchType));
 		} else if (mPaiXuType == PaiXuType.mTvAreaSortDown) {
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_getList, CST_JS
@@ -1554,7 +1554,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mUserType[mCurrentPageIndex], page, 20,
-									"acre", "desc", "", ""));
+									"acre", "desc", searchId, searchType));
 		} else {
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_getList, CST_JS
@@ -1564,7 +1564,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 									mFrame[mCurrentPageIndex],
 									mTags[mCurrentPageIndex],
 									mTags[mCurrentPageIndex], page, 20, "", "",
-									"", ""));
+									searchId, searchType));
 		}
 		if(FourKindsHouseFragment.isRefreshOrLoadMore){//防止下拉刷新上拉加载出现loading框
 			FourKindsHouseFragment.isRefreshOrLoadMore=false;

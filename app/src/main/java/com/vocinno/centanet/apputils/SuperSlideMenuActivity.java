@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import cn.jpush.android.api.JPushInterface;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
@@ -29,6 +28,8 @@ import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.zbar.lib.CaptureActivity;
+
+import cn.jpush.android.api.JPushInterface;
 
 public abstract class SuperSlideMenuActivity extends Activity implements
 		OnClickListener {

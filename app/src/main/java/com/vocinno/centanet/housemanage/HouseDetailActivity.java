@@ -733,7 +733,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						} catch (Exception e) {
 							bPrice = new BigDecimal("0.00");
 						}
-						mTvPrice.setText(bPrice.setScale(2,
+						mTvPrice.setText(bPrice.setScale(0,
 								BigDecimal.ROUND_HALF_UP) + "");
 						mTvDetail.setText(mHouseDetail.getFrame() + "  "
 								+ mHouseDetail.getSquare() + " " + "㎡  "
@@ -748,7 +748,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						} catch (Exception e) {
 							bPrice = new BigDecimal("0.00");
 						}
-						mTvPrice.setText(bPrice.setScale(2,
+						mTvPrice.setText(bPrice.setScale(0,
 								BigDecimal.ROUND_HALF_UP) + "");
 
 //						String delCode = mHouseDetail.getDelCode().substring(4, 5);

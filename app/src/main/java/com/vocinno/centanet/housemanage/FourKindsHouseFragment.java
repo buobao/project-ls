@@ -148,8 +148,8 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 	public void onRefresh() {
 		isRefreshOrLoadMore=true;
 		HouseManageActivity.mEtSearch.setText("");
-		HouseManageActivity.searchId="";
-		HouseManageActivity.searchType="";
+		HouseManageActivity.searchId[HouseManageActivity.viewPagerIndex]="";
+		HouseManageActivity.searchType[HouseManageActivity.viewPagerIndex]="";
 		((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex] = 1;
 		((HouseManageActivity) getActivity()).getDataFromNetwork(mType, 1);
 	}
@@ -158,8 +158,7 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 	public void onLoadMore() {
 		isRefreshOrLoadMore=true;
 		((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex]++;
-		((HouseManageActivity) getActivity()).getDataFromNetwork(mType,
-				((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex]);
+		((HouseManageActivity) getActivity()).getDataFromNetwork(mType,((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex]);
 
 	}
 

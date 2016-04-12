@@ -2,7 +2,6 @@ package com.vocinno.centanet.customermanage;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -21,7 +20,6 @@ import com.google.gson.Gson;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
@@ -374,7 +372,8 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 			} else {
 				if(robRefresh){
 					if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
-						MyDialog.Builder dialog=new MyDialog.Builder(this);
+						MethodsExtra.toast(mContext,jsReturn.getMsg());
+						/*MyDialog.Builder dialog=new MyDialog.Builder(this);
 						dialog.setTitle("提示");
 						dialog.setMessage(jsReturn.getMsg());
 						dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -383,7 +382,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 								dialog.dismiss();
 							}
 						});
-						dialog.create().show();
+						dialog.create().show();*/
 					}
 					robRefresh=false;
 				}

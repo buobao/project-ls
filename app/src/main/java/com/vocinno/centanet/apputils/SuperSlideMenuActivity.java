@@ -92,10 +92,18 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 		initData();
 	}
 
+	public void clearSearch(){
+		for (int i = 0; i < HouseManageActivity.searchId.length; i++) {
+			HouseManageActivity.searchId[i]="";
+			HouseManageActivity.searchType[i]="";
+		}
+	}
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			//附近出售
 		case R.id.rlyt_sell_house_main_page_slid_menus:
+			HouseManageActivity.mArrayHouseItemList[0]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
@@ -117,7 +125,9 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
+		//附近出租
 		case R.id.rlyt_rent_house_main_page_slid_menus:
+			HouseManageActivity.mArrayHouseItemList[1]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
@@ -139,6 +149,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
+		//约看房源
 		case R.id.rlyt_see_house_main_page_slid_menus:
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
@@ -163,7 +174,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			sendMessageCloseMenu();
 			break;
 		case R.id.rlyt_my_house_main_page_slid_menus://我的出售
-			Log.i("--------------","---------------");
+			HouseManageActivity.mArrayHouseItemList[3]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
@@ -186,6 +197,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			sendMessageCloseMenu();
 			break;
 			case R.id.rlyt_my_house_main_page_slid_menus2://我的出租
+				HouseManageActivity.mArrayHouseItemList[4]=null;
 				CST_JS.setZOrS("r");
 				HouseManageActivity.zOrS=false;
 				if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
@@ -294,7 +306,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			sendMessageCloseMenu();
 			break;
 		}
-
+		clearSearch();
 	}
 
 	public abstract int setContentLayoutId();

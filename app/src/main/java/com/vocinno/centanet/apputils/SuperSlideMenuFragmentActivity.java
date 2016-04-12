@@ -1,5 +1,18 @@
 package com.vocinno.centanet.apputils;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
@@ -17,18 +30,6 @@ import com.vocinno.utils.MethodsJni;
 import com.zbar.lib.CaptureActivity;
 
 import cn.jpush.android.api.JPushInterface;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 		implements OnClickListener {
@@ -43,7 +44,6 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 
 	public SlideMenu mSlidMenu;
 	public LinearLayout mLlytContainer;
-
 	public enum LastOpenType {
 		NONE, TYPE_HOUSE_MANAGER, TYPE_HOUSE_MANAGER_GONGFANG, TYPE_CUSTOMER, TYPE_CUSTOMER_GONGKE
 	};
@@ -106,12 +106,20 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			}
 		}
 	}
-
+	public void clearSearch(){
+		for (int i = 0; i < HouseManageActivity.searchId.length; i++) {
+			HouseManageActivity.searchId[i]="";
+			HouseManageActivity.searchType[i]="";
+		}
+	}
 	@Override
 	public void onClick(View v) {
-
+//mArrayHouseItemList
+		clearSearch();
 		switch (v.getId()) {
+			//附近出售
 		case R.id.rlyt_sell_house_main_page_slid_menus:
+			HouseManageActivity.mArrayHouseItemList[0]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
@@ -131,9 +139,12 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
 				clearActivity();
 			}
+//			HouseManageActivity.mArrayHouseItemList[0]=null;
 			sendMessageCloseMenu();
 			break;
+		//附近出租
 		case R.id.rlyt_rent_house_main_page_slid_menus:
+			HouseManageActivity.mArrayHouseItemList[1]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
@@ -155,6 +166,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			}
 			sendMessageCloseMenu();
 			break;
+		//约看房源
 		case R.id.rlyt_see_house_main_page_slid_menus:
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
@@ -178,6 +190,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			sendMessageCloseMenu();
 			break;
 		case R.id.rlyt_my_house_main_page_slid_menus://我的出售
+			HouseManageActivity.mArrayHouseItemList[3]=null;
 			CST_JS.setZOrS("s");
 			HouseManageActivity.zOrS=true;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
@@ -202,6 +215,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			sendMessageCloseMenu();
 			break;
 			case R.id.rlyt_my_house_main_page_slid_menus2://我的出租
+				HouseManageActivity.mArrayHouseItemList[4]=null;
 				CST_JS.setZOrS("r");
 				HouseManageActivity.zOrS=false;
 				if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
@@ -326,6 +340,10 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			sendMessageCloseMenu();
 			break;
 		}
+		/*if(selectIndex!=-1){//如果在房源列表有搜索记录，那么从侧滑菜单进入就刷新
+			HouseManageActivity.mArrayHouseItemList[selectIndex]=null;
+			selectIndex=-1;
+		}*/
 	}
 
 	public abstract int setContentLayoutId();

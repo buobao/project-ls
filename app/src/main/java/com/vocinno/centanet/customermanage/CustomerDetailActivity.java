@@ -1,21 +1,31 @@
 package com.vocinno.centanet.customermanage;
 
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
-import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
-import com.vocinno.centanet.model.ContactDetail;
-import com.vocinno.centanet.model.ContactItem;
 import com.vocinno.centanet.model.CustomerDetail;
-import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
@@ -24,32 +34,15 @@ import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	private String mCusterCode = null;
-	private View mBackView, mImgViewAddTrack;
+	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
 	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
 			mTvPrice, mTvTenancyTime, mTvMoney, mTvPaymenttype;
@@ -106,7 +99,6 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
 //		mImgViewQQ = (ImageView) findViewById(R.id.imgView_qq_customerDetailActivity);
 //		mImgWeixin = (ImageView) findViewById(R.id.imgView_wx_customerDetailActivity);
-
 	}
 
 	@Override
@@ -144,6 +136,8 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 		if (MethodsDeliverData.flag1 == 1) {
 //			MethodsDeliverData.flag1 = -1;
 			mGrabCustomer.setVisibility(View.VISIBLE);
+			mSubmit = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,R.drawable.phone_img);
+			mSubmit.setOnClickListener(this);
 			mImgViewPhone.setVisibility(View.GONE);
 		}else{
 			mImgViewPhone.setVisibility(View.VISIBLE);
@@ -155,6 +149,18 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+			case R.id.img_right_mhead1:
+				if(mDetail.getPhone()==null||mDetail.getPhone().length()<=0){
+					MethodsExtra.toast(mContext,"暂无联系人号码");
+				}else{
+					List<CustomerDetail.Content>list=new ArrayList<CustomerDetail.Content>();
+					CustomerDetail.Content content=new CustomerDetail().new Content();
+					content.setName(mDetail.getName());
+					content.setPhone(mDetail.getPhone());
+					list.add(content);
+					showCallCosturmerDialog(list);
+				}
+				break;
 			case R.id.img_left_mhead1:
 				onBack();
 				break;

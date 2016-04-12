@@ -1,17 +1,5 @@
 package com.vocinno.centanet.housemanage.adapter;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
-import com.vocinno.centanet.housemanage.HouseType;
-import com.vocinno.centanet.model.HouseItem;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +10,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.housemanage.HouseDetailActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.model.HouseItem;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsFile;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class HouseListAdapter extends BaseAdapter {
 
@@ -137,7 +136,7 @@ public class HouseListAdapter extends BaseAdapter {
 				bPrice = new BigDecimal("0.00");
 			}
 			holder.mTvPrice.setText(bPrice
-					.setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+					.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
 			holder.mTvUnit.setText("元");
 		} else {
 			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,
@@ -149,7 +148,7 @@ public class HouseListAdapter extends BaseAdapter {
 				bPrice = new BigDecimal("0.00");
 			}
 			holder.mTvPrice.setText(bPrice
-					.setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+					.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
 			holder.mTvUnit.setText("万");
 		}
 		holder.mTvDateTime.setText(item.getActiveTime());

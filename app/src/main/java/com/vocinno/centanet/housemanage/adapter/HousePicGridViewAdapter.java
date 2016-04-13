@@ -3,23 +3,16 @@ package com.vocinno.centanet.housemanage.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.mylibrary.photos.PhotoReadyHandler;
-import com.example.mylibrary.photos.SelectPhotoManager;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.housemanage.EditPicDetailActivity;
-import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
-import com.vocinno.utils.imageutils.selector.SelectorImageActivity;
-import com.vocinno.utils.media.camera.CameraActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

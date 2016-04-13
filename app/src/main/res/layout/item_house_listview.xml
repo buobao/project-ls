@@ -42,14 +42,16 @@
         </ImageView>
     </RelativeLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
+        android:orientation="horizontal"
         android:layout_weight="0.7" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="5dp"
@@ -105,11 +107,13 @@
                 android:textSize="12sp" />
 
             <LinearLayout
+                android:id="@+id/ll_tag_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                >
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tv_tag1_itemHouseListView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -154,19 +158,19 @@
                     android:text="学区"
                     android:textColor="#86C21F"
                     android:textSize="11sp"
-                    android:visibility="invisible" />
+                    android:visibility="invisible" />-->
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:gravity="bottom"
                 android:layout_weight="0.77" >
 
                 <TextView
@@ -196,6 +200,6 @@
                 android:textColor="#BEBEBE"
                 android:textSize="11sp" />
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

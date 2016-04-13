@@ -40,7 +40,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 	public MyDialog.Builder myDialog;
 	private RelativeLayout mRyltSellHouse, mRyltRentHouse, mRyltSeeHouse,
 			mRyltMyHouse,mRyltMyHouse2, mRyltKeyHouse, mRyltRemind, mRyltMyCustomer,
-			mRyltGrabHouse, mRyltGrabCustomer, mRyltInputPassword, mRyltScan;
+			mRyltGrabHouse,mRyltGrabHouseZu, mRyltGrabCustomer, mRyltInputPassword, mRyltScan;
 
 	public SlideMenu mSlidMenu;
 	public LinearLayout mLlytContainer;
@@ -65,6 +65,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 		mRyltKeyHouse = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
 		mRyltMyCustomer = (RelativeLayout) findViewById(R.id.rlyt_my_customer_main_page_slid_menus);
 		mRyltGrabHouse = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
+		mRyltGrabHouseZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
 		mRyltGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_grab_customer_main_page_slid_menus);
 		mRyltInputPassword = (RelativeLayout) findViewById(R.id.rlyt_password_main_page_slid_menus);
 		mRyltScan = (RelativeLayout) findViewById(R.id.rlyt_sacn_customer_main_page_slid_menus);
@@ -77,6 +78,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 		mRyltKeyHouse.setOnClickListener(this);
 		mRyltMyCustomer.setOnClickListener(this);
 		mRyltGrabHouse.setOnClickListener(this);
+		mRyltGrabHouseZu.setOnClickListener(this);
 		mRyltGrabCustomer.setOnClickListener(this);
 		mRyltInputPassword.setOnClickListener(this);
 		mRyltScan.setOnClickListener(this);
@@ -246,6 +248,7 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
+		//抢公售
 		case R.id.rlyt_grab_house_main_page_slid_menus:
 			if (MethodsDeliverData.mIntHouseType == HouseType.GONG_FANG
 					&& AppInstance.mListActivitys
@@ -265,6 +268,26 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
+		//抢公租
+			case R.id.rlyt_grab_house_main_page_slid_menus2:
+				if (MethodsDeliverData.mIntHouseType == HouseType.GONG_FANGZU
+						&& AppInstance.mListActivitys
+						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+				} else if (AppInstance.mListActivitys
+						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					MethodsDeliverData.flag = 1;
+					MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+					AppInstance.mListActivitys.get(
+							AppInstance.mListActivitys.size() - 1).finish();
+					startActivity(new Intent(mContext, HouseManageActivity.class));
+				} else {
+					MethodsDeliverData.flag = 1;
+					MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+					MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+					clearActivity();
+				}
+				sendMessageCloseMenu();
+				break;
 		case R.id.rlyt_grab_customer_main_page_slid_menus:
 			if (!MethodsDeliverData.isMyCustomer
 					&& AppInstance.mListActivitys

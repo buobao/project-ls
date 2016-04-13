@@ -10,11 +10,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
@@ -34,8 +34,9 @@ import com.zbar.lib.CaptureActivity;
  * @author Administrator
  *
  */
-public class HomeActivity extends SuperActivity {
-
+public class HomeActivity extends BaseActivity{
+	private RelativeLayout rl_leftView;
+	private ImageView menuView;
 	private TextView /*mTvHouseManage,*/ /*mTvCustomerManage*/ mTvKeyManage,
 			mTvGrabHouse, mTvGrabCustomer, mTvRemind;
 	private ImageView iv_fangyuan,iv_keyuan,iv_yaoshi,iv_qianggongfang,iv_qianggongke,iv_tixing;
@@ -74,6 +75,7 @@ public class HomeActivity extends SuperActivity {
 
 	@Override
 	public void initView() {
+		setMenu();
 		iv_fangyuan = (ImageView) findViewById(R.id.iv_fangyuan);
 		iv_keyuan = (ImageView) findViewById(R.id.iv_keyuan);
 		iv_yaoshi = (ImageView) findViewById(R.id.iv_yaoshi);
@@ -82,14 +84,11 @@ public class HomeActivity extends SuperActivity {
 		iv_tixing = (ImageView) findViewById(R.id.iv_tixing);
 		ll_pinma = (LinearLayout) findViewById(R.id.ll_pinma);
 		ll_saoyisao = (LinearLayout) findViewById(R.id.ll_saoyisao);
-		MethodsExtra.findHeadTitle1(mContext, mRootView, 0,getString(R.string.app_name));
+		MethodsExtra.findHeadTitle1(mContext, baseView, 0,getString(R.string.app_name));
 		mImgViewBackground = (ImageView) findViewById(R.id.imgView_background_HomeActivity);
 		mImgViewBackground.setBackgroundResource(R.drawable.homeimg);
 //		mViewBlurBorder = findViewById(R.id.tv_blurBorder_modelLayerGradit);
-	}
 
-	@Override
-	public void setListener() {
 		iv_fangyuan.setOnClickListener(this);
 		iv_keyuan.setOnClickListener(this);
 		iv_yaoshi.setOnClickListener(this);
@@ -99,7 +98,14 @@ public class HomeActivity extends SuperActivity {
 		ll_pinma.setOnClickListener(this);
 		ll_saoyisao.setOnClickListener(this);
 	}
-
+	private void setMenu() {
+		rl_leftView = (RelativeLayout) baseView.findViewById(R.id.rlyt_left_mhead1);
+		rl_leftView.setVisibility(View.VISIBLE);
+		menuView=(ImageView)baseView.findViewById(R.id.img_left_mhead1);
+		menuView.setVisibility(View.VISIBLE);
+		menuView.setImageResource(R.drawable.home_menu);
+		menuView.setOnClickListener(this);
+	}
 	@Override
 	public void initData() {
 		mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
@@ -150,11 +156,6 @@ public class HomeActivity extends SuperActivity {
 				MethodsExtra.startActivity(mContext, CaptureActivity.class);
 				break;
 		}
-	}
-
-	@Override
-	public void onBack() {
-		finish();
 	}
 
 	@Override

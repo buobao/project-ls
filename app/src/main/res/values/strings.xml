@@ -163,4 +163,7 @@
     <string name="download_url">http://a.sh.centanet.com/app/centanet_Release.apk</string>
     <string name="apk_name">http://a.sh.centanet.com/app/centanet_Release.apk</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

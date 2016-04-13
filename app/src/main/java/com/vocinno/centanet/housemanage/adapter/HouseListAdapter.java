@@ -3,15 +3,18 @@ package com.vocinno.centanet.housemanage.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
@@ -63,8 +66,8 @@ public class HouseListAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.item_house_listview, null);
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.item_house_listview, null);
+			holder.ll_tag_view = (LinearLayout) convertView.findViewById(R.id.ll_tag_view);
 			holder.mImgViewImage = (ImageView) convertView
 					.findViewById(R.id.img_image_itemHouseListView);
 			holder.mImgViewKeyIcon = (ImageView) convertView
@@ -77,12 +80,12 @@ public class HouseListAdapter extends BaseAdapter {
 					.findViewById(R.id.tv_detail_itemHouseListView);
 			holder.mTvUnitprice = (TextView) convertView
 					.findViewById(R.id.tv_unitprice_itemHouseListView);
-			holder.mTvTag1 = (TextView) convertView
+			/*holder.mTvTag1 = (TextView) convertView
 					.findViewById(R.id.tv_tag1_itemHouseListView);
 			holder.mTvTag2 = (TextView) convertView
 					.findViewById(R.id.tv_tag2_itemHouseListView);
 			holder.mTvTag3 = (TextView) convertView
-					.findViewById(R.id.tv_tag3_itemHouseListView);
+					.findViewById(R.id.tv_tag3_itemHouseListView);*/
 			holder.mTvPrice = (TextView) convertView
 					.findViewById(R.id.tv_price_itemHouseListView);
 			holder.mTvDateTime = (TextView) convertView
@@ -152,12 +155,29 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mTvUnit.setText("万");
 		}
 		holder.mTvDateTime.setText(item.getActiveTime());
-		holder.mTvTag1.setText(item.getTag());
-		if (!item.getTag().equals("")) {
+//		holder.mTvTag1.setText(item.getTag());
+		if(!(item.getTag()==null||item.getTag().trim().length()<=0)){
+			String[] itemTag = getTag(item.getTag());
+			int dip = MyUtils.px2dip(mContext, (float) 6);
+			LinearLayout.LayoutParams LayoutParams=new LinearLayout.LayoutParams(-2,-2);
+			LayoutParams.setMargins(MyUtils.px2dip(mContext, (float)5),0,0,0);
+			for (int i = 0; i <itemTag.length ; i++) {
+				TextView tv=new TextView(mContext);
+				tv.setText(itemTag[i]);
+				tv.setTextSize(11);
+				tv.setPadding(dip, 0, dip, 0);
+				tv.setGravity(Gravity.CENTER);
+				tv.setLayoutParams(LayoutParams);
+				tv.setTextColor(mContext.getResources().getColor(R.color.house_tag_color));
+				tv.setBackgroundResource(R.drawable.bg_house_tag_blue_house_manage);
+				holder.ll_tag_view.addView(tv);
+			}
+		}
+		/*if (!item.getTag().equals("")) {
 			holder.mTvTag1.setVisibility(View.VISIBLE);
 		} else {
 			holder.mTvTag1.setVisibility(View.INVISIBLE);
-		}
+		}*/
 		if (item.getImg() != null || item.getImg().size() != 0) {
 			MethodsFile.downloadAsynicImageByUrl((Activity) mContext, item
 					.getImg().get(0).getUrl(), holder.mImgViewImage);
@@ -190,15 +210,19 @@ public class HouseListAdapter extends BaseAdapter {
 		});
 		return convertView;
 	}
-
+	public String[] getTag(String string){
+		String[]stringTag=string.split(",");
+		return stringTag;
+	}
 	public class ViewHolder {
+		LinearLayout ll_tag_view;
 		ImageView mImgViewImage;
 		ImageView mImgViewKeyIcon;
 		ImageView mImgisHD;
 		TextView mTvAddr;
 		TextView mTvDetail;
 		TextView mTvUnitprice;
-		TextView mTvTag1, mTvTag2, mTvTag3;
+//		TextView mTvTag1, mTvTag2, mTvTag3;
 		TextView mTvPrice;
 		TextView mTvDateTime;
 		TextView mTvKeyState;

@@ -22,6 +22,8 @@ public class HouseItem {
 	private String keyUserPhone = "";// 当前借用人电话
 	private String keyCount = "-1";
 	private int isHD;
+	private boolean ishidden;
+	private String building_name;
 	private String delegationType;//10015001  售  10015002  租
 	public static final String SHOU="10015001";
 	public static final String ZU="10015002";
@@ -60,6 +62,22 @@ public class HouseItem {
 
 	public void setKeyStatus(String keyStatus) {
 		this.keyStatus = keyStatus;
+	}
+
+	public String getBuilding_name() {
+		return building_name;
+	}
+
+	public void setBuilding_name(String building_name) {
+		this.building_name = building_name;
+	}
+
+	public boolean ishidden() {
+		return ishidden;
+	}
+
+	public void setIshidden(boolean ishidden) {
+		this.ishidden = ishidden;
 	}
 
 	public String getKeyUser() {

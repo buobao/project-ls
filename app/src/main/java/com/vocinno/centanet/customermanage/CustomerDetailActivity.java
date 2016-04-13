@@ -80,6 +80,7 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	@SuppressLint("NewApi")
 	@Override
 	public void initView() {
+		TAG=this.getClass().getSimpleName();
 		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.customernews,
 				null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
@@ -253,11 +254,14 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 				mGrabCustomer.setVisibility(View.VISIBLE);
 			}*/
 			firstRefresh=true;
+			MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
+			MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
 			showDialog();
 			// 调用数据
 			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 					CST_JS.JS_Function_CustomerList_getCustomerInfo,
 					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+
 //			initData();
 
 			/*Track track = new Track();

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/lightgray"
-    android:orientation="horizontal"
-    android:paddingBottom="0dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:paddingTop="12dp" >
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@color/lightgray"
+              android:orientation="horizontal"
+              android:paddingBottom="0dp"
+              android:paddingLeft="8dp"
+              android:paddingRight="9dp"
+              android:paddingTop="12dp">
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -17,10 +18,9 @@
 
         <ImageView
             android:id="@+id/img_image_itemHouseListView"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_centerInParent="true"
-            android:layout_margin="0dp"
             android:background="@drawable/default_img"
             android:scaleType="fitXY" />
         <ImageView
@@ -66,11 +66,10 @@
 
                 <TextView
                     android:id="@+id/tv_addr_itemHouseListView"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:paddingRight="3dp"
-                    android:text="华敏世纪广场124号2-101"
+                    android:text="华敏世纪广场124号"
                     android:textColor="#2E2E2E"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -79,11 +78,14 @@
                     android:id="@+id/tv_keyState_itemHouseListView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="在店"
-                    android:textColor="@color/green"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
+                    android:layout_marginLeft="3dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/red"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    tools:text="高区"
+                    />
             </LinearLayout>
 
             <TextView
@@ -168,9 +170,9 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:gravity="bottom"
+                android:gravity="bottom|right"
                 android:layout_weight="0.77" >
 
                 <TextView
@@ -197,7 +199,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="0.23"
                 android:text="2015-06-05"
-                android:textColor="#BEBEBE"
+                android:textColor="@color/house_tag_text_color"
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>

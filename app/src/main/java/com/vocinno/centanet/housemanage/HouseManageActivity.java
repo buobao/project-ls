@@ -1640,7 +1640,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
 					mListView.setAdapter(mSearch);
 				}else{
-					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+//					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
 					//抱歉没有搜索到该房源
 				}
 			}else{

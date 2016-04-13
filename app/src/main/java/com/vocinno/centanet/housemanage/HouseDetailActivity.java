@@ -279,9 +279,12 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		switch (resultCode){
 			case 101:
 				String  roomNo=data.getStringExtra("roomNo");
+				String  buiding=data.getStringExtra("buiding");
 				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
 				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 				tv_lookshihao_houseDetailActivity.setVisibility(View.GONE);
+
+				mTvName.setText(mHouseDetail.getAddr() + " "+buiding+" " + mHouseDetail.getDelCode());
 				break;
 			case ConstantResult.REFRESH:
 				showDialog();
@@ -544,12 +547,13 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			String strJson = (String) data;
 			JSReturn jReturnHouseDetail = MethodsJson.jsonToJsReturn(strJson,
 					HouseDetail.class);
-			HouseDetail mHouseDetail = (HouseDetail) jReturnHouseDetail.getObject();
+			HouseDetail hDetail = (HouseDetail) jReturnHouseDetail.getObject();
 			if(jReturnHouseDetail.isSuccess()){
-				String roomNo= mHouseDetail.getRoomNO();
+				String roomNo= hDetail.getRoomNO();
+				mTvName.setText(mHouseDetail.getAddr() + " "+hDetail.getBuiding()+" " + mHouseDetail.getDelCode());
 				tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);
-				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
-				LouCeng=mHouseDetail.getFloor();
+				mTvLouceng.setText("楼层：" + hDetail.getFloor());
+				LouCeng=hDetail.getFloor();
 				tv_shihao_houseDetailActivity.setText("室号："+roomNo);
 			}else{
 				MethodsExtra.toast(mContext, jReturnHouseDetail.getMsg());
@@ -724,7 +728,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						b = new BigDecimal("0.00");
 					}
 
-					mTvName.setText(mHouseDetail.getAddr());
 //					if (mHouseDetail.getDelCode().charAt(4) == 'Z') {
 					if (HouseItem.ZU.equals(mHouseDetail.getDelegationType())) {//Z
 						mTvPriceUnit.setText("元");
@@ -778,7 +781,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						}
 
 					}
-
+					mTvName.setText(mHouseDetail.getAddr() + " " + mHouseDetail.getDelCode());
 					if(mHouseDetail.isShowroomBtn()){
 						if(mHouseDetail.isShowroomInfo()){
 							mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
@@ -794,6 +797,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						}
 					}else{
 						if(mHouseDetail.isShowroomInfo()){
+							mTvName.setText(mHouseDetail.getAddr() + " "+mHouseDetail.getBuildingname()+" " + mHouseDetail.getDelCode());
 							mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 							tv_shihao_houseDetailActivity.setText("室号："+mHouseDetail.roomNo);
 							tv_lookshihao_houseDetailActivity.setVisibility(View.INVISIBLE);

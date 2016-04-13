@@ -3,6 +3,7 @@ package com.vocinno.centanet.housemanage.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,17 +24,20 @@ import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsFile;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HouseListAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private List<HouseItem> mListHouses;
 	private int mType = HouseType.NONE;
-
+	public static Map<Integer,String[]> tagMap;
 	public HouseListAdapter(Context mContext, int type) {
 		this.mContext = mContext;
 		this.mType = type;
+		tagMap=new HashMap<>();
 	}
 
 	public void setDataList(List<HouseItem> listHouses) {
@@ -99,6 +103,21 @@ public class HouseListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final HouseItem item = mListHouses.get(position);
+		if(item.ishidden()){
+			holder.mTvKeyState.setText(item.getFloor());
+			TextPaint tp = holder.mTvKeyState.getPaint();
+			holder.mTvKeyState.setTextSize(11);
+			tp.setFakeBoldText(false);
+			holder.mTvKeyState.setTextColor(mContext.getResources().getColor(R.color.red));
+			holder.mTvKeyState.setBackgroundResource(R.drawable.bg_house_list_red_house_manage);
+		}else{
+			holder.mTvKeyState.setText(item.getFloor());
+			TextPaint tp = holder.mTvKeyState.getPaint();
+			tp.setFakeBoldText(true);
+			holder.mTvKeyState.setTextSize(15);
+			holder.mTvKeyState.setTextColor(mContext.getResources().getColor(R.color.house_list_text_color));
+			holder.mTvKeyState.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+		}
 //		String delCode = item.getDelCode().substring(4, 5);
 		String delegationType= item.getDelegationType();
 		if(!HouseItem.SHOU.equalsIgnoreCase(delegationType)){
@@ -118,7 +137,7 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mImgViewKeyIcon.setVisibility(View.INVISIBLE);
 		}
 		holder.mTvDetail.setText(item.getFrame() + " " + item.getSquare() + "㎡"
-				+ " " + item.getFloor() + " " + item.getOrient());
+				+ " " + item.getOrient());
 		BigDecimal bUnitPrice, bPrice;
 		if (item.getUnitprice().equals("NaN")) {
 			bUnitPrice = new BigDecimal("0.00");
@@ -156,14 +175,20 @@ public class HouseListAdapter extends BaseAdapter {
 		}
 		holder.mTvDateTime.setText(item.getActiveTime());
 //		holder.mTvTag1.setText(item.getTag());
+
+		if(tagMap==null){
+			tagMap=new HashMap<>();
+		}
 		if(!(item.getTag()==null||item.getTag().trim().length()<=0)){
-			String[] itemTag = getTag(item.getTag());
-			int dip = MyUtils.px2dip(mContext, (float) 6);
+			tagMap.put(position,getTag(item.getTag()));
+//			String[] itemTag = getTag(item.getTag());
+			int dip = MyUtils.px2dip(mContext, (float)4);
 			LinearLayout.LayoutParams LayoutParams=new LinearLayout.LayoutParams(-2,-2);
 			LayoutParams.setMargins(MyUtils.px2dip(mContext, (float)5),0,0,0);
-			for (int i = 0; i <itemTag.length ; i++) {
+			holder.ll_tag_view.removeAllViews();
+			for (int i = 0; i <tagMap.get(position).length ; i++) {
 				TextView tv=new TextView(mContext);
-				tv.setText(itemTag[i]);
+				tv.setText(tagMap.get(position)[i]);
 				tv.setTextSize(11);
 				tv.setPadding(dip, 0, dip, 0);
 				tv.setGravity(Gravity.CENTER);

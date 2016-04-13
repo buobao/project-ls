@@ -147,7 +147,9 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 	@Override
 	public void onRefresh() {
 		isRefreshOrLoadMore=true;
-		HouseManageActivity.mEtSearch.setText("");
+		if(HouseManageActivity.mEtSearch!=null){
+			HouseManageActivity.mEtSearch.setText("");
+		}
 		HouseManageActivity.searchId[HouseManageActivity.viewPagerIndex]="";
 		HouseManageActivity.searchType[HouseManageActivity.viewPagerIndex]="";
 		((HouseManageActivity) getActivity()).mPageIndexs[mPageIndex] = 1;

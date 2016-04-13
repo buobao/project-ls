@@ -12,6 +12,8 @@ public class HouseDetail {
 	private String frame = "";// 户型
 	private String square = "";// 面积
 	private String floor = "";// 楼层
+	private String buiding = "";// 写理由返回的栋
+	private String buildingname= "";// 房源详情栋
 	private String orient = "";// 朝向
 	private String price = "";// 价格
 	private String unitprice = "";// 单价
@@ -80,6 +82,14 @@ public class HouseDetail {
 		this.houseId = houseId;
 	}
 
+	public String getBuildingname() {
+		return buildingname;
+	}
+
+	public void setBuildingname(String buildingname) {
+		this.buildingname = buildingname;
+	}
+
 	public boolean isPublic() {
 		return isPublic;
 	}
@@ -98,6 +108,14 @@ public class HouseDetail {
 
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+
+	public String getBuiding() {
+		return buiding;
+	}
+
+	public void setBuiding(String buiding) {
+		this.buiding = buiding;
 	}
 
 	public String getDelCode() {

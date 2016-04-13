@@ -1,13 +1,10 @@
 package com.vocinno.centanet.apputils.cst;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsNetwork;
+
+import java.util.ArrayList;
 
 public final class CST_JS {
 	// notifications
@@ -32,6 +29,7 @@ public final class CST_JS {
 	public static String NOTIFY_NATIVE_GET_SHARE_LINK_RESULT = "notify_native_share_link_result";
 
 	public static String NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT = "notify_native_customerlist_result";
+	//客源信息
 	public static String NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT = "notify_native_customerinfo_result";
 	public static String NOTIFY_NATIVE_ADD_CUSTOMER_RESULT = "notify_native_add_customer_result";
 	public static String NOTIFY_NATIVE_CUST_TRACK_RESULT = "notify_native_cust_track_result";

@@ -12,7 +12,9 @@
     <color name="home_page_red">#D74A39</color>
     <color name="home_page_bottom">#6C231A</color>
     <color name="green">#00ff00</color>
-    <color name="house_tag_color">#86C21F</color>
+    <color name="house_tag_color">#aaaaaa</color>
+    <color name="house_tag_text_color">#999999</color>
+    <color name="house_list_text_color">#2E2E2E</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_half">#70000000</color>
     <color name="transparent_half_darker">#90000000</color>

@@ -118,6 +118,7 @@ public class CST_Wheel_Data {
 			mListStrs.add("钥匙");
 			mListStrs.add("签赔");
 			mListStrs.add("租售");
+			mListStrs.add("独家");
 			break;
 		case area:
 			mListStrs.add("黄浦区");

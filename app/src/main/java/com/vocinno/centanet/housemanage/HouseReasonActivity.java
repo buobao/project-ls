@@ -153,6 +153,7 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
             HouseDetail mHouseDetail = (HouseDetail) jReturnHouseDetail.getObject();
             if(jReturnHouseDetail.isSuccess()){
                 intent.putExtra("roomNo", mHouseDetail.getRoomNO());
+                intent.putExtra("buiding", mHouseDetail.getBuiding());
                 setResult(101, intent);
                 finish();
             }else{

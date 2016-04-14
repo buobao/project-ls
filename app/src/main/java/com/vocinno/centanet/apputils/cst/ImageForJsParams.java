@@ -10,7 +10,7 @@ public class ImageForJsParams {
 
 	private String pic = "";
 	private String type = "";
-	private String desc = "";
+//	private String desc = "";
 
 	public String getPic() {
 		return pic;
@@ -28,12 +28,12 @@ public class ImageForJsParams {
 		this.type = type;
 	}
 
-	public String getDesc() {
+/*	public String getDesc() {
 		return desc;
 	}
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
+	}*/
 
 }

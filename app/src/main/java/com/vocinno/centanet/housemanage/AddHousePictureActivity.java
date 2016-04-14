@@ -420,8 +420,8 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 			final List<String> descriptionList2 = descriptionList;
 			for (int i = 0; i < list.size(); i++) {
 				final int index = i;
-				String result = MethodsFile
-						.uploadFile(getString(R.string.serverurl), list.get(i));
+				String result = MethodsFile.uploadFile(getString(R.string.serverurl), list.get(i));
+//				String result = MethodsFile.uploadFileT(new File(list.get(i)),getString(R.string.serverurl));
 				Log.d("wan", "wanggsx uploadFile " + i + " resut=" + result);
 				JSReturn jsReturn = null;
 				jsReturn = MethodsJson.jsonToJsReturn(result,

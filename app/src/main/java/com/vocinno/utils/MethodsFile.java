@@ -1,23 +1,5 @@
 package com.vocinno.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -44,10 +26,28 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vocinno.utils.imageutils.imageblur.FastBlur;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public final class MethodsFile {
     // 设置应用专有文件夹名称
@@ -601,21 +601,21 @@ public final class MethodsFile {
             con.setUseCaches(false);
             /* 设置传送的method=POST */
             con.setRequestMethod("POST");
-			/* setRequestProperty */
 //            con.setConnectTimeout(240000);
 //            con.setReadTimeout(240000);   //读取超时
             con.setRequestProperty("Connection", "Keep-Alive");
             con.setRequestProperty("Charset", "UTF-8");
             con.setRequestProperty("Content-Type",
                     "multipart/form-data;boundary=" + boundary);
-			/* 设置DataOutputStream */
+            /* 设置DataOutputStream */
             DataOutputStream ds = new DataOutputStream(con.getOutputStream());
             ds.writeBytes(twoHyphens + boundary + end);
             ds.writeBytes("Content-Disposition: form-data; "
-                    + "name=\"file1\";filename=\"" + strPath + "\"" + end);
+                    + "name=\"file1\";filename=\"" +new File(strPath).getName() + "\"" + end);
             ds.writeBytes(end);
 			/* 取得文件的FileInputStream */
             FileInputStream fStream = new FileInputStream(new File(strPath));
+//            FileInputStream fStream = new FileInputStream(strPath);
 			/* 设置每次写入1024bytes */
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
@@ -630,7 +630,10 @@ public final class MethodsFile {
 			/* close streams */
             fStream.close();
             ds.flush();
-            ds.close();
+//            ds.close();
+            /*************************************************/
+
+            /*************************************************/
 			/* 取得Response内容 */
             InputStream is = con.getInputStream();
             int ch;

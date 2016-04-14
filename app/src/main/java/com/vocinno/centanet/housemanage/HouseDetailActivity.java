@@ -2,6 +2,7 @@ package com.vocinno.centanet.housemanage;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -37,6 +38,7 @@ import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
@@ -645,7 +647,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						HouseDetail.class);
 				if (!jReturn.isSuccess()) {
 					MethodsExtra.toast(mContext, jReturn.getMsg());
-					/*myDialog = new MyDialog.Builder(this);
+					myDialog = new MyDialog.Builder(this);
 					myDialog.setMessage(jReturn.getMsg());
 					myDialog.setTitle("提示");
 					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -655,7 +657,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 							onBack();
 						}
 					});
-					myDialog.create().show();*/
+					myDialog.create().show();
 				} else {
 					mHouseDetail = (HouseDetail) jReturn.getObject();
 					final List<Image> images = mHouseDetail.getImg();

@@ -103,6 +103,7 @@ public class HouseListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final HouseItem item = mListHouses.get(position);
+		holder.mTvAddr.setText(item.getAddr());
 		if(item.ishidden()){
 			holder.mTvKeyState.setText(item.getFloor());
 			TextPaint tp = holder.mTvKeyState.getPaint();
@@ -111,7 +112,8 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mTvKeyState.setTextColor(mContext.getResources().getColor(R.color.red));
 			holder.mTvKeyState.setBackgroundResource(R.drawable.bg_house_list_red_house_manage);
 		}else{
-			holder.mTvKeyState.setText(item.getFloor());
+			holder.mTvKeyState.setText("");
+			holder.mTvAddr.setText(item.getAddr()+"  "+item.getFloor());
 			TextPaint tp = holder.mTvKeyState.getPaint();
 			tp.setFakeBoldText(true);
 			holder.mTvKeyState.setTextSize(15);
@@ -123,7 +125,6 @@ public class HouseListAdapter extends BaseAdapter {
 		if(!HouseItem.SHOU.equalsIgnoreCase(delegationType)){
 			holder.mTvUnitprice.setVisibility(View.INVISIBLE);
 		}
-		holder.mTvAddr.setText(item.getAddr());
 
 		if(item.getIsHD()==1){
 			holder.mImgisHD.setVisibility(View.VISIBLE);

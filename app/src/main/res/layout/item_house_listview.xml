@@ -68,8 +68,11 @@
 
                 <TextView
                     android:id="@+id/tv_addr_itemHouseListView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:paddingRight="3dp"
                     android:text="华敏世纪广场124号"
                     android:textColor="#2E2E2E"
@@ -208,6 +211,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="5dp"
                     android:text="2015-06-05"
+                    android:minWidth="55dp"
                     android:textColor="@color/house_tag_text_color"
                     android:textSize="11sp"/>
             </LinearLayout>

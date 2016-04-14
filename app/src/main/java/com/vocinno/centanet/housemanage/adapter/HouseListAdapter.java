@@ -183,9 +183,9 @@ public class HouseListAdapter extends BaseAdapter {
 		if(!(item.getTag()==null||item.getTag().trim().length()<=0)){
 			tagMap.put(position,getTag(item.getTag()));
 //			String[] itemTag = getTag(item.getTag());
-			int dip = MyUtils.px2dip(mContext, (float)4);
+			int dip = MyUtils.px2dip(mContext, (float)7);
 			LinearLayout.LayoutParams LayoutParams=new LinearLayout.LayoutParams(-2,-2);
-			LayoutParams.setMargins(MyUtils.px2dip(mContext, (float)5),0,0,0);
+			LayoutParams.setMargins(MyUtils.px2dip(mContext, (float)12),0,0,0);
 			holder.ll_tag_view.removeAllViews();
 			for (int i = 0; i <tagMap.get(position).length ; i++) {
 				TextView tv=new TextView(mContext);

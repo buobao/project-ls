@@ -3,6 +3,6 @@
     
     <stroke android:color="@color/house_tag_color" android:width="0.5dp"/>
     <solid android:color="@color/transparent" />
-    
+    <corners android:radius="2dp" />
 
 </shape>

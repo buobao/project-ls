@@ -79,7 +79,7 @@
                         android:singleLine="true"
                         android:text="华敏世纪广场124号"
                         android:textColor="#2E2E2E"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"/>
 
                     <TextView

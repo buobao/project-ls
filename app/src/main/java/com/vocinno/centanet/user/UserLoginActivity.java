@@ -118,8 +118,7 @@ public class UserLoginActivity extends SuperActivity {
 	public void initData() {
 		AppInit.init(getApplicationContext());
 		MethodsNetwork.refreshAPNTypeInMainThread(this);
-		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,
-				TAG);
+		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,TAG);
 	}
 
 	@Override

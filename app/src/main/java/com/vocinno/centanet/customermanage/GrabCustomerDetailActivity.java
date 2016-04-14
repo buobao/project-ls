@@ -116,8 +116,7 @@ public class GrabCustomerDetailActivity extends SuperSlideMenuActivity {
 	public void initData() {
 //		TAG = this.getClass().getName();
 		// 添加通知
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
+		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 		MethodsJni.addNotificationObserver(

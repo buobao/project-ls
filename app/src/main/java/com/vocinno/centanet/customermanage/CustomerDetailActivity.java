@@ -80,7 +80,6 @@ public class CustomerDetailActivity extends SuperSlideMenuActivity {
 	@SuppressLint("NewApi")
 	@Override
 	public void initView() {
-		TAG=this.getClass().getSimpleName();
 		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.customernews,
 				null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);

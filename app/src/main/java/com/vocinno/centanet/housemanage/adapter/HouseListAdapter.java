@@ -110,7 +110,11 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mTvKeyState.setTextSize(11);
 			tp.setFakeBoldText(false);
 			holder.mTvKeyState.setTextColor(mContext.getResources().getColor(R.color.red));
-			holder.mTvKeyState.setBackgroundResource(R.drawable.bg_house_list_red_house_manage);
+			if(item.getFloor()==null||item.getFloor().trim().length()<=0){
+				holder.mTvKeyState.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+			}else{
+				holder.mTvKeyState.setBackgroundResource(R.drawable.bg_house_list_red_house_manage);
+			}
 		}else{
 			holder.mTvKeyState.setText("");
 			holder.mTvAddr.setText(item.getAddr()+"  "+item.getFloor());

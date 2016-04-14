@@ -231,7 +231,9 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 			}
 			sendMessageCloseMenu();
 			break;
+		//我的客源
 		case R.id.rlyt_my_customer_main_page_slid_menus:
+			MethodsDeliverData.keYuanOrGongKe=1;
 			if (MethodsDeliverData.isMyCustomer
 					&& AppInstance.mListActivitys
 							.get(AppInstance.mListActivitys.size() - 1) instanceof CustomerManageActivity) {
@@ -288,7 +290,9 @@ public abstract class SuperSlideMenuActivity extends Activity implements
 				}
 				sendMessageCloseMenu();
 				break;
+			//抢公客
 		case R.id.rlyt_grab_customer_main_page_slid_menus:
+			MethodsDeliverData.keYuanOrGongKe=0;
 			if (!MethodsDeliverData.isMyCustomer
 					&& AppInstance.mListActivitys
 							.get(AppInstance.mListActivitys.size() - 1) instanceof CustomerManageActivity) {

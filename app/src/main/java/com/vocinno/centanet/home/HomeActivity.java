@@ -121,6 +121,9 @@ public class HomeActivity extends BaseActivity{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.img_left_mhead1:
+				menu.toggle();
+				break;
 			case R.id.iv_fangyuan:
 //			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
@@ -130,6 +133,7 @@ public class HomeActivity extends BaseActivity{
 				break;
 			case R.id.iv_keyuan:
 				MethodsDeliverData.isMyCustomer = true;
+				MethodsDeliverData.keYuanOrGongKe=1;
 				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
 				break;
 			case R.id.iv_yaoshi:
@@ -143,6 +147,7 @@ public class HomeActivity extends BaseActivity{
 			case R.id.iv_qianggongke:
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.isMyCustomer = false;
+				MethodsDeliverData.keYuanOrGongKe=0;
 				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
 				break;
 			case R.id.iv_tixing:

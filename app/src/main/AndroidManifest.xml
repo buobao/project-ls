@@ -185,6 +185,16 @@
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <activity
+            android:name=".customermanage.GrabCustomerDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
+        </activity>
+        <activity
+            android:name=".customermanage.MyCustomerDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
+        </activity>
+        <activity
             android:name=".customermanage.AddFollowInCustomerActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">

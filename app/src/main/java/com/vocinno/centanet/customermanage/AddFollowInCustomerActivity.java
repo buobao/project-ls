@@ -1,10 +1,5 @@
 package com.vocinno.centanet.customermanage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.regex.Pattern;
-
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -15,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
@@ -27,6 +21,10 @@ import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 	private View mBackView;
@@ -177,7 +175,8 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void onBack() {
-		MethodsJni.removeAllNotifications(TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT,TAG);
 		finish();
 	}
 

@@ -1,16 +1,16 @@
 package com.vocinno.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.vocinno.centanet.housemanage.HouseType;
-
-import android.R.integer;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import com.vocinno.centanet.housemanage.HouseType;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MethodsDeliverData {
 	// flag
+	public static int keYuanOrGongKe = -1;//1客源，0公客
 	public static int flag = -1;
 	public static int flag1 = -1;
 	// 字符串

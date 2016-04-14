@@ -1,7 +1,5 @@
 package com.vocinno.centanet.customermanage.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,11 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.customermanage.CustomerDetailActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.GrabCustomerDetailActivity;
+import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.model.CustomerItem;
 import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
+
+import java.util.List;
 
 public class CustormerListAdapter extends BaseAdapter {
 
@@ -119,8 +119,12 @@ public class CustormerListAdapter extends BaseAdapter {
 					MethodsDeliverData.string = item.getCustCode();
 					/*MethodsExtra.startActivity(mContext,
 							CustomerDetailActivity.class);*/
-					Intent intent=new Intent(mContext,
-							CustomerDetailActivity.class);
+					Intent intent=null;
+					if(MethodsDeliverData.keYuanOrGongKe==1){
+						intent=new Intent(mContext,MyCustomerDetailActivity.class);
+					}else{
+						intent=new Intent(mContext, GrabCustomerDetailActivity.class);
+					}
 					intent.putExtra("custCode",item.getCustCode());
 					mContext.startActivityForResult(intent,10);
 					if (mContext.isMyCustomerType) {

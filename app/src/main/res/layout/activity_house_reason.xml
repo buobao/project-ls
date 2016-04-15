@@ -6,19 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/header_title_model1"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="13.5dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/chakanmiaoshu" />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="horizontal"
     android:gravity="center"
     android:padding="5dp"
+    android:background="#EBEBEB"
     >
     <RadioGroup
         android:layout_width="match_parent"
@@ -63,14 +57,44 @@
             />
     </RadioGroup>
 </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/bottom_dotted_line"
+        >
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/red_main_red"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="查看描述"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/tv_date_houseReasonActivity"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:gravity="right"
+            android:paddingRight="12dp"
+            tools:text="2015-02-05"
+            android:textColor="@color/darkgray" />
+    </LinearLayout>
     <EditText
         android:id="@+id/et_content_houseReasonActivity"
         android:layout_width="match_parent"
         android:layout_height="186dp"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="left|top"
-        android:hint="@string/input_chakan_info"
         android:paddingBottom="5dp"
         android:paddingLeft="13.5dp"
         android:paddingRight="13.5dp"
@@ -80,14 +104,4 @@
         android:maxLength="500"
         android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/tv_date_houseReasonActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@color/transparent"
-        android:gravity="right"
-        android:paddingRight="12dp"
-        tools:text="2015-02-05"
-        android:textColor="@color/darkgray" />
 </LinearLayout>

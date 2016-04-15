@@ -286,6 +286,7 @@ public class XListView extends ListView implements OnScrollListener {
 					mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
 					if (mListViewListener != null) {
 						mListViewListener.onRefresh();
+						setRefreshTime();//设置刷新时间
 					}
 				}
 				resetHeaderHeight();

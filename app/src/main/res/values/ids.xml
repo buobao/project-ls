@@ -25,6 +25,8 @@
 
     <!-- ******** normal handler ******** -->
     <!-- 请求数据(初始化) -->
+    <item name="doGetImg" type="id"/>
+    <item name="doGetImgError" type="id"/>
     <item name="doRequest" type="id"/>
     <!-- 请求更新数据(更新) -->
     <item name="doUpdate" type="id"/>

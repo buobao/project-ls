@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -30,7 +33,7 @@ import android.widget.TextView;
 
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
@@ -58,7 +61,12 @@ import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +79,8 @@ import java.util.List;
 public class HouseDetailActivity extends SuperSlideMenuActivity {
 	private HouseDetail mHouseDetail = null;
 	private ScrollView mScrollView = null;
-
+	private String shareImgUrl=null;
+	private int shareTag;
 	private View mBackView, mMoreView, mTitleView;
 	private ListViewNeedResetHeight mLvTracks, mLvSigns;
 	private TextView mTvName, mTvPrice, mTvDetail, mTvLouceng, mTvDistanst,tv_shihao_houseDetailActivity,tv_lookshihao_houseDetailActivity,
@@ -121,6 +130,14 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					mTvPagerIndicator.setText("1/" + mArrayListViews.size());
 					mHander.sendEmptyMessageDelayed(Scroll_to_Top, 500);
 					break;
+				case R.id.doGetImg:
+					Bitmap bitmap=(Bitmap)msg.obj;
+					wechatShare(zoomImage(bitmap, 100,100));
+					break;
+				case R.id.doGetImgError:
+					Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+					wechatShare(map);
+					break;
 				case R.id.doUpdate:
 					// 初始化viewpage
 					ViewGroup.LayoutParams mLayoutParams = mViewPager
@@ -149,7 +166,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			}
 		};
 	}
-
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_house_detail;
@@ -343,12 +359,18 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		case R.id.llyt_shareHouse_HouseDetailActivity:
 			// 这里是友盟分享的dialog
 			mMenuDialog.dismiss();
-			wechatShare(0);
+			shareTag=0;
+//			wechatShare(0);
+			showDialog();
+			returnBitmap(shareImgUrl);
 			break;
 		case R.id.llyt_sharequan_HouseDetailActivity:
 			// 这里是友盟分享的dialog
 			mMenuDialog.dismiss();
-			wechatShare(1);
+			shareTag=1;
+			showDialog();
+			returnBitmap(shareImgUrl);
+//			wechatShare(1);
 			break;
 		case R.id.llyt_addPic_HouseDetailActivity:
 			mMenuDialog.dismiss();
@@ -705,6 +727,9 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 									for (int i = 0; i < mArrayListViews.size()
 											&& i < images.size(); i++) {
 										String url = images.get(i).getUrl();
+										if(i==0){
+											shareImgUrl=images.get(i).getUrl();
+										}
 										String filePath = MethodsFile
 												.getAutoFileDirectory()
 												+ MethodsFile
@@ -868,14 +893,17 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
-
 	}
-
 	/**
 	 * 微信分享 0：分享到微信好友 1：分享到微信朋友圈
 	 **/
-	private void wechatShare(int flag) {
-		WXTextObject textObj = new WXTextObject();
+	private void wechatShare(Bitmap bitmap) {
+		/*WXTextObject textObj = new WXTextObject();
+		WXWebpageObject textObj=new WXWebpageObject();
+//		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
+		if(shareImgUrl!=null&&shareImgUrl.length()>0){
+			textObj.webpageUrl=shareImgUrl;
+		}
 		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
 				+ mHouseDetail.getDelCode() + "/"
 				+ SharedPreferencesUtils.getUserId(mContext);
@@ -889,9 +917,68 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		req.message = msg;
 		req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession
 				: SendMessageToWX.Req.WXSceneTimeline;
+		*/
+		WXWebpageObject webpage = new WXWebpageObject();
+		webpage.webpageUrl = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
+				+ mHouseDetail.getDelCode() + "/"
+				+ SharedPreferencesUtils.getUserId(mContext);
+		WXMediaMessage msg = new WXMediaMessage(webpage);
+		BigDecimal bPrice = new BigDecimal(mHouseDetail.getPrice());
+		bPrice=bPrice.divide(new BigDecimal(10000), 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal bSquare = new BigDecimal(mHouseDetail.getSquare());
+		bSquare=bSquare.setScale(0, BigDecimal.ROUND_HALF_UP);
+		msg.title = mHouseDetail.getArea()+" "+mHouseDetail.getAddr()+" "+mHouseDetail.getFrame()+" "+bSquare+"平 "+bPrice+"万";
+		msg.description = "中原地产房源分享";
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		bitmap.recycle();
+		msg.thumbData =  baos.toByteArray();
+		SendMessageToWX.Req req = new SendMessageToWX.Req();
+		req.transaction = "img"+String.valueOf(System.currentTimeMillis());
+		req.message = msg;
+		req.scene = shareTag == 0 ? SendMessageToWX.Req.WXSceneSession
+				: SendMessageToWX.Req.WXSceneTimeline;
 		AppInstance.mWXAPI.sendReq(req);
+	}
+	public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
+								   double newHeight) {
+		float width = bgimage.getWidth();
+		float height = bgimage.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
+				(int) height, matrix, true);
+		return bitmap;
 	}
 	// 在需要分享的地方添加代码:
 	// wechatShare(0);//分享到微信好友
 	// wechatShare(1);//分享到微信朋友圈
+	private void returnBitmap(final String urlpath) {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Bitmap btMap =null;
+					URL url = new URL(urlpath);
+					URLConnection conn = url.openConnection();
+					InputStream in;
+					conn.connect();
+					in = conn.getInputStream();
+					btMap = BitmapFactory.decodeStream(in);
+					dismissDialog();
+					Message msg = Message.obtain();
+					msg.what =R.id.doGetImg;
+					msg.obj=btMap;
+					mHander.sendMessage(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+					dismissDialog();
+					mHander.sendEmptyMessage(R.id.doGetImgError);
+//					MethodsExtra.toast(mContext,"图片获取失败");
+				}
+			}
+		}).start();
+	}
 }

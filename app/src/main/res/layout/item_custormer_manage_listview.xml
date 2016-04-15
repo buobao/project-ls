@@ -23,13 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
-                android:id="@+id/tv_custormerId_customerManageListItem"
+                android:id="@+id/tv_demandType_customerManageListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01234560123456"
-                android:textColor="#D03532"
+                android:text="租"
+                android:textColor="#86C21F"
                 android:textSize="15sp" />
 
             <TextView
@@ -41,13 +40,12 @@
                 android:text="张先生"
                 android:textColor="#D03532"
                 android:textSize="15sp" />
-
             <TextView
-                android:id="@+id/tv_demandType_customerManageListItem"
+                android:id="@+id/tv_custormerId_customerManageListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="求租"
-                android:textColor="#86C21F"
+                android:text="01234560123456"
+                android:textColor="#D03532"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -58,9 +56,8 @@
 
             <TextView
                 android:id="@+id/tv_houseDetail_customerManageListItem"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="徐汇区"
                 android:textColor="#2E2E2E"
                 android:textSize="14sp" />

@@ -1,8 +1,5 @@
 package com.vocinno.centanet.customermanage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +19,9 @@ import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 客源管理
@@ -159,7 +159,6 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 
 	@Override
 	public void onBack() {
-
 		MethodsJni.removeNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
 		finish();

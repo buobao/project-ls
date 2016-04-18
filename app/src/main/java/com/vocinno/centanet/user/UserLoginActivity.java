@@ -18,6 +18,7 @@ import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterFace;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -32,12 +33,12 @@ import java.util.Calendar;
  * @author Administrator
  * 
  */
-public class UserLoginActivity extends SuperActivity {
+public class UserLoginActivity extends SuperActivity implements HttpInterFace{
 	private Button mBtnLogin;
 	private EditText mEtUserpassword, mEtUserAccount;
 	private boolean mIsLoginedJustNow = false;
 	private String mUserId = null;
-
+	private MethodsJni methodsJni;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -116,6 +117,7 @@ public class UserLoginActivity extends SuperActivity {
 	 */
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni((HttpInterFace)this);
 		AppInit.init(getApplicationContext());
 		MethodsNetwork.refreshAPNTypeInMainThread(this);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,
@@ -184,6 +186,28 @@ public class UserLoginActivity extends SuperActivity {
 		});
 		myDialog.create().show();
 	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+		JSReturn jReturn = MethodsJson.jsonToJsReturn((String) data,
+				HouseList.class);
+		Message msg = new Message();
+		if (jReturn.isSuccess()) {
+			mUserId = jReturn.getEmpId();
+			msg.what = R.id.doSuccess;
+			msg.obj = jReturn.getMsg();
+		} else {
+			if("0".equals(jReturn.getCode())){
+				//MethodsExtra.toast(this,jReturn.getMsg());
+				downloadApp(jReturn.getMsg());
+			}else{
+				msg.what = R.id.doFail;
+				msg.obj = jReturn.getMsg();
+			}
+		}
+		mHander.sendMessage(msg);
+	}
+
 	public abstract class NoDoubleClickListener implements View.OnClickListener {
 
 		public static final int MIN_CLICK_DELAY_TIME = 1000;

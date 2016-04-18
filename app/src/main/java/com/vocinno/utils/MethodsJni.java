@@ -1,18 +1,23 @@
 package com.vocinno.utils;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
-import org.unify.helper.CELibHelper;
-import org.unify.helper.JsHelper;
-
-import com.vocinno.centanet.apputils.AppInstance;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-public final class MethodsJni {
+import com.vocinno.centanet.apputils.AppInstance;
+import com.vocinno.centanet.myinterface.HttpInterFace;
 
+import org.unify.helper.CELibHelper;
+import org.unify.helper.JsHelper;
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+public final class MethodsJni {
+	private static HttpInterFace httpInterFace=null;
+	public MethodsJni(HttpInterFace httpInterFace) {
+		this.httpInterFace = httpInterFace;
+	}
 	/**
 	 * 在使用jni之前调用，用于初始化jni
 	 * 
@@ -59,29 +64,33 @@ public final class MethodsJni {
 	 */
 	public static void notificationCallBack(final String name,
 			final String className, final Object data) {
-		Log.d("tag", "tagwanggsx data:" + data + " name:" + name
-				+ " className:" + className);
-		if (data != null) {
-			try {
-				List<Activity> listActs = AppInstance.mListActivitys;
-				Activity mActivity = listActs.get(listActs.size() - 1);
-				if (mActivity.getClass().getName().equals(className)) {
-					// 必须是当前的activity在显示状态才可以接收通知
-					Method[] methods = mActivity.getClass()
-							.getDeclaredMethods();
-					for (Method md : methods) {
-						if (md.getName().equals("notifCallBack")) {
-							try {
-								md.invoke(mActivity, name, className, data);
-								break;
-							} catch (Exception e) {
-								e.printStackTrace();
+		if(httpInterFace!=null){
+			httpInterFace.netWorkResult(name,className,data);
+		}else{
+			Log.d("tag", "tagwanggsx data:" + data + " name:" + name
+					+ " className:" + className);
+			if (data != null) {
+				try {
+					List<Activity> listActs = AppInstance.mListActivitys;
+					Activity mActivity = listActs.get(listActs.size() - 1);
+					if (mActivity.getClass().getName().equals(className)) {
+						// 必须是当前的activity在显示状态才可以接收通知
+						Method[] methods = mActivity.getClass()
+								.getDeclaredMethods();
+						for (Method md : methods) {
+							if (md.getName().equals("notifCallBack")) {
+								try {
+									md.invoke(mActivity, name, className, data);
+									break;
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 	}

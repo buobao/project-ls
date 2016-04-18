@@ -1,6 +1,5 @@
 package com.vocinno.centanet.housemanage.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextPaint;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
@@ -21,7 +21,6 @@ import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsFile;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -117,7 +116,7 @@ public class HouseListAdapter extends BaseAdapter {
 			}
 		}else{
 			holder.mTvKeyState.setText("");
-			holder.mTvAddr.setText(item.getAddr()+"  "+item.getFloor());
+			holder.mTvAddr.setText(item.getAddr()+"  "+item.getBuilding_name());
 			TextPaint tp = holder.mTvKeyState.getPaint();
 			tp.setFakeBoldText(true);
 			holder.mTvKeyState.setTextSize(15);
@@ -209,8 +208,12 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.mTvTag1.setVisibility(View.INVISIBLE);
 		}*/
 		if (item.getImg() != null || item.getImg().size() != 0) {
-			MethodsFile.downloadAsynicImageByUrl((Activity) mContext, item
-					.getImg().get(0).getUrl(), holder.mImgViewImage);
+			/*MethodsFile.downloadAsynicImageByUrl((Activity) mContext, item
+					.getImg().get(0).getUrl(), holder.mImgViewImage);*/
+			Glide.with(mContext).load(item
+					.getImg().get(0).getUrl()).centerCrop()
+					.crossFade()
+					.into(holder.mImgViewImage);
 		}
 		if (position % 2 == 1) {
 			convertView.setBackgroundColor(mContext.getResources().getColor(

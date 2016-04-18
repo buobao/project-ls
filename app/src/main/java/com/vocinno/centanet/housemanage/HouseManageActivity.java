@@ -1606,8 +1606,17 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					}
 					Log.d(TAG, "wanggsx 追加");
 				} else {
-					((HouseManageActivity) mContext).mArrayHouseItemList[pageIndex] = jsReturn
-							.getListDatas();
+					((HouseManageActivity) mContext).mArrayHouseItemList[pageIndex] = jsReturn.getListDatas();
+					/*if(jsReturn.getListDatas().size()<=0){
+//						MethodsExtra.toast(mContext,"暂无数据");
+//						viewPagerIndex
+						mArrayFragments[viewPagerIndex].contentView.findViewById(R.id.tv_isemptydata).setVisibility(View.VISIBLE);
+						mArrayFragments[viewPagerIndex].contentView.findViewById(R.id.xlistview_house_desc_houst_manage_activity).setVisibility(View.GONE);
+//						FourKindsHouseFragment.contentView.findViewById(R.id.tv_isemptydata).setVisibility(View.VISIBLE);
+					}else{
+						mArrayFragments[viewPagerIndex].contentView.findViewById(R.id.tv_isemptydata).setVisibility(View.GONE);
+						mArrayFragments[viewPagerIndex].contentView.findViewById(R.id.xlistview_house_desc_houst_manage_activity).setVisibility(View.VISIBLE);
+					}*/
 					Log.d(TAG, "wanggsx 赋值");
 //					showDialog();
 				}

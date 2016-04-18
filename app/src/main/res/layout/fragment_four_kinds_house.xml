@@ -13,5 +13,14 @@
         android:scrollbars="none"
         android:listSelector="@color/transparent" >
     </com.vocinno.utils.view.refreshablelistview.XListView>
-
+    <TextView
+        android:id="@+id/tv_isemptydata"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="暂无数据"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:visibility="gone"
+        />
 </RelativeLayout>

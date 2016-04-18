@@ -31,6 +31,7 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 	public XListView mLvHouseList;
 	private HouseListAdapter mLvHouseListAdapter;
 	public static boolean isRefreshOrLoadMore=false;
+	public static View contentView;
 	public FourKindsHouseFragment() {
 	}
 	@SuppressLint("ValidFragment")
@@ -97,7 +98,6 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 			}
 		};
 	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d("fourkind", "fourkind  onCreate " + mType);
@@ -111,6 +111,7 @@ public class FourKindsHouseFragment<HouseItem> extends SuperFragment implements
 
 	@Override
 	public void initView() {
+		contentView=mRootView;
 		mLvHouseList = (XListView) mRootView
 				.findViewById(R.id.xlistview_house_desc_houst_manage_activity);
 		mLvHouseList.setPullLoadEnable(false);

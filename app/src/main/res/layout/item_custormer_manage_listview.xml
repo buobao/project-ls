@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -56,35 +57,32 @@
 
             <TextView
                 android:id="@+id/tv_houseDetail_customerManageListItem"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="徐汇区"
                 android:textColor="#2E2E2E"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_demandPrice_customerManageListItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="不限"
-                android:textColor="#2E2E2E"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
-                android:id="@+id/tv_description_customerManageListItem"
+                android:id="@+id/tv_demandPrice_customerManageListItem"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="描述"
-                android:textColor="@color/lightgray"
-                android:textSize="14sp" />
-
+                android:layout_height="wrap_content"
+                tools:text="户型+面积+价格"
+                android:textColor="#2E2E2E"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                />
             <TextView
                 android:id="@+id/tv_time_customerManageListItem"
                 android:layout_width="wrap_content"
@@ -92,6 +90,16 @@
                 android:text="时间"
                 android:textColor="@color/darkgray"
                 android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_description_customerManageListItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="描述"
+                android:textColor="@color/lightgray"
+                android:textSize="14sp"
+                android:visibility="gone"
+                />
         </LinearLayout>
     </LinearLayout>
 

@@ -98,11 +98,11 @@ public class CustormerListAdapter extends BaseAdapter {
 		holder.mTvCustormerName.setText(item.getName());
 		// 需求类型
 		holder.mTvDemandType.setText(item.getReqType());
-		// 区域+户型+面积
-		holder.mTvDemandDetail.setText(item.getArea() + " " + item.getFrame()
-				+ " " + item.getAcreage());
-		// 价格
-		holder.mTvDemandPrice.setText(item.getPrice());
+		// 区域
+		holder.mTvDemandDetail.setText(item.getArea() );
+		// 户型+面积+价格
+		holder.mTvDemandPrice.setText( item.getFrame()
+				+ " " + item.getAcreage()+" "+item.getPrice());
 		// 说明
 		holder.mTvDescription.setText(item.getOther());
 		// 相对日期

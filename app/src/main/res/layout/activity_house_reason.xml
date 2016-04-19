@@ -100,6 +100,7 @@
         android:paddingRight="13.5dp"
         android:paddingTop="5dp"
         android:textColor="#2E2E2E"
+        android:hint="请填写描述"
         android:textColorHint="#D1D1D1"
         android:maxLength="500"
         android:textSize="13sp" />

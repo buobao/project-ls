@@ -143,8 +143,8 @@
     <string name="title_activity_key_borrow_detail">KeyBorrowDetailActivity</string>
     <!-- 房源管理 -->
     <string name="house_manage">房源管理</string>
-    <string name="house_chuzu">附近出租</string>
     <string name="house_chushou">附近出售</string>
+    <string name="house_chuzu">附近出租</string>
     <string name="house_yuekan">预约房源</string>
     <string name="house_my">我的出售</string>
     <string name="house_my2">我的出租</string>

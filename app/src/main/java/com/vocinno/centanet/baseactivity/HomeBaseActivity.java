@@ -1,4 +1,4 @@
-package com.vocinno.centanet.home;
+package com.vocinno.centanet.baseactivity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,10 +9,11 @@ import android.widget.RelativeLayout;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.home.LeftMenuFragment;
 
 import cn.jpush.android.api.JPushInterface;
 
-public abstract class BaseActivity extends Activity implements View.OnClickListener {
+public abstract class HomeBaseActivity extends Activity implements View.OnClickListener {
     public static String TAG = null;
     public Activity mContext = null;
     public Handler mHander = null;

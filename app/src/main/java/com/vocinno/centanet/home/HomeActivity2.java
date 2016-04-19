@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
@@ -30,7 +31,7 @@ import com.zbar.lib.CaptureActivity;
  * @author Administrator
  *
  */
-public class HomeActivity2 extends BaseActivity {
+public class HomeActivity2 extends HomeBaseActivity {
 	private RelativeLayout rl_leftView;
 	private ImageView menuView;
 	private TextView /*mTvHouseManage,*/ /*mTvCustomerManage*/ mTvKeyManage,

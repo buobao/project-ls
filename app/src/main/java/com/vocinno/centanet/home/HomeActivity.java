@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -34,7 +36,7 @@ import com.zbar.lib.CaptureActivity;
  * @author Administrator
  *
  */
-public class HomeActivity extends BaseActivity{
+public class HomeActivity extends HomeBaseActivity {
 	private RelativeLayout rl_leftView;
 	private ImageView menuView;
 	private TextView /*mTvHouseManage,*/ /*mTvCustomerManage*/ mTvKeyManage,
@@ -132,9 +134,13 @@ public class HomeActivity extends BaseActivity{
 				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
 				break;
 			case R.id.iv_keyuan:
-				MethodsDeliverData.isMyCustomer = true;
+				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
+				CST_JS.setZOrS("s");
+				HouseManageActivity.zOrS=true;
+				MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
+				/*MethodsDeliverData.isMyCustomer = true;
 				MethodsDeliverData.keYuanOrGongKe=1;
-				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
+				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);*/
 				break;
 			case R.id.iv_yaoshi:
 				MethodsExtra.startActivity(mContext, KeyManageActivity.class);

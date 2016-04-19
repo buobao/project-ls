@@ -15,7 +15,10 @@ import java.util.List;
 
 public final class MethodsJni {
 	private static HttpInterFace httpInterFace=null;
-	public MethodsJni(HttpInterFace httpInterFace) {
+	/*public MethodsJni(HttpInterFace httpInterFace) {
+		this.httpInterFace = httpInterFace;
+	}*/
+	public void setMethodsJni(HttpInterFace httpInterFace) {
 		this.httpInterFace = httpInterFace;
 	}
 	/**
@@ -54,7 +57,6 @@ public final class MethodsJni {
 		Log.d("wan", "wanggsx callProxyFun params:" + (String) args[0]);
 		return JsHelper.callProxy(proxyName, functionName, args);
 	}
-
 	/**
 	 * 通知回调
 	 * 
@@ -66,6 +68,7 @@ public final class MethodsJni {
 			final String className, final Object data) {
 		if(httpInterFace!=null){
 			httpInterFace.netWorkResult(name,className,data);
+			httpInterFace=null;
 		}else{
 			Log.d("tag", "tagwanggsx data:" + data + " name:" + name
 					+ " className:" + className);

@@ -38,7 +38,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterFace{
 	private EditText mEtUserpassword, mEtUserAccount;
 	private boolean mIsLoginedJustNow = false;
 	private String mUserId = null;
-	private MethodsJni methodsJni;
+	private MethodsJni methodsJni=new MethodsJni();
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -117,7 +117,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterFace{
 	 */
 	@Override
 	public void initData() {
-		methodsJni=new MethodsJni((HttpInterFace)this);
+		methodsJni.setMethodsJni((HttpInterFace)this);
 		AppInit.init(getApplicationContext());
 		MethodsNetwork.refreshAPNTypeInMainThread(this);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,
@@ -144,6 +144,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterFace{
 
 	@Override
 	public void notifCallBack(String name, String className, Object data) {
+		methodsJni.setMethodsJni(null);
 		JSReturn jReturn = MethodsJson.jsonToJsReturn((String) data,
 				HouseList.class);
 		Message msg = new Message();

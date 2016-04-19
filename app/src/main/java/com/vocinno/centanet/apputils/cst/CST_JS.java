@@ -175,7 +175,6 @@ public final class CST_JS {
 			jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
 		}
 		jsonObject.addProperty(JS_CommonParam_Type, type);
-
 		jsonObject.addProperty(JS_HouseResource_Price, price);
 		jsonObject.addProperty(JS_HouseResource_Square, square);
 		jsonObject.addProperty(JS_HouseResource_Frame, frame);

@@ -41,9 +41,16 @@ public class HouseListAdapter extends BaseAdapter {
 
 	public void setDataList(List<HouseItem> listHouses) {
 		this.mListHouses = listHouses;
-		notifyDataSetChanged();
+//		notifyDataSetChanged();
 	}
-
+	public void addDataList(List<HouseItem> listHouses) {
+		if(this.mListHouses==null||this.mListHouses.size()<=0){
+			this.mListHouses = listHouses;
+		}else{
+			this.mListHouses.addAll(listHouses);
+		}
+//		notifyDataSetChanged();
+	}
 	@Override
 	public int getCount() {
 		if (mListHouses == null) {
@@ -55,7 +62,7 @@ public class HouseListAdapter extends BaseAdapter {
 	@Override
 	public Object getItem(int position) {
 
-		return null;
+		return this.mListHouses.get(position);
 	}
 
 	@Override

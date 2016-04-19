@@ -1,12 +1,12 @@
 package com.vocinno.centanet.housemanage;
 
-import java.util.ArrayList;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class PagerAdapter extends FragmentPagerAdapter {
+import java.util.ArrayList;
+
+public class PagerAdapter extends FragmentStatePagerAdapter {
 
 	private final ArrayList<Fragment> mListFragments = new ArrayList<Fragment>();
 

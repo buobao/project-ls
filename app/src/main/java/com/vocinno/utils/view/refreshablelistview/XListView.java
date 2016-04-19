@@ -175,8 +175,9 @@ public class XListView extends ListView implements OnScrollListener {
 	 */
 	@SuppressLint("SimpleDateFormat")
 	public void setRefreshTime() {
+		String format="yyyy年MM月dd日 HH:mm:ss";
 		SimpleDateFormat formatter = new SimpleDateFormat(
-				"yyyy年MM月dd日 HH:mm:ss");
+				"HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis());
 		String str = formatter.format(curDate);
 		mHeaderTimeView.setText(str);

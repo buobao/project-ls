@@ -43,18 +43,6 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(firstLoading){
-              /*  ceLibHelper=new CELibHelper((HttpInterFace)this);
-                // 注册通知
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);*/
                 getData(1,false);
             }
         }else{
@@ -65,8 +53,29 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         houseListAdapter = new MyHouseListAdapter(mContext, HouseType.CHU_SHOU);
         XHouseListView.setPullLoadEnable(true);
     }
+    public void searchForList(int tagIndex,String param){
+        switch (tagIndex){
+            case 0:
+                price=param;
+                break;
+            case 1:
+                square=param;
+                break;
+            case 2:
+                frame=param;
+                break;
+            case 3:
+                tag=param;
+                break;
+            case 4:
+                usageType=param;
+                break;
+        }
+        resetSearchOtherTag(tagIndex);
+        getData(1, false);
+    }
     public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterFace)this);
+        methodsJni.setMethodsJni((HttpInterFace) this);
         if(!isXListViewLoad){
             showDialog();
         }
@@ -77,7 +86,6 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void netWorkResult(String name, String className, Object data) {
         methodsJni.setMethodsJni(null);
-        dismissDialog();
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){
@@ -97,17 +105,23 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
                         page++;
                     }
                 } else {
-                    firstLoading=false;
-                    houseListAdapter.setDataList(jsReturn.getListDatas());
-                    XHouseListView.setAdapter(houseListAdapter);
-                    page=1;
-                    XHouseListView.setPullLoadEnable(true);
-                    XHouseListView.stopRefresh();
+                    if(jsReturn.getListDatas()==null||jsReturn.getListDatas().size()<=0){
+//                        XHouseListView.setEmptyFooter();
+//                        XHouseListView.setPullLoadEnable(false);
+                    }else{
+                        firstLoading=false;
+                        houseListAdapter.setDataList(jsReturn.getListDatas());
+                        XHouseListView.setAdapter(houseListAdapter);
+                        page=1;
+                        XHouseListView.setPullLoadEnable(true);
+                        XHouseListView.stopRefresh();
+                    }
+
                 }
             }
         }else if(false){
-
         }
+        dismissDialog();
     }
     @Override
     public Handler setHandler() {
@@ -140,6 +154,7 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
     };
     @Override
     public void onRefresh() {
+        resetSearch();
         getData(1,true);
     }
 
@@ -148,19 +163,4 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         getData(page+1,true);
     }
 
-   /* @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // 移除通知
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
-    }*/
 }

@@ -1,7 +1,5 @@
 package com.vocinno.utils.view.refreshablelistview;
 
-import com.vocinno.centanet.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -9,10 +7,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.vocinno.centanet.R;
+
 public class XListViewFooter extends LinearLayout {
 	public final static int STATE_NORMAL = 0; // 正常状态下
 	public final static int STATE_READY = 1; // 松开载入更多
 	public final static int STATE_LOADING = 2;// 正在请求数据中
+	public final static int STATE_EMPTY = 3;// 无数据
 
 	private Context mContext;
 
@@ -39,7 +40,10 @@ public class XListViewFooter extends LinearLayout {
 			mHintView.setText(R.string.xlistview_footer_hint_ready);
 		} else if (state == STATE_LOADING) {// 正在加载
 			mProgressBar.setVisibility(View.VISIBLE);
-		} else { // 正常状态
+		} else if (state == STATE_EMPTY) {// 无数据
+			mHintView.setVisibility(View.VISIBLE);
+			mHintView.setText(R.string.xlistview_footer_hint_empty);
+		} else{ // 正常状态
 			mHintView.setVisibility(View.VISIBLE);
 			mHintView.setText(R.string.xlistview_footer_hint_normal);
 		}
@@ -97,7 +101,14 @@ public class XListViewFooter extends LinearLayout {
 		mContentView.setLayoutParams(lp);
 		mContentView.setVisibility(View.VISIBLE);
 	}
-
+	public void show(int i) {
+		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContentView
+				.getLayoutParams();
+		lp.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+		mContentView.setLayoutParams(lp);
+		mContentView.setVisibility(View.VISIBLE);
+		mHintView.setText(R.string.xlistview_footer_hint_empty);
+	}
 	/**
 	 * 添加底部提示内容
 	 * 

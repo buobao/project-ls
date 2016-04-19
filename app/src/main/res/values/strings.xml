@@ -118,6 +118,7 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="xlistview_footer_hint_normal">点击加载更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_footer_hint_empty">暂无数据</string>
     <!-- 第三方登录 -->
     <string name="loginByQQ">QQ登录</string>
     <!-- 扫描专用 -->

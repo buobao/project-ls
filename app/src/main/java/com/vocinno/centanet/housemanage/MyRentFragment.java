@@ -48,6 +48,27 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterFa
         }else{
         }
     }
+    public void searchForList(int tagIndex,String param){
+        switch (tagIndex){
+            case 0:
+                price=param;
+                break;
+            case 1:
+                square=param;
+                break;
+            case 2:
+                frame=param;
+                break;
+            case 3:
+                tag=param;
+                break;
+            case 4:
+                usageType=param;
+                break;
+        }
+        resetSearchOtherTag(tagIndex);
+        getData(1, false);
+    }
     @Override
     public void initData() {
         houseListAdapter = new MyHouseListAdapter(mContext, HouseType.WO_DEZU2);
@@ -129,6 +150,7 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterFa
     };
     @Override
     public void onRefresh() {
+        resetSearch();
         getData(1,true);
     }
 

@@ -1,9 +1,11 @@
 package com.vocinno.centanet.baseactivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public ModelDialog modelDialog;
     public XListView XHouseListView;
     public MyHouseListAdapter houseListAdapter;
+    public boolean isBackDismiss=true;
     /******************数据查询条件************************/
     public int page=1;
     public int pageSize=20;
@@ -67,7 +70,6 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         setXListView();
         initView();
         mHander = setHandler();
-        setClickListener();
         initData();
         return baseView;
     }
@@ -79,21 +81,88 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         tv_empty_listview=(TextView)baseView.findViewById(R.id.tv_empty_listview);
     }
 
-    private void setClickListener() {
-
+    public void setDataEmptyView(boolean isShow) {
+        if(isShow){
+            tv_empty_listview.setVisibility(View.VISIBLE);
+        }else{
+            tv_empty_listview.setVisibility(View.GONE);
+        }
     }
     public void showDialog(){
         if(this.modelDialog==null){
             this.modelDialog=ModelDialog.getModelDialog(getActivity());
+            this.modelDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if (isBackDismiss) {
+                        //methodsJni.setMethodsJni(null);
+                    }
+                }
+            });
         }
         this.modelDialog.show();
     }
     public void dismissDialog(){
+        isBackDismiss=false;
         if(this.modelDialog!=null&&this.modelDialog.isShowing()){
             this.modelDialog.dismiss();
         }
     }
-
+    public void dismissDialog(boolean backDismiss){
+        if(backDismiss){
+            isBackDismiss=true;
+            if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+                this.modelDialog.dismiss();
+            }
+        }
+    }
+    public void searchByOrderForList(String param,String order){
+        sidx = param;
+        sord = order;
+    }
+    public void searchByKeyWord(String sId,String sType){
+        searchId = sId;
+        searchType = sType;
+    }
+    public void resetSearchOtherTag(int tagIndex){
+        switch (tagIndex){
+            case 0:
+                Log.i("price","=="+price);
+                square = "0-不限";
+                frame = "不限-不限-不限-不限";
+                tag = "";
+                usageType = "";
+                break;
+            case 1:
+                Log.i("square","=="+square);
+                price = "0-不限";
+                frame = "不限-不限-不限-不限";
+                tag = "";
+                usageType = "";
+                break;
+            case 2:
+                Log.i("frame","=="+frame);
+                price = "0-不限";
+                square = "0-不限";
+                tag = "";
+                usageType = "";
+                break;
+            case 3:
+                Log.i("tag","=="+tag);
+                price = "0-不限";
+                square = "0-不限";
+                frame = "不限-不限-不限-不限";
+                usageType = "";
+                break;
+            case 4:
+                Log.i("usageType","=="+usageType);
+                price = "0-不限";
+                square = "0-不限";
+                frame = "不限-不限-不限-不限";
+                tag = "";
+                break;
+        }
+    }
    /* @Override
     public void onResume() {
         super.onResume();

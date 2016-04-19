@@ -113,4 +113,14 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
             this.modelDialog.dismiss();
         }
     }
+    public void dismissDialog(boolean backDismiss){
+        if(!backDismiss){
+            if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+                this.modelDialog.dismiss();
+            }
+        }else{
+
+        }
+
+    }
 }

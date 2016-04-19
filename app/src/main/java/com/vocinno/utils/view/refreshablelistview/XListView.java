@@ -123,6 +123,10 @@ public class XListView extends ListView implements OnScrollListener {
 		}
 	}
 
+	public void setPullLoadEnable(int i) {
+		mFooterView.show(0);// 隐藏
+		mFooterView.setOnClickListener(null);
+	}
 	/**
 	 * 设置是否开启上拉加载更多
 	 * 
@@ -167,7 +171,9 @@ public class XListView extends ListView implements OnScrollListener {
 			mFooterView.setState(XListViewFooter.STATE_NORMAL);
 		}
 	}
-
+	public void setEmptyFooter(){
+		mFooterView.setState(XListViewFooter.STATE_EMPTY);
+	}
 	/**
 	 * 设置本次刷新时间
 	 * 

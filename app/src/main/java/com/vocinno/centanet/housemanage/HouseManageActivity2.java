@@ -41,10 +41,13 @@ import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
 import com.vocinno.centanet.model.EstateSearchItem;
+import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterFace;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
+import com.vocinno.utils.MethodsJson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-public class HouseManageActivity2 extends HouseManagerBaseActivity {
+public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterFace{
     private static final String Weixin_APP_ID = "wx52560d39a9b47eae";
     private int[] mIntScreenWidthHeight = { 0, 0 };
     private final int NEAR_CHU_ZU=1;
@@ -68,6 +71,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
     private Dialog mMenuDialog, mSearchDialog, mTagSortDialog;
     private TextView mTvAreaSort, mTvPriceSort;
     private PaiXuType mPaiXuType = PaiXuType.None;
+
     private enum PaiXuType {
         None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
     }
@@ -79,6 +83,20 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
     private int layoutIndex=-1;//用于记录打开条件视图的下标
     private List<LinearLayout> layoutList;
     private GridViewAdapter mHouseTagAdapter;
+    private String[] mPrice = { null, null, null, null, null, null , null , null };// 价格
+    private String[] mSquare = { null, null, null, null, null, null, null  , null };// 面积
+    private String[] mFrame = { null, null, null, null, null, null , null  , null};// 户型
+    private String[] mTags = { null, null, null, null, null, null , null  , null};// 标签
+    private String[] mUserType = { null, null, null, null, null, null, null  , null };// 类型
+    public String searchId[] ={"","","","","",""};
+    public String searchType[] ={"","","","","",""};
+    private int tagSelectIndex;
+    private NearSellFragment nearSellFragment;
+    private NearRentFragment nearRentFragment;
+    private YueKanFragment yueKanFragment ;
+    private MySellFragment mySellFragment;
+    private MyRentFragment myRentFragment;
+    private List<EstateSearchItem> mSearchListData;
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -209,6 +227,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
                     public void onChanged(int index) {
                         if (index < 5 && index >= 0) {
                             selectTag(index);
+                            tagSelectIndex = index;
                         }
                     }
                 });
@@ -228,19 +247,21 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
         fragmentList = new ArrayList<Fragment>();
         pagerAdapter = new MyFragmentAdapter(getSupportFragmentManager());
-        NearSellFragment nearSellActivity = new NearSellFragment();
-        NearRentFragment nearRentActivity = new NearRentFragment();
-        YueKanFragment yueKanFragment = new YueKanFragment();
-        MySellFragment mySellFragment = new MySellFragment();
-        MyRentFragment myRentFragment = new MyRentFragment();
-        fragmentList.add(nearSellActivity);
-        fragmentList.add(nearRentActivity);
+        nearSellFragment = new NearSellFragment();
+        nearRentFragment = new NearRentFragment();
+        yueKanFragment = new YueKanFragment();
+        mySellFragment = new MySellFragment();
+        myRentFragment = new MyRentFragment();
+        fragmentList.add(nearSellFragment);
+        fragmentList.add(nearRentFragment);
         fragmentList.add(yueKanFragment);
         fragmentList.add(mySellFragment);
         fragmentList.add(myRentFragment);
         pagerAdapter.setFragmentList(fragmentList);
         vp_house_manager.setAdapter(pagerAdapter);
-        vp_house_manager.setOffscreenPageLimit(fragmentList.size()-1);
+        vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
+
+        vp_house_manager.setCurrentItem(2);
 
         registerWeiXin();
     }
@@ -289,124 +310,47 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
                 // 下一个case也是一样的
                 if (mPaiXuType == PaiXuType.None) {
                     mPaiXuType = PaiXuType.mTvPriceSortUp;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "price", "asc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("price", "asc");
                 } else if (mPaiXuType == PaiXuType.mTvPriceSortDown) {
                     mPaiXuType = PaiXuType.mTvPriceSortUp;
-                   /* MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "price", "asc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("price", "asc");
 
                 } else if (mPaiXuType == PaiXuType.mTvPriceSortUp) {
                     mPaiXuType = PaiXuType.mTvPriceSortDown;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "price", "desc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("price", "desc");
 
                 } else {
                     mPaiXuType = PaiXuType.mTvPriceSortUp;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "price", "asc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("price", "asc");
                 }
                 mSearchDialog.dismiss();
-                showDialog();
                 break;
             case R.id.tv_sortArea_HouseManageActivity:
-
                 // 按照价面积排序
                 if (mPaiXuType == PaiXuType.None) {
                     mPaiXuType = PaiXuType.mTvAreaSortUp;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "acre", "asc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("acre", "asc");
                 } else if (mPaiXuType == PaiXuType.mTvAreaSortUp) {
                     mPaiXuType = PaiXuType.mTvAreaSortDown;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "acre", "desc",searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("acre", "desc");
                 } else if (mPaiXuType == PaiXuType.mTvAreaSortDown) {
                     mPaiXuType = PaiXuType.mTvAreaSortUp;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "acre", "asc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("acre", "asc");
                 } else {
                     mPaiXuType = PaiXuType.mTvAreaSortUp;
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "acre", "asc", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByOrder("acre", "asc");
                 }
                 mSearchDialog.dismiss();
-                showDialog();
+//                showDialog();
                 break;
             case R.id.btn_submit_modelOneWheelView://类型--确定
                 // 类型筛选（没有接口）
                 WheelView mWheelViewOne = (WheelView)findViewById(R.id.wheelview_modelOneWheelView);
-                // mUserType = CST_Wheel_Data.getCodeForLouXing(mWheelViewOne
-                // .getSelectedText());//此处改为直接传递选中的参数(汉字)
-                /*mUserType[mCurrentPageIndex] = mWheelViewOne.getSelectedText()
+                mUserType[viewPageIndex] = mWheelViewOne.getSelectedText()
                         .replace("全部类型", "");
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                        CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                .getJsonStringForHouseListGetList(mType + "",
-                                        mPrice[mCurrentPageIndex],
-                                        mSquare[mCurrentPageIndex],
-                                        mFrame[mCurrentPageIndex],
-                                        mTags[mCurrentPageIndex],
-                                        mUserType[mCurrentPageIndex], 1, 20, "",
-                                        "", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                searchByTag(tagSelectIndex,mUserType[viewPageIndex]);
                 ll_dialog_wheelview_two4.setVisibility(View.GONE);
                 layoutIndex=-1;
-                showDialog();
                 break;
             case  R.id.btn_submit_modelPriceWheelView:
                 WheelView wheelStart0 = (WheelView) findViewById(R.id.wheelview_start_modelPriceWheelView);
@@ -421,28 +365,20 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
                         endString += "0000";
                     }
                 }
-                /*mPrice[mCurrentPageIndex] = startString.trim()
+                mPrice[viewPageIndex] = startString.trim()
                         .replaceAll("万", "").replaceAll("元", "")
                         + "-"
                         + endString.trim().replaceAll("万", "")
-                        .replaceAll("元", "");*/
+                        .replaceAll("元", "");
                 if (endString.trim().equals("不限")
                         || Integer.parseInt(startString.trim()
                         .replaceAll("万", "").replaceAll("元", "")) < Integer
                         .parseInt(endString.trim().replaceAll("万", "")
                                 .replaceAll("元", ""))) {
-                    /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType
-                                                    + "", mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1,
-                                            20, "", "", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                    searchByTag(tagSelectIndex,mPrice[viewPageIndex]);
                     ll_dialog_wheelview_two0.setVisibility(View.GONE);
                     layoutIndex=-1;
-                    showDialog();
+//                    showDialog();
                 } else {
                     MethodsExtra.toast(mContext, "最高价格应大于最低价格");
                 }
@@ -450,96 +386,25 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
             case R.id.btn_submit_modelTwoWheelView:
                 WheelView wheelStart = (WheelView) findViewById(R.id.wheelview_start_modelTwoWheelView);
                 WheelView wheelEnd = (WheelView)findViewById(R.id.wheelview_end_modelTwoWheelView);
-                /*if (mFragmentTagIndexs[mCurrentPageIndex] == 0) {
-				String startString = wheelStart.getSelectedText().split("万")[0];
-				String endString = wheelEnd.getSelectedText().trim()
-						.equals("不限") ? wheelEnd.getSelectedText().trim()
-						: wheelEnd.getSelectedText().split("万")[0];
-				if (mType != HouseType.CHU_ZU) {
-					startString += "0000";
-					if (!"不限".equals(endString)) {
-						endString += "0000";
-					}
-				}
-				mPrice[mCurrentPageIndex] = startString.trim()
-						.replaceAll("万", "").replaceAll("元", "")
-						+ "-"
-						+ endString.trim().replaceAll("万", "")
-								.replaceAll("元", "");
-				if (endString.trim().equals("不限")
-						|| Integer.parseInt(startString.trim()
-								.replaceAll("万", "").replaceAll("元", "")) <= Integer
-								.parseInt(endString.trim().replaceAll("万", "")
-										.replaceAll("元", ""))) {
-					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-							CST_JS.JS_Function_HouseResource_getList, CST_JS
-									.getJsonStringForHouseListGetList(mType
-													+ "", mPrice[mCurrentPageIndex],
-											mSquare[mCurrentPageIndex],
-											mFrame[mCurrentPageIndex],
-											mTags[mCurrentPageIndex],
-											mUserType[mCurrentPageIndex], 1,
-											20, "", "", "", ""));
-					ll_dialog_wheelview_two0.setVisibility(View.GONE);
-					layoutIndex=-1;
-				} else {
-					MethodsExtra.toast(mContext, "最高价格不能小于最低价格");
-				}*/
-                /*} else if (mFragmentTagIndexs[mCurrentPageIndex] == 1) {
-                    String startString1 = wheelStart.getSelectedText().split("平米")[0]
-                            + "";
-                    String endString1 = wheelEnd.getSelectedText().split("平米")[0]
-                            + "";
-                    mSquare[mCurrentPageIndex] = startString1 + "-" + endString1;
-                    if (endString1.equals("不限")
-                            || Integer.parseInt(startString1.trim()) < Integer
-                            .parseInt(endString1.trim())) {
-                        MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                                CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                        .getJsonStringForHouseListGetList(mType
-                                                        + "", mPrice[mCurrentPageIndex],
-                                                mSquare[mCurrentPageIndex],
-                                                mFrame[mCurrentPageIndex],
-                                                mTags[mCurrentPageIndex],
-                                                mUserType[mCurrentPageIndex], 1,
-                                                20, "", "", searchId[viewPagerIndex], searchType[viewPagerIndex]));
-                        ll_dialog_wheelview_two1.setVisibility(View.GONE);
-                        layoutIndex=-1;
-                    } else {
-                        MethodsExtra.toast(mContext, "最大面积应大于最小面积");
-                        return;
-                    }
 
-                } else if (mFragmentTagIndexs[mCurrentPageIndex] == 2) {
-                    String startString2 = wheelStart.getSelectedText().toString();
-                    String endString2 = wheelEnd.getSelectedText().toString();
-                    mFrame[mCurrentPageIndex] = startString2 + "-" + endString2;
-                    MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "", "", searchId[viewPagerIndex], searchType[viewPagerIndex]));
-                    ll_dialog_wheelview_two2.setVisibility(View.GONE);
+                String startString1 = wheelStart.getSelectedText().split("平米")[0]
+                        + "";
+                String endString1 = wheelEnd.getSelectedText().split("平米")[0]
+                        + "";
+                mSquare[viewPageIndex] = startString1 + "-" + endString1;
+                if (endString1.equals("不限")
+                        || Integer.parseInt(startString1.trim()) < Integer
+                        .parseInt(endString1.trim())) {
+
+                    searchByTag(tagSelectIndex,mSquare[viewPageIndex]);
+
+                    ll_dialog_wheelview_two1.setVisibility(View.GONE);
                     layoutIndex=-1;
-                } else if (mFragmentTagIndexs[mCurrentPageIndex] == 3) {
-                    String startString3 = wheelStart.getSelectedText().toString();
-                    String endString3 = wheelEnd.getSelectedText().toString();
-                    mTags[mCurrentPageIndex] = startString3 + "," + endString3;
-                    MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                            CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                    .getJsonStringForHouseListGetList(mType + "",
-                                            mPrice[mCurrentPageIndex],
-                                            mSquare[mCurrentPageIndex],
-                                            mFrame[mCurrentPageIndex],
-                                            mTags[mCurrentPageIndex],
-                                            mUserType[mCurrentPageIndex], 1, 20,
-                                            "", "", searchId[viewPagerIndex], searchType[viewPagerIndex]));
-                }*/
-                showDialog();
+                } else {
+                    MethodsExtra.toast(mContext, "最大面积应大于最小面积");
+                    return;
+                }
+
                 break;
             case R.id.btn_submit_modelFourWheelView://户型--确定
                 WheelView mWheelView1 = (WheelView) findViewById(R.id.wheelview_first_modelFourWheelView);
@@ -547,38 +412,24 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
                 WheelView mWheelView3 = (WheelView)findViewById(R.id.wheelview_third_modelFourWheelView);
                 WheelView mWheelView4 = (WheelView)findViewById(R.id.wheelview_forth_modelFourWheelView);
 
-                /*mFrame[mCurrentPageIndex] = mWheelView1.getSelectedText() + "-"
+                mFrame[viewPageIndex] = mWheelView1.getSelectedText() + "-"
                         + mWheelView2.getSelectedText() + "-"
                         + mWheelView3.getSelectedText() + "-"
-                        + mWheelView4.getSelectedText();*/
-                /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                        CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                .getJsonStringForHouseListGetList(mType + "",
-                                        mPrice[mCurrentPageIndex],
-                                        mSquare[mCurrentPageIndex],
-                                        mFrame[mCurrentPageIndex],
-                                        mTags[mCurrentPageIndex],
-                                        mUserType[mCurrentPageIndex], 1, 20, "",
-                                        "", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                        + mWheelView4.getSelectedText();
+
+                searchByTag(tagSelectIndex,mFrame[viewPageIndex]);
+
                 ll_dialog_wheelview_two2.setVisibility(View.GONE);
                 layoutIndex=-1;
-                showDialog();
                 break;
             case R.id.btn_submit_dialogTagSelector://标签--确定
                 // 标签
-                /*mTags[mCurrentPageIndex] = mHouseTagAdapter.getSelectedTags();
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                        CST_JS.JS_Function_HouseResource_getList, CST_JS
-                                .getJsonStringForHouseListGetList(mType + "",
-                                        mPrice[mCurrentPageIndex],
-                                        mSquare[mCurrentPageIndex],
-                                        mFrame[mCurrentPageIndex],
-                                        mTags[mCurrentPageIndex],
-                                        mUserType[mCurrentPageIndex], 1, 20, "",
-                                        "", searchId[viewPagerIndex], searchType[viewPagerIndex]));*/
+                mTags[viewPageIndex] = mHouseTagAdapter.getSelectedTags();
+
+                searchByTag(tagSelectIndex,mTags[viewPageIndex]);
+
                 ll_dialog_wheelview_two3.setVisibility(View.GONE);
                 layoutIndex=-1;
-                showDialog();
                 break;
             case R.id.backView_dialogOneWheelview://类型--取消
                 ll_dialog_wheelview_two4.setVisibility(View.GONE);
@@ -627,14 +478,110 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
         }
     }
 
+    private void searchByOrder(String param,String order) {
+        switch (viewPageIndex){
+            case 0:
+                nearSellFragment.searchByOrderForList(param,order);
+                nearSellFragment.getData(1, false);
+                break;
+            case 1:
+                nearRentFragment.searchByOrderForList(param, order);
+                nearRentFragment.getData(1, false);
+                break;
+            case 2:
+                yueKanFragment.searchByOrderForList(param, order);
+                yueKanFragment.getData(1, false);
+                break;
+            case 3:
+                mySellFragment.searchByOrderForList(param, order);
+                mySellFragment.getData(1, false);
+                break;
+            case 4:
+                myRentFragment.searchByOrderForList(param,order);
+                myRentFragment.getData(1, false);
+            break;
+        }
+    }
+    private void searchByKeyWord(String searchId,String searchType) {
+        switch (viewPageIndex){
+            case 0:
+                nearSellFragment.searchByKeyWord(searchId, searchType);
+                nearSellFragment.getData(1, false);
+                break;
+            case 1:
+                nearRentFragment.searchByKeyWord(searchId, searchType);
+                nearRentFragment.getData(1, false);
+                break;
+            case 2:
+                yueKanFragment.searchByKeyWord(searchId, searchType);
+                yueKanFragment.getData(1, false);
+                break;
+            case 3:
+                mySellFragment.searchByKeyWord(searchId, searchType);
+                mySellFragment.getData(1, false);
+                break;
+            case 4:
+                myRentFragment.searchByKeyWord(searchId, searchType);
+                myRentFragment.getData(1, false);
+                break;
+        }
+
+    }
+    private void searchByTag(int tagIndex,String param) {
+        switch (viewPageIndex){
+            case 0:
+                nearSellFragment.searchForList(tagIndex, param);
+            break;
+            case 1:
+                nearRentFragment.searchForList(tagIndex, param);
+                break;
+            case 2:
+                yueKanFragment.searchForList(tagIndex, param);
+            break;
+            case 3:
+                mySellFragment.searchForList(tagIndex, param);
+            break;
+            case 4:
+                myRentFragment.searchForList(tagIndex, param);
+                break;
+        }
+    }
+
+
+    @Override
+    public void netWorkResult(String name, String className, Object data) {
+        methodsJni.setMethodsJni(null);
+        dismissDialog();
+        if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
+            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
+                    EstateSearchItem.class);
+            if(jsReturn.isSuccess()){
+                if(jsReturn.getListDatas().size()>0){
+                    mSearchListData = jsReturn.getListDatas();
+                    SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+                    mListView.setAdapter(mSearch);
+                }else{
+//					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+                    //抱歉没有搜索到该房源
+                }
+            }else{
+                MethodsExtra.toast(mContext,jsReturn.getMsg());
+            }
+
+        }
+    }
+    MethodsJni methodsJni;
     private void searchHouse(String editString) {
         mLvHostory.setVisibility(View.GONE);
-//		showDialog();
 //		String editString=mEtSearch.getText().toString().trim();
         if(editString==null||editString.length()<=0){
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
 //            MethodsExtra.toast(mContext, "请输入搜索条件");
         }else{
+            if(methodsJni==null){
+                methodsJni=new MethodsJni();
+            }
+            methodsJni.setMethodsJni((HttpInterFace)this);
             // 在打字期间添加搜索栏数据
             MethodsJni.callProxyFun(
                     CST_JS.JS_ProxyName_HouseResource,
@@ -724,8 +671,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
             @Override
             public void afterTextChanged(Editable arg0) {
                 searchHouse(arg0.toString().trim());
-				/*// 在打字期间添加搜索栏数据
-				MethodsJni.callProxyFun(
+				// 在打字期间添加搜索栏数据
+				/*MethodsJni.callProxyFun(
 						CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_searchEstateName,
 						CST_JS.getJsonStringForHouseListSearchEstateName(
@@ -739,8 +686,9 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-
-                showDialog();
+                searchId[viewPageIndex]=mSearchListData.get(arg2).getSearchId() + "";
+                searchType[viewPageIndex]=mSearchListData.get(arg2).getSearchType();
+                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
                 /*String reqparm = CST_JS
                         .getJsonStringForHouseListGetList(type + "",
                                 mPrice[mCurrentPageIndex],
@@ -1096,25 +1044,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*if (MethodsDeliverData.bundle != null) {
-            if (MethodsDeliverData.bundle.get("type") == "from_map") {
-                String reqparm = CST_JS.getJsonStringForHouseListGetList(mType
-                                + "", mPrice[mCurrentPageIndex],
-                        mSquare[mCurrentPageIndex], mFrame[mCurrentPageIndex],
-                        mTags[mCurrentPageIndex], mUserType[mCurrentPageIndex],
-                        1, 20, "", "",
-                        MethodsDeliverData.bundle.getInt("house_id") + "",
-                        "estate");
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                        CST_JS.JS_Function_HouseResource_getList, reqparm);
-            }
-        } else {
-            // callData();
-        }*/
-    }
     private void registerWeiXin() {
         // 通过WXAPIFactory工厂获取实例
         AppInstance.mWXAPI = WXAPIFactory.createWXAPI(mContext, Weixin_APP_ID,

@@ -42,22 +42,32 @@ public class MySellFragment extends HouseListBaseFragment implements HttpInterFa
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(firstLoading){
-               /* // 注册通知
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);*/
                 type = HouseType.WO_DE;
                 getData(1,false);
             }
         }else{
         }
+    }
+    public void searchForList(int tagIndex,String param){
+        switch (tagIndex){
+            case 0:
+                price=param;
+                break;
+            case 1:
+                square=param;
+                break;
+            case 2:
+                frame=param;
+                break;
+            case 3:
+                tag=param;
+                break;
+            case 4:
+                usageType=param;
+                break;
+        }
+        resetSearchOtherTag(tagIndex);
+        getData(1, false);
     }
     @Override
     public void initData() {
@@ -140,6 +150,7 @@ public class MySellFragment extends HouseListBaseFragment implements HttpInterFa
     };
     @Override
     public void onRefresh() {
+        resetSearch();
         getData(1,true);
     }
 

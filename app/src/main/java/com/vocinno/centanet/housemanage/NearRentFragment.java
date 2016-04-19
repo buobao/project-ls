@@ -42,22 +42,32 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(firstLoading){
-               /* // 注册通知
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);*/
                 type = HouseType.CHU_ZU;
                 getData(1,false);
             }
         }else{
         }
+    }
+    public void searchForList(int tagIndex,String param){
+        switch (tagIndex){
+            case 0:
+                price=param;
+                break;
+            case 1:
+                square=param;
+                break;
+            case 2:
+                frame=param;
+                break;
+            case 3:
+                tag=param;
+                break;
+            case 4:
+                usageType=param;
+                break;
+        }
+        resetSearchOtherTag(tagIndex);
+        getData(1, false);
     }
     @Override
     public void initData() {
@@ -70,14 +80,12 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
             showDialog();
         }
         MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                CST_JS.JS_Function_HouseResource_getList, CST_JS
-                        .getJsonStringForHouseListGetList("" + type, price, square, frame, tag, usageType, page,
+                CST_JS.JS_Function_HouseResource_getList, CST_JS.getJsonStringForHouseListGetList("" + type, price, square, frame, tag, usageType, page,
                         pageSize, sidx, sord, searchId, searchType));
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {
         methodsJni.setMethodsJni(null);
-        dismissDialog();
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){
@@ -106,8 +114,9 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
                 }
             }
         }else if(false){
-
         }
+
+        dismissDialog();
     }
     @Override
     public Handler setHandler() {
@@ -140,6 +149,7 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     };
     @Override
     public void onRefresh() {
+        resetSearch();
         getData(1,true);
     }
 

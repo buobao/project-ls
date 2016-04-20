@@ -10,18 +10,17 @@ import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterFace;
-import com.vocinno.utils.MethodsJni;
+import com.vocinno.centanet.myinterface.GetDataInterface;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsJson;
 
 import org.unify.helper.CELibHelper;
 
 import java.util.List;
 
-public class NearRentFragment extends HouseListBaseFragment implements HttpInterFace{
+public class NearRentFragment extends HouseListBaseFragment implements HttpInterface {
 //    private static String TAG = null;
     private List<HouseItem> listHouses;
-    private boolean firstLoading=true;
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_near_sell;
@@ -31,23 +30,24 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     public void initView() {
 
     }
-
+    public NearRentFragment(GetDataInterface getData) {
+        getDataInterface=getData;
+    }
     @Override
     public void addNotification() {
         TAG=this.getClass().getName();
+        /*MethodsJni.addNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
+        MethodsJni.addNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
+        MethodsJni.addNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
+        MethodsJni.addNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
+        MethodsJni.addNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);*/
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            if(firstLoading){
-                type = HouseType.CHU_ZU;
-                getData(1,false);
-            }
-        }else{
-        }
-    }
     public void searchForList(int tagIndex,String param){
         switch (tagIndex){
             case 0:
@@ -69,19 +69,38 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
         resetSearchOtherTag(tagIndex);
         getData(1, false);
     }
-    @Override
     public void initData() {
-        houseListAdapter = new MyHouseListAdapter(mContext, HouseType.CHU_SHOU);
-        XHouseListView.setPullLoadEnable(true);
+        if(firstLoading){
+            type = HouseType.CHU_ZU;
+            houseListAdapter = new MyHouseListAdapter(mContext,type);
+            getData(1, false);
+        }
+
     }
     public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterFace)this);
+        methodsJni.setMethodsJni((HttpInterface) this);
         if(!isXListViewLoad){
             showDialog();
         }
-        MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page,
+                pageSize, sidx, sord, searchId, searchType);
+       /* MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
                 CST_JS.JS_Function_HouseResource_getList, CST_JS.getJsonStringForHouseListGetList("" + type, price, square, frame, tag, usageType, page,
-                        pageSize, sidx, sord, searchId, searchType));
+                        pageSize, sidx, sord, searchId, searchType));*/
+    }
+
+    @Override
+    public void setListData(int dataType,List list) {
+        dismissDialog();
+        firstLoading=false;
+        switch (dataType){
+            case LIST_REFRESH:
+                dataRefresh(list);
+                break;
+            case LIST_LOADMORE:
+                dataLoadMore(list);
+                break;
+        }
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {

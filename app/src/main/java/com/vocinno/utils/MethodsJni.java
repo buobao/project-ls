@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.centanet.myinterface.HttpInterFace;
+import com.vocinno.centanet.myinterface.HttpInterface;
 
 import org.unify.helper.CELibHelper;
 import org.unify.helper.JsHelper;
@@ -14,11 +14,11 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public final class MethodsJni {
-	private static HttpInterFace httpInterFace=null;
+	private static HttpInterface httpInterFace=null;
 	/*public MethodsJni(HttpInterFace httpInterFace) {
 		this.httpInterFace = httpInterFace;
 	}*/
-	public void setMethodsJni(HttpInterFace httpInterFace) {
+	public void setMethodsJni(HttpInterface httpInterFace) {
 		this.httpInterFace = httpInterFace;
 	}
 	/**
@@ -68,7 +68,7 @@ public final class MethodsJni {
 			final String className, final Object data) {
 		if(httpInterFace!=null){
 			httpInterFace.netWorkResult(name,className,data);
-			httpInterFace=null;
+//			httpInterFace=null;
 		}else{
 			Log.d("tag", "tagwanggsx data:" + data + " name:" + name
 					+ " className:" + className);

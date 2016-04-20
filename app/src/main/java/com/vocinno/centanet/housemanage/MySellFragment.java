@@ -10,15 +10,15 @@ import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterFace;
-import com.vocinno.utils.MethodsJni;
+import com.vocinno.centanet.myinterface.GetDataInterface;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsJson;
 
 import org.unify.helper.CELibHelper;
 
 import java.util.List;
 
-public class MySellFragment extends HouseListBaseFragment implements HttpInterFace {
+public class MySellFragment extends HouseListBaseFragment implements HttpInterface {
 
     private List<HouseItem> listHouses;
     private boolean firstLoading=true;
@@ -31,7 +31,9 @@ public class MySellFragment extends HouseListBaseFragment implements HttpInterFa
     public void initView() {
 
     }
-
+    public MySellFragment(GetDataInterface getData) {
+        getDataInterface=getData;
+    }
     @Override
     public void addNotification() {
         TAG=this.getClass().getName();
@@ -71,18 +73,36 @@ public class MySellFragment extends HouseListBaseFragment implements HttpInterFa
     }
     @Override
     public void initData() {
-        houseListAdapter = new MyHouseListAdapter(mContext, HouseType.WO_DE);
-        XHouseListView.setPullLoadEnable(true);
+        if(firstLoading){
+            houseListAdapter = new MyHouseListAdapter(mContext, HouseType.WO_DE);
+            type = HouseType.WO_DE;
+            getData(1, false);
+        }
     }
     public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterFace)this);
+        methodsJni.setMethodsJni((HttpInterface)this);
         if(!isXListViewLoad){
             showDialog();
         }
-        MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page,
+                pageSize, sidx, sord, searchId, searchType);
+        /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
                 CST_JS.JS_Function_HouseResource_getList, CST_JS
                         .getJsonStringForHouseListGetList("" + type, price, square, frame, tag, usageType, page,
-                                pageSize, sidx, sord, searchId, searchType));
+                                pageSize, sidx, sord, searchId, searchType));*/
+    }
+    @Override
+    public void setListData(int dataType,List list) {
+        dismissDialog();
+        firstLoading=false;
+        switch (dataType){
+            case LIST_REFRESH:
+                dataRefresh(list);
+                break;
+            case LIST_LOADMORE:
+                dataLoadMore(list);
+                break;
+        }
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {

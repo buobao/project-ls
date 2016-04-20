@@ -18,7 +18,7 @@ import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterFace;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -33,7 +33,7 @@ import java.util.Calendar;
  * @author Administrator
  * 
  */
-public class UserLoginActivity extends SuperActivity implements HttpInterFace{
+public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	private Button mBtnLogin;
 	private EditText mEtUserpassword, mEtUserAccount;
 	private boolean mIsLoginedJustNow = false;
@@ -117,7 +117,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterFace{
 	 */
 	@Override
 	public void initData() {
-		methodsJni.setMethodsJni((HttpInterFace)this);
+		methodsJni.setMethodsJni((HttpInterface)this);
 		AppInit.init(getApplicationContext());
 		MethodsNetwork.refreshAPNTypeInMainThread(this);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,

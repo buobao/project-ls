@@ -40,6 +40,7 @@ public class MyHouseListAdapter extends BaseAdapter {
 	}
 
 	public void setDataList(List<HouseItem> listHouses) {
+		this.mListHouses=null;
 		this.mListHouses = listHouses;
 //		notifyDataSetChanged();
 	}

@@ -41,8 +41,10 @@ import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
 import com.vocinno.centanet.model.EstateSearchItem;
+import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterFace;
+import com.vocinno.centanet.myinterface.GetDataInterface;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
@@ -57,7 +59,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterFace{
+public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterface,GetDataInterface {
     private static final String Weixin_APP_ID = "wx52560d39a9b47eae";
     private int[] mIntScreenWidthHeight = { 0, 0 };
     private final int NEAR_CHU_ZU=1;
@@ -71,6 +73,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private Dialog mMenuDialog, mSearchDialog, mTagSortDialog;
     private TextView mTvAreaSort, mTvPriceSort;
     private PaiXuType mPaiXuType = PaiXuType.None;
+
 
     private enum PaiXuType {
         None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
@@ -247,11 +250,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
         fragmentList = new ArrayList<Fragment>();
         pagerAdapter = new MyFragmentAdapter(getSupportFragmentManager());
-        nearSellFragment = new NearSellFragment();
-        nearRentFragment = new NearRentFragment();
-        yueKanFragment = new YueKanFragment();
-        mySellFragment = new MySellFragment();
-        myRentFragment = new MyRentFragment();
+        nearSellFragment = new NearSellFragment((GetDataInterface)this);
+        nearRentFragment = new NearRentFragment((GetDataInterface)this);
+        yueKanFragment = new YueKanFragment((GetDataInterface)this);
+        mySellFragment = new MySellFragment((GetDataInterface)this);
+        myRentFragment = new MyRentFragment((GetDataInterface)this);
         fragmentList.add(nearSellFragment);
         fragmentList.add(nearRentFragment);
         fragmentList.add(yueKanFragment);
@@ -261,12 +264,21 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         vp_house_manager.setAdapter(pagerAdapter);
         vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
 
-        vp_house_manager.setCurrentItem(2);
+//        vp_house_manager.setCurrentItem(2);
 
         registerWeiXin();
     }
 
-
+    @Override
+    public void getListData(String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
+        if(methodsJni==null){
+            methodsJni=new MethodsJni();
+        }
+        methodsJni.setMethodsJni((HttpInterface)this);
+        methodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+                CST_JS.JS_Function_HouseResource_getList, CST_JS
+                        .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -550,9 +562,36 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        methodsJni.setMethodsJni(null);
+//        methodsJni.setMethodsJni(null);
         dismissDialog();
-        if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
+        if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
+                || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){
+            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
+                    HouseList.class);
+            int type = Integer.parseInt(jsReturn.getParams().getType());
+            if (jsReturn.isSuccess()) {
+                int dataType=jsReturn.getParams().getIsAppend()?1:0;
+                switch (type){
+                    case HouseType.CHU_SHOU:
+                        nearSellFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
+                    case HouseType.CHU_ZU:
+                        nearRentFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
+                    case HouseType.YUE_KAN:
+                        yueKanFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
+                    case HouseType.WO_DE:
+                        mySellFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
+                    case HouseType.WO_DEZU2:
+                        myRentFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
+                }
+            }else {
+                MethodsExtra.toast(mContext,jsReturn.getMsg());
+            }
+        }else if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
             JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
                     EstateSearchItem.class);
             if(jsReturn.isSuccess()){
@@ -581,7 +620,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             if(methodsJni==null){
                 methodsJni=new MethodsJni();
             }
-            methodsJni.setMethodsJni((HttpInterFace)this);
+            methodsJni.setMethodsJni((HttpInterface)this);
             // 在打字期间添加搜索栏数据
             MethodsJni.callProxyFun(
                     CST_JS.JS_ProxyName_HouseResource,

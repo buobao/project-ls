@@ -11,7 +11,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 
-public abstract class HouseManagerBaseActivity extends FragmentActivity implements View.OnClickListener{
+public abstract class HouseManagerBaseActivity extends FragmentActivity implements View.OnClickListener {
     public Activity mContext = null;
     public Handler mHander = null;
     public ModelDialog modelDialog;
@@ -24,10 +24,9 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
 //    public abstract void notifCallBack(final String name,final String className, final Object data);
     public abstract Handler setHandler();
     public View baseView=null;
-    private View leftMenuView;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,6 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         setContentView(baseView);
         initView();
         mHander = setHandler();
-        setSlidingMenu();
         setClickListener();
         initData();
     }
@@ -80,26 +78,9 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
 
         saoYiSao = (RelativeLayout) findViewById(R.id.rlyt_sacn_customer_main_page_slid_menus);
         saoYiSao.setOnClickListener(this);
-    }
 
-    private void setSlidingMenu() {
-        menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);//setSecondaryMenu
-        // 设置触摸屏幕的模式
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-//        menu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
-//        menu.setShadowWidthRes(R.dimen.shadow_width);
-//        menu.setShadowDrawable(R.drawable.shadow);
-        // 设置滑动菜单视图的宽度
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        // 设置渐入渐出效果的值
-        menu.setFadeEnabled(true);
-        menu.setFadeDegree(0.35f);
-        //把滑动菜单添加进所有的Activity中，可选值SLIDING_CONTENT ， SLIDING_WINDOW
-        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
-        //为侧滑菜单设置布局
-        leftMenuView=getLayoutInflater().inflate(R.layout.activity_slid_menu, null);
-        menu.setMenu(leftMenuView);
+        woDeTiXing = (RelativeLayout)findViewById(R.id.rlyt_remind_customer_main_page_slid_menus);
+        woDeTiXing.setOnClickListener(this);
     }
 
     public void showDialog(){
@@ -112,15 +93,5 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         if(this.modelDialog!=null&&this.modelDialog.isShowing()){
             this.modelDialog.dismiss();
         }
-    }
-    public void dismissDialog(boolean backDismiss){
-        if(!backDismiss){
-            if(this.modelDialog!=null&&this.modelDialog.isShowing()){
-                this.modelDialog.dismiss();
-            }
-        }else{
-
-        }
-
     }
 }

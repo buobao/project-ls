@@ -24,7 +24,7 @@ import com.zbar.lib.CaptureActivity;
 public class LeftMenuFragment extends Fragment implements View.OnClickListener{
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
     private View view;
     private Activity mContext;
     @Override
@@ -77,6 +77,9 @@ public class LeftMenuFragment extends Fragment implements View.OnClickListener{
 
         saoYiSao = (RelativeLayout) view.findViewById(R.id.rlyt_sacn_customer_main_page_slid_menus);
         saoYiSao.setOnClickListener(this);
+
+        woDeTiXing = (RelativeLayout) view.findViewById(R.id.rlyt_remind_customer_main_page_slid_menus);
+        woDeTiXing.setOnClickListener(this);
     }
 
     @Override

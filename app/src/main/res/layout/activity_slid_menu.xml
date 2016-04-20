@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    android:paddingTop="42dp"
+    android:background="@color/transparent_half"
+    android:paddingTop="48dp"
+    android:orientation="vertical"
     >
-
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <LinearLayout
         android:id="@+id/rlyt_top_sild_menu"
         android:layout_width="250dp"
         android:layout_height="137dp"
-        android:background="@color/gray_slid_menu_item_bg"
         android:orientation="vertical"
         >
 
@@ -107,7 +118,6 @@
         android:layout_height="136dp"
         android:layout_below="@+id/rlyt_top_sild_menu"
         android:layout_marginTop="8dp"
-        android:background="@color/gray_slid_menu_item_bg"
         >
 
         <RelativeLayout
@@ -203,7 +213,6 @@
         android:layout_width="250dp"
         android:layout_height="182dp"
         android:layout_marginTop="8dp"
-        android:background="@color/gray_slid_menu_item_bg"
         android:layout_below="@+id/rylt_mid_1_sild_menu"
         >
 
@@ -335,7 +344,6 @@
         android:layout_width="250dp"
         android:layout_height="91dp"
         android:layout_marginTop="8dp"
-        android:background="@color/gray_slid_menu_item_bg"
         >
 
         <RelativeLayout
@@ -402,9 +410,7 @@
         android:layout_width="250dp"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
-        android:background="@color/gray_slid_menu_item_bg"
         >
-
         <RelativeLayout
             android:id="@+id/rlyt_remind_customer_main_page_slid_menus"
             android:layout_width="match_parent"
@@ -429,5 +435,6 @@
                 android:textSize="18dp"  />
         </RelativeLayout>
     </RelativeLayout>
-
-</RelativeLayout>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,16 +1,8 @@
 package com.vocinno.centanet.remind;
 
 
-import java.util.List;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.customermanage.CustomerDetailActivity;
-import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.model.MessageItem;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-
 import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -20,6 +12,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.customermanage.CustomerDetailActivity;
+import com.vocinno.centanet.housemanage.HouseDetailActivity;
+import com.vocinno.centanet.model.MessageItem;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsExtra;
+
+import java.util.List;
 
 public class MessageListAdapter extends BaseAdapter {
 
@@ -133,9 +134,10 @@ public class MessageListAdapter extends BaseAdapter {
 						strCode, new OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								MethodsDeliverData.string = strCode;
-								MethodsExtra.startActivity(mContext,
-										CustomerDetailActivity.class);
+								Intent intent=new Intent(mContext,CustomerDetailActivity.class);
+								intent.putExtra("custCode",strCode);
+								mContext.startActivity(intent);
+
 							}
 						});
 				textView.append(spanString);

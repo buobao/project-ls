@@ -1,5 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dl_menu_tixing"
+    >
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F2F2"
@@ -423,3 +430,16 @@
     </RelativeLayout>
 
 </LinearLayout>
+    <LinearLayout
+        android:id="@+id/left_menu_tixing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:clickable="true"
+        >
+        <include
+            layout="@layout/activity_slid_menu"
+            />
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

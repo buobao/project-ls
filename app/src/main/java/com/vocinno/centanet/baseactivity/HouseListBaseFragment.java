@@ -1,7 +1,6 @@
 package com.vocinno.centanet.baseactivity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -134,14 +133,6 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public void showDialog(){
         if(this.modelDialog==null){
             this.modelDialog=ModelDialog.getModelDialog(getActivity());
-            this.modelDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    if (isBackDismiss) {
-                        //methodsJni.setMethodsJni(null);
-                    }
-                }
-            });
         }
         this.modelDialog.show();
     }

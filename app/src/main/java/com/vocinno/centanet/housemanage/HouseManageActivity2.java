@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,18 +39,24 @@ import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTag
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
+import com.vocinno.centanet.keymanage.KeyGetInActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
+import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +80,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private Dialog mMenuDialog, mSearchDialog, mTagSortDialog;
     private TextView mTvAreaSort, mTvPriceSort;
     private PaiXuType mPaiXuType = PaiXuType.None;
-
+    private DrawerLayout drawer_layout;
+    private View leftMenuView;
 
     private enum PaiXuType {
         None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
@@ -176,11 +184,13 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         mSearchDialog.show();
     }
 
-
     @Override
     public void initView() {
         MethodsExtra.findHeadTitle1(mContext, baseView,
                 R.string.house_chushou, null);
+        drawer_layout=(DrawerLayout)baseView.findViewById(R.id.drawer_layout);
+        leftMenuView=baseView.findViewById(R.id.left_menu_housemanager);
+        drawer_layout.closeDrawer(leftMenuView);
         vp_house_manager = (ViewPager) baseView.findViewById(R.id.vp_house_manager);
         vp_house_manager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageSelected(int position) {
@@ -236,6 +246,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 });
     }
 
+
+
     void resetSearchCondation(int index) {
         /*mPrice[index] = "0-不限";
         mSquare[index] = "0-不限";
@@ -246,6 +258,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
     @Override
     public void initData() {
+        int vp_index=getIntent().getIntExtra("viewPageIndex",0);
         addNotificationObserver();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
         fragmentList = new ArrayList<Fragment>();
@@ -264,7 +277,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         vp_house_manager.setAdapter(pagerAdapter);
         vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
 
-//        vp_house_manager.setCurrentItem(2);
+        vp_house_manager.setCurrentItem(vp_index);
 
         registerWeiXin();
     }
@@ -484,6 +497,83 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
             case R.id.btn_search_dialogSearchHouseManage://搜索
 //			searchHouse();
+                break;
+            //附近出售
+            case R.id.rlyt_sell_house_main_page_slid_menus:
+                vp_house_manager.setCurrentItem(0);
+                drawer_layout.closeDrawer(leftMenuView);
+                break;
+            //附近出租
+            case R.id.rlyt_rent_house_main_page_slid_menus:
+                vp_house_manager.setCurrentItem(1);
+                drawer_layout.closeDrawer(leftMenuView);
+                break;
+            //约看房源
+            case R.id.rlyt_see_house_main_page_slid_menus:
+                vp_house_manager.setCurrentItem(2);
+                drawer_layout.closeDrawer(leftMenuView);
+                break;
+            //我的出售
+            case R.id.rlyt_my_house_main_page_slid_menus:
+                vp_house_manager.setCurrentItem(3);
+                drawer_layout.closeDrawer(leftMenuView);
+                break;
+            //我的出租
+            case R.id.rlyt_my_house_main_page_slid_menus2:
+                vp_house_manager.setCurrentItem(4);
+                drawer_layout.closeDrawer(leftMenuView);
+                break;
+            //钥匙管理
+            case R.id.rlyt_key_house_main_page_slid_menus:
+                finish();
+                MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+                break;
+            //我的客源
+            case R.id.rlyt_my_customer_main_page_slid_menus:
+                finish();
+                MethodsDeliverData.keYuanOrGongKe=1;
+                MethodsDeliverData.isMyCustomer = true;
+                MethodsExtra.startActivity(mContext,
+                        CustomerManageActivity.class);
+                break;
+            //抢公售
+            case R.id.rlyt_grab_house_main_page_slid_menus:
+                finish();
+                MethodsDeliverData.flag = 1;
+                MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+                MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                break;
+            //抢公租
+            case R.id.rlyt_grab_house_main_page_slid_menus2:
+                finish();
+                MethodsDeliverData.flag = 1;
+                MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+                MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                break;
+            //抢公客
+            case R.id.rlyt_grab_customer_main_page_slid_menus:
+                finish();
+                MethodsDeliverData.keYuanOrGongKe=0;
+                MethodsDeliverData.flag = 1;
+                MethodsDeliverData.isMyCustomer = false;
+                MethodsExtra.startActivity(mContext,
+                        CustomerManageActivity.class);
+                break;
+            //pin码
+            case R.id.rlyt_password_main_page_slid_menus:
+                finish();
+                MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+                break;
+            //扫一扫
+            case R.id.rlyt_sacn_customer_main_page_slid_menus:
+                finish();
+                MethodsExtra.startActivity(mContext, CaptureActivity.class);
+                break;
+            //我的提醒
+            case R.id.rlyt_remind_customer_main_page_slid_menus:
+                finish();
+                MethodsDeliverData.flag = -1;
+                MethodsExtra.startActivity(mContext, MessageListActivity.class);
                 break;
             default:
                 break;

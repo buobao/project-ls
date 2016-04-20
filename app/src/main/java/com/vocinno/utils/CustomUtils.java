@@ -11,4 +11,8 @@ public class CustomUtils {
         WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         return wm.getDefaultDisplay().getWidth();
     }
+    public static int getWindowHeight(Context context){
+        WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getHeight();
+    }
 }

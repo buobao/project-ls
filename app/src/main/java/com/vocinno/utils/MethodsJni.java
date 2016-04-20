@@ -68,8 +68,7 @@ public final class MethodsJni {
 			final String className, final Object data) {
 		if(httpInterFace!=null){
 			httpInterFace.netWorkResult(name,className,data);
-//			httpInterFace=null;
-		}else{
+		}
 			Log.d("tag", "tagwanggsx data:" + data + " name:" + name
 					+ " className:" + className);
 			if (data != null) {
@@ -95,7 +94,7 @@ public final class MethodsJni {
 					e.printStackTrace();
 				}
 			}
-		}
+
 	}
 
 	/**

@@ -15,8 +15,11 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
+import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.view.refreshablelistview.XListView;
+
+import java.util.List;
 
 public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener {
     public MethodsJni methodsJni;
@@ -26,6 +29,10 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public XListView XHouseListView;
     public MyHouseListAdapter houseListAdapter;
     public boolean isBackDismiss=true;
+    public GetDataInterface getDataInterface;
+    public final int LIST_REFRESH=0;
+    public final int LIST_LOADMORE=1;
+    public boolean firstLoading=true;
     /******************数据查询条件************************/
     public int page=1;
     public int pageSize=20;
@@ -68,16 +75,52 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         int layoutId=setContentLayoutId();
         baseView=inflater.inflate(layoutId, null);
         setXListView();
-        initView();
         mHander = setHandler();
-        initData();
+        if(getUserVisibleHint()){
+            setUserVisibleHint(true);
+        }else{
+            setUserVisibleHint(false);
+        }
         return baseView;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            if(baseView!=null){
+                initData();
+            }
+        }
+    }
+    public void dataRefresh(List list) {
+        if(list==null||list.size()<=0){
+            XHouseListView.stopLoadMore();
+            XHouseListView.setPullLoadEnable(false);
+            setDataEmptyView(true);
+        }else{
+            setDataEmptyView(false);
+            page=1;
+            XHouseListView.setPullLoadEnable(true);
+        }
+        XHouseListView.stopRefresh();
+        houseListAdapter.setDataList(list);
+        XHouseListView.setAdapter(houseListAdapter);
+    }
+    public void dataLoadMore(List list) {
+        if(list==null||list.size()<=0){
+            XHouseListView.setPullLoadEnable(false);
+        }else{
+            houseListAdapter.addDataList(list);
+            houseListAdapter.notifyDataSetChanged();
+            page++;
+        }
+        XHouseListView.stopLoadMore();
+    }
     private void setXListView() {
         XHouseListView =(XListView)baseView.findViewById(R.id.xlistview_sell_activity);
         XHouseListView.setXListViewListener(this);
-
+        XHouseListView.setPullLoadEnable(true);
         tv_empty_listview=(TextView)baseView.findViewById(R.id.tv_empty_listview);
     }
 
@@ -163,6 +206,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
                 break;
         }
     }
+    public abstract void setListData(int dataType,List list);
    /* @Override
     public void onResume() {
         super.onResume();

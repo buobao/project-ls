@@ -18,19 +18,27 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
+import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.keymanage.KeyGetInActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
+import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+import com.zbar.lib.CaptureActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,21 +46,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
+public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
 	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
 			mTvPrice, mTvTenancyTime, mTvMoney, mTvPaymenttype;
 	private ListViewNeedResetHeight mLvTracks;
-//	private ImageView  mImgViewQQ, mImgWeixin;
+	//	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
 	private RelativeLayout mImgViewPhone;
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
 	public MyCustomerDetailActivity() {
-
 	}
 
 	@Override
@@ -60,7 +67,6 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				MyCustomerDetailActivity.this.closeMenu(msg);
 				switch (msg.what) {
 					case RESET_LISTVIEW_TRACK:
 						MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
@@ -74,16 +80,15 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public int setContentLayoutId() {
-		return R.layout.activity_my_customer_detail;
+		return R.layout.activity_customer_detail;
 	}
 
 	@SuppressLint("NewApi")
 	@Override
 	public void initView() {
-		TAG=this.getClass().getName();
-		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.customernews,
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.customernews,
 				null);
-		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
+		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_seize_customerDetailActivity);
 		mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_customerDetailActivity);
 		mTvCustomerName = (TextView) findViewById(R.id.tv_customername_customerDetailActivity);
@@ -98,25 +103,23 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
 //		mImgViewQQ = (ImageView) findViewById(R.id.imgView_qq_customerDetailActivity);
 //		mImgWeixin = (ImageView) findViewById(R.id.imgView_wx_customerDetailActivity);
-	}
 
-/*	@Override
-	protected void onRestart() {
-		super.onRestart();
-		// adapter.notifyDataSetChanged();
-	}*/
-	@Override
-	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mGrabCustomer.setOnClickListener(this);
 		mImgViewAddTrack.setOnClickListener(this);
 //		mImgViewQQ.setOnClickListener(this);
 		mImgViewPhone.setOnClickListener(this);
-//		mImgWeixin.setOnClickListener(this);
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		// adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void initData() {
+		intent=new Intent();
 		TAG = this.getClass().getName();
 		// 添加通知
 		MethodsJni.addNotificationObserver(
@@ -128,6 +131,9 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 //		mCusterCode = MethodsDeliverData.string;
 		mCusterCode=getIntent().getStringExtra("custCode");
 		showDialog();
+
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		// 调用数据
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getCustomerInfo,
@@ -135,7 +141,7 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 		if (MethodsDeliverData.flag1 == 1) {
 //			MethodsDeliverData.flag1 = -1;
 			mGrabCustomer.setVisibility(View.VISIBLE);
-			mSubmit = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,R.drawable.phone_img);
+			mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,R.drawable.phone_img);
 			mSubmit.setOnClickListener(this);
 			mImgViewPhone.setVisibility(View.GONE);
 		}else{
@@ -143,7 +149,6 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 		}
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -161,17 +166,14 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 				}
 				break;
 			case R.id.img_left_mhead1:
-				onBack();
+				finish();
 				break;
 			case R.id.imgView_addTrack_customerDetailActivity:
 				MethodsDeliverData.string = mCusterCode;
 				// listTracks
-				Intent intent = new Intent(mContext,
+				intent.setClass(mContext,
 						AddFollowInCustomerActivity.class);
-//			MethodsExtra.startActivityForResult(mContext, 10, intent);
 				MethodsExtra.startActivityForResult(mContext,10,intent);
-				// MethodsExtra.startActivity(mContext,
-				// AddFollowInCustomerActivity.class);
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;
@@ -180,41 +182,7 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_CustContactList,
 						CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-				/*if (mDetail != null && mDetail.getPhone() != null) {
-					MethodsExtra.tel(mContext, mDetail.getPhone());
-				} else {
-					MethodsExtra.toast(mContext, "该房源没有维护电话号码");
-				}*/
 				break;
-			/*case R.id.imgView_qq_customerDetailActivity:
-				// MethodsExtra.openQQChat(mContext, "504964825");
-				if (mDetail != null && !TextUtils.isEmpty(mDetail.getQq())
-						&& !mDetail.getQq().equals("null")) {
-					MethodsExtra.openQQChat(mContext, mDetail.getQq());
-				} else {
-					MethodsExtra.toast(mContext, "该房源没有维护QQ号码");
-				}
-				break;
-			case R.id.imgView_wx_customerDetailActivity:
-				if (mDetail != null && !TextUtils.isEmpty(mDetail.getWechat())
-						&& !mDetail.getWechat().equals("null")) {
-					try {
-						// 登录微信
-						Intent intent1 = new Intent();
-						ComponentName cmp = new ComponentName("com.tencent.mm",
-								"com.tencent.mm.ui.LauncherUI");
-						intent1.setAction(Intent.ACTION_MAIN);
-						intent1.addCategory(Intent.CATEGORY_LAUNCHER);
-						intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent1.setComponent(cmp);
-						startActivity(intent1);
-					} catch (Exception e) {
-						MethodsExtra.toast(mContext, "没有安装微信");
-					}
-				} else {
-					MethodsExtra.toast(mContext, "该房源没有维护微信号码");
-				}
-				break;*/
 			case R.id.rlyt_seize_customerDetailActivity:
 				mGrabCustomer.setClickable(false);
 				showDialog();
@@ -222,20 +190,62 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 				robRefresh=true;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 				mGrabCustomer.setClickable(true);
+			//钥匙管理
+			case R.id.rlyt_key_house_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+				break;
+			//我的客源
+			case R.id.rlyt_my_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.keYuanOrGongKe=1;
+				MethodsDeliverData.isMyCustomer = true;
+				MethodsExtra.startActivity(mContext,
+						CustomerManageActivity.class);
+				break;
+			//抢公售
+			case R.id.rlyt_grab_house_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公租
+			case R.id.rlyt_grab_house_main_page_slid_menus2:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公客
+			case R.id.rlyt_grab_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.keYuanOrGongKe=0;
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.isMyCustomer = false;
+				MethodsExtra.startActivity(mContext,
+						CustomerManageActivity.class);
+				break;
+			//pin码
+			case R.id.rlyt_password_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+				break;
+			//扫一扫
+			case R.id.rlyt_sacn_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, CaptureActivity.class);
+				break;
+			//我的提醒
+			case R.id.rlyt_remind_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, MessageListActivity.class);
+				break;
+
 			default:
 				break;
 		}
 	}
-
-	@Override
-	public void onBack() {
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
-		finish();
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -308,8 +318,40 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 				});
 		mCallCustormerDialog.show();
 	}
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
+
+	}
+
+	private CustomerDetail getContent(String strJson) {
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(strJson);
+			CustomerDetail customerDetail=(CustomerDetail)new Gson().fromJson(jsonObject.toString(),CustomerDetail.class);
+//			customerDetail.getContent();
+			return customerDetail;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
+	}
+
+	private CustomerDetailAdapter adapter;
+	private List<Track> listTracks;
+
+	public TextView getmTvCustomerCode() {
+		return mTvCustomerCode;
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
 		dismissDialog();
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
@@ -371,7 +413,7 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 					MethodsExtra.toast(mContext, jsReturn.getMsg());
 					setResult(ConstantResult.REFRESH);
 					returnRefresh=false;
-					onBack();
+					finish();
 				}
 			} else {
 				if(robRefresh){
@@ -395,28 +437,13 @@ public class MyCustomerDetailActivity extends SuperSlideMenuActivity {
 		}
 	}
 
-	private CustomerDetail getContent(String strJson) {
-		JSONObject jsonObject = null;
-		try {
-			jsonObject = new JSONObject(strJson);
-			CustomerDetail customerDetail=(CustomerDetail)new Gson().fromJson(jsonObject.toString(),CustomerDetail.class);
-//			customerDetail.getContent();
-			return customerDetail;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MethodsJni.removeAllNotifications(TAG);
+	public void onRefresh() {
+
 	}
 
-	private CustomerDetailAdapter adapter;
-	private List<Track> listTracks;
+	@Override
+	public void onLoadMore() {
 
-	public TextView getmTvCustomerCode() {
-		return mTvCustomerCode;
 	}
 }

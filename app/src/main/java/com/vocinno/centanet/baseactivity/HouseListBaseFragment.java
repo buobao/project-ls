@@ -120,6 +120,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         XHouseListView =(XListView)baseView.findViewById(R.id.xlistview_sell_activity);
         XHouseListView.setXListViewListener(this);
         XHouseListView.setPullLoadEnable(true);
+        XHouseListView.setPullRefreshEnable(true);
         tv_empty_listview=(TextView)baseView.findViewById(R.id.tv_empty_listview);
     }
 

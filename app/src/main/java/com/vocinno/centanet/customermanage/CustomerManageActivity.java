@@ -6,19 +6,27 @@ import android.os.Message;
 import android.view.View;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerListAdapter;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.keymanage.KeyGetInActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.CustomerItem;
 import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
+import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +37,7 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class CustomerManageActivity extends SuperSlideMenuActivity implements
+public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 		IXListViewListener {
 
 	private XListView mLvCustormers;
@@ -49,7 +57,6 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 			// 加载
 			@Override
 			public void handleMessage(Message msg) {
-				CustomerManageActivity.this.closeMenu(msg);
 				switch (msg.what) {
 				case R.id.FINISH_LOAD_ALL_DATA:
 					mListAdapter.setListDatas(mListCustomers);
@@ -84,22 +91,19 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	public void initView() {
 		isMyCustomerType = MethodsDeliverData.isMyCustomer;
 		if (isMyCustomerType) {
-			MethodsExtra.findHeadTitle1(mContext, mRootView,
+			MethodsExtra.findHeadTitle1(mContext, baseView,
 					R.string.mycustomer, null);
 		} else {
-			MethodsExtra.findHeadTitle1(mContext, mRootView,
+			MethodsExtra.findHeadTitle1(mContext, baseView,
 					R.string.customertitle, null);
 		}
 
-		mBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mSubmit = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
+		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_add);
 		mLvCustormers = (XListView) findViewById(R.id.lv_custormerInfoList_CustomerManageActivity);
 		mLvCustormers.setPullLoadEnable(false);
-	}
 
-	@Override
-	public void setListener() {
 		mBack.setOnClickListener(this);
 		mSubmit.setOnClickListener(this);
 		mLvCustormers.setXListViewListener(this);
@@ -107,6 +111,8 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		intent=getIntent();
 //		sOrZ=intent.getStringExtra("sOrZ");
 		delegationType=intent.getStringExtra("delegationType");
@@ -147,26 +153,81 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		case R.id.img_right_mhead1:
 			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
 			break;
+			//钥匙管理
+			case R.id.rlyt_key_house_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+				break;
+			//我的客源
+			case R.id.rlyt_my_customer_main_page_slid_menus:
+				if(MethodsDeliverData.isMyCustomer){
+					drawer_layout.closeDrawer(leftMenuView);
+				}else{
+					MyUtils.removeActivityFromList();
+					MethodsDeliverData.keYuanOrGongKe=1;
+					MethodsDeliverData.isMyCustomer = true;
+					MethodsExtra.startActivity(mContext,
+							CustomerManageActivity.class);
+				}
+				break;
+			//抢公售
+			case R.id.rlyt_grab_house_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公租
+			case R.id.rlyt_grab_house_main_page_slid_menus2:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公客
+			case R.id.rlyt_grab_customer_main_page_slid_menus:
+				if(MethodsDeliverData.isMyCustomer){
+					MyUtils.removeActivityFromList();
+					MethodsDeliverData.keYuanOrGongKe=1;
+					MethodsDeliverData.isMyCustomer = true;
+					MethodsExtra.startActivity(mContext,
+							CustomerManageActivity.class);
+				}else{
+					drawer_layout.closeDrawer(leftMenuView);
+				}
+				break;
+			//pin码
+			case R.id.rlyt_password_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+				break;
+			//扫一扫
+			case R.id.rlyt_sacn_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, CaptureActivity.class);
+				break;
+			//我的提醒
+			case R.id.rlyt_remind_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, MessageListActivity.class);
+				break;
 		default:
 			break;
 		}
 	}
-
 	@Override
-	public void onBack() {
+	protected void onDestroy() {
+		super.onDestroy();
 		MethodsJni.removeNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
-		finish();
 	}
-
 	// 调用数据
 	private void getDataFromNetwork(int page) {
-
 		if(isReFreshOrLoadMore){
 			isReFreshOrLoadMore=false;
 		}else{
@@ -193,8 +254,30 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
+
+	}
+
+	@Override
+	public void onRefresh() {
+		mPageIndex = 1;
+		isReFreshOrLoadMore=true;
+		getDataFromNetwork(mPageIndex);
+	}
+
+	private boolean isLoading = false;
+
+	@Override
+	public void onLoadMore() {
+		if (!isLoading) {
+			isLoading = true;
+			getDataFromNetwork(++mPageIndex);
+			isReFreshOrLoadMore=true;
+		}
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
 		dismissDialog();
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
@@ -206,7 +289,7 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 					&& jsReturn.getListDatas() != null
 					&& mListCustomersLast.size() >= 1
 					&& jsReturn.getListDatas().size() == mListCustomersLast
-							.size()) {
+					.size()) {
 				List<CustomerItem> thisCustomerItems = jsReturn.getListDatas();
 				for (int i = 0; i < thisCustomerItems.size(); i++) {
 					CustomerItem lastCustomerItem = mListCustomersLast.get(i);
@@ -264,23 +347,4 @@ public class CustomerManageActivity extends SuperSlideMenuActivity implements
 		}
 		isLoading = false;
 	}
-
-	@Override
-	public void onRefresh() {
-		mPageIndex = 1;
-		isReFreshOrLoadMore=true;
-		getDataFromNetwork(mPageIndex);
-	}
-
-	private boolean isLoading = false;
-
-	@Override
-	public void onLoadMore() {
-		if (!isLoading) {
-			isLoading = true;
-			getDataFromNetwork(++mPageIndex);
-			isReFreshOrLoadMore=true;
-		}
-	}
-
 }

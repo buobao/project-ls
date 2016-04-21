@@ -18,20 +18,28 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity2;
+import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.keymanage.KeyGetInActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+import com.zbar.lib.CaptureActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,6 +120,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 
 	@Override
 	public void initData() {
+		intent=new Intent();
 		TAG = this.getClass().getName();
 		// 添加通知
 		MethodsJni.addNotificationObserver(
@@ -141,7 +150,6 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 		}
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -158,17 +166,14 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				}
 				break;
 			case R.id.img_left_mhead1:
-				onBack();
+				finish();
 				break;
 			case R.id.imgView_addTrack_customerDetailActivity:
 				MethodsDeliverData.string = mCusterCode;
 				// listTracks
-				Intent intent = new Intent(mContext,
+				intent.setClass(mContext,
 						AddFollowInCustomerActivity.class);
-//			MethodsExtra.startActivityForResult(mContext, 10, intent);
 				MethodsExtra.startActivityForResult(mContext,10,intent);
-				// MethodsExtra.startActivity(mContext,
-				// AddFollowInCustomerActivity.class);
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;
@@ -177,41 +182,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_CustContactList,
 						CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-				/*if (mDetail != null && mDetail.getPhone() != null) {
-					MethodsExtra.tel(mContext, mDetail.getPhone());
-				} else {
-					MethodsExtra.toast(mContext, "该房源没有维护电话号码");
-				}*/
 				break;
-			/*case R.id.imgView_qq_customerDetailActivity:
-				// MethodsExtra.openQQChat(mContext, "504964825");
-				if (mDetail != null && !TextUtils.isEmpty(mDetail.getQq())
-						&& !mDetail.getQq().equals("null")) {
-					MethodsExtra.openQQChat(mContext, mDetail.getQq());
-				} else {
-					MethodsExtra.toast(mContext, "该房源没有维护QQ号码");
-				}
-				break;
-			case R.id.imgView_wx_customerDetailActivity:
-				if (mDetail != null && !TextUtils.isEmpty(mDetail.getWechat())
-						&& !mDetail.getWechat().equals("null")) {
-					try {
-						// 登录微信
-						Intent intent1 = new Intent();
-						ComponentName cmp = new ComponentName("com.tencent.mm",
-								"com.tencent.mm.ui.LauncherUI");
-						intent1.setAction(Intent.ACTION_MAIN);
-						intent1.addCategory(Intent.CATEGORY_LAUNCHER);
-						intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent1.setComponent(cmp);
-						startActivity(intent1);
-					} catch (Exception e) {
-						MethodsExtra.toast(mContext, "没有安装微信");
-					}
-				} else {
-					MethodsExtra.toast(mContext, "该房源没有维护微信号码");
-				}
-				break;*/
 			case R.id.rlyt_seize_customerDetailActivity:
 				mGrabCustomer.setClickable(false);
 				showDialog();
@@ -219,14 +190,89 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				robRefresh=true;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 				mGrabCustomer.setClickable(true);
+				//附近出售
+			case R.id.rlyt_sell_house_main_page_slid_menus:
+				startIntent(0);
+				break;
+			//附近出租
+			case R.id.rlyt_rent_house_main_page_slid_menus:
+				startIntent(1);
+				break;
+			//约看房源
+			case R.id.rlyt_see_house_main_page_slid_menus:
+				startIntent(2);
+				break;
+			//我的出售
+			case R.id.rlyt_my_house_main_page_slid_menus:
+				startIntent(3);
+				break;
+			//我的出租
+			case R.id.rlyt_my_house_main_page_slid_menus2:
+				startIntent(4);
+				break;
+			//钥匙管理
+			case R.id.rlyt_key_house_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+				break;
+			//我的客源
+			case R.id.rlyt_my_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.keYuanOrGongKe=1;
+				MethodsDeliverData.isMyCustomer = true;
+				MethodsExtra.startActivity(mContext,
+						CustomerManageActivity.class);
+				break;
+			//抢公售
+			case R.id.rlyt_grab_house_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公租
+			case R.id.rlyt_grab_house_main_page_slid_menus2:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公客
+			case R.id.rlyt_grab_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsDeliverData.keYuanOrGongKe=0;
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.isMyCustomer = false;
+				MethodsExtra.startActivity(mContext,
+						CustomerManageActivity.class);
+				break;
+			//pin码
+			case R.id.rlyt_password_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+				break;
+			//扫一扫
+			case R.id.rlyt_sacn_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, CaptureActivity.class);
+				break;
+			//我的提醒
+			case R.id.rlyt_remind_customer_main_page_slid_menus:
+				MyUtils.removeActivityFromList();
+				MethodsExtra.startActivity(mContext, MessageListActivity.class);
+				break;
+
 			default:
 				break;
 		}
 	}
-
-	public void onBack() {
-		finish();
-	}
+	public void startIntent(int index){
+//		finish();
+		MyUtils.removeActivityFromList();
+		intent.setClass(this, HouseManageActivity2.class);
+		intent.putExtra("viewPageIndex", index);
+		startActivity(intent);
+	};
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -395,7 +441,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 					MethodsExtra.toast(mContext, jsReturn.getMsg());
 					setResult(ConstantResult.REFRESH);
 					returnRefresh=false;
-					onBack();
+					finish();
 				}
 			} else {
 				if(robRefresh){

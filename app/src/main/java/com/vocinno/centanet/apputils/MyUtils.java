@@ -28,14 +28,14 @@ public  class MyUtils {
     }
     public static void removeActivityFromList(){
         if(actList!=null){
+            Iterator it = actList.iterator();
+            while (it.hasNext()) {
+                ((Activity)it.next()).finish();
+            }
             /*for (int i = 0; i <actList.size() ; i++) {
                 actList.get(i).finish();
             }*/
-            Iterator it = actList.iterator();
-            while (it.hasNext()) {
-                it.next();
-                ((Activity)it.next()).finish();
-            }
+            actList.clear();
         }
     }
 }

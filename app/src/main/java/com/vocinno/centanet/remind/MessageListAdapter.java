@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.customermanage.CustomerDetailActivity;
+import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.model.MessageItem;
 import com.vocinno.utils.MethodsDeliverData;
@@ -134,7 +134,7 @@ public class MessageListAdapter extends BaseAdapter {
 						strCode, new OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent=new Intent(mContext,CustomerDetailActivity.class);
+								Intent intent=new Intent(mContext,MyCustomerDetailActivity.class);
 								intent.putExtra("custCode",strCode);
 								mContext.startActivity(intent);
 

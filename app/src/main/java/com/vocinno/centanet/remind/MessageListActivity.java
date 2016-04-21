@@ -11,7 +11,6 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -112,40 +111,15 @@ public class MessageListActivity extends OtherHomeMenuBaseActivity implements
 		MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_MESSAGE_LIST_RESULT, TAG);
 	}
 
-	public void startIntent(int index){
-		finish();
-		intent.setClass(this, HouseManageActivity2.class);
-		intent.putExtra("viewPageIndex",index);
-		startActivity(intent);
-	};
 	@Override
 	public void onClick(View v) {
+		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.img_left_mhead1:
 			finish();
 			break;
 		case R.id.img_right_mhead1:
 			break;
-			//附近出售
-			case R.id.rlyt_sell_house_main_page_slid_menus:
-				startIntent(0);
-				break;
-			//附近出租
-			case R.id.rlyt_rent_house_main_page_slid_menus:
-				startIntent(1);
-				break;
-			//约看房源
-			case R.id.rlyt_see_house_main_page_slid_menus:
-				startIntent(2);
-				break;
-			//我的出售
-			case R.id.rlyt_my_house_main_page_slid_menus:
-				startIntent(3);
-				break;
-			//我的出租
-			case R.id.rlyt_my_house_main_page_slid_menus2:
-				startIntent(4);
-				break;
 			//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
 				finish();

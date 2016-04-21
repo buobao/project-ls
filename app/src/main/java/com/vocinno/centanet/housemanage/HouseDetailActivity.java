@@ -16,7 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,15 +35,19 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
+import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
+import com.vocinno.centanet.keymanage.KeyGetInActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.ContactDetail;
 import com.vocinno.centanet.model.ContactItem;
@@ -54,12 +57,15 @@ import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.Image;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Track;
+import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
+import com.zbar.lib.CaptureActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -76,7 +82,7 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class HouseDetailActivity extends SuperSlideMenuActivity {
+public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 	private HouseDetail mHouseDetail = null;
 	private ScrollView mScrollView = null;
 	private String shareImgUrl=null;
@@ -92,7 +98,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	private List<Image> mListImages = null;
 	private LinearLayout mllytDataContainer;
 	private RelativeLayout mKeysNotHere; // 钥匙不在的提示栏
-	private RelativeLayout mHouseUi;
 	private LinearLayout mKeysUsingFinish, mEnsureUser; // 归还传递部分
 	private RelativeLayout mReturnKey; // 归还钥匙
 	private RelativeLayout mPassKey; // 传递钥匙
@@ -110,13 +115,14 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 	private Drawable drawable;
 	private static final int Scroll_to_Top = 100001;
 	private String LouCeng;//防止刷新页面楼层号消失用来保存变量
+	private HttpInterface hif=(HttpInterface)this;
+	private boolean isIntoForList;//判断是否从列表进入详情
 	@Override
 	@SuppressLint("HandlerLeak")
 	public Handler setHandler() {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				HouseDetailActivity.this.closeMenu(msg);
 				switch (msg.what) {
 				case R.id.doRequest:
 					if (myPagerAdapter != null) {
@@ -173,12 +179,12 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initView() {
-		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.housedecribe,
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.housedecribe,
 				null);
-		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mMoreView = MethodsExtra.findHeadRightView1(mContext, mRootView, 0, 0);
+		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		mMoreView = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
 		mTitleView = MethodsExtra
-				.findHeadTitle1(mContext, mRootView, 0, "房源详情");
+				.findHeadTitle1(mContext, baseView, 0, "房源详情");
 		mViewPager = (ViewPager) findViewById(R.id.vPager_houseDetailActivity);
 		mBorrowKey = (RelativeLayout) findViewById(R.id.rlyt_borrowKey_houseDetailActivity);
 		mKeysNotHere = (RelativeLayout) findViewById(R.id.rylt_borrowKeynothere_houseDetailActivity);
@@ -194,7 +200,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		mEnsureUser = (LinearLayout) findViewById(R.id.llyt_qianpei_houseDetailActivity);
 		mRlView = (RelativeLayout) findViewById(R.id.rlimg_genjin_houseDetailActivity);
 		mTvQiang = (TextView) findViewById(R.id.tv_seize_houseSoueceDetailActivity);
-		mHouseUi = (RelativeLayout) findViewById(R.id.relt_house_detail_layout);
 		mTvName = (TextView) findViewById(R.id.tv_name_houseDetailActivity);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_houseDetailActivity);
 		mTvPriceUnit = (TextView) findViewById(R.id.tv_priceUnit_houseDetailActivity);
@@ -210,11 +215,8 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		mLvSigns = (ListViewNeedResetHeight) findViewById(R.id.lv_sign_houseDetailActivity);
 		mScrollView = (ScrollView) findViewById(R.id.scroller_houseDetailActivity);
 		// 根据数据显示房源的具体详情
-		mHouseUi.setVisibility(View.GONE);
-	}
+//		mHouseUi.setVisibility(View.GONE);
 
-	@Override
-	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mMoreView.setOnClickListener(this);
 		mBorrowKey.setOnClickListener(this);
@@ -243,9 +245,11 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			}
 		});
 	}
-
 	@Override
 	public void initData() {
+		 isIntoForList=getIntent().getBooleanExtra(MyUtils.INTO_FROM_LIST,false);
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		showDialog();
 		mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
 		// 初始化ViewPager adapter
@@ -276,7 +280,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT, TAG);
 		// 调用初始化数据
 		MethodsJni
-				.callProxyFun(
+				.callProxyFun(hif,
 						CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getHouseDetail,
 						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
@@ -308,7 +312,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				showDialog();
 				// 调用初始化数据
 				MethodsJni
-						.callProxyFun(
+						.callProxyFun(hif,
 								CST_JS.JS_ProxyName_HouseResource,
 								CST_JS.JS_Function_HouseResource_getHouseDetail,
 								CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
@@ -318,12 +322,11 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tv_lookshihao_houseDetailActivity:
 			if(!mHouseDetail.isRequireReason()){//false不需要原因，true需要
 				showDialog();
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getShiHao, CST_JS
 								.getJsonStringForLookShiHao("查看室号", mHouseDetail.getDelCode(), mHouseDetail.getHouseId(), "10080001"));
 				/*String roomNo=mHouseDetail.roomNo;
@@ -342,7 +345,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 			break;
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		case R.id.img_right_mhead1:
 			showMenuDialog();
@@ -411,7 +414,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			mBorrowKey.setEnabled(false);
 			// 钥匙借用
 			MethodsJni
-					.callProxyFun(
+					.callProxyFun(hif,
 							CST_JS.JS_ProxyName_KeyProxy,
 							CST_JS.JS_Function_KeyProxy_borrowKeyFromShop,
 							CST_JS.getJsonStringForborrowKeyFromShop(MethodsDeliverData.mDelCode));
@@ -419,7 +422,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 		case R.id.rlyt_returnKey_houseDetailActivity:
 			// 归还钥匙
 			MethodsJni
-					.callProxyFun(
+					.callProxyFun(hif,
 							CST_JS.JS_ProxyName_KeyProxy,
 							CST_JS.JS_Function_KeyProxy_returnKeyToShop,
 							CST_JS.getJsonStringForborrowKeyFromShop(MethodsDeliverData.mDelCode));
@@ -431,7 +434,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			showDialog();
 			// 抢
 			MethodsJni
-					.callProxyFun(
+					.callProxyFun(hif,
 							CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_claimHouse,
 							CST_JS.getJsonStringForClaimHouse(MethodsDeliverData.mDelCode));
@@ -446,11 +449,88 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			Intent l=new Intent(mContext, AddFollowInHouseActivity.class);
 			startActivityForResult(l,10);
 			break;
+			//附近出售
+			case R.id.rlyt_sell_house_main_page_slid_menus:
+				startOrReturnIntent(0);
+				break;
+			//附近出租
+			case R.id.rlyt_rent_house_main_page_slid_menus:
+				startOrReturnIntent(1);
+				break;
+			//约看房源
+			case R.id.rlyt_see_house_main_page_slid_menus:
+				startOrReturnIntent(2);
+				break;
+			//我的出售
+			case R.id.rlyt_my_house_main_page_slid_menus:
+				startOrReturnIntent(3);
+				break;
+			//我的出租
+			case R.id.rlyt_my_house_main_page_slid_menus2:
+				startOrReturnIntent(4);
+				break;
+			//钥匙管理
+			case R.id.rlyt_key_house_main_page_slid_menus:
+				finish();
+				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+				break;
+			//我的客源
+			case R.id.rlyt_my_customer_main_page_slid_menus:
+				finish();
+				MethodsDeliverData.keYuanOrGongKe=1;
+				MethodsDeliverData.isMyCustomer = true;
+				MethodsExtra.startActivity(mContext,
+						CustomerManageActivity.class);
+				break;
+			//抢公售
+			case R.id.rlyt_grab_house_main_page_slid_menus:
+				finish();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公租
+			case R.id.rlyt_grab_house_main_page_slid_menus2:
+				finish();
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				break;
+			//抢公客
+			case R.id.rlyt_grab_customer_main_page_slid_menus:
+				finish();
+				MethodsDeliverData.keYuanOrGongKe=0;
+				MethodsDeliverData.flag = 1;
+				MethodsDeliverData.isMyCustomer = false;
+				MethodsExtra.startActivity(mContext,
+						CustomerManageActivity.class);
+				break;
+			//pin码
+			case R.id.rlyt_password_main_page_slid_menus:
+				finish();
+				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+				break;
+			//扫一扫
+			case R.id.rlyt_sacn_customer_main_page_slid_menus:
+				finish();
+				MethodsExtra.startActivity(mContext, CaptureActivity.class);
+				break;
+			//我的提醒
+			case R.id.rlyt_remind_customer_main_page_slid_menus:
+				MethodsDeliverData.flag = -1;
+				MethodsExtra.startActivity(mContext, MessageListActivity.class);
+				break;
 		default:
 			break;
 		}
 	}
-
+	private void startOrReturnIntent(int index){
+		if(isIntoForList){
+			houseDetailReturn(index);
+		}else{
+			startIntent(index);
+		}
+	}
 	private void showMenuDialog() {
 		mMenuDialog = new Dialog(mContext, R.style.Theme_dialog);
 		mMenuDialog.setContentView(R.layout.dialog_menu_house_resouse_detail);
@@ -493,7 +573,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		MethodsJni
-				.callProxyFun(
+				.callProxyFun(hif,
 						CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_getContactList,
 						CST_JS.getJsonStringForGetContactList(MethodsDeliverData.mDelCode));
@@ -530,42 +610,121 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			mCallCustormerDialog.dismiss();
 			mCallCustormerDialog = null;
 		}
-		mRootView = null;
+		baseView = null;
 		System.gc();
 		super.onDestroy();
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_CONTACT_LIST_RESULT, TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_HOU_DETAIL_RESULT, TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT, TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT, TAG);
+		MethodsJni.removeAllNotifications(TAG);
 	}
 
-	@Override
-	public void onBack() {
-		if (mCallCustormerDialog != null && mCallCustormerDialog.isShowing()) {
-			mCallCustormerDialog.dismiss();
-		} else {
-			// 注销通知：
-			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_CONTACT_LIST_RESULT, TAG);
-			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_HOU_DETAIL_RESULT, TAG);
-			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT, TAG);
-			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT, TAG);
-			MethodsJni.removeAllNotifications(TAG);
-
-			finish();
-		}
-	}
+/*
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			onBack();
+			finish();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}*/
+
+	/**
+	 * 微信分享 0：分享到微信好友 1：分享到微信朋友圈
+	 **/
+	private void wechatShare(Bitmap bitmap) {
+		/*WXTextObject textObj = new WXTextObject();
+		WXWebpageObject textObj=new WXWebpageObject();
+//		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
+		if(shareImgUrl!=null&&shareImgUrl.length()>0){
+			textObj.webpageUrl=shareImgUrl;
+		}
+		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
+				+ mHouseDetail.getDelCode() + "/"
+				+ SharedPreferencesUtils.getUserId(mContext);
+		WXMediaMessage msg = new WXMediaMessage();
+		msg.mediaObject = textObj;
+		msg.title = "中原地产";
+		msg.description = "中原地产房源分享";
+
+		SendMessageToWX.Req req = new SendMessageToWX.Req();
+		req.transaction = String.valueOf(System.currentTimeMillis());
+		req.message = msg;
+		req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession
+				: SendMessageToWX.Req.WXSceneTimeline;
+		*/
+		WXWebpageObject webpage = new WXWebpageObject();
+		webpage.webpageUrl = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
+				+ mHouseDetail.getDelCode() + "/"
+				+ SharedPreferencesUtils.getUserId(mContext);
+		WXMediaMessage msg = new WXMediaMessage(webpage);
+		BigDecimal bPrice = new BigDecimal(mHouseDetail.getPrice());
+		bPrice=bPrice.divide(new BigDecimal(10000), 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal bSquare = new BigDecimal(mHouseDetail.getSquare());
+		bSquare=bSquare.setScale(0, BigDecimal.ROUND_HALF_UP);
+		msg.title = mHouseDetail.getArea()+" "+mHouseDetail.getAddr()+" "+mHouseDetail.getFrame()+" "+bSquare+"平 "+bPrice+"万";
+		msg.description = "中原地产房源分享";
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		bitmap.recycle();
+		msg.thumbData =  baos.toByteArray();
+		SendMessageToWX.Req req = new SendMessageToWX.Req();
+		req.transaction = "img"+String.valueOf(System.currentTimeMillis());
+		req.message = msg;
+		req.scene = shareTag == 0 ? SendMessageToWX.Req.WXSceneSession
+				: SendMessageToWX.Req.WXSceneTimeline;
+		AppInstance.mWXAPI.sendReq(req);
+	}
+	public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
+								   double newHeight) {
+		float width = bgimage.getWidth();
+		float height = bgimage.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
+				(int) height, matrix, true);
+		return bitmap;
+	}
+	// 在需要分享的地方添加代码:
+	// wechatShare(0);//分享到微信好友
+	// wechatShare(1);//分享到微信朋友圈
+	private void returnBitmap(final String urlpath) {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Bitmap btMap =null;
+					URL url = new URL(urlpath);
+					URLConnection conn = url.openConnection();
+					InputStream in;
+					conn.connect();
+					in = conn.getInputStream();
+					btMap = BitmapFactory.decodeStream(in);
+					dismissDialog();
+					Message msg = Message.obtain();
+					msg.what =R.id.doGetImg;
+					msg.obj=btMap;
+					mHander.sendMessage(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+					dismissDialog();
+					mHander.sendEmptyMessage(R.id.doGetImgError);
+//					MethodsExtra.toast(mContext,"图片获取失败");
+				}
+			}
+		}).start();
 	}
 
 	@Override
-	public void notifCallBack(String name, String className, Object data) {
+	public void netWorkResult(String name, String className, Object data) {
 		dismissDialog();
 		if (name.equals(CST_JS.NOTIFY_NATIVE_DOROOMVIEW_RESULT)) {
 			String strJson = (String) data;
@@ -637,7 +796,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					.findViewById(R.id.lv_custormerPhone_HouseDetailActivity);
 			ContactDetail contactData = (ContactDetail) jReturn.getObject();
 			List<ContactItem> testData = contactData.getContactList(); // new
-																		// ArrayList<ContactItem>();
+			// ArrayList<ContactItem>();
 			if (testData == null || testData.size() == 0) {
 				MethodsExtra.toast(mContext, "此房源未录入电话");
 			}
@@ -648,7 +807,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(AdapterView<?> arg0, View arg1,
-								int arg2, long arg3) {
+												int arg2, long arg3) {
 							TextView tvTel = (TextView) arg1
 									.findViewById(R.id.tv_custNothing_CustormerPhoneAdapter);
 
@@ -663,7 +822,6 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 
 			// 这里再多次进入的时候会被多次调用，导致图片数据重叠，增加。暂时做了修复。
 			if (isFirstDataCall == 0) {
-				mHouseUi.setVisibility(View.VISIBLE);
 				String strJson = (String) data;
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(strJson,
 						HouseDetail.class);
@@ -676,7 +834,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
-							onBack();
+							//finish();
 						}
 					});
 					myDialog.create().show();
@@ -837,7 +995,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 					}else{
 
 					}*/
-	//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
+					//				mTvLouceng.setText("楼层：" + mHouseDetail.getFloor());
 					mTvDistanst.setText("距离：" + mHouseDetail.getFloor());
 					mTvYear.setText("年代：" + mHouseDetail.getYear());
 					mTvBankuai.setText("板块：" + mHouseDetail.getArea());
@@ -876,7 +1034,7 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 				setResult(ConstantResult.REFRESH);
-				onBack();
+				finish();
 				/*myDialog=new MyDialog.Builder(this);
 				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
@@ -894,91 +1052,14 @@ public class HouseDetailActivity extends SuperSlideMenuActivity {
 			}
 		}
 	}
-	/**
-	 * 微信分享 0：分享到微信好友 1：分享到微信朋友圈
-	 **/
-	private void wechatShare(Bitmap bitmap) {
-		/*WXTextObject textObj = new WXTextObject();
-		WXWebpageObject textObj=new WXWebpageObject();
-//		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
-		if(shareImgUrl!=null&&shareImgUrl.length()>0){
-			textObj.webpageUrl=shareImgUrl;
-		}
-		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
-				+ mHouseDetail.getDelCode() + "/"
-				+ SharedPreferencesUtils.getUserId(mContext);
-		WXMediaMessage msg = new WXMediaMessage();
-		msg.mediaObject = textObj;
-		msg.title = "中原地产";
-		msg.description = "中原地产房源分享";
 
-		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = String.valueOf(System.currentTimeMillis());
-		req.message = msg;
-		req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession
-				: SendMessageToWX.Req.WXSceneTimeline;
-		*/
-		WXWebpageObject webpage = new WXWebpageObject();
-		webpage.webpageUrl = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
-				+ mHouseDetail.getDelCode() + "/"
-				+ SharedPreferencesUtils.getUserId(mContext);
-		WXMediaMessage msg = new WXMediaMessage(webpage);
-		BigDecimal bPrice = new BigDecimal(mHouseDetail.getPrice());
-		bPrice=bPrice.divide(new BigDecimal(10000), 0, BigDecimal.ROUND_HALF_UP);
-		BigDecimal bSquare = new BigDecimal(mHouseDetail.getSquare());
-		bSquare=bSquare.setScale(0, BigDecimal.ROUND_HALF_UP);
-		msg.title = mHouseDetail.getArea()+" "+mHouseDetail.getAddr()+" "+mHouseDetail.getFrame()+" "+bSquare+"平 "+bPrice+"万";
-		msg.description = "中原地产房源分享";
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//		bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-		bitmap.recycle();
-		msg.thumbData =  baos.toByteArray();
-		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = "img"+String.valueOf(System.currentTimeMillis());
-		req.message = msg;
-		req.scene = shareTag == 0 ? SendMessageToWX.Req.WXSceneSession
-				: SendMessageToWX.Req.WXSceneTimeline;
-		AppInstance.mWXAPI.sendReq(req);
+	@Override
+	public void onRefresh() {
+
 	}
-	public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
-								   double newHeight) {
-		float width = bgimage.getWidth();
-		float height = bgimage.getHeight();
-		Matrix matrix = new Matrix();
-		float scaleWidth = ((float) newWidth) / width;
-		float scaleHeight = ((float) newHeight) / height;
-		matrix.postScale(scaleWidth, scaleHeight);
-		Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
-				(int) height, matrix, true);
-		return bitmap;
-	}
-	// 在需要分享的地方添加代码:
-	// wechatShare(0);//分享到微信好友
-	// wechatShare(1);//分享到微信朋友圈
-	private void returnBitmap(final String urlpath) {
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					Bitmap btMap =null;
-					URL url = new URL(urlpath);
-					URLConnection conn = url.openConnection();
-					InputStream in;
-					conn.connect();
-					in = conn.getInputStream();
-					btMap = BitmapFactory.decodeStream(in);
-					dismissDialog();
-					Message msg = Message.obtain();
-					msg.what =R.id.doGetImg;
-					msg.obj=btMap;
-					mHander.sendMessage(msg);
-				} catch (IOException e) {
-					e.printStackTrace();
-					dismissDialog();
-					mHander.sendEmptyMessage(R.id.doGetImgError);
-//					MethodsExtra.toast(mContext,"图片获取失败");
-				}
-			}
-		}).start();
+
+	@Override
+	public void onLoadMore() {
+
 	}
 }

@@ -57,6 +57,11 @@ public final class MethodsJni {
 		Log.d("wan", "wanggsx callProxyFun params:" + (String) args[0]);
 		return JsHelper.callProxy(proxyName, functionName, args);
 	}
+	public static void callProxyFun(HttpInterface httpInterface,String proxyName, String functionName,
+									  Object... args) {
+		httpInterFace=httpInterface;
+		callProxyFun(proxyName,functionName,args);
+	}
 	/**
 	 * 通知回调
 	 * 

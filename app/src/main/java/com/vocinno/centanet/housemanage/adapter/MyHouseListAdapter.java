@@ -245,6 +245,7 @@ public class MyHouseListAdapter extends BaseAdapter {
 				}
 //				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 				Intent intent=new Intent(mContext, HouseDetailActivity.class);
+				intent.putExtra(MyUtils.INTO_FROM_LIST,true);
 				((HouseManageActivity2) mContext).startActivityForResult(intent, 10);
 			}
 		});

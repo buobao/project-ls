@@ -21,6 +21,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     public abstract void initView();
     public abstract void initData();
     public  String TAG = null;
+    public static String VPI="viewPageIndex";
 //    public abstract void notifCallBack(final String name,final String className, final Object data);
     public abstract Handler setHandler();
     public View baseView=null;

@@ -134,7 +134,6 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
             }
         }else if(false){
         }
-
         dismissDialog();
     }
     @Override

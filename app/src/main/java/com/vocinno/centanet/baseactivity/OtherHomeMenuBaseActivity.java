@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsJni;
@@ -29,7 +30,8 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
     public MethodsJni methodsJni;
     public Activity mContext = null;
     public Handler mHander = null;
-    public ModelDialog modelDialog;
+    public ModelDialog modelDialog;//loading
+    public MyDialog.Builder myDialog;//自定义窗口
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -157,7 +159,14 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         intent.putExtra("viewPageIndex", index);
         startActivity(intent);
     };
-
+    public void houseDetailReturn(int index){
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.putExtra(HouseManageActivity2.VPI, index);
+        setResult(RESULT_OK, intent);
+        finish();
+    };
     @Override
     protected void onDestroy() {
         super.onDestroy();

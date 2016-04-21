@@ -72,7 +72,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private final int NEAR_CHU_ZU=1;
     private final int MY_CHU_ZU=4;
     private int viewPageIndex;
-    private ViewPager vp_house_manager;
+    private static ViewPager vp_house_manager;
     private MyFragmentAdapter pagerAdapter;
     private List<Fragment> fragmentList;
     private ScrollTagView mScrollTagView;
@@ -298,6 +298,15 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         switch (resultCode){
             case ConstantResult.REFRESH:
 //                getDataFromNetwork(mType, mPageIndexs[mCurrentPageIndex]);
+                break;
+            case RESULT_OK:
+                if(requestCode==10){
+                    if(data!=null){
+                        vp_house_manager.setCurrentItem(data.getIntExtra(VPI,0));
+                    }else{
+                        vp_house_manager.setCurrentItem(0);
+                    }
+                }
                 break;
         }
     }
@@ -1200,4 +1209,5 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             this.layoutIndex=-1;
         }
     }
+
 }

@@ -840,7 +840,7 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
-							//finish();
+							finish();
 						}
 					});
 					myDialog.create().show();

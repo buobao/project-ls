@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
@@ -160,9 +159,6 @@ public class LeftMenuFragment extends Fragment implements View.OnClickListener{
                 MethodsDeliverData.flag = -1;
                 MethodsExtra.startActivity(mContext, MessageListActivity.class);
                 break;
-        }
-        if(HomeBaseActivity.menu.isMenuShowing()){
-            HomeBaseActivity.menu.toggle(true);
         }
     }
 }

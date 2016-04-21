@@ -1,15 +1,25 @@
 package com.vocinno.centanet.baseactivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.home.LeftMenuFragment;
+import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity2;
+import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.keymanage.KeyGetInActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
+import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsExtra;
+import com.zbar.lib.CaptureActivity;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -18,7 +28,9 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     public Activity mContext = null;
     public Handler mHander = null;
     public ModelDialog modelDialog;
-    public static SlidingMenu menu;
+    public DrawerLayout drawer_layout;
+    public View leftMenuView;
+    public Intent intent;
     /*******************抽象方法***************************/
     public abstract Handler setHandler();
     public abstract int setContentLayoutId();
@@ -26,10 +38,9 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     public abstract void initData();
     public abstract void notifCallBack(final String name,final String className, final Object data);
     public View baseView=null;
-    private View leftMenuView;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +51,100 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         setContentView(baseView);
         initView();
         mHander = setHandler();
-        setSlidingMenu();
         setClickListener();
         initData();
 
     }
+    public void startIntentToHouseManager(int index){
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra("viewPageIndex", index);
+        startActivity(intent);
+    };
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+                //附近出售
+                case R.id.rlyt_sell_house_main_page_slid_menus:
+                    startIntentToHouseManager(0);
+                    break;
+                //附近出租
+                case R.id.rlyt_rent_house_main_page_slid_menus:
+                    startIntentToHouseManager(1);
+                    break;
+                //约看房源
+                case R.id.rlyt_see_house_main_page_slid_menus:
+                    startIntentToHouseManager(2);
+                    break;
+                //我的出售
+                case R.id.rlyt_my_house_main_page_slid_menus:
+                    startIntentToHouseManager(3);
+                    break;
+                //我的出租
+                case R.id.rlyt_my_house_main_page_slid_menus2:
+                    startIntentToHouseManager(4);
+                    break;
+                //钥匙管理
+                case R.id.rlyt_key_house_main_page_slid_menus:
+                    MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+                    break;
+                //我的客源
+                case R.id.rlyt_my_customer_main_page_slid_menus:
+                    MethodsDeliverData.keYuanOrGongKe=1;
+                    MethodsDeliverData.isMyCustomer = true;
+                    MethodsExtra.startActivity(mContext,
+                            CustomerManageActivity.class);
+                    break;
+                //抢公售
+                case R.id.rlyt_grab_house_main_page_slid_menus:
+                    MethodsDeliverData.flag = 1;
+                    MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
+                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                    break;
+                //抢公租
+                case R.id.rlyt_grab_house_main_page_slid_menus2:
+                    MethodsDeliverData.flag = 1;
+                    MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
+                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                    break;
+                //抢公客
+                case R.id.rlyt_grab_customer_main_page_slid_menus:
+                    MethodsDeliverData.keYuanOrGongKe=0;
+                    MethodsDeliverData.flag = 1;
+                    MethodsDeliverData.isMyCustomer = false;
+                    MethodsExtra.startActivity(mContext,
+                            CustomerManageActivity.class);
+                    break;
+                //pin码
+                case R.id.rlyt_password_main_page_slid_menus:
+                    MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+                    break;
+                //扫一扫
+                case R.id.rlyt_sacn_customer_main_page_slid_menus:
+                    MethodsExtra.startActivity(mContext, CaptureActivity.class);
+                    break;
+                //我的提醒
+                case R.id.rlyt_remind_customer_main_page_slid_menus:
+                    MethodsDeliverData.flag = -1;
+                    MethodsExtra.startActivity(mContext, MessageListActivity.class);
+                    break;
+        }
+
+        if(drawer_layout.isDrawerOpen(leftMenuView)){
+            drawer_layout.closeDrawer(leftMenuView);
+        }
+    }
+
     private void setClickListener() {
-       /* View left_menu = findViewById(R.id.left_menu);
+        drawer_layout= (DrawerLayout) findViewById(R.id.dl_home_page);
+        leftMenuView=findViewById(R.id.left_home_page);
+        drawer_layout.closeDrawer(leftMenuView);
+
         fuJinChuShou=(RelativeLayout)findViewById(R.id.rlyt_sell_house_main_page_slid_menus);
-        fuJinChuShou.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HouseManageActivity.mArrayHouseItemList[0]=null;
-                MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
-                MethodsExtra.startActivity(mContext, HouseManageActivity.class);
-            }
-        });*/
-/*
+        fuJinChuShou.setOnClickListener(this);
+
         fuJinChuZu = (RelativeLayout) findViewById(R.id.rlyt_rent_house_main_page_slid_menus);
         fuJinChuZu.setOnClickListener(this);
 
@@ -89,28 +177,10 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         shuPINMa.setOnClickListener(this);
 
         saoYiSao = (RelativeLayout) findViewById(R.id.rlyt_sacn_customer_main_page_slid_menus);
-        saoYiSao.setOnClickListener(this);*/
-    }
+        saoYiSao.setOnClickListener(this);
 
-    private void setSlidingMenu() {
-        menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);//setSecondaryMenu
-        // 设置触摸屏幕的模式
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-//        menu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
-//        menu.setShadowWidthRes(R.dimen.shadow_width);
-//        menu.setShadowDrawable(R.drawable.shadow);
-        // 设置滑动菜单视图的宽度
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        // 设置渐入渐出效果的值
-        menu.setFadeEnabled(true);
-        menu.setFadeDegree(0.35f);
-        //把滑动菜单添加进所有的Activity中，可选值SLIDING_CONTENT ， SLIDING_WINDOW
-        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
-        //为侧滑菜单设置布局
-        leftMenuView=getLayoutInflater().inflate(R.layout.left_menu_fragment, null);
-        getFragmentManager().beginTransaction().add(R.id.fl_left_menu_fragment,new LeftMenuFragment(),LeftMenuFragment.class.getSimpleName()).commit();
-        menu.setMenu(leftMenuView);
+        woDeTiXing = (RelativeLayout)findViewById(R.id.rlyt_remind_customer_main_page_slid_menus);
+        woDeTiXing.setOnClickListener(this);
     }
 
     public void showDialog(){

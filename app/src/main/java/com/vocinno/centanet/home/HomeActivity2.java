@@ -109,7 +109,6 @@ public class HomeActivity2 extends HomeBaseActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.img_left_mhead1:
-				menu.toggle();
 				break;
 			case R.id.iv_fangyuan:
 //			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;

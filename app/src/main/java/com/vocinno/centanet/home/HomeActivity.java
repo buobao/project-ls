@@ -122,9 +122,14 @@ public class HomeActivity extends HomeBaseActivity {
 
 	@Override
 	public void onClick(View v) {
+		super.onClick(v);
 		switch (v.getId()) {
 			case R.id.img_left_mhead1:
-				menu.toggle();
+				if(drawer_layout.isDrawerOpen(leftMenuView)){
+					drawer_layout.closeDrawer(leftMenuView);
+				}else{
+					drawer_layout.openDrawer(leftMenuView);
+				}
 				break;
 			case R.id.iv_fangyuan:
 //			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;

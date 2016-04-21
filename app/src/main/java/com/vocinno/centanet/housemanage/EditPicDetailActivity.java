@@ -1,14 +1,5 @@
 package com.vocinno.centanet.housemanage;
 
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.ImageUtil;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
-import com.vocinno.centanet.apputils.dialog.MyDialog;
-import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,10 +9,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Display;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
+import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.utils.MethodsExtra;
 
 /**
  * 点击单张图片进行编辑 包括修改文字描述 删除图片等功能
@@ -29,7 +24,7 @@ import android.widget.TextView;
  * @author Administrator
  * 
  */
-public class EditPicDetailActivity extends SuperSlideMenuActivity {
+public class EditPicDetailActivity extends OtherBaseActivity {
 
 	private RelativeLayout mGoBackBtn;
 	private RelativeLayout mFinishBtn;
@@ -43,7 +38,6 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				EditPicDetailActivity.this.closeMenu(msg);
 			}
 		};
 	}
@@ -58,9 +52,9 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 		intent=getIntent();
 		imgPath=intent.getStringExtra("path");
 		imgDescribe=intent.getStringExtra("describe");
-		mBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mTitle = MethodsExtra.findHeadTitle1(mContext, mRootView, 0, "修改实堪描述");
-		mSubmit = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
+		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		mTitle = MethodsExtra.findHeadTitle1(mContext, baseView, 0, "修改实堪描述");
+		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_done);
 
 		// 提取图片以及描述的Id然后进行处理
@@ -73,9 +67,9 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 
 //		mImgHouseDetail.setImageBitmap(ImageUtil.File2Bitmap(imgPath));
 		setImg(imgPath, mImgHouseDetail);
+		setListener();
 	}
 
-	@Override
 	public void setListener() {
 		mBack.setOnClickListener(this);
 		mSubmit.setOnClickListener(this);
@@ -130,13 +124,6 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 		setResult(202,intent);
 		this.finish();
 	}
-
-	@Override
-	public void onBack() {
-		finish();
-	}
-
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
 
 	}
@@ -174,5 +161,20 @@ public class EditPicDetailActivity extends SuperSlideMenuActivity {
 			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
 		}
 		return inSampleSize;
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+
+	}
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 }

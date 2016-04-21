@@ -4,18 +4,21 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 
 public abstract class HouseManagerBaseActivity extends FragmentActivity implements View.OnClickListener {
     public Activity mContext = null;
     public Handler mHander = null;
     public ModelDialog modelDialog;
-    public static SlidingMenu menu;
+    private DrawerLayout drawer_layout;
+    private View leftMenuView;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -33,6 +36,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();
         int layoutId=setContentLayoutId();
         baseView=getLayoutInflater().inflate(layoutId,null);
@@ -43,6 +47,8 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         initData();
     }
     private void setClickListener() {
+        drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
+        leftMenuView=findViewById(R.id.left_menu_housemanager);
         fuJinChuShou=(RelativeLayout)findViewById(R.id.rlyt_sell_house_main_page_slid_menus);
         fuJinChuShou.setOnClickListener(this);
 
@@ -94,5 +100,18 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         if(this.modelDialog!=null&&this.modelDialog.isShowing()){
             this.modelDialog.dismiss();
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(drawer_layout.isDrawerOpen(leftMenuView)){
+            drawer_layout.closeDrawer(leftMenuView);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyUtils.allActList.remove(this);
     }
 }

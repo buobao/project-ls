@@ -75,6 +75,8 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
     public void initData() {
         if(firstLoading){
             houseListAdapter = new MyHouseListAdapter(mContext, HouseType.WO_DEZU2);
+            houseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(houseListAdapter);
             type = HouseType.WO_DEZU2;
             getData(1, false);
         }

@@ -1,33 +1,5 @@
 package com.vocinno.centanet.keymanage;
 
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
-import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.apputils.selfdefineview.MyHorizontalScrollView;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
-import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.housemanage.HouseType;
-import com.vocinno.centanet.keymanage.adapter.KeyListAdapter;
-import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey;
-import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
-import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.model.KeyItem;
-import com.vocinno.centanet.model.KeyList;
-import com.vocinno.centanet.model.KeyReceiverInfo;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.view.refreshablelistview.XListView;
-import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,7 +15,36 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class KeyManageActivity extends SuperSlideMenuActivity implements
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.selfdefineview.MyHorizontalScrollView;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.housemanage.HouseDetailActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.keymanage.adapter.KeyListAdapter;
+import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey;
+import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
+import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.KeyItem;
+import com.vocinno.centanet.model.KeyList;
+import com.vocinno.centanet.model.KeyReceiverInfo;
+import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.utils.MethodsData;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsFile;
+import com.vocinno.utils.MethodsJni;
+import com.vocinno.utils.MethodsJson;
+import com.vocinno.utils.view.refreshablelistview.XListView;
+import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class KeyManageActivity extends OtherBaseActivity implements
 		IXListViewListener {
 	private View mBack, mAddBorrowKey;
 	private XListView mListViewKeys;
@@ -74,7 +75,6 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				KeyManageActivity.this.closeMenu(msg);
 				switch (msg.what) {
 				case R.id.FINISH_LOAD_MORE:
 					mListViewKeys.stopLoadMore();
@@ -186,15 +186,16 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 
 	@Override
 	public void initView() {
-		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.keymanage,
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.keymanage,
 				null);
-		mBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mAddBorrowKey = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
+		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		mAddBorrowKey = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_add);
 		mListViewKeys = (XListView) findViewById(R.id.xlistview_key_manage_activity);
+
+		setListener();
 	}
 
-	@Override
 	public void setListener() {
 		mBack.setOnClickListener(this);
 		mAddBorrowKey.setOnClickListener(this);
@@ -426,6 +427,8 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		mListAdapter = new KeyListAdapter(KeyManageActivity.this);
 		mListViewKeys.setAdapter(mListAdapter);
 		mListViewKeys.setPullLoadEnable(false);
@@ -453,7 +456,7 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		case R.id.img_right_mhead1:
 			MethodsDeliverData.mIntHouseType = HouseType.YAO_SHI;
@@ -465,7 +468,8 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 	}
 
 	@Override
-	public void onBack() {
+	protected void onDestroy() {
+		super.onDestroy();
 		MethodsDeliverData.mKeyType = -1;
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_KeyProxy,
 				CST_JS.JS_Function_KeyPproxy_cancelAll,
@@ -484,7 +488,6 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 				CST_JS.NOTIFY_NATIVE_CONFIRM_PINCODE, TAG);
 		MethodsJni.removeNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_RETURN_KEY_RESULT, TAG);
-		finish();
 	}
 
 	// listView item点击事件
@@ -602,12 +605,24 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 				CST_JS.getJsonStringForGetMyKeyList());
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		if(modelDialog!=null&&modelDialog.isShowing()){
-			modelDialog.dismiss();
+
+	}
+
+	private void cancelTimer() {
+		if (mTimer != null) {
+			mTimer.cancel();
+			mTimer = null;
 		}
+		NOW_TIMER = TOTAL_TIMER;
+		Message msg = mHander.obtainMessage();
+		msg.what = RESET_TIMER;
+		mHander.sendMessage(msg);
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+		dismissDialog();
 		String strJson = (String) data;
 		JSReturn jsReturn;
 		Log.d("notifCallBack", "notif name=" + name + " data=" + data);
@@ -694,16 +709,5 @@ public class KeyManageActivity extends SuperSlideMenuActivity implements
 				}
 			}
 		}
-	}
-
-	private void cancelTimer() {
-		if (mTimer != null) {
-			mTimer.cancel();
-			mTimer = null;
-		}
-		NOW_TIMER = TOTAL_TIMER;
-		Message msg = mHander.obtainMessage();
-		msg.what = RESET_TIMER;
-		mHander.sendMessage(msg);
 	}
 }

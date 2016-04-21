@@ -389,21 +389,27 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 				myPagerAdapter.destory();
 			}
 			mTvPagerIndicator.setText("0/0");
-			Intent intent=new Intent(mContext,
-					AddHousePictureActivity.class);
-			intent.putExtra("delCode",mHouseDetail.getDelCode());
-			MethodsExtra.startActivity(this,intent);
+			if(mHouseDetail!=null&&mHouseDetail.getDelCode()!=null){
+				Intent addHousePictureIntent=new Intent(this,AddHousePictureActivity.class);
+				addHousePictureIntent.putExtra("delCode",mHouseDetail.getDelCode());
+				this.startActivity(addHousePictureIntent);
+			}else{
+				MethodsExtra.toast(this,"房源编号为空无法增加实勘");
+			}
 			break;
 		case R.id.llyt_seeFollowUp_HouseDetailActivity:
 			mMenuDialog.dismiss();
 			if (mHouseDetail != null && mHouseDetail.getDelCode() != null) {
 				MethodsDeliverData.mDelCode = mHouseDetail.getDelCode();
+				Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
+				it.putExtra("delegationType",mHouseDetail.getDelegationType());
+				startActivity(it);
 			} else {
 				MethodsExtra.toast(mContext, "mHouseDetail不能为空");
+				Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
+				it.putExtra("delegationType","");
+				startActivity(it);
 			}
-			Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
-			it.putExtra("delegationType",mHouseDetail.getDelegationType());
-			startActivity(it);
 //			MethodsExtra.startActivity(mContext,SeeFollowInDetailActivity.class);
 			break;
 		case R.id.rlyt_passKey_houseDetailActivity:

@@ -12,10 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -26,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
+public class AddFollowInCustomerActivity extends OtherBaseActivity {
 	private View mBackView;
 	private ImageView mSubmitView;
 	private String mCustorCode = null;
@@ -40,11 +41,11 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initView() {
-		MethodsExtra.findHeadTitle1(mContext, mRootView,
+		MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.followincustomer, null);
-		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
+		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext,
-				mRootView, 0, R.drawable.universal_button_undone);
+				baseView, 0, R.drawable.universal_button_undone);
 		mSubmitView.setClickable(false);
 		mTvDate = (TextView) findViewById(R.id.tv_date_addFollowInCustomerActivity);
 		mEtContent = (EditText) findViewById(R.id.et_content_addFollowInCustomerActivity);
@@ -112,13 +113,13 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 				}
 			}
 		});
+		setListener();
 	}
 
 	public boolean matche(String input, String matches) {
 		return Pattern.matches(matches, input);
 	}
 
-	@Override
 	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
@@ -127,6 +128,8 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		TAG = this.getClass().getName();
 		modelDialog= ModelDialog.getModelDialog(this);
 		mCustorCode = MethodsDeliverData.string;
@@ -141,7 +144,6 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				AddFollowInCustomerActivity.this.closeMenu(msg);
 			}
 		};
 	}
@@ -160,13 +162,13 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 								.getJsonStringForAddTrackInfo(mCustorCode,
 										content));
 			}
-			modelDialog.show();
+			showDialog();
 			mSubmitView.setImageDrawable(getResources().getDrawable(
 					R.drawable.universal_button_undone));
 			mSubmitView.setClickable(false);
 			break;
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		default:
 			break;
@@ -174,15 +176,19 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 	}
 
 	@Override
-	public void onBack() {
+	protected void onDestroy() {
+		super.onDestroy();
 		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT,TAG);
-		finish();
+				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
+	}
+
+	public void notifCallBack(String name, String className, Object data) {
+
 	}
 
 	@Override
-	public void notifCallBack(String name, String className, Object data) {
-		modelDialog.dismiss();
+	public void netWorkResult(String name, String className, Object data) {
+		dismissDialog();
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
 		if (jsReturn.isSuccess()) {
@@ -196,5 +202,15 @@ public class AddFollowInCustomerActivity extends SuperSlideMenuActivity {
 			setResult(ConstantResult.REFRESH);
 			finish();
 		}
+	}
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 }

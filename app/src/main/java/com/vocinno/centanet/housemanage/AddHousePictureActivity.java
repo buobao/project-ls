@@ -17,15 +17,16 @@ import android.widget.TextView;
 import com.util.mylibrary.photos.PhotoReadyHandler;
 import com.util.mylibrary.photos.SelectPhotoManager;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.ImageForJsParams;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.housemanage.adapter.HousePicGridViewAdapter;
 import com.vocinno.centanet.housemanage.adapter.MyInterface;
 import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.UploadImageResult;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
@@ -42,7 +43,7 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class AddHousePictureActivity extends SuperSlideMenuActivity implements MyInterface {
+public class AddHousePictureActivity extends OtherBaseActivity implements MyInterface {
 	private String takePhotoType,editType,selectType;//判断拍照相册和修改
 	//房型，室，厅，厨房，卫生间，其他
 	private HousePicGridViewAdapter houseTypeAdapter,roomAdapter,officeAdapter, kitchenAdapter, toiletAdapter,otherAdapter;
@@ -104,7 +105,6 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				AddHousePictureActivity.this.closeMenu(msg);
 				switch (msg.what) {
 					case UPLOAD_COMPLETED:
 					showDialog();
@@ -142,10 +142,10 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 	public void initView() {
 		myDialog=new MyDialog.Builder(this);
 		delCode=getIntent().getStringExtra("delCode");
-		mBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mSubmit = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
+		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_done);
-		mTitle = MethodsExtra.findHeadTitle1(mContext, mRootView,
+		mTitle = MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.add_camara_pic, null);
 		// 房型图 获取到数据之后填充入的tv
 		mTvHouseTypePicNumber = (TextView) findViewById(R.id.tv_fangXingTu_AddHousePicDetailActivity);
@@ -200,10 +200,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 		mRyltSubmit = (RelativeLayout) findViewById(R.id.rlyt_changeSure_AddHousePicDetailActivity);
 		et_miaoshu = (EditText) findViewById(R.id.et_miaoshu);
 		cb_ishd = (CheckBox) findViewById(R.id.cb_ishd);
-	}
 
-	@Override
-	public void setListener() {
 		mBack.setOnClickListener(this);
 		mSubmit.setOnClickListener(this);
 		mRyltSubmit.setOnClickListener(this);
@@ -227,9 +224,10 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		MethodsDeliverData.mListImageDescription = new ArrayList<String>();
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_UPLOAD_IMGS_RESULT, TAG);
+		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_UPLOAD_IMGS_RESULT, TAG);
 		  houseTypeAdapter = new HousePicGridViewAdapter(
 				mContext, "houseType");
 		  roomAdapter = new HousePicGridViewAdapter(
@@ -271,7 +269,7 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		case R.id.rylt_houseType_AddHousePicDetailActivity:
 			if (mRyltShowGridviewHouseType.getVisibility() == View.GONE) {
@@ -447,49 +445,8 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 		}
 	}
 
-	@Override
-	public void onBack() {
-		finish();
-	}
-
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		dismissDialog();
-		if (name.equals(CST_JS.NOTIFY_NATIVE_UPLOAD_IMGS_RESULT)) {
-			String strJson = (String) data;
-			JSReturn jReturn = MethodsJson.jsonToJsReturn(strJson,
-					BorrowKey.class);
-			MyDialog.Builder myDialog=new MyDialog.Builder(this);
-			myDialog.setTitle("提示");
-			if(jReturn.isSuccess()){
-				myDialog.setMessage(jReturn.getMsg());
-				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						finish();
-					}
-				});
-			}else{
-				myDialog.setMessage("图片上传失败 是否继续上传?");
-//				myDialog.setMessage(jReturn.getMsg());
-				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						showDialog();
-						mHander.sendEmptyMessage(UPLOAD_COMPLETED);
-					}
-				});
-				myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-			}
-			myDialog.create().show();
-		}
+
 	}
 	@Override
 	public void editPhoto(String type,String imgPath, String describe) {
@@ -766,5 +723,55 @@ public class AddHousePictureActivity extends SuperSlideMenuActivity implements M
 				break;
 		}
 		return format;
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+		dismissDialog();
+		if (name.equals(CST_JS.NOTIFY_NATIVE_UPLOAD_IMGS_RESULT)) {
+			String strJson = (String) data;
+			JSReturn jReturn = MethodsJson.jsonToJsReturn(strJson,
+					BorrowKey.class);
+			MyDialog.Builder myDialog=new MyDialog.Builder(this);
+			myDialog.setTitle("提示");
+			if(jReturn.isSuccess()){
+				myDialog.setMessage(jReturn.getMsg());
+				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						finish();
+					}
+				});
+			}else{
+				myDialog.setMessage("图片上传失败 是否继续上传?");
+//				myDialog.setMessage(jReturn.getMsg());
+				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						showDialog();
+						mHander.sendEmptyMessage(UPLOAD_COMPLETED);
+					}
+				});
+				myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+			}
+			myDialog.create().show();
+		}
+	}
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 }

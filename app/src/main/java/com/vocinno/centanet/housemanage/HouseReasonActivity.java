@@ -13,11 +13,12 @@ import android.widget.TextView;
 
 import com.umeng.socialize.utils.Log;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -26,7 +27,7 @@ import com.vocinno.utils.MethodsJson;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HouseReasonActivity extends SuperSlideMenuActivity {
+public class HouseReasonActivity extends OtherBaseActivity {
     private View mBackView, mTitleView;
     private ImageView mSubmit;
     private TextView mTvDate;
@@ -43,11 +44,11 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
     @Override
     public void initView() {
         intent=getIntent();
-        mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-        mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, mRootView, 0, R.drawable.universal_button_undone);
+        mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+        mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0, R.drawable.universal_button_undone);
         mSubmit.setClickable(false);
         mTitleView = MethodsExtra
-                .findHeadTitle1(mContext, mRootView, 0, getResources().getString(R.string.lookhousereason));
+                .findHeadTitle1(mContext, baseView, 0, getResources().getString(R.string.lookhousereason));
         mTvDate = (TextView) findViewById(R.id.tv_date_houseReasonActivity);
         et_content = (EditText) findViewById(R.id.et_content_houseReasonActivity);
         rb_reason1 = (RadioButton) findViewById(R.id.rb_reason1);
@@ -55,9 +56,10 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
         rb_reason3 = (RadioButton) findViewById(R.id.rb_reason3);
         rb_reason4 = (RadioButton) findViewById(R.id.rb_reason4);
         rb_reason1.setChecked(true);
+
+        setListener();
     }
 
-    @Override
     public void setListener() {
         mBackView.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
@@ -76,7 +78,7 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
             public void afterTextChanged(Editable s) {
                 content = et_content.getText().toString();
                 if (content.trim().length() >= 10) {
-                    mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, mRootView, 0, R.drawable.universal_button_done);
+                    mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0, R.drawable.universal_button_done);
                     mSubmit.setClickable(true);
                 }
             }
@@ -85,6 +87,8 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
 
     @Override
     public void initData() {
+        methodsJni=new MethodsJni();
+        methodsJni.setMethodsJni((HttpInterface)this);
        mCustorCode = MethodsDeliverData.string;
         MethodsJni.addNotificationObserver(
                 CST_JS.NOTIFY_NATIVE_DOROOMVIEW_RESULT, TAG);
@@ -98,7 +102,7 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.img_left_mhead1:
-                onBack();
+                finish();
                 break;
             case R.id.img_right_mhead1:
                 if(modelDialog==null){
@@ -131,18 +135,17 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
         return new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                HouseReasonActivity.this.closeMenu(msg);
             }
         };
     }
 
-    @Override
-    public void onBack() {
-        finish();
+
+    public void notifCallBack(String name, String className, Object data) {
+        
     }
 
     @Override
-    public void notifCallBack(String name, String className, Object data) {
+    public void netWorkResult(String name, String className, Object data) {
         modelDialog.dismiss();
         Log.i("data==",data+"=="+className+"==");
         //看房理由
@@ -160,5 +163,15 @@ public class HouseReasonActivity extends SuperSlideMenuActivity {
                 MethodsExtra.toast(mContext, jReturnHouseDetail.getMsg());
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
     }
 }

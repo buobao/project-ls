@@ -1,17 +1,9 @@
 package com.vocinno.centanet.customermanage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,22 +16,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data.WheelType;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
-import com.vocinno.centanet.model.CustomerDetail;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 添加客户
@@ -48,7 +46,7 @@ import org.json.JSONObject;
  *
  */
 @SuppressLint("CutPasteId")
-public class AddCustomerActivity extends SuperSlideMenuActivity {
+public class AddCustomerActivity extends OtherBaseActivity {
 	private Map<String, String> mapPianQu = new HashMap<String, String>();
 	private ModelDialog modelDialog;
 	private static enum ConnectionType {
@@ -93,11 +91,11 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 //		mEtConnectionNumber = (EditText) findViewById(R.id.et_connectionNumber_addCustomerActivity);
 		mEtCustormerName = (EditText) findViewById(R.id.et_name_addCustomerActivity);
 		// 需要添加点击事件的RelativeLayout
-		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,
+		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_undone);
 		mSubmitView.setEnabled(false);
-		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.addcustomer,
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.addcustomer,
 				null);
 		mEtOtherInfo = (EditText) findViewById(R.id.et_otherInfo_addCustomerActivity);
 //		mRyltConnectionBanner = (RelativeLayout) findViewById(R.id.rlyt_connectionBanner_addCustomerActivity);
@@ -208,9 +206,11 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		// 原本隐藏起来的控件里需要被改变的
 		mImgQiuzu = (ImageView) findViewById(R.id.img_isChooseQiuzu_addCustomerActivity);
 		mImgQiumai = (ImageView) findViewById(R.id.img_isChooseQiumai_addCustomerActivity);
+
+
+		setListener();
 	}
 
-	@Override
 	public void setListener() {
 
 //		mRyltPhone.setOnClickListener(this);
@@ -293,6 +293,8 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		// 添加通知
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_ADD_CUSTOMER_RESULT, TAG);
@@ -328,7 +330,6 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				AddCustomerActivity.this.closeMenu(msg);
 				switch (msg.what) {
 					case MESSAGE_CLOSE_CHOOSER:
 						mRyltChoosePlaceContainer.setVisibility(View.GONE);
@@ -356,7 +357,7 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				checkIsFinish();
 				break;
 			case R.id.img_left_mhead1:
-				onBack();
+				finish();
 				break;
 			case R.id.img_right_mhead1:
 				if(modelDialog==null){
@@ -598,7 +599,55 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 				break;
 		}
 	}
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+		JSReturn jsReturn;
+		if (name.equals(CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT)) {
+			// 获取片区
+			jsReturn = MethodsJson.jsonToJsReturn((String) data, PianQu.class);
+			List<PianQu> listPianQu = jsReturn.getListDatas();
+			mapPianQu.clear();
+			ArrayList<String> listStr = new ArrayList<String>();
+			if (jsReturn.isSuccess() && listPianQu != null) {
+				for (int i = 0; i < listPianQu.size(); i++) {
+					PianQu pq = listPianQu.get(i);
+					mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
+					listStr.add(pq.getAreaName());
+				}
+			}
+			Message msg = new Message();
+			msg.what = MESSAGE_REFRESH_WHEELVIEWPIANQU;
+			msg.obj = listStr;
+			mHander.sendMessage(msg);
+		}else if(name.equals(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO)){
+			jsReturn = MethodsJson.jsonToJsReturn((String) data, JSONObject.class);
+			if(jsReturn.isSuccess()){
+				closeConnectionTypeContainer();
+			}else{
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+			}
+		} else {
+			modelDialog.dismiss();
+			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
+			if (jsReturn.isSuccess()) {
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+//				setResult(ConstantResult.REFRESH);
+				finish();
+			} else {
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+			}
+		}
+	}
 
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
+	}
 	private void iconTest() {
 //		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact01);
 //		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq01);
@@ -647,11 +696,6 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		mHander.sendEmptyMessageDelayed(MESSAGE_CLOSE_CHOOSER, 50);
 	}
 
-	@Override
-	public void onBack() {
-		finish();
-	}
-
 	private void checkIsFinish() {
 		boolean isFinish = true;
 		if (mEtCustormerName.getText() == null || mEtCustormerName.getText().toString().length() == 0) {
@@ -675,12 +719,12 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 			isFinish = false;
 		}
 		if (isFinish) {
-			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
+			mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView,
 					0, R.drawable.universal_button_done);
 			mSubmitView.setClickable(true);
 			mSubmitView.setEnabled(true);
 		} else {
-			mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView,
+			mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView,
 					0, R.drawable.universal_button_undone);
 			mSubmitView.setClickable(false);
 			mSubmitView.setEnabled(false);
@@ -768,44 +812,8 @@ public class AddCustomerActivity extends SuperSlideMenuActivity {
 		return false;
 	}
 
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		JSReturn jsReturn;
-		if (name.equals(CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT)) {
-			// 获取片区
-			jsReturn = MethodsJson.jsonToJsReturn((String) data, PianQu.class);
-			List<PianQu> listPianQu = jsReturn.getListDatas();
-			mapPianQu.clear();
-			ArrayList<String> listStr = new ArrayList<String>();
-			if (jsReturn.isSuccess() && listPianQu != null) {
-				for (int i = 0; i < listPianQu.size(); i++) {
-					PianQu pq = listPianQu.get(i);
-					mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
-					listStr.add(pq.getAreaName());
-				}
-			}
-			Message msg = new Message();
-			msg.what = MESSAGE_REFRESH_WHEELVIEWPIANQU;
-			msg.obj = listStr;
-			mHander.sendMessage(msg);
-		}else if(name.equals(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO)){
-			jsReturn = MethodsJson.jsonToJsReturn((String) data, JSONObject.class);
-			if(jsReturn.isSuccess()){
-				closeConnectionTypeContainer();
-			}else{
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-			}
-		} else {
-			modelDialog.dismiss();
-			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
-			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-//				setResult(ConstantResult.REFRESH);
-				finish();
-			} else {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-			}
-		}
+
 	}
 	public void setLoseFocus(){
 		if(isMobileNO(mStrTel) && !TextUtils.isEmpty(mStrTel)){

@@ -72,7 +72,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private final int NEAR_CHU_ZU=1;
     private final int MY_CHU_ZU=4;
     private int viewPageIndex;
-    private static ViewPager vp_house_manager;
+    private ViewPager vp_house_manager;
     private MyFragmentAdapter pagerAdapter;
     private List<Fragment> fragmentList;
     private ScrollTagView mScrollTagView;

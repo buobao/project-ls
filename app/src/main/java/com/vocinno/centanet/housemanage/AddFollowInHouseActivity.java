@@ -1,19 +1,5 @@
 package com.vocinno.centanet.housemanage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
-import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.customermanage.ConstantResult;
-import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-
-import android.R.integer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -25,7 +11,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsJni;
+import com.vocinno.utils.MethodsJson;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class AddFollowInHouseActivity extends OtherBaseActivity {
 	private View mBackView;
 	private ImageView mSubmitView;
 	private String mHouseCode = null;
@@ -39,11 +39,11 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initView() {
-		MethodsExtra.findHeadTitle1(mContext, mRootView,
+		MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.followinhouse, null);
-		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
+		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext,
-				mRootView, 0, R.drawable.universal_button_undone);
+				baseView, 0, R.drawable.universal_button_undone);
 		mTvDate = (TextView) findViewById(R.id.tv_date_addFollowInCustomerActivity);
 		mEtContent = (EditText) findViewById(R.id.et_content_addFollowInCustomerActivity);
 
@@ -53,7 +53,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+									  int count) {
 				Log.d("wan", "onTextChanged start:before:count " + start + ":"
 						+ before + ":" + count);
 				int selEndIndex = Selection.getSelectionEnd(mEtContent
@@ -64,7 +64,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 							R.drawable.universal_button_undone));
 					mSubmitView.setClickable(false);
 				} else {
-					if(string.trim().length() >= 10){
+					if (string.trim().length() >= 10) {
 						mSubmitView.setImageDrawable(getResources().getDrawable(
 								R.drawable.universal_button_done));
 						mSubmitView.setClickable(true);
@@ -83,7 +83,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 							}
 							MethodsExtra.toast(mContext, "描述不能超过500字");
 						}
-					}else{
+					} else {
 						mSubmitView.setImageDrawable(getResources().getDrawable(
 								R.drawable.universal_button_undone));
 						mSubmitView.setClickable(false);
@@ -93,7 +93,7 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
+										  int arg2, int arg3) {
 				String string = mEtContent.getText().toString();
 				Log.d("wan",
 						"wanggsx beforeTextChanged len = " + string.length());
@@ -110,17 +110,17 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 			public void afterTextChanged(Editable arg0) {
 			}
 		});
-	}
 
-	@Override
-	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
 		mSubmitView.setClickable(false);
 	}
 
+
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		mHouseCode = MethodsDeliverData.string;
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
@@ -136,7 +136,6 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				AddFollowInHouseActivity.this.closeMenu(msg);
 			}
 		};
 	}
@@ -155,20 +154,19 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 			}
 			break;
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		default:
 			break;
 		}
 	}
 
-	@Override
-	public void onBack() {
-		finish();
+	public void notifCallBack(String name, String className, Object data) {
+
 	}
 
 	@Override
-	public void notifCallBack(String name, String className, Object data) {
+	public void netWorkResult(String name, String className, Object data) {
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
 		if (jsReturn.isSuccess()) {
@@ -177,5 +175,23 @@ public class AddFollowInHouseActivity extends SuperSlideMenuActivity {
 			setResult(ConstantResult.REFRESH);
 			finish();
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_HOU_ADD_TRACK_RESULT, TAG);
+	}
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 }

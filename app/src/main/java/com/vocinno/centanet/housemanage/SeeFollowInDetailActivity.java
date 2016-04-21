@@ -1,16 +1,11 @@
 package com.vocinno.centanet.housemanage;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -19,19 +14,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.SeeFollowIn;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.CustomUtils;
-import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -42,9 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
+public class SeeFollowInDetailActivity extends OtherBaseActivity {
 	private View mViewBack, mSubmitView;
 	private TextView mHouseCode,mCustCode;
 	private EditText mRemark, mLookCode;
@@ -67,7 +60,6 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				SeeFollowInDetailActivity.this.closeMenu(msg);
 			}
 		};
 	}
@@ -85,11 +77,11 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 		wv_day= (WheelView) dialogView.findViewById(R.id.wv_day);
 		wv_hour= (WheelView) dialogView.findViewById(R.id.wv_hour);
 		wv_min= (WheelView) dialogView.findViewById(R.id.wv_min);
-		MethodsExtra.findHeadTitle1(mContext, mRootView,
+		MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.followin_look, null);
-		mViewBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-		rootView=mRootView;
-		mSubmitView = MethodsExtra.findHeadRightView1(mContext, mRootView, 0,R.drawable.universal_button_undone);
+		mViewBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+		rootView=baseView;
+		mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, 0,R.drawable.universal_button_undone);
 		mHouseCode = (TextView) findViewById(R.id.tv_housecode_SeeFollowInDetailActivity);
 		mCustCode = (TextView) findViewById(R.id.tv_custcode_SeeFollowInDetailActivity);
 		mCustCode.setOnClickListener(this);
@@ -111,9 +103,9 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 
 		TextView  tv_write_time = (TextView)findViewById(R.id.tv_write_time);
 		tv_write_time.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		setListener();
 	}
 
-	@Override
 	public void setListener() {
 		mViewBack.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
@@ -359,6 +351,8 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 	}
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		delegationType=getIntent().getStringExtra("delegationType");
 		mHouseCode.setText(MethodsDeliverData.mDelCode);
 		mDelCode=MethodsDeliverData.mDelCode.substring(4,5);
@@ -468,7 +462,7 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			dialog.show();
 			break;
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		case R.id.img_right_mhead1:
 			showDialog();
@@ -525,23 +519,8 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 
 	}
 
-	@Override
-	public void onBack() {
-		finish();
-	}
-
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		dismissDialog();
-		String strJson = (String) data;
-		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
-				SeeFollowIn.class);
-		if (jsReturn.isSuccess()) {
-			MethodsExtra.toast(mContext,jsReturn.getMsg());
-			finish();
-		} else {
-			MethodsExtra.toast(mContext, jsReturn.getMsg());
-		}
+
 	}
 	public Date setDate(){
 		String year=wv_year.getSelectedText();
@@ -577,5 +556,29 @@ public class SeeFollowInDetailActivity extends SuperSlideMenuActivity {
 			dialog.dismiss();
 			return null;
 		}
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+		dismissDialog();
+		String strJson = (String) data;
+		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
+				SeeFollowIn.class);
+		if (jsReturn.isSuccess()) {
+			MethodsExtra.toast(mContext,jsReturn.getMsg());
+			finish();
+		} else {
+			MethodsExtra.toast(mContext, jsReturn.getMsg());
+		}
+	}
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 }

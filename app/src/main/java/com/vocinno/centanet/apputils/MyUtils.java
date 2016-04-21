@@ -12,6 +12,7 @@ import java.util.List;
  */
 public  class MyUtils {
     public static List<Activity> actList;
+    public static List<Activity> allActList;
     public static final String INTO_FROM_LIST="intoForList";
     public static int px2dip(Context context, float pxValue){
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -37,6 +38,25 @@ public  class MyUtils {
                 actList.get(i).finish();
             }*/
             actList.clear();
+        }
+    }
+
+    public static void addActivityToAllList(Activity activity){
+        if(allActList==null){
+            allActList=new ArrayList<Activity>();
+        }
+        allActList.add(activity);
+    }
+    public static void removeActivityFromAllList(){
+        if(allActList!=null){
+            Iterator it = allActList.iterator();
+            while (it.hasNext()) {
+                ((Activity)it.next()).finish();
+            }
+            allActList.clear();
+            if(actList!=null){
+                actList.clear();
+            }
         }
     }
 }

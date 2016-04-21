@@ -1,7 +1,16 @@
 package com.vocinno.centanet.housemanage;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -18,32 +27,23 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.HouseInMap;
 import com.vocinno.centanet.model.HouseMapList;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import java.util.ArrayList;
 
 /**
  * 地图详情
@@ -51,7 +51,7 @@ import android.widget.Toast;
  * @author Administrator
  * 
  */
-public class MapActivity extends SuperSlideMenuActivity {
+public class MapActivity extends OtherBaseActivity {
 	public static String mDelType = "";
 
 	private LatLng mLatLngMax;
@@ -101,14 +101,15 @@ public class MapActivity extends SuperSlideMenuActivity {
 		mBaiduMap = mMapView.getMap();
 		MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
 		mBaiduMap.setMapStatus(msu);
-		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.house_near,
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_near,
 				null);
-		mBackView = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
+		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		// 定位初始化
 		mLocClient = new LocationClient(this);
+
+		setListener();
 	}
 
-	@Override
 	public void setListener() {
 		mBackView.setOnClickListener(this);
 		mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
@@ -126,6 +127,8 @@ public class MapActivity extends SuperSlideMenuActivity {
 
 	@Override
 	public void initData() {
+		methodsJni=new MethodsJni();
+		methodsJni.setMethodsJni((HttpInterface)this);
 		isGetPosition = false;
 		// 开启定位图层
 		mBaiduMap.setMyLocationEnabled(true);
@@ -143,11 +146,35 @@ public class MapActivity extends SuperSlideMenuActivity {
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void netWorkResult(String name, String className, Object data) {
+		if (name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT)) {
+			// 更新
+			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
+					HouseMapList.class);
+			if (jsReturn.getObject() != null) {
+				Message msg = mHander.obtainMessage(R.id.doUpdate,
+						((HouseMapList) jsReturn.getObject()).getMapPoint());
+				mHander.sendMessage(msg);
+			}
+		}
+	}
+
+	@Override
+	public void onRefresh() {
+
+	}
+
+	@Override
+	public void onLoadMore() {
+
 	}
 
 	/**
@@ -205,20 +232,16 @@ public class MapActivity extends SuperSlideMenuActivity {
 
 	@Override
 	protected void onResume() {
-		mMapView.onResume();
 		super.onResume();
+		mMapView.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		mMapView.onPause();
 		super.onPause();
+		mMapView.onPause();
 	}
 
-	@Override
-	public void onBack() {
-		finish();
-	}
 
 	@Override
 	protected void onDestroy() {
@@ -355,17 +378,7 @@ public class MapActivity extends SuperSlideMenuActivity {
 		return bitmap;
 	}
 
-	@Override
 	public void notifCallBack(String name, String className, Object data) {
-		if (name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT)) {
-			// 更新
-			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-					HouseMapList.class);
-			if (jsReturn.getObject() != null) {
-				Message msg = mHander.obtainMessage(R.id.doUpdate,
-						((HouseMapList) jsReturn.getObject()).getMapPoint());
-				mHander.sendMessage(msg);
-			}
-		}
+
 	}
 }

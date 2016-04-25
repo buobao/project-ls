@@ -269,8 +269,8 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 	public void onLoadMore() {
 		if (!isLoading) {
 			isLoading = true;
-			getDataFromNetwork(++mPageIndex);
 			isReFreshOrLoadMore=true;
+			getDataFromNetwork(++mPageIndex);
 		}
 	}
 

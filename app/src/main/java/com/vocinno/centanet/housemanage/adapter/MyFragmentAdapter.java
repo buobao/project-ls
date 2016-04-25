@@ -12,6 +12,7 @@ public class MyFragmentAdapter extends FragmentStatePagerAdapter {
 		super(fm);
 	}
 	public void setFragmentList(List<Fragment>list){
+		this.list=null;
 		this.list=list;
 	}
 	@Override

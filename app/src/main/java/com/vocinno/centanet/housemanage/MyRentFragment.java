@@ -29,10 +29,13 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
     CELibHelper ceLibHelper;
     @Override
     public void initView() {
-
+        if(HouseListBaseFragment.MY_RENT==viewPosition){
+            initData();
+        }
     }
-    public MyRentFragment(GetDataInterface getData) {
+    public MyRentFragment(GetDataInterface getData,int position) {
         getDataInterface=getData;
+        this.viewPosition=position;
     }
     @Override
     public void addNotification() {
@@ -44,8 +47,8 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(firstLoading){
-                type = HouseType.WO_DEZU2;
-                getData(1,false);
+                /*type = HouseType.WO_DEZU2;
+                getData(1,false);*/
             }
         }else{
         }
@@ -82,7 +85,7 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
         }
     }
     public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterface)this);
+//        methodsJni.setMethodsJni((HttpInterface)this);
         if(!isXListViewLoad){
             showDialog();
         }
@@ -108,7 +111,6 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        methodsJni.setMethodsJni(null);
         dismissDialog();
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)

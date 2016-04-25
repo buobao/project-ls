@@ -21,6 +21,13 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import java.util.List;
 
 public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener {
+    public static final int NEAR_SELL=0;
+    public static final int NEAR_RENT=1;
+    public static final int YUE_KAN=2;
+    public static final int MY_SELL=3;
+    public static final int MY_RENT=4;
+    public static final int ROB_GONG_SHOU=0;
+    public static final int ROB_GONG_ZU=1;
     public MethodsJni methodsJni;
     public Activity mContext = null;
     public Handler mHander = null;
@@ -32,6 +39,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public final int LIST_REFRESH=0;
     public final int LIST_LOADMORE=1;
     public boolean firstLoading=true;
+    public int viewPosition;
     /******************数据查询条件************************/
     public int page=1;
     public int pageSize=20;
@@ -80,6 +88,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         }else{
             setUserVisibleHint(false);
         }
+        initView();
         return baseView;
     }
 
@@ -88,7 +97,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(baseView!=null){
-                initData();
+//                initData();
             }
         }
     }

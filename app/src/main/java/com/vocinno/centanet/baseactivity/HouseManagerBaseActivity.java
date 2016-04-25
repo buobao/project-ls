@@ -1,6 +1,7 @@
 package com.vocinno.centanet.baseactivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +20,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     public ModelDialog modelDialog;
     private DrawerLayout drawer_layout;
     private View leftMenuView;
+    public Intent intent;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();

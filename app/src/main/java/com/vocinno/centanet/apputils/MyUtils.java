@@ -14,6 +14,7 @@ public  class MyUtils {
     public static List<Activity> actList;
     public static List<Activity> allActList;
     public static final String INTO_FROM_LIST="intoForList";
+    public static final String ROB_GONG_FANG="gongFang";
     public static int px2dip(Context context, float pxValue){
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int)(pxValue / scale + 0.5f);

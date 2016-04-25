@@ -29,10 +29,13 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     CELibHelper ceLibHelper;
     @Override
     public void initView() {
-
+        if(HouseListBaseFragment.YUE_KAN==viewPosition){
+            initData();
+        }
     }
-    public YueKanFragment(GetDataInterface getData) {
+    public YueKanFragment(GetDataInterface getData,int position) {
         getDataInterface=getData;
+        this.viewPosition=position;
     }
     @Override
     public void addNotification() {
@@ -44,19 +47,8 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(firstLoading){
-               /* // 注册通知
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-                MethodsJni.addNotificationObserver(
-                        CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);*/
-                type = HouseType.YUE_KAN;
-                getData(1,false);
+                /*type = HouseType.YUE_KAN;
+                getData(1,false);*/
             }
         }else{
         }
@@ -86,12 +78,14 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     public void initData() {
         if(firstLoading){
             houseListAdapter = new MyHouseListAdapter(mContext, HouseType.YUE_KAN);
+            houseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(houseListAdapter);
             type = HouseType.YUE_KAN;
             getData(1, false);
         }
     }
     public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterface)this);
+//        methodsJni.setMethodsJni((HttpInterface)this);
         if(!isXListViewLoad){
             showDialog();
         }
@@ -117,7 +111,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        methodsJni.setMethodsJni(null);
+//        methodsJni.setMethodsJni(null);
         dismissDialog();
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)

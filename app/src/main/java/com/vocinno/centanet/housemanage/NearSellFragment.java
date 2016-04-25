@@ -27,13 +27,16 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         return R.layout.activity_near_sell;
     }
 
-    public NearSellFragment(GetDataInterface getData) {
+    public NearSellFragment(GetDataInterface getData,int position) {
         getDataInterface=getData;
+        this.viewPosition=position;
     }
 
     @Override
     public void initView() {
-
+        if(HouseListBaseFragment.NEAR_SELL==viewPosition){
+            initData();
+        }
     }
     @Override
     public void addNotification() {
@@ -44,6 +47,8 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
     public void initData() {
         if(firstLoading){
             houseListAdapter = new MyHouseListAdapter(mContext, HouseType.CHU_SHOU);
+            houseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(houseListAdapter);
             type = HouseType.CHU_SHOU;
             getData(1, false);
         }
@@ -70,7 +75,7 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         getData(1, false);
     }
     public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterface) this);
+//        methodsJni.setMethodsJni((HttpInterface) this);
         if(!isXListViewLoad){
             showDialog();
         }
@@ -136,7 +141,7 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
 
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        methodsJni.setMethodsJni(null);
+//        methodsJni.setMethodsJni(null);
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){

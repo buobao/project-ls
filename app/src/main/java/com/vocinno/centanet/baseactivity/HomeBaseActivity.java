@@ -9,11 +9,10 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
-import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
@@ -63,6 +62,15 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         intent.putExtra("viewPageIndex", index);
         startActivity(intent);
     };
+    public void startIntentToGongFangManager(int index){
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,true);
+        startActivity(intent);
+    };
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -99,15 +107,17 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     break;
                 //抢公售
                 case R.id.rlyt_grab_house_main_page_slid_menus:
-                    MethodsDeliverData.flag = 1;
+                    /*MethodsDeliverData.flag = 1;
                     MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
+                    startIntentToGongFangManager(0);
                     break;
                 //抢公租
                 case R.id.rlyt_grab_house_main_page_slid_menus2:
-                    MethodsDeliverData.flag = 1;
+                    /*MethodsDeliverData.flag = 1;
                     MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
+                    startIntentToGongFangManager(1);
                     break;
                 //抢公客
                 case R.id.rlyt_grab_customer_main_page_slid_menus:

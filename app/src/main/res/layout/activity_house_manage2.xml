@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,7 +37,10 @@
                 android:id="@+id/vp_house_manager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_gong_fang_manager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <LinearLayout
                 android:id="@+id/ll_dialog_wheelview_two0"
                 android:layout_width="match_parent"

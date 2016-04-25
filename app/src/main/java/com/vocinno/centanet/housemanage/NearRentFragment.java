@@ -28,10 +28,13 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     CELibHelper ceLibHelper;
     @Override
     public void initView() {
-
+        if(HouseListBaseFragment.NEAR_RENT==viewPosition){
+            initData();
+        }
     }
-    public NearRentFragment(GetDataInterface getData) {
+    public NearRentFragment(GetDataInterface getData,int position) {
         getDataInterface=getData;
+        this.viewPosition=position;
     }
     @Override
     public void addNotification() {
@@ -73,6 +76,8 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
         if(firstLoading){
             type = HouseType.CHU_ZU;
             houseListAdapter = new MyHouseListAdapter(mContext,type);
+            houseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(houseListAdapter);
             getData(1, false);
         }
 
@@ -104,7 +109,7 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        methodsJni.setMethodsJni(null);
+//        methodsJni.setMethodsJni(null);
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){

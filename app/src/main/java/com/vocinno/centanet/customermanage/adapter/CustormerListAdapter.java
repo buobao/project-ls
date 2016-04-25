@@ -75,6 +75,8 @@ public class CustormerListAdapter extends BaseAdapter {
 					R.layout.item_custormer_manage_listview, null);
 			holder.mTvCustormerId = (TextView) convertView
 					.findViewById(R.id.tv_custormerId_customerManageListItem);
+			holder.mTvHuXing = (TextView) convertView
+					.findViewById(R.id.tv_houseDetail_huxing);
 			holder.mTvCustormerName = (TextView) convertView
 					.findViewById(R.id.tv_custormerName_customerManageListItem);
 			holder.mTvDemandType = (TextView) convertView
@@ -105,9 +107,9 @@ public class CustormerListAdapter extends BaseAdapter {
 		}
 		// 区域
 		holder.mTvDemandDetail.setText(item.getArea() );
+		holder.mTvHuXing.setText(item.getFrame());
 		// 户型+面积+价格
-		holder.mTvDemandPrice.setText( item.getFrame()
-				+ " " + item.getAcreage()+" "+item.getPrice());
+		holder.mTvDemandPrice.setText( item.getAcreage()+" "+item.getPrice());
 		// 说明
 		holder.mTvDescription.setText(item.getOther());
 		// 相对日期
@@ -145,6 +147,7 @@ public class CustormerListAdapter extends BaseAdapter {
 
 	public class ViewHolder {
 		TextView mTvCustormerId;
+		TextView mTvHuXing;
 		TextView mTvCustormerName;
 		TextView mTvDemandType;
 		TextView mTvDemandDetail;

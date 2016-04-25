@@ -30,8 +30,17 @@ public class HouseDetail {
 	private boolean showroomBtn   = false;// 是否显示查看室号按钮
 	private String year = "";
 	private String delegationType;//10015001  售  10015002  租
+	private String explmsg;
 	public String getRoomNO() {
 		return roomNO;
+	}
+
+	public String getExplmsg() {
+		return explmsg;
+	}
+
+	public void setExplmsg(String explmsg) {
+		this.explmsg = explmsg;
 	}
 
 	public String getDelegationType() {

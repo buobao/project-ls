@@ -36,6 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SeeFollowInDetailActivity extends OtherBaseActivity {
 	private View mViewBack, mSubmitView;
@@ -465,6 +467,10 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 			finish();
 			break;
 		case R.id.img_right_mhead1:
+			if(isContinuousNumer(mRemark.getText().toString().trim())){
+				MethodsExtra.toast(mContext,"不能连续输入7个以上数字");
+				return;
+			}
 			showDialog();
 			String isBack="0";
 			if(cb_huixie.isChecked()){
@@ -474,7 +480,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 					MethodsDeliverData.mDelCode,
 					mCustCode.getText().toString(), mLookCode.getText()
 							.toString(), mRemark.getText().toString(),startTime,endTime,isBack);
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_addHouCustomerTrack,
 					string);
 			Log.d(TAG, "AddHouCustomerTrack:" + string);
@@ -485,7 +491,28 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		}
 //		checkIsFinish();
 	}
-
+	private boolean isNumeric(String str) {
+		String reg = "^[0-9]$";
+		Pattern pattern = Pattern.compile(reg);
+		Matcher matcher = pattern.matcher(str);
+		return matcher.matches();
+	}
+	private boolean isContinuousNumer(String str){
+		boolean flag=false;
+		int j=0;
+		for(int i=0;i<str.length();i++){
+			if(isNumeric(str.substring(i,i+1))){
+				j++;
+				if(j>=7){
+					flag=true;
+					break;
+				}
+			}else{
+				j=0;
+			}
+		}
+		return flag;
+	}
 	private boolean CompareTimeSize(long time) {
 		if(isStartTime){
 			if(endTime!=null){//选择开始时间并且之前已经选了结束时间

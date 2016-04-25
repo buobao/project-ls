@@ -392,6 +392,7 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 			if(mHouseDetail!=null&&mHouseDetail.getDelCode()!=null){
 				Intent addHousePictureIntent=new Intent(this,AddHousePictureActivity.class);
 				addHousePictureIntent.putExtra("delCode",mHouseDetail.getDelCode());
+				addHousePictureIntent.putExtra("explmsg",mHouseDetail.getExplmsg());
 				this.startActivity(addHousePictureIntent);
 			}else{
 				MethodsExtra.toast(this,"房源编号为空无法增加实勘");
@@ -812,7 +813,7 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 									.findViewById(R.id.tv_custNothing_CustormerPhoneAdapter);
 
 							Intent intent = new Intent(Intent.ACTION_CALL, Uri
-									.parse("tel:" + tvTel.getText().toString()));
+									.parse("tel:" + tvTel.getText().toString().trim()));
 							mContext.startActivity(intent);
 							mCallCustormerDialog.dismiss();
 						}

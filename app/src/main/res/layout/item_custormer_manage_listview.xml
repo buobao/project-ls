@@ -60,10 +60,20 @@
 
             <TextView
                 android:id="@+id/tv_houseDetail_customerManageListItem"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="徐汇区"
+                android:textColor="#2E2E2E"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_marginRight="20dp"
+                />
+            <TextView
+                android:id="@+id/tv_houseDetail_huxing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="户型"
                 android:textColor="#2E2E2E"
                 android:textSize="14sp"
                 android:singleLine="true"
@@ -80,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                tools:text="户型+面积+价格"
+                tools:text="面积+价格"
                 android:textColor="#2E2E2E"
                 android:textSize="14sp"
                 android:singleLine="true"

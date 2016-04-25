@@ -99,6 +99,8 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 	private String delCode;
 	private EditText et_miaoshu;
 	private CheckBox cb_ishd;
+	private String explmsg;
+	private TextView tv_addpic_explmsg;
 	@Override
 	public Handler setHandler() {
 
@@ -142,17 +144,22 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 	public void initView() {
 		myDialog=new MyDialog.Builder(this);
 		delCode=getIntent().getStringExtra("delCode");
+		explmsg=getIntent().getStringExtra("explmsg");
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_done);
 		mTitle = MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.add_camara_pic, null);
+
+		tv_addpic_explmsg= (TextView) findViewById(R.id.tv_addpic_explmsg);
+		tv_addpic_explmsg.setText(explmsg);
 		// 房型图 获取到数据之后填充入的tv
 		mTvHouseTypePicNumber = (TextView) findViewById(R.id.tv_fangXingTu_AddHousePicDetailActivity);
 		// 房型图 点击需要被更换图片的控件
 		mImgHouseTypeRightPic = (ImageView) findViewById(R.id.imgView_addHousePic_AddHousePicDetailActivity);
 		// 房型图 根据点击判断是否显示的rylt
 		mRyltShowGridviewHouseType = (RelativeLayout) findViewById(R.id.rylt_showGridviewHouse_AddHousePicDetailActivity);
+		mRyltShowGridviewHouseType.setVisibility(View.VISIBLE);
 		// 房型图 点击这个控件改变图片 并且显示上一个rylt
 		mRyltHouseType = (RelativeLayout) findViewById(R.id.rylt_houseType_AddHousePicDetailActivity);
 		// 房型图 填充图片的gridview

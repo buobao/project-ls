@@ -42,6 +42,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public Handler mHander = null;
     public ModelDialog modelDialog;//loading
     public MyDialog.Builder myDialog;//自定义窗口
+    public HttpInterface hif;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -58,6 +59,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        hif=(HttpInterface)this;
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();
         int layoutId=setContentLayoutId();

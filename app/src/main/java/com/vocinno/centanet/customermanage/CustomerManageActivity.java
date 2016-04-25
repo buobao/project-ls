@@ -344,6 +344,7 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 				mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
 				mPageIndex--;
 			}
+			MethodsExtra.toast(mContext,jsReturn.getMsg());
 		}
 		isLoading = false;
 	}

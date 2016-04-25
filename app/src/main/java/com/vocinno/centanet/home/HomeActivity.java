@@ -1,6 +1,7 @@
 package com.vocinno.centanet.home;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
@@ -133,19 +135,19 @@ public class HomeActivity extends HomeBaseActivity {
 				break;
 			case R.id.iv_fangyuan:
 //			MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
+				/*MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
 				CST_JS.setZOrS("s");
 				HouseManageActivity.zOrS=true;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
-				break;
-			case R.id.iv_keyuan:
+				MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
 				CST_JS.setZOrS("s");
 				HouseManageActivity.zOrS=true;
 				MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
-				/*MethodsDeliverData.isMyCustomer = true;
+				break;
+			case R.id.iv_keyuan:
+				MethodsDeliverData.isMyCustomer = true;
 				MethodsDeliverData.keYuanOrGongKe=1;
-				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);*/
+				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
 				break;
 			case R.id.iv_yaoshi:
 				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
@@ -153,7 +155,12 @@ public class HomeActivity extends HomeBaseActivity {
 			case R.id.iv_qianggongfang:
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				Intent intent=new Intent(mContext, HouseManageActivity2.class);
+				intent.putExtra(MyUtils.ROB_GONG_FANG,true);
+				intent.putExtra("viewPageIndex",0);
+				//viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
+				//isGongFang=getIntent().getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
+				startActivity(intent);
 				break;
 			case R.id.iv_qianggongke:
 				MethodsDeliverData.flag = 1;

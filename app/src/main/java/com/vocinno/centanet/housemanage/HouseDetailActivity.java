@@ -409,7 +409,7 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 				MethodsExtra.toast(mContext, "mHouseDetail不能为空");
 				Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
 				it.putExtra("delegationType","");
-				startActivity(it);
+				startActivityForResult(it,100);
 			}
 //			MethodsExtra.startActivity(mContext,SeeFollowInDetailActivity.class);
 			break;

@@ -1,11 +1,13 @@
 package com.vocinno.centanet.customermanage;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,7 +35,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 	private String mCustorCode = null;
 	private TextView mTvDate;
 	private EditText mEtContent;
-
+	private String custCode;
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_follow_in_customer;
@@ -128,6 +130,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 
 	@Override
 	public void initData() {
+		custCode=getIntent().getStringExtra("custCode");
 		methodsJni=new MethodsJni();
 		methodsJni.setMethodsJni((HttpInterface)this);
 		TAG = this.getClass().getName();
@@ -168,11 +171,34 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			mSubmitView.setClickable(false);
 			break;
 		case R.id.img_left_mhead1:
+			if(intent==null){
+				intent=new Intent();
+			}
+			intent.setClass(this,GrabCustomerDetailActivity.class);
+			intent.putExtra("custCode",custCode);
+			startActivity(intent);
 			finish();
 			break;
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(this.modelDialog.isShowing()){
+			dismissDialog();
+			return true;
+		}else{
+			if(intent==null){
+				intent=new Intent();
+			}
+			intent.setClass(this,GrabCustomerDetailActivity.class);
+			intent.putExtra("custCode",custCode);
+			startActivity(intent);
+			finish();
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -199,7 +225,14 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			intent.putExtra("content", content);
 			intent.putExtra("time", time);
 			setResult(10, intent);*/
-			setResult(ConstantResult.REFRESH);
+			/*setResult(ConstantResult.REFRESH);
+			finish();*/
+			if(intent==null){
+				intent=new Intent();
+			}
+			intent.setClass(this,GrabCustomerDetailActivity.class);
+			intent.putExtra("custCode",custCode);
+			startActivity(intent);
 			finish();
 		}
 	}

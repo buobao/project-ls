@@ -174,6 +174,8 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 			isSucessSave=true;
 			setResult(ConstantResult.REFRESH);
 			finish();
+		}else{
+			MethodsExtra.toast(mContext,jsReturn.getMsg());
 		}
 	}
 

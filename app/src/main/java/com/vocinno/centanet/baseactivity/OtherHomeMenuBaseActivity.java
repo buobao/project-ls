@@ -32,6 +32,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
     public Handler mHander = null;
     public ModelDialog modelDialog;//loading
     public MyDialog.Builder myDialog;//自定义窗口
+    public HttpInterface hif;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -47,6 +48,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        hif=(HttpInterface)this;
         MyUtils.addActivityToList(this);
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();

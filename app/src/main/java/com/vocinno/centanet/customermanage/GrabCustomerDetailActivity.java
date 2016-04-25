@@ -125,7 +125,7 @@ public class GrabCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 		mCusterCode=getIntent().getStringExtra("custCode");
 		showDialog();
 		// 调用数据
-		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+		MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getCustomerInfo,
 				CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 		if (MethodsDeliverData.flag1 == 1) {
@@ -165,16 +165,16 @@ public class GrabCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				// listTracks
 				Intent intent = new Intent(mContext,
 						AddFollowInCustomerActivity.class);
-//			MethodsExtra.startActivityForResult(mContext, 10, intent);
-				MethodsExtra.startActivityForResult(mContext,10,intent);
-				// MethodsExtra.startActivity(mContext,
-				// AddFollowInCustomerActivity.class);
+				intent.putExtra("custCode",mCusterCode);
+//				MethodsExtra.startActivityForResult(mContext,10,intent);
+				startActivity(intent);
+				finish();
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;
 				showDialog();
 				// 调用联系人列表数据
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_CustContactList,
 						CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 				/*if (mDetail != null && mDetail.getPhone() != null) {
@@ -217,7 +217,7 @@ public class GrabCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				showDialog();
 				// 抢
 				robRefresh=true;
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 				mGrabCustomer.setClickable(true);
 			//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
@@ -297,7 +297,7 @@ public class GrabCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 //			MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
 			showDialog();
 			// 调用数据
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 					CST_JS.JS_Function_CustomerList_getCustomerInfo,
 					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 

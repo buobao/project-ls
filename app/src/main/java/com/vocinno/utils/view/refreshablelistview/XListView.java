@@ -1,11 +1,5 @@
 package com.vocinno.utils.view.refreshablelistview;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.vocinno.centanet.R;
-import com.vocinno.utils.MethodsExtra;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -20,6 +14,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+
+import com.vocinno.centanet.R;
+import com.vocinno.utils.MethodsExtra;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class XListView extends ListView implements OnScrollListener {
 	private float mLastY = -1; // save event y
@@ -186,9 +187,29 @@ public class XListView extends ListView implements OnScrollListener {
 				"HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis());
 		String str = formatter.format(curDate);
-		mHeaderTimeView.setText(str);
+		if(date1==null){
+			date1=curDate;
+			date2=curDate;
+		}else{
+			date1=date2;
+			date2=curDate;
+		}
+		int interval=compareDate(date1,date2);
+		if(interval==1){
+			mHeaderTimeView.setText(str);
+		}else if(interval==0){
+			mHeaderTimeView.setText("今天"+str);
+		}
 	}
-
+	public Date date1,date2;
+	public int compareDate(Date date1, Date date2){
+		Calendar aCalendar = Calendar.getInstance();
+		aCalendar.setTime(date1);
+		int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
+		aCalendar.setTime(date2);
+		int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
+		return day2 - day1;
+	}
 	private void invokeOnScrolling() {
 		if (mScrollListener instanceof OnXScrollListener) {
 			OnXScrollListener l = (OnXScrollListener) mScrollListener;

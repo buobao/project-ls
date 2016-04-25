@@ -29,7 +29,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="租"
-                android:textColor="#86C21F"
+                android:background="@drawable/shape_qiu_gou"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
 
             <TextView

@@ -275,7 +275,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 vp_gong_fang_manager.setAdapter(pagerGongFangAdapter);
                 vp_gong_fang_manager.setOffscreenPageLimit(gongFangList.size() - 1);
             }
-            vp_gong_fang_manager.setCurrentItem(viewPageIndex);
+//            vp_gong_fang_manager.setCurrentItem(viewPageIndex);
         }else{
             if(vp_house_manager==null){
                 fragmentList = new ArrayList<Fragment>();
@@ -342,7 +342,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 vp_house_manager.setAdapter(pagerAdapter);
                 vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
             }
-            vp_house_manager.setCurrentItem(viewPageIndex);
+//            vp_house_manager.setCurrentItem(viewPageIndex);
         }
         gongFangOrHouseTitle(viewPageIndex);
     }
@@ -375,6 +375,12 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             case RESULT_OK:
                 if(requestCode==10){
                     if(data!=null){
+                        isGongFang=data.getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
+                        if(isGongFang){
+                            setFragmentList(true);
+                        }else{
+                            setFragmentList(false);
+                        }
                         vp_house_manager.setCurrentItem(data.getIntExtra(VPI,0));
                     }else{
                         vp_house_manager.setCurrentItem(0);
@@ -781,6 +787,16 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     @Override
     public void netWorkResult(String name, String className, Object data) {
 //        methodsJni.setMethodsJni(null);
+        if(isGongFang){
+            if(vp_gong_fang_manager.getCurrentItem()!=viewPageIndex){
+                vp_gong_fang_manager.setCurrentItem(viewPageIndex);
+            }
+        }else{
+            if(vp_house_manager.getCurrentItem()!=viewPageIndex){
+                vp_house_manager.setCurrentItem(viewPageIndex);
+            }
+        }
+
         dismissDialog();
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){

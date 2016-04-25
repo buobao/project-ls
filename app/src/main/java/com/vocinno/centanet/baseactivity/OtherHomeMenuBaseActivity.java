@@ -140,7 +140,15 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
             this.modelDialog.dismiss();
         }
     }
-
+    public void startIntentToGongFangManager(int index){
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,true);
+        startActivity(intent);
+    };
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(drawer_layout.isDrawerOpen(leftMenuView)){
@@ -150,22 +158,33 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         return super.onKeyDown(keyCode, event);
     }
 
-    public void startIntent(int index){
-//		finish();
+    public void startIntent(int index,boolean flag){
         MyUtils.removeActivityFromList();
         if(intent==null){
             intent=new Intent();
         }
         intent.setClass(mContext, HouseManageActivity2.class);
         intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,flag);
         startActivity(intent);
     };
-    public void houseDetailReturn(int index){
+    public void startIntent(int index){
+        MyUtils.removeActivityFromList();
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,false);
+        startActivity(intent);
+    };
+    public void houseDetailReturn(int index,boolean flag){
         if(intent==null){
             intent=new Intent();
         }
         intent.putExtra(HouseManageActivity2.VPI, index);
-        setResult(RESULT_OK, intent);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,flag);
+        this.setResult(RESULT_OK, intent);
         finish();
     };
     @Override

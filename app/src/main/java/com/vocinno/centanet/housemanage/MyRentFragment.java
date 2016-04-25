@@ -30,6 +30,7 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
     @Override
     public void initView() {
         if(HouseListBaseFragment.MY_RENT==viewPosition){
+
             initData();
         }
     }

@@ -7,25 +7,20 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
-import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsJson;
 
-import org.unify.helper.CELibHelper;
-
 import java.util.List;
 
 public class NearRentFragment extends HouseListBaseFragment implements HttpInterface {
 //    private static String TAG = null;
-    private List<HouseItem> listHouses;
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_near_sell;
     }
-    CELibHelper ceLibHelper;
     @Override
     public void initView() {
         if(HouseListBaseFragment.NEAR_RENT==viewPosition){
@@ -38,19 +33,7 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     }
     @Override
     public void addNotification() {
-        TAG=this.getClass().getName();
-        /*MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);*/
     }
-
     public void searchForList(int tagIndex,String param){
         switch (tagIndex){
             case 0:

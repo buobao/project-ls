@@ -98,6 +98,11 @@ public class CustormerListAdapter extends BaseAdapter {
 		holder.mTvCustormerName.setText(item.getName());
 		// 需求类型
 		holder.mTvDemandType.setText(item.getReqType());
+		if("求租".equals(item.getReqType())){
+			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_zu));
+		}else{
+			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_gou));
+		}
 		// 区域
 		holder.mTvDemandDetail.setText(item.getArea() );
 		// 户型+面积+价格

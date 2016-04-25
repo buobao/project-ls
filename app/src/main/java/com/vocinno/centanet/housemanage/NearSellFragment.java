@@ -42,7 +42,6 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
     public void addNotification() {
         TAG=this.getClass().getName();
     }
-
     @Override
     public void initData() {
         if(firstLoading){

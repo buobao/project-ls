@@ -10,7 +10,6 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -138,14 +137,14 @@ public class MessageListActivity extends OtherHomeMenuBaseActivity implements
 				finish();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startIntentToGongFangManager(0);
 				break;
 			//抢公租
 			case R.id.rlyt_grab_house_main_page_slid_menus2:
 				finish();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startIntentToGongFangManager(1);
 				break;
 			//抢公客
 			case R.id.rlyt_grab_customer_main_page_slid_menus:

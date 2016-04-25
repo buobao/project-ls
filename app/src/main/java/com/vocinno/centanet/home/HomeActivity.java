@@ -142,7 +142,13 @@ public class HomeActivity extends HomeBaseActivity {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
 				CST_JS.setZOrS("s");
 				HouseManageActivity.zOrS=true;
-				MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
+//				MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
+				Intent intent=new Intent();
+				intent.setClass(mContext, HouseManageActivity2.class);
+				intent.putExtra(MyUtils.ROB_GONG_FANG,false);
+				intent.putExtra("viewPageIndex", 0);
+				startActivity(intent);
+
 				break;
 			case R.id.iv_keyuan:
 				MethodsDeliverData.isMyCustomer = true;
@@ -155,7 +161,7 @@ public class HomeActivity extends HomeBaseActivity {
 			case R.id.iv_qianggongfang:
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				Intent intent=new Intent(mContext, HouseManageActivity2.class);
+				intent=new Intent(mContext, HouseManageActivity2.class);
 				intent.putExtra(MyUtils.ROB_GONG_FANG,true);
 				intent.putExtra("viewPageIndex",0);
 				//viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);

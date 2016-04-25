@@ -24,7 +24,6 @@ import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
@@ -228,14 +227,14 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				MyUtils.removeActivityFromList();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startIntentToGongFangManager(0);
 				break;
 			//抢公租
 			case R.id.rlyt_grab_house_main_page_slid_menus2:
 				MyUtils.removeActivityFromList();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startIntentToGongFangManager(1);
 				break;
 			//抢公客
 			case R.id.rlyt_grab_customer_main_page_slid_menus:

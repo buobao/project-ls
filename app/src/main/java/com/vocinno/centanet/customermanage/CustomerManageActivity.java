@@ -10,7 +10,6 @@ import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerListAdapter;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -147,7 +146,6 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 			break;
 		}
 	}
-
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -180,14 +178,14 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 				MyUtils.removeActivityFromList();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startIntentToGongFangManager(0);
 				break;
 			//抢公租
 			case R.id.rlyt_grab_house_main_page_slid_menus2:
 				MyUtils.removeActivityFromList();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startIntentToGongFangManager(1);
 				break;
 			//抢公客
 			case R.id.rlyt_grab_customer_main_page_slid_menus:

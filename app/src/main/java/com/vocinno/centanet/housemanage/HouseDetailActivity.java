@@ -457,23 +457,23 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 			break;
 			//附近出售
 			case R.id.rlyt_sell_house_main_page_slid_menus:
-				startOrReturnIntent(0);
+				startOrReturnIntent(0,false);
 				break;
 			//附近出租
 			case R.id.rlyt_rent_house_main_page_slid_menus:
-				startOrReturnIntent(1);
+				startOrReturnIntent(1,false);
 				break;
 			//约看房源
 			case R.id.rlyt_see_house_main_page_slid_menus:
-				startOrReturnIntent(2);
+				startOrReturnIntent(2,false);
 				break;
 			//我的出售
 			case R.id.rlyt_my_house_main_page_slid_menus:
-				startOrReturnIntent(3);
+				startOrReturnIntent(3,false);
 				break;
 			//我的出租
 			case R.id.rlyt_my_house_main_page_slid_menus2:
-				startOrReturnIntent(4);
+				startOrReturnIntent(4,false);
 				break;
 			//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
@@ -490,17 +490,11 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 				break;
 			//抢公售
 			case R.id.rlyt_grab_house_main_page_slid_menus:
-				finish();
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startOrReturnIntent(0, true);
 				break;
 			//抢公租
 			case R.id.rlyt_grab_house_main_page_slid_menus2:
-				finish();
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				startOrReturnIntent(1, true);
 				break;
 			//抢公客
 			case R.id.rlyt_grab_customer_main_page_slid_menus:
@@ -530,11 +524,11 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 			break;
 		}
 	}
-	private void startOrReturnIntent(int index){
+	private void startOrReturnIntent(int index,boolean flag){
 		if(isIntoForList){
-			houseDetailReturn(index);
+			houseDetailReturn(index,flag);
 		}else{
-			startIntent(index);
+			startIntent(index,flag);
 		}
 	}
 	private void showMenuDialog() {

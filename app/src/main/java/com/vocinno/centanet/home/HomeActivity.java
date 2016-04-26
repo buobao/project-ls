@@ -172,7 +172,9 @@ public class HomeActivity extends HomeBaseActivity {
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.isMyCustomer = false;
 				MethodsDeliverData.keYuanOrGongKe=0;
-				MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
+				this.intent.setClass(mContext,CustomerManageActivity.class);
+				this.intent.putExtra("isGongKe", true);
+				startActivity(this.intent);
 				break;
 			case R.id.iv_tixing:
 				MethodsDeliverData.flag = -1;

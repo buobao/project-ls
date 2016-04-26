@@ -115,6 +115,7 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 		intent=getIntent();
 //		sOrZ=intent.getStringExtra("sOrZ");
 		delegationType=intent.getStringExtra("delegationType");
+		boolean isGongKe = intent.getBooleanExtra("isGongKe", false);
 		if(HouseItem.SHOU.equals(delegationType)||HouseItem.ZU.equals(delegationType)){
 			mListAdapter = new CustormerListAdapter(
 					(CustomerManageActivity) mContext, null,true);
@@ -122,6 +123,7 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 			mListAdapter = new CustormerListAdapter(
 					(CustomerManageActivity) mContext, null);
 		}
+		mListAdapter.setGongKe(isGongKe);
 		mLvCustormers.setAdapter(mListAdapter);
 		if (MethodsDeliverData.flag == 1) {
 			MethodsDeliverData.flag1 = 1;

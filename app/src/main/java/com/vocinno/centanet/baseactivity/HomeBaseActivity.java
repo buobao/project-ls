@@ -44,6 +44,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intent=new Intent();
         mContext = this;
         int layoutId=setContentLayoutId();
         baseView=getLayoutInflater().inflate(layoutId,null);

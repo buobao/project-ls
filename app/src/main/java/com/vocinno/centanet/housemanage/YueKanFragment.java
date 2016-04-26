@@ -24,7 +24,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     private boolean firstLoading=true;
     @Override
     public int setContentLayoutId() {
-        return R.layout.activity_near_sell;
+        return R.layout.activity_yue_kan;
     }
     CELibHelper ceLibHelper;
     @Override
@@ -102,16 +102,15 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         firstLoading=false;
         switch (dataType){
             case LIST_REFRESH:
-                dataRefresh(list);
+                //*/dataRefresh(list);
                 break;
             case LIST_LOADMORE:
-                dataLoadMore(list);
+               //*/ dataLoadMore(list);
                 break;
         }
     }
     @Override
     public void netWorkResult(String name, String className, Object data) {
-//        methodsJni.setMethodsJni(null);
         dismissDialog();
         //页面刷新
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)

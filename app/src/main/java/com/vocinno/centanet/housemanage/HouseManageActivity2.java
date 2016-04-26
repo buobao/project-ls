@@ -227,7 +227,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
     }
 
-    private  void setFragmentList(boolean isGongFang){
+    private  void setFragmentToPager(boolean isGongFang){
         if(isGongFang){
             if(vp_gong_fang_manager==null){
                 gongFangList = new ArrayList<Fragment>();
@@ -286,6 +286,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     public void onPageSelected(int position) {
                         viewPageIndex = position;
                         gongFangOrHouseTitle(position);
+                        if(position==2){
+                            mScrollTagView.setVisibility(View.INVISIBLE);
+                        }else{
+                            mScrollTagView.setVisibility(View.VISIBLE);
+                        }
                         switch (position){
                             case HouseListBaseFragment.NEAR_SELL:
                                 nearSellFragment.initData();
@@ -351,7 +356,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
         addNotificationObserver();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
-        setFragmentList(isGongFang);
+        setFragmentToPager(isGongFang);
         registerWeiXin();
     }
 
@@ -377,9 +382,9 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     if(data!=null){
                         isGongFang=data.getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
                         if(isGongFang){
-                            setFragmentList(true);
+                            setFragmentToPager(true);
                         }else{
-                            setFragmentList(false);
+                            setFragmentToPager(false);
                         }
                         vp_house_manager.setCurrentItem(data.getIntExtra(VPI,0));
                     }else{
@@ -627,7 +632,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     viewPageIndex=0;
                     isGongFang=true;
                     removeViewPager();
-                    setFragmentList(true);
+                    setFragmentToPager(true);
                 }
                 drawer_layout.closeDrawer(leftMenuView);
                 break;
@@ -639,7 +644,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     viewPageIndex=1;
                     isGongFang=true;
                     removeViewPager();
-                    setFragmentList(true);
+                    setFragmentToPager(true);
                 }
                 drawer_layout.closeDrawer(leftMenuView);
                 break;
@@ -680,7 +685,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             vp_house_manager.setVisibility(View.VISIBLE);
             vp_gong_fang_manager.setVisibility(View.GONE);
         }*/
-        /*pagerAdapter.setFragmentList(null);
+        /*pagerAdapter.setFragmentToPager(null);
         pagerAdapter.notifyDataSetChanged();
         vp_house_manager.removeAllViews();
         vp_house_manager.removeAllViewsInLayout();
@@ -695,7 +700,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             /*vp_house_manager.setVisibility(View.VISIBLE);
             vp_gong_fang_manager.setVisibility(View.GONE);*/
 //        }
-        /*pagerGongFangAdapter.setFragmentList(null);
+        /*pagerGongFangAdapter.setFragmentToPager(null);
         pagerGongFangAdapter.notifyDataSetChanged();
         vp_gong_fang_manager.removeAllViews();
         vp_gong_fang_manager.removeAllViewsInLayout();
@@ -707,7 +712,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             isGongFang=false;
             viewPageIndex=index;
             removeGongFangViewPager();
-            setFragmentList(false);
+            setFragmentToPager(false);
         }else{
             vp_house_manager.setCurrentItem(index);
         }

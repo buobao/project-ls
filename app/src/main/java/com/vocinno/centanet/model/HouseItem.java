@@ -27,6 +27,14 @@ public class HouseItem {
 	private String delegationType;//10015001  售  10015002  租
 	public static final String SHOU="10015001";
 	public static final String ZU="10015002";
+
+	private String lookplan_custname;//   客户名字
+	private String lookplan_starttime;//   开始时间
+	private String lookplan_endtime ;//  结束时间
+	private String lookplan_date  ;//约看日期
+	private String lookplan_custcode;//
+
+
 	// private Image prieviewImg = new Image();
 	public String getDelegationType() {
 		return delegationType;
@@ -54,6 +62,46 @@ public class HouseItem {
 
 	public void setUnitprice(String unitprice) {
 		this.unitprice = unitprice;
+	}
+
+	public String getLookplan_custname() {
+		return lookplan_custname;
+	}
+
+	public void setLookplan_custname(String lookplan_custname) {
+		this.lookplan_custname = lookplan_custname;
+	}
+
+	public String getLookplan_starttime() {
+		return lookplan_starttime;
+	}
+
+	public void setLookplan_starttime(String lookplan_starttime) {
+		this.lookplan_starttime = lookplan_starttime;
+	}
+
+	public String getLookplan_endtime() {
+		return lookplan_endtime;
+	}
+
+	public void setLookplan_endtime(String lookplan_endtime) {
+		this.lookplan_endtime = lookplan_endtime;
+	}
+
+	public String getLookplan_date() {
+		return lookplan_date;
+	}
+
+	public void setLookplan_date(String lookplan_date) {
+		this.lookplan_date = lookplan_date;
+	}
+
+	public String getLookplan_custcode() {
+		return lookplan_custcode;
+	}
+
+	public void setLookplan_custcode(String lookplan_custcode) {
+		this.lookplan_custcode = lookplan_custcode;
 	}
 
 	public String getKeyStatus() {

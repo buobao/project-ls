@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,9 @@
             android:id="@+id/scrolltag_houseManage_houseManageActivity"
             android:layout_width="match_parent"
             android:layout_height="@dimen/scroll_tag_view_height"
-            android:layout_below="@+id/relativeLayout1">
+            android:layout_below="@+id/relativeLayout1"
+            android:background="@color/white"
+            >
         </com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView>
 
         <FrameLayout

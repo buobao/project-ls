@@ -24,11 +24,14 @@ public class CustormerListAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private List<CustomerItem> mListCustomers;
 	private boolean selectSOrZ=false;
+	private boolean isGongKe=false;
 	public void setListDatas(List<CustomerItem> listCustomers) {
 		mListCustomers = listCustomers;
 		notifyDataSetChanged();
 	}
-
+	public void setGongKe(boolean flag){
+		isGongKe=flag;
+	}
 	public CustormerListAdapter(CustomerManageActivity mContext,
 			List<CustomerItem> listCustomers) {
 		this.mContext = mContext;
@@ -100,10 +103,15 @@ public class CustormerListAdapter extends BaseAdapter {
 		holder.mTvCustormerName.setText(item.getName());
 		// 需求类型
 		holder.mTvDemandType.setText(item.getReqType());
-		if("求租".equals(item.getReqType())){
-			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_zu));
+		if(isGongKe){
+			holder.mTvDemandType.setVisibility(View.GONE);
 		}else{
-			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_gou));
+			holder.mTvDemandType.setVisibility(View.VISIBLE);
+			if("求租".equals(item.getReqType())){
+				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_zu));
+			}else{
+				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_gou));
+			}
 		}
 		// 区域
 		holder.mTvDemandDetail.setText(item.getArea() );

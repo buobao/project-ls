@@ -3,7 +3,11 @@ package com.vocinno.centanet.apputils;
 import android.app.Activity;
 import android.content.Context;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -58,6 +62,58 @@ public  class MyUtils {
             if(actList!=null){
                 actList.clear();
             }
+        }
+    }
+
+    public static int compareDate(Date date,Date date2){
+        Calendar aCalendar = Calendar.getInstance();
+        aCalendar.setTime(date);
+        int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
+        aCalendar.setTime(date2);
+        int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
+        return Math.abs(day2 - day1);
+    }
+    public static int compareNowDate(Date date){
+        Calendar aCalendar = Calendar.getInstance();
+        aCalendar.setTime(date);
+        int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
+        aCalendar.setTime(new Date());
+        int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
+        return Math.abs(day2 - day1);
+    }
+    public static int compareNowDate(String date){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar aCalendar = Calendar.getInstance();
+        try {
+            aCalendar.setTime(sdf.parse(date));
+            int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
+            aCalendar.setTime(new Date());
+            int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
+            return Math.abs(day2 - day1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 99;
+        }
+    }
+    public static String dateFormat(String date,String formatString){
+        SimpleDateFormat sdf1=new SimpleDateFormat("yyy-MM-dd");
+        SimpleDateFormat sdf2=new SimpleDateFormat(formatString);
+        try {
+            String format=sdf2.format(sdf1.parse(date));
+            return format;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return date;
+        }
+    }
+    public static String dateFormat(String date){
+        SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+        try {
+            String format=sdf.format(sdf.parse(date));
+            return format;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return date;
         }
     }
 }

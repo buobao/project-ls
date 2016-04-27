@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-    android:background="@color/white"
-    >
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="top"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         >
-
         <TextView
+            android:id="@+id/tv_yuekan_date"
             android:layout_width="wrap_content"
+            android:minWidth="40dp"
             android:layout_height="30dp"
             android:layout_gravity="center|top"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:gravity="center"
-            android:text="今天"
+            tools:text="04/29"
             android:textSize="15sp"
             />
 
@@ -31,6 +28,7 @@
             >
 
             <ImageButton
+                android:id="@+id/ib_yuekan_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -46,34 +44,37 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_yuekan_item"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingRight="10dp"
             >
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
 
                 <TextView
+                    android:id="@+id/tv_yuekan_time"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
                     android:text="10:10"
-                    android:layout_marginLeft="10dp"
                     />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/yuekan_bgcolor"
                     android:gravity="center_vertical"
                     android:minHeight="40dp"
-                    android:background="@color/yuekan_bgcolor"
-                    android:layout_marginBottom="1dp"
+                    android:orientation="vertical"
                     >
 
                     <LinearLayout
@@ -85,23 +86,25 @@
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
                             android:background="@null"
                             android:src="@drawable/yuekan_people"
-                            android:layout_marginLeft="9dp"
                             />
 
                         <TextView
+                            android:id="@+id/tv_yuekan_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="王先生"
-                            android:layout_marginLeft="10dp"
                             />
 
                         <TextView
+                            android:id="@+id/tv_yuekan_custcode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="客户编号"
                             android:layout_marginLeft="10dp"
+                            android:text="客户编号"
                             />
                     </LinearLayout>
 
@@ -113,13 +116,14 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:background="@color/yuekan_bgcolor"
                     android:gravity="center_vertical"
                     android:minHeight="40dp"
-                    android:background="@color/yuekan_bgcolor"
+                    android:orientation="vertical"
                     >
 
                     <LinearLayout
@@ -131,30 +135,35 @@
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
                             android:background="@null"
                             android:src="@drawable/yuekan_house"
-                            android:layout_marginLeft="9dp"
                             />
 
                         <TextView
+                            android:id="@+id/tv_yuekan_loupan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="密云路250弄"
-                            android:layout_marginLeft="10dp"
                             />
+
                         <TextView
+                            android:id="@+id/tv_yuekan_dong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="2栋"
-                            android:layout_marginLeft="10dp"
                             />
+
                         <TextView
+                            android:id="@+id/tv_yuekan_gaodi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="低层"
                             android:layout_marginLeft="10dp"
-                            android:textColor="@color/red"
                             android:background="@drawable/bg_house_list_red_house_manage"
+                            android:text="低层"
+                            android:textColor="@color/red"
                             />
                     </LinearLayout>
 
@@ -177,19 +186,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
                     android:text="11:15"
-                    android:layout_marginLeft="10dp"
                     />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/yuekan_bgcolor"
                     android:gravity="center_vertical"
                     android:minHeight="40dp"
-                    android:background="@color/yuekan_bgcolor"
-                    android:layout_marginBottom="1dp"
+                    android:orientation="vertical"
                     >
 
                     <LinearLayout
@@ -201,23 +210,23 @@
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
                             android:background="@null"
                             android:src="@drawable/yuekan_people"
-                            android:layout_marginLeft="9dp"
                             />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="王先生"
-                            android:layout_marginLeft="10dp"
                             />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="客户编号"
                             android:layout_marginLeft="10dp"
+                            android:text="客户编号"
                             />
                     </LinearLayout>
 
@@ -229,13 +238,14 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:background="@color/yuekan_bgcolor"
                     android:gravity="center_vertical"
                     android:minHeight="40dp"
-                    android:background="@color/yuekan_bgcolor"
+                    android:orientation="vertical"
                     >
 
                     <LinearLayout
@@ -247,30 +257,32 @@
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
                             android:background="@null"
                             android:src="@drawable/yuekan_house"
-                            android:layout_marginLeft="9dp"
                             />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="密云路250弄"
-                            android:layout_marginLeft="10dp"
                             />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="2栋"
-                            android:layout_marginLeft="10dp"
                             />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="低层"
                             android:layout_marginLeft="10dp"
-                            android:textColor="@color/red"
                             android:background="@drawable/bg_house_list_red_house_manage"
+                            android:text="低层"
+                            android:textColor="@color/red"
                             />
                     </LinearLayout>
 
@@ -282,7 +294,6 @@
 
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>

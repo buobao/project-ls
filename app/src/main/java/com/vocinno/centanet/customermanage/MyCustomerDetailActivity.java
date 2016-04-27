@@ -50,7 +50,7 @@ public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
 	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-			mTvPrice, mTvTenancyTime, mTvMoney, mTvPaymenttype;
+			mTvPrice, mTvTenancyTime/*mTvMoney, *//*mTvPaymenttype*/,tv_money_customerDetailActivity;
 	private ListViewNeedResetHeight mLvTracks;
 	//	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
@@ -95,8 +95,8 @@ public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 		mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
-		mTvMoney = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
-		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
+		tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
+//		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
 		mImgViewAddTrack = findViewById(R.id.imgView_addTrack_customerDetailActivity);
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
@@ -372,11 +372,12 @@ public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				mDetail = (CustomerDetail) jsReturn.getObject();
 				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
 				mTvCustomerName.setText("姓名：" + mDetail.getName());
-				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
+				tv_money_customerDetailActivity.setText("");
+//				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
 				if (mDetail.isPay() == false) {
-					mTvMoney.setText(R.string.money_false);
+//					mTvMoney.setText(R.string.money_false);
 				} else {
-					mTvMoney.setText(R.string.money_true);
+//					mTvMoney.setText(R.string.money_true);
 				}
 				// 填充跟踪信息列表
 				listTracks = mDetail.getTracks();

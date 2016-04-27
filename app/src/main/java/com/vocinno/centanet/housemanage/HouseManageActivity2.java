@@ -287,7 +287,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                         viewPageIndex = position;
                         gongFangOrHouseTitle(position);
                         if(position==2){
-                            mScrollTagView.setVisibility(View.INVISIBLE);
+                            mScrollTagView.setVisibility(View.GONE);
                         }else{
                             mScrollTagView.setVisibility(View.VISIBLE);
                         }

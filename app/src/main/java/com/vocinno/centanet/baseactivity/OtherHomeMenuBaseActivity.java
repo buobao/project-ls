@@ -161,7 +161,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
     }
 
     public void startIntent(int index,boolean flag){
-        MyUtils.removeActivityFromList();
+        MyUtils.removeActivityFromAllList();
         if(intent==null){
             intent=new Intent();
         }
@@ -171,7 +171,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         startActivity(intent);
     };
     public void startIntent(int index){
-        MyUtils.removeActivityFromList();
+        MyUtils.removeActivityFromAllList();
         if(intent==null){
             intent=new Intent();
         }

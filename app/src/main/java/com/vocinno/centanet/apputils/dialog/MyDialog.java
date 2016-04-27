@@ -3,8 +3,6 @@ package com.vocinno.centanet.apputils.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Rect;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.model.CustomerDetail;
-import com.vocinno.utils.CustomUtils;
 
 public class MyDialog extends Dialog {
 
@@ -38,6 +34,7 @@ public class MyDialog extends Dialog {
 		private View contentView;
 		private OnClickListener positiveButtonClickListener;
 		private OnClickListener negativeButtonClickListener;
+		private OnDismissListener onDismissListener;
 		private boolean isCancelable=false;
 		private boolean isFullWidth=false;
 		private boolean isBottomDialog=false;
@@ -101,6 +98,10 @@ public class MyDialog extends Dialog {
 			this.negativeButtonClickListener = listener;
 			return this;
 		}
+		public Builder setDismissListener(OnDismissListener listener) {
+			this.onDismissListener = listener;
+			return this;
+		}
 
 		public Builder setNegativeButton(String negativeButtonText,
 				OnClickListener listener) {
@@ -130,6 +131,9 @@ public class MyDialog extends Dialog {
 			// set the dialog title
 			((TextView) layout.findViewById(R.id.title)).setText(title);
 			// set the confirm button
+			if(onDismissListener!=null){
+				dialog.setOnDismissListener(onDismissListener);
+			}
 			if (positiveButtonText != null) {
 				((Button) layout.findViewById(R.id.positiveButton))
 						.setText(positiveButtonText);

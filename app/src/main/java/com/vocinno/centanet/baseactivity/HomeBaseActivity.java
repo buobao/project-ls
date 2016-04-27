@@ -12,6 +12,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -38,7 +39,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     public abstract void notifCallBack(final String name,final String className, final Object data);
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
-            woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan, qiangGongShou,
+            woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeQianKe,woDeKeYuan, qiangGongShou,
             qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
     /********************************************************/
     @Override
@@ -105,6 +106,11 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     MethodsDeliverData.isMyCustomer = true;
                     MethodsExtra.startActivity(mContext,
                             CustomerManageActivity.class);
+                    break;
+                //我的潜客
+                case R.id.rlyt_my_potential_customer_main_page_slid_menus:
+                    MethodsExtra.startActivity(mContext,
+                            PotentialCustomerActivity.class);
                     break;
                 //抢公售
                 case R.id.rlyt_grab_house_main_page_slid_menus:
@@ -174,6 +180,9 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
 
         woDeKeYuan = (RelativeLayout) findViewById(R.id.rlyt_my_customer_main_page_slid_menus);
         woDeKeYuan.setOnClickListener(this);
+
+        woDeQianKe = (RelativeLayout) findViewById(R.id.rlyt_my_potential_customer_main_page_slid_menus);
+        woDeQianKe.setOnClickListener(this);
 
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);

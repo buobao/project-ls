@@ -404,6 +404,7 @@ public final class CST_JS {
 
 	// 参数定义
 
+	public static String JS_CustomerList_Type_Mypotien = "mypotien";// 潜客
 	public static String JS_CustomerList_Type_Public = "public";// 公客
 	public static String JS_CustomerList_Type_My = "my";// 我的客源
 	public static String JS_CustomerList_CustCode = "custCode";

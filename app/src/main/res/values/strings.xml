@@ -86,6 +86,7 @@
     <string name="addcustomer">添加客户</string>
     <string name="customernews">客户信息</string>
     <string name="mycustomer">我的客源</string>
+    <string name="my_potential_customer">我的潜客</string>
     <string name="customertitle">抢公客</string>
     <string name="input_name">客户输入姓名</string>
     <string name="contact_way">联系方式</string>

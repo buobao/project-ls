@@ -140,24 +140,31 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 map = new HashMap<Integer, List>();
                 map = mapSort(list);
                 inflater = mContext.getLayoutInflater();
+                int viewItemIndex=0;
+                if(map.get(0).size()>0){
+                    viewItem = inflater.inflate(R.layout.item_yuekan_layout, null);
+                    tv_yuekan_date = (TextView) viewItem.findViewById(R.id.tv_yuekan_date);
+                    ll_yuekan_item = (LinearLayout) viewItem.findViewById(R.id.ll_yuekan_item);
+                    tv_yuekan_date.setText("今天");
+                    ll_yuekan_layout.addView(viewItem, viewItemIndex);
+                    viewItemIndex++;
+                }
 
-                viewItem = inflater.inflate(R.layout.item_yuekan_layout, null);
-                tv_yuekan_date = (TextView) viewItem.findViewById(R.id.tv_yuekan_date);
-                ll_yuekan_item = (LinearLayout) viewItem.findViewById(R.id.ll_yuekan_item);
-                tv_yuekan_date.setText("今天");
-                ll_yuekan_layout.addView(viewItem, 0);
                 for (int i = 0; i < map.get(0).size(); i++) {
                     View viewEntry = addItemView((HouseItem)map.get(0).get(i));
                     ll_yuekan_item.addView(viewEntry, i);
                 }
 
-                viewItem = inflater.inflate(R.layout.item_yuekan_layout, null);
-                tv_yuekan_date = (TextView) viewItem.findViewById(R.id.tv_yuekan_date);
-                ll_yuekan_item = (LinearLayout) viewItem.findViewById(R.id.ll_yuekan_item);
-                tv_yuekan_date.setText("明天");
-                ib_yuekan_img = (ImageButton) viewItem.findViewById(R.id.ib_yuekan_img);
-                ib_yuekan_img.setImageResource(R.drawable.calendar_unnormal);
-                ll_yuekan_layout.addView(viewItem, 1);
+                if(map.get(1).size()>0){
+                    viewItem = inflater.inflate(R.layout.item_yuekan_layout, null);
+                    tv_yuekan_date = (TextView) viewItem.findViewById(R.id.tv_yuekan_date);
+                    ll_yuekan_item = (LinearLayout) viewItem.findViewById(R.id.ll_yuekan_item);
+                    tv_yuekan_date.setText("明天");
+                    ib_yuekan_img = (ImageButton) viewItem.findViewById(R.id.ib_yuekan_img);
+                    ib_yuekan_img.setImageResource(R.drawable.calendar_unnormal);
+                    ll_yuekan_layout.addView(viewItem, viewItemIndex);
+                    viewItemIndex++;
+                }
                 for (int i = 0; i < map.get(1).size(); i++) {
                     View viewEntry = addItemView((HouseItem)map.get(1).get(i));
                     ll_yuekan_item.addView(viewEntry, i);
@@ -170,7 +177,8 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                     tv_yuekan_date.setText(MyUtils.dateFormat(key,"MM/dd"));
                     ib_yuekan_img = (ImageButton) viewItem.findViewById(R.id.ib_yuekan_img);
                     ib_yuekan_img.setImageResource(R.drawable.calendar_unnormal);
-                    ll_yuekan_layout.addView(viewItem,2);
+                    ll_yuekan_layout.addView(viewItem,viewItemIndex);
+                    viewItemIndex++;
                     setTimeSort(otherMap.get(key));
                     for (int i = 0; i <otherMap.get(key).size(); i++) {
                         View viewEntry = addItemView((HouseItem)otherMap.get(key).get(i));

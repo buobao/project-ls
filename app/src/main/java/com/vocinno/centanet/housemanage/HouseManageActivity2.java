@@ -354,6 +354,9 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     @Override
     public void initData() {
         viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
+        if(viewPageIndex==2){
+            mScrollTagView.setVisibility(View.GONE);
+        }
         addNotificationObserver();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
         setFragmentToPager(isGongFang);

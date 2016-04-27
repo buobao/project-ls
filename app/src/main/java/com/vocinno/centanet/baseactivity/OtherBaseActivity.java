@@ -171,19 +171,31 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 break;
             //pin码
             case R.id.rlyt_password_main_page_slid_menus:
-                MyUtils.removeActivityFromAllList();
-                MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+                if(this.getClass().getName().equals(KeyGetInActivity.class.getName())){
+                    drawer_layout.closeDrawer(leftMenuView);
+                }else {
+                    MyUtils.removeActivityFromAllList();
+                    MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
+                }
                 break;
             //扫一扫
             case R.id.rlyt_sacn_customer_main_page_slid_menus:
-                MyUtils.removeActivityFromAllList();
-                MethodsExtra.startActivity(mContext, CaptureActivity.class);
+                if(this.getClass().getName().equals(CaptureActivity.class.getName())){
+                    drawer_layout.closeDrawer(leftMenuView);
+                }else {
+                    MyUtils.removeActivityFromAllList();
+                    MethodsExtra.startActivity(mContext, CaptureActivity.class);
+                }
                 break;
             //我的提醒
             case R.id.rlyt_remind_customer_main_page_slid_menus:
-                MyUtils.removeActivityFromAllList();
-                MethodsDeliverData.flag = -1;
-                MethodsExtra.startActivity(mContext, MessageListActivity.class);
+                if(this.getClass().getName().equals(MessageListActivity.class.getName())){
+                    drawer_layout.closeDrawer(leftMenuView);
+                }else {
+                    MyUtils.removeActivityFromAllList();
+                    MethodsDeliverData.flag = -1;
+                    MethodsExtra.startActivity(mContext, MessageListActivity.class);
+                }
                 break;
         }
     }

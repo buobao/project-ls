@@ -1,31 +1,29 @@
 package com.vocinno.centanet.customermanage;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerListAdapter;
-import com.vocinno.centanet.housemanage.HouseType;
-import com.vocinno.centanet.keymanage.KeyGetInActivity;
-import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.CustomerItem;
 import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
-import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +34,9 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
+public class CustomerManageActivity extends OtherBaseActivity implements
 		IXListViewListener {
-
+	private Dialog mMenuDialog;
 	private XListView mLvCustormers;
 	private View mBack, mSubmit;
 	private CustormerListAdapter mListAdapter;
@@ -98,8 +96,9 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 		}
 
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-				R.drawable.universal_button_add);
+		/*mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
+				R.drawable.universal_button_add);*/
+		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
 		mLvCustormers = (XListView) findViewById(R.id.lv_custormerInfoList_CustomerManageActivity);
 		mLvCustormers.setPullLoadEnable(false);
 
@@ -152,13 +151,21 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+		case R.id.ll_search_customer:
+//			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
+			mMenuDialog.dismiss();
+			break;
+		case R.id.ll_add_customer:
+			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
+			mMenuDialog.dismiss();
+			break;
 		case R.id.img_left_mhead1:
 			finish();
 			break;
 		case R.id.img_right_mhead1:
-			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
+			showMenuDialog();
 			break;
-			//钥匙管理
+			/*//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
@@ -215,7 +222,7 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 			case R.id.rlyt_remind_customer_main_page_slid_menus:
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, MessageListActivity.class);
-				break;
+				break;*/
 		default:
 			break;
 		}
@@ -344,8 +351,25 @@ public class CustomerManageActivity extends OtherHomeMenuBaseActivity implements
 				mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
 				mPageIndex--;
 			}
-			MethodsExtra.toast(mContext,jsReturn.getMsg());
+			MethodsExtra.toast(mContext, jsReturn.getMsg());
 		}
 		isLoading = false;
+	}
+
+	private void showMenuDialog() {
+		mMenuDialog = new Dialog(mContext, R.style.Theme_dialog);
+		mMenuDialog.setContentView(R.layout.dialog_menu_customer_manage);
+		Window win = mMenuDialog.getWindow();
+		win.setLayout(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		win.setGravity(Gravity.RIGHT | Gravity.TOP);
+		mMenuDialog.setCanceledOnTouchOutside(true);
+		mMenuDialog.show();
+		LinearLayout ll_search_customer = (LinearLayout) mMenuDialog
+				.findViewById(R.id.ll_search_customer);
+		LinearLayout ll_add_customer = (LinearLayout) mMenuDialog
+				.findViewById(R.id.ll_add_customer);
+		ll_search_customer.setOnClickListener(this);
+		ll_add_customer.setOnClickListener(this);
 	}
 }

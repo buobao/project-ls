@@ -15,9 +15,7 @@ import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
-import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
@@ -156,17 +154,11 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 break;
             //抢公售
             case R.id.rlyt_grab_house_main_page_slid_menus:
-                MyUtils.removeActivityFromAllList();
-                MethodsDeliverData.flag = 1;
-                MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-                MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                startIntentToGongFangManager(0);
                 break;
             //抢公租
             case R.id.rlyt_grab_house_main_page_slid_menus2:
-                MyUtils.removeActivityFromAllList();
-                MethodsDeliverData.flag = 1;
-                MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-                MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+                startIntentToGongFangManager(1);
                 break;
             //抢公客
             case R.id.rlyt_grab_customer_main_page_slid_menus:
@@ -217,6 +209,26 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         return super.onKeyDown(keyCode, event);
     }
 
+    public void startIntentToGongFangManager(int index){
+        MyUtils.removeActivityFromAllList();
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,true);
+        startActivity(intent);
+    };
+    public void startIntentToHouseManager(int index,boolean flag){
+        MyUtils.removeActivityFromAllList();
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,flag);
+        startActivity(intent);
+    };
     public void startIntentToHouseManager(int index){
         MyUtils.removeActivityFromAllList();
         if(intent==null){
@@ -224,7 +236,17 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         }
         intent.setClass(mContext, HouseManageActivity2.class);
         intent.putExtra("viewPageIndex", index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG,false);
         startActivity(intent);
+    };
+    public void houseDetailReturn(int index,boolean flag){
+        if(intent==null){
+            intent=new Intent();
+        }
+        intent.putExtra(HouseManageActivity2.VPI, index);
+        intent.putExtra(MyUtils.ROB_GONG_FANG, flag);
+        this.setResult(RESULT_OK, intent);
+        finish();
     };
     @Override
     protected void onDestroy() {

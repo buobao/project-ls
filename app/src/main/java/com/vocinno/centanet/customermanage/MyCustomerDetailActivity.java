@@ -18,26 +18,20 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
-import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
-import com.vocinno.centanet.housemanage.HouseType;
-import com.vocinno.centanet.keymanage.KeyGetInActivity;
-import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
-import com.zbar.lib.CaptureActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +39,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
+public class MyCustomerDetailActivity extends OtherBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
@@ -189,7 +183,8 @@ public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				robRefresh=true;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 				mGrabCustomer.setClickable(true);
-			//钥匙管理
+				break;
+			/*//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
@@ -239,7 +234,7 @@ public class MyCustomerDetailActivity extends OtherHomeMenuBaseActivity {
 			case R.id.rlyt_remind_customer_main_page_slid_menus:
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, MessageListActivity.class);
-				break;
+				break;*/
 
 			default:
 				break;

@@ -42,7 +42,7 @@ import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
-import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
@@ -82,7 +82,7 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
+public class HouseDetailActivity extends OtherBaseActivity {
 	private HouseDetail mHouseDetail = null;
 	private ScrollView mScrollView = null;
 	private String shareImgUrl=null;
@@ -529,7 +529,7 @@ public class HouseDetailActivity extends OtherHomeMenuBaseActivity {
 		if(isIntoForList){
 			houseDetailReturn(index,flag);
 		}else{
-			startIntent(index,flag);
+			startIntentToHouseManager(index,flag);
 		}
 	}
 	private void showMenuDialog() {

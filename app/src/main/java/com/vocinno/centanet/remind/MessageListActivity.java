@@ -8,21 +8,15 @@ import android.view.View;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
-import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.housemanage.HouseType;
-import com.vocinno.centanet.keymanage.KeyGetInActivity;
-import com.vocinno.centanet.keymanage.KeyManageActivity;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.MessageItem;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
-import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +27,7 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class MessageListActivity extends OtherHomeMenuBaseActivity implements
+public class MessageListActivity extends OtherBaseActivity implements
 		IXListViewListener {
 
 	private MessageListAdapter mListAdapter;
@@ -119,7 +113,7 @@ public class MessageListActivity extends OtherHomeMenuBaseActivity implements
 			break;
 		case R.id.img_right_mhead1:
 			break;
-			//钥匙管理
+			/*//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
 				finish();
 				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
@@ -168,7 +162,7 @@ public class MessageListActivity extends OtherHomeMenuBaseActivity implements
 			//我的提醒
 			case R.id.rlyt_remind_customer_main_page_slid_menus:
 				drawer_layout.closeDrawer(leftMenuView);
-				break;
+				break;*/
 	}
 }
 

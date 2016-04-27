@@ -61,8 +61,8 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         initData();
     }
     private void setClickListener() {
-        drawer_layout=(DrawerLayout)findViewById(R.id.dl_menu_tixing);
-        leftMenuView=findViewById(R.id.left_menu_tixing);
+        /*drawer_layout=(DrawerLayout)findViewById(R.id.dl_menu_tixing);
+        leftMenuView=findViewById(R.id.left_menu_tixing);*/
 
         fuJinChuShou=(RelativeLayout)findViewById(R.id.rlyt_sell_house_main_page_slid_menus);
         fuJinChuShou.setOnClickListener(this);

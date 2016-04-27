@@ -109,8 +109,8 @@ public class MyHouseListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final HouseItem item = mListHouses.get(position);
-		holder.mTvAddr.setText(item.getAddr());
 		if(item.ishidden()){
+			holder.mTvAddr.setText(item.getAddr());
 			holder.mTvKeyState.setText(item.getFloor());
 			TextPaint tp = holder.mTvKeyState.getPaint();
 			holder.mTvKeyState.setTextSize(11);
@@ -147,7 +147,7 @@ public class MyHouseListAdapter extends BaseAdapter {
 		} else {
 			holder.mImgViewKeyIcon.setVisibility(View.INVISIBLE);
 		}
-		holder.mTvDetail.setText(item.getFrame() + " " + item.getSquare() + "㎡"
+		holder.mTvDetail.setText(item.getFrame() + " " + item.getSquare() + "平"
 				+ " " + item.getOrient());
 		BigDecimal bUnitPrice, bPrice;
 		if (item.getUnitprice().equals("NaN")) {

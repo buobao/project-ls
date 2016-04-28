@@ -5,73 +5,73 @@
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00000"
+            android:drawable="@drawable/loading1"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00001"
+            android:drawable="@drawable/loading2"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00002"
+            android:drawable="@drawable/loading3"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00003"
+            android:drawable="@drawable/loading4"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00004"
+            android:drawable="@drawable/loading5"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00005"
+            android:drawable="@drawable/loading6"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00006"
+            android:drawable="@drawable/loading7"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00007"
+            android:drawable="@drawable/loading8"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00008"
+            android:drawable="@drawable/loading9"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00009"
+            android:drawable="@drawable/loading10"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00010"
+            android:drawable="@drawable/loading11"
             android:gravity="left" />
     </item>
     <item android:duration="150">
         <clip
             android:clipOrientation="horizontal"
-            android:drawable="@drawable/loading_apple_00011"
+            android:drawable="@drawable/loading12"
             android:gravity="left" />
     </item>
 

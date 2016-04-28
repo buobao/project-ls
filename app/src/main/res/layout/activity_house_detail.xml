@@ -5,12 +5,29 @@
         android:layout_height="match_parent"
         android:background="@color/bg_main"
         android:orientation="vertical">
-
+    <include layout="@layout/header_title_model1"/>
+    <LinearLayout
+        android:id="@+id/ll_houes_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="visible"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/tv_houes_detail"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="点击重新加载"
+            android:gravity="center"
+            android:background="@color/white"
+            />
+    </LinearLayout>
         <RelativeLayout
             android:id="@+id/relt_house_detail_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            >
             <ScrollView
                 android:id="@+id/scroller_houseDetailActivity"
                 android:layout_width="match_parent"
@@ -302,7 +319,6 @@
                 </FrameLayout>
             </ScrollView>
 
-            <include layout="@layout/header_title_model1"/>
 
             <!-- 底部钥匙不在店 -->
 

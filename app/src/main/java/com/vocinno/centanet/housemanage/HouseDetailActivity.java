@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
@@ -74,6 +75,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -117,6 +119,9 @@ public class HouseDetailActivity extends OtherBaseActivity {
 	private String LouCeng;//防止刷新页面楼层号消失用来保存变量
 	private HttpInterface hif=(HttpInterface)this;
 	private boolean isIntoForList;//判断是否从列表进入详情
+	private LinearLayout ll_houes_detail;
+	private TextView tv_houes_detail;
+	private RelativeLayout relt_house_detail_layout;
 	@Override
 	@SuppressLint("HandlerLeak")
 	public Handler setHandler() {
@@ -214,6 +219,23 @@ public class HouseDetailActivity extends OtherBaseActivity {
 		mTvSaleTime = (TextView) findViewById(R.id.tv_saleTime_houseDetailActivity);
 		mLvSigns = (ListViewNeedResetHeight) findViewById(R.id.lv_sign_houseDetailActivity);
 		mScrollView = (ScrollView) findViewById(R.id.scroller_houseDetailActivity);
+
+		relt_house_detail_layout= (RelativeLayout) baseView.findViewById(R.id.relt_house_detail_layout);
+		relt_house_detail_layout.setVisibility(View.GONE);
+		ll_houes_detail= (LinearLayout) baseView.findViewById(R.id.ll_houes_detail);
+		WindowManager wm = this.getWindowManager();
+		int height = wm.getDefaultDisplay().getHeight();
+		LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) ll_houes_detail.getLayoutParams(); //取控件textView当前的布局参数
+		linearParams.height = height-48;
+		ll_houes_detail.setLayoutParams(linearParams);
+		tv_houes_detail= (TextView) baseView.findViewById(R.id.tv_houes_detail);
+		tv_houes_detail.setOnClickListener(this);
+		tv_houes_detail.setOnClickListener(new NoDoubleClickListener() {
+			@Override
+			protected void onNoDoubleClick(View v) {
+				getHouesData();
+			}
+		});
 		// 根据数据显示房源的具体详情
 //		mHouseUi.setVisibility(View.GONE);
 
@@ -249,8 +271,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 	public void initData() {
 		 isIntoForList=getIntent().getBooleanExtra(MyUtils.INTO_FROM_LIST,false);
 		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
-		showDialog();
+		methodsJni.setMethodsJni((HttpInterface) this);
 		mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
 		// 初始化ViewPager adapter
 		mHander.sendEmptyMessageDelayed(R.id.doUpdate, 50);
@@ -278,6 +299,10 @@ public class HouseDetailActivity extends OtherBaseActivity {
 				CST_JS.NOTIFY_NATIVE_BORROW_KEY_FROM_SHOP_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_CLAIM_HOUSE_RESULT, TAG);
+		getHouesData();
+	}
+	public void getHouesData() {
+		showDialog();
 		// 调用初始化数据
 		MethodsJni
 				.callProxyFun(hif,
@@ -285,7 +310,6 @@ public class HouseDetailActivity extends OtherBaseActivity {
 						CST_JS.JS_Function_HouseResource_getHouseDetail,
 						CST_JS.getJsonStringForHouseListGetHouseDetail(MethodsDeliverData.mDelCode));
 	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -529,7 +553,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 		if(isIntoForList){
 			houseDetailReturn(index,flag);
 		}else{
-			startIntentToHouseManager(index,flag);
+			startIntentToHouseManager(index, flag);
 		}
 	}
 	private void showMenuDialog() {
@@ -625,13 +649,21 @@ public class HouseDetailActivity extends OtherBaseActivity {
 		MethodsJni.removeAllNotifications(TAG);
 	}
 
-/*
 
-	@Override
+
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			finish();
-			return true;
+		if (keyCode==KeyEvent.KEYCODE_BACK&&event.getRepeatCount()==0){
+			if(this.modelDialog.isShowing()){
+				dismissDialog();
+				fl_houes_detail.setVisibility(View.VISIBLE);
+				tv_houes_detail.setText("点击重新加载");
+				relt_house_detail_layout.setVisibility(View.GONE);
+				return true;
+			}else{
+				finish();
+			}
+
 		}
 		return super.onKeyDown(keyCode, event);
 	}*/
@@ -845,6 +877,8 @@ public class HouseDetailActivity extends OtherBaseActivity {
 					});
 					myDialog.create().show();
 				} else {
+					ll_houes_detail.setVisibility(View.GONE);
+					relt_house_detail_layout.setVisibility(View.VISIBLE);
 					mHouseDetail = (HouseDetail) jReturn.getObject();
 					final List<Image> images = mHouseDetail.getImg();
 					boolean isNotTheSame = false;
@@ -1067,5 +1101,21 @@ public class HouseDetailActivity extends OtherBaseActivity {
 	@Override
 	public void onLoadMore() {
 
+	}
+	public abstract class NoDoubleClickListener implements View.OnClickListener {
+
+		public static final int MIN_CLICK_DELAY_TIME = 1000;
+		private long lastClickTime = 0;
+
+		@Override
+		public void onClick(View v) {
+			long currentTime = Calendar.getInstance().getTimeInMillis();
+			if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {
+				lastClickTime = currentTime;
+				onNoDoubleClick(v);
+			}
+		}
+
+		protected abstract void onNoDoubleClick(View v);
 	}
 }

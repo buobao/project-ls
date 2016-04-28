@@ -61,7 +61,7 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
         mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
         mLvCustormers = (XListView) findViewById(R.id.xlv_potential_custormer);
         mLvCustormers.setPullLoadEnable(false);
-
+        mLvCustormers.setPullRefreshEnable(true);
         mBack.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
         mLvCustormers.setXListViewListener(this);
@@ -202,7 +202,7 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
         if (!isLoading) {
             isLoading = true;
             isReFreshOrLoadMore=true;
-            getDataFromNetwork(mPageIndex+1);
+            getDataFromNetwork(mPageIndex + 1);
         }
     }
 
@@ -215,10 +215,17 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
         if (jsReturn.isSuccess()) {
             if (jsReturn.getParams().getIsAppend()) {
                 mLvCustormers.stopLoadMore();
-                mListCustomers.addAll(jsReturn.getListDatas());
+                if(jsReturn.getListDatas()==null|| jsReturn.getListDatas().size()<=0){
+                    mLvCustormers.setPullLoadEnable(false);
+                }else{
+                    mLvCustormers.setPullLoadEnable(true);
+                }
+                mListAdapter.addListDatas(jsReturn.getListDatas());
+                mListAdapter.notifyDataSetChanged();
                 mPageIndex++;
             } else {
                 mLvCustormers.stopRefresh();
+                mLvCustormers.setPullLoadEnable(true);
                 mListCustomers = jsReturn.getListDatas();
                 mListAdapter.setListDatas(mListCustomers);
                 mListAdapter.notifyDataSetChanged();

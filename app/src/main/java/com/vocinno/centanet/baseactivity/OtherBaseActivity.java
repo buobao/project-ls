@@ -15,6 +15,7 @@ import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -50,7 +51,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public View baseView=null;
     public LinearLayout ll_left_menu;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
-            woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan, qiangGongShou,
+            woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan,woDeQianKe, qiangGongShou,
             qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
     /********************************************************/
     @Override
@@ -60,6 +61,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         hif=(HttpInterface)this;
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();
+        intent=new Intent();
         int layoutId=setContentLayoutId();
         View view=getLayoutInflater().inflate(layoutId, null);
         baseView=getLayoutInflater().inflate(R.layout.base_left_menu_layout,null);
@@ -96,6 +98,9 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
 
         woDeKeYuan = (RelativeLayout) findViewById(R.id.rlyt_my_customer_main_page_slid_menus);
         woDeKeYuan.setOnClickListener(this);
+
+        woDeQianKe = (RelativeLayout) findViewById(R.id.rlyt_my_potential_customer_main_page_slid_menus);
+        woDeQianKe.setOnClickListener(this);
 
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);
@@ -146,12 +151,26 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 break;
             //我的客源
             case R.id.rlyt_my_customer_main_page_slid_menus:
-                MyUtils.removeActivityFromAllList();
-                MethodsDeliverData.keYuanOrGongKe=1;
-                MethodsDeliverData.isMyCustomer = true;
-                MethodsExtra.startActivity(mContext,
-                        CustomerManageActivity.class);
+                if(this.getClass().getName().equals(CustomerManageActivity.class.getName())){
+                    drawer_layout.closeDrawer(leftMenuView);
+                }else {
+                    MyUtils.removeActivityFromAllList();
+                    intent.setClass(mContext, CustomerManageActivity.class);
+                    MethodsDeliverData.keYuanOrGongKe=1;
+                    MethodsDeliverData.isMyCustomer = true;
+                    startActivity(intent);
+                }
                 break;
+            //我的潜客
+            case R.id.rlyt_my_potential_customer_main_page_slid_menus:
+                if(this.getClass().getName().equals(PotentialCustomerActivity.class.getName())){
+                    drawer_layout.closeDrawer(leftMenuView);
+                }else{
+                    MyUtils.removeActivityFromAllList();
+                    intent.setClass(mContext, PotentialCustomerActivity.class);
+                    startActivity(intent);
+                }
+            break;
             //抢公售
             case R.id.rlyt_grab_house_main_page_slid_menus:
                 startIntentToGongFangManager(0);
@@ -166,8 +185,9 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 MethodsDeliverData.keYuanOrGongKe=0;
                 MethodsDeliverData.flag = 1;
                 MethodsDeliverData.isMyCustomer = false;
-                MethodsExtra.startActivity(mContext,
-                        CustomerManageActivity.class);
+                intent.setClass(mContext,CustomerManageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
                 break;
             //pin码
             case R.id.rlyt_password_main_page_slid_menus:

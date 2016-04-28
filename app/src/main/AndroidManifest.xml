@@ -68,6 +68,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"/>
+
     <!-- since 1.6.0 -->
     <!-- *********************************************************  JPush  permission ********************************************************* -->
     <application
@@ -481,6 +482,8 @@
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <activity android:name=".customermanage.PotentialCustomerActivity">
+        </activity>
+        <activity android:name=".customermanage.PotentialCustomerDetailActivity">
         </activity>
     </application>
 

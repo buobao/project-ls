@@ -101,7 +101,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
 		mLvCustormers = (XListView) findViewById(R.id.lv_custormerInfoList_CustomerManageActivity);
 		mLvCustormers.setPullLoadEnable(false);
-
+		mLvCustormers.setPullRefreshEnable(true);
 		mBack.setOnClickListener(this);
 		mSubmit.setOnClickListener(this);
 		mLvCustormers.setXListViewListener(this);

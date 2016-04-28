@@ -99,7 +99,7 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
                 mMenuDialog.dismiss();
                 break;
             case R.id.ll_add_customer:
-                MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
+                MethodsExtra.startActivity(mContext, AddPotentialActivity.class);
                 mMenuDialog.dismiss();
                 break;
             case R.id.img_left_mhead1:

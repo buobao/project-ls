@@ -31,7 +31,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     public abstract Handler setHandler();
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
-            woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan, qiangGongShou,
+            woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan,woDeQianKe, qiangGongShou,
             qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
     /********************************************************/
     @Override
@@ -72,6 +72,9 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
 
         woDeKeYuan = (RelativeLayout) findViewById(R.id.rlyt_my_customer_main_page_slid_menus);
         woDeKeYuan.setOnClickListener(this);
+
+        woDeQianKe = (RelativeLayout) findViewById(R.id.rlyt_my_potential_customer_main_page_slid_menus);
+        woDeQianKe.setOnClickListener(this);
 
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);

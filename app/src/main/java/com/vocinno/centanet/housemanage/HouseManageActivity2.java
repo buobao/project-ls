@@ -42,6 +42,7 @@ import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.ConstantResult;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
@@ -626,6 +627,13 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 MethodsDeliverData.isMyCustomer = true;
                 MethodsExtra.startActivity(mContext,
                         CustomerManageActivity.class);
+                break;
+            //我的潜客
+            case R.id.rlyt_my_potential_customer_main_page_slid_menus:
+                finish();
+                intent=new Intent();
+                intent.setClass(mContext, PotentialCustomerActivity.class);
+                startActivity(intent);
                 break;
             //抢公售
             case R.id.rlyt_grab_house_main_page_slid_menus:

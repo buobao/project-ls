@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -27,7 +25,6 @@ import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
-import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -44,28 +41,15 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private View mBackView, mImgViewAddTrack,mSubmit;
     private RelativeLayout mGrabCustomer;
     private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-            mTvPrice, mTvTenancyTime/*mTvMoney, *//*mTvPaymenttype*/,tv_money_customerDetailActivity;
+            mTvPrice, mTvTenancyTime,tv_money_customerDetailActivity;
     private ListViewNeedResetHeight mLvTracks;
-    //	private ImageView  mImgViewQQ, mImgWeixin;
     private CustomerDetail mDetail = null;
     private RelativeLayout mImgViewPhone;
     private Drawable drawable;
     private static final int RESET_LISTVIEW_TRACK = 1001;
-    private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
     @Override
     public Handler setHandler() {
-        return new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case RESET_LISTVIEW_TRACK:
-                        MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
+        return null;
     }
 
     @Override
@@ -79,32 +63,22 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.customernews,
                 null);
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-        mGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_seize_customerDetailActivity);
-        mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_customerDetailActivity);
-        mTvCustomerName = (TextView) findViewById(R.id.tv_customername_customerDetailActivity);
-        mTvType = (TextView) findViewById(R.id.tv_type_customerDetailActivity);
-        mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
-        mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
-        mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
-        tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
-//		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
-        mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
-        mImgViewAddTrack = findViewById(R.id.imgView_addTrack_customerDetailActivity);
-        mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
-//		mImgViewQQ = (ImageView) findViewById(R.id.imgView_qq_customerDetailActivity);
-//		mImgWeixin = (ImageView) findViewById(R.id.imgView_wx_customerDetailActivity);
+        mGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_seize_qianke);
+        mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_qianke);
+        mTvCustomerName = (TextView) findViewById(R.id.tv_customername_qianke);
+        mTvType = (TextView) findViewById(R.id.tv_type_qianke);
+        mTvAcreage = (TextView) findViewById(R.id.tv_acreage_qianke);
+        mTvPrice = (TextView) findViewById(R.id.tv_price_qianke);
+        mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_qianke);
+        tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_qianke);
+        mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_qianke);
+        mImgViewAddTrack = findViewById(R.id.imgView_addTrack_qianke);
+        mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_qianke);
 
         mBackView.setOnClickListener(this);
         mGrabCustomer.setOnClickListener(this);
         mImgViewAddTrack.setOnClickListener(this);
-//		mImgViewQQ.setOnClickListener(this);
         mImgViewPhone.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        // adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -118,18 +92,13 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                 CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
         MethodsJni.addNotificationObserver(
                 CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT, TAG);
-//		mCusterCode = MethodsDeliverData.string;
         mCusterCode=getIntent().getStringExtra("custCode");
         showDialog();
-
-        methodsJni=new MethodsJni();
-        methodsJni.setMethodsJni((HttpInterface)this);
         // 调用数据
-        MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+        MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
                 CST_JS.JS_Function_CustomerList_getCustomerInfo,
                 CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
         if (MethodsDeliverData.flag1 == 1) {
-//			MethodsDeliverData.flag1 = -1;
             mGrabCustomer.setVisibility(View.VISIBLE);
             mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,R.drawable.phone_img);
             mSubmit.setOnClickListener(this);
@@ -160,16 +129,14 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                 break;
             case R.id.imgView_addTrack_customerDetailActivity:
                 MethodsDeliverData.string = mCusterCode;
-                // listTracks
                 intent.setClass(mContext,
                         AddFollowInCustomerActivity.class);
                 MethodsExtra.startActivityForResult(mContext,10,intent);
                 break;
             case R.id.imgView_phone_customerDetailActivity:
-                firstGetContent=true;
                 showDialog();
                 // 调用联系人列表数据
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+                MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
                         CST_JS.JS_Function_CustomerList_CustContactList,
                         CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
                 break;
@@ -177,62 +144,9 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                 mGrabCustomer.setClickable(false);
                 showDialog();
                 // 抢
-                robRefresh=true;
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+                MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
                 mGrabCustomer.setClickable(true);
                 break;
-			/*//钥匙管理
-			case R.id.rlyt_key_house_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
-				break;
-			//我的客源
-			case R.id.rlyt_my_customer_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsDeliverData.keYuanOrGongKe=1;
-				MethodsDeliverData.isMyCustomer = true;
-				MethodsExtra.startActivity(mContext,
-						CustomerManageActivity.class);
-				break;
-			//抢公售
-			case R.id.rlyt_grab_house_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				startIntentToGongFangManager(0);
-				break;
-			//抢公租
-			case R.id.rlyt_grab_house_main_page_slid_menus2:
-				MyUtils.removeActivityFromList();
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-				startIntentToGongFangManager(1);
-				break;
-			//抢公客
-			case R.id.rlyt_grab_customer_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsDeliverData.keYuanOrGongKe=0;
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.isMyCustomer = false;
-				MethodsExtra.startActivity(mContext,
-						CustomerManageActivity.class);
-				break;
-			//pin码
-			case R.id.rlyt_password_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
-				break;
-			//扫一扫
-			case R.id.rlyt_sacn_customer_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, CaptureActivity.class);
-				break;
-			//我的提醒
-			case R.id.rlyt_remind_customer_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, MessageListActivity.class);
-				break;*/
-
             default:
                 break;
         }
@@ -240,39 +154,15 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-		/*if (data == null) {
-			return;
-		}*/
         if (resultCode == ConstantResult.REFRESH) {
-			/*MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
-			showDialog();
-			firstRefresh=true;
-			// 调用数据
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_getCustomerInfo,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-
-			if (MethodsDeliverData.flag1 == 1) {
-				MethodsDeliverData.flag1 = -1;
-				mGrabCustomer.setVisibility(View.VISIBLE);
-			}*/
-            firstRefresh=true;
             MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
             MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
             showDialog();
             // 调用数据
-            MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+            MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
                     CST_JS.JS_Function_CustomerList_getCustomerInfo,
                     CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 
-//			initData();
-
-			/*Track track = new Track();
-			track.setTracktime(data.getStringExtra("time"));
-			track.setContent(data.getStringExtra("content"));
-			listTracks.add(listTracks.size(), track);
-			adapter = new CustomerDetailAdapter(mContext, listTracks);
-			mLvTracks.setAdapter(adapter);
-			mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-			adapter.notifyDataSetChanged();*/
         }
     }
     private Dialog mCallCustormerDialog;
@@ -348,7 +238,6 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
                 CustomerDetail.class);
         if(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT.equals(name)){
-            if(firstGetContent){
                 CustomerDetail contentList=getContent(strJson);
                 if(contentList!=null){
                     List<CustomerDetail.Content> list=contentList.getContent();
@@ -356,21 +245,11 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                 }else{
                     MethodsExtra.toast(mContext,jsReturn.getMsg());
                 }
-                firstGetContent=false;
-            }
-//			Log.i("jsReturn", "jsReturn"+jsReturn);
         }else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
-            if(firstRefresh){
                 mDetail = (CustomerDetail) jsReturn.getObject();
                 mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
                 mTvCustomerName.setText("姓名：" + mDetail.getName());
                 tv_money_customerDetailActivity.setText("");
-//				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
-                if (mDetail.isPay() == false) {
-//					mTvMoney.setText(R.string.money_false);
-                } else {
-//					mTvMoney.setText(R.string.money_true);
-                }
                 // 填充跟踪信息列表
                 listTracks = mDetail.getTracks();
                 if (listTracks != null && listTracks.size() >= 1) {
@@ -387,44 +266,15 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                     mTvPrice.setText("租价：" + req.getPrice());// 价格
                     mTvTenancyTime.setText("租期：" + req.getTenancyTime());
                 }
-                // 联系方式
-                if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
-//					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
-                }
-                if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
-//					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
-                }
-                if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
-//					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
-                }
-                firstRefresh=false;
-            }
         }else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
             if (jsReturn.isSuccess()) {
-                if(returnRefresh){
-                    MethodsExtra.toast(mContext, jsReturn.getMsg());
-                    setResult(ConstantResult.REFRESH);
-                    returnRefresh=false;
-                    finish();
-                }
+                MethodsExtra.toast(mContext, jsReturn.getMsg());
+                setResult(ConstantResult.REFRESH);
+                finish();
             } else {
-                if(robRefresh){
-                    if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
-                        MethodsExtra.toast(mContext,jsReturn.getMsg());
-						/*MyDialog.Builder dialog=new MyDialog.Builder(this);
-						dialog.setTitle("提示");
-						dialog.setMessage(jsReturn.getMsg());
-						dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-							}
-						});
-						dialog.create().show();*/
-                    }
-                    robRefresh=false;
+                if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
+                    MethodsExtra.toast(mContext,jsReturn.getMsg());
                 }
-//				MethodsExtra.toast(mContext, jsReturn.getMsg());
             }
         }
     }

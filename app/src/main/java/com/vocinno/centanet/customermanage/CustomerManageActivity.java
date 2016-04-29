@@ -50,7 +50,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	private XListView mLvCustormers;
 	private View mBack, mSubmit;
 	private CustormerListAdapter mListAdapter;
-	public boolean isMyCustomerType = true;// 是否是我的客源，如果不是就认为是公客
 	private int mPageIndex = 1;
 	private List<CustomerItem> mListCustomers = new ArrayList<CustomerItem>();
 	private List<CustomerItem> mListCustomersLast = new ArrayList<CustomerItem>();
@@ -102,9 +101,19 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		if (isMyCustomerType) {
 			MethodsExtra.findHeadTitle1(mContext, baseView,
 					R.string.mycustomer, null);
+			// 添加通知
+			MethodsJni.addNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+			MethodsJni.addNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		} else {
 			MethodsExtra.findHeadTitle1(mContext, baseView,
 					R.string.customertitle, null);
+			// 添加通知
+			MethodsJni.addNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
+			MethodsJni.addNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
 		}
 
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
@@ -136,18 +145,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		}
 		mListAdapter.setGongKe(isGongKe);
 		mLvCustormers.setAdapter(mListAdapter);
-		if (MethodsDeliverData.flag == 1) {
-			MethodsDeliverData.flag1 = 1;
-			MethodsDeliverData.flag = -1;
-			mSubmit.setVisibility(View.GONE);
-		} else {
-			mSubmit.setVisibility(View.VISIBLE);
-		}
-		// 添加通知
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
+		mSubmit.setVisibility(View.VISIBLE);
 		// 调用数据
 		getDataFromNetwork(mPageIndex);
 	}
@@ -191,10 +189,17 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
+		if(isMyCustomerType){
+			MethodsJni.removeNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+			MethodsJni.removeNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
+		}else{
+			MethodsJni.removeNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
+			MethodsJni.removeNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
+		}
 	}
 	// 调用数据
 	private void getDataFromNetwork(int page) {
@@ -346,10 +351,15 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		mMenuDialog.show();
 		LinearLayout ll_search_customer = (LinearLayout) mMenuDialog
 				.findViewById(R.id.ll_search_customer);
+		ll_search_customer.setOnClickListener(this);
 		LinearLayout ll_add_customer = (LinearLayout) mMenuDialog
 				.findViewById(R.id.ll_add_customer);
-		ll_search_customer.setOnClickListener(this);
 		ll_add_customer.setOnClickListener(this);
+		if(isMyCustomerType){
+			ll_add_customer.setVisibility(View.VISIBLE);
+		}else{
+			ll_add_customer.setVisibility(View.GONE);
+		}
 	}
 
 	private ListView mListView;
@@ -421,7 +431,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		mSearchDialog.show();
 	}
 	private void searchHouse(String editString) {
-		mLvHostory.setVisibility(View.GONE);
+		mLvHostory.setVisibility(View.INVISIBLE);
 		if(editString==null||editString.length()<=0){
 		}else{
 			// 在打字期间添加搜索栏数据

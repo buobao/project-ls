@@ -42,6 +42,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public ModelDialog modelDialog;//loading
     public MyDialog.Builder myDialog;//自定义窗口
     public HttpInterface hif;
+    public boolean isMyCustomerType = true;// 是否是我的客源，如果不是就认为是公客
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -152,7 +153,15 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
             //我的客源
             case R.id.rlyt_my_customer_main_page_slid_menus:
                 if(this.getClass().getName().equals(CustomerManageActivity.class.getName())){
-                    drawer_layout.closeDrawer(leftMenuView);
+                    if(isMyCustomerType){
+                        drawer_layout.closeDrawer(leftMenuView);
+                    }else{
+                        MyUtils.removeActivityFromAllList();
+                        intent.setClass(mContext, CustomerManageActivity.class);
+                        MethodsDeliverData.keYuanOrGongKe=1;
+                        MethodsDeliverData.isMyCustomer = true;
+                        startActivity(intent);
+                    }
                 }else {
                     MyUtils.removeActivityFromAllList();
                     intent.setClass(mContext, CustomerManageActivity.class);
@@ -181,13 +190,25 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 break;
             //抢公客
             case R.id.rlyt_grab_customer_main_page_slid_menus:
-                MyUtils.removeActivityFromAllList();
-                MethodsDeliverData.keYuanOrGongKe=0;
-                MethodsDeliverData.flag = 1;
-                MethodsDeliverData.isMyCustomer = false;
-                intent.setClass(mContext,CustomerManageActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                if(this.getClass().getName().equals(CustomerManageActivity.class.getName())){
+                    if(isMyCustomerType){
+                        MyUtils.removeActivityFromAllList();
+                        intent.setClass(mContext, CustomerManageActivity.class);
+                        MethodsDeliverData.keYuanOrGongKe=1;
+                        MethodsDeliverData.isMyCustomer = false;
+                        startActivity(intent);
+                    }else{
+                        drawer_layout.closeDrawer(leftMenuView);
+                    }
+                }else {
+                    MyUtils.removeActivityFromAllList();
+                    MethodsDeliverData.keYuanOrGongKe=0;
+                    MethodsDeliverData.flag = 1;
+                    MethodsDeliverData.isMyCustomer = false;
+                    intent.setClass(mContext,CustomerManageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
                 break;
             //pin码
             case R.id.rlyt_password_main_page_slid_menus:
@@ -264,7 +285,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public void startIntentToHouseManager(int index){
         MyUtils.removeActivityFromAllList();
         if(intent==null){
-            intent=new Intent();
+            intent = new Intent();
         }
         intent.setClass(mContext, HouseManageActivity2.class);
         intent.putExtra("viewPageIndex", index);

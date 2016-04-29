@@ -864,7 +864,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
     MethodsJni methodsJni;
     private void searchHouse(String editString) {
-        mLvHostory.setVisibility(View.GONE);
+        mLvHostory.setVisibility(View.INVISIBLE);
 //		String editString=mEtSearch.getText().toString().trim();
         if(editString==null||editString.length()<=0){
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");

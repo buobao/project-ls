@@ -1,12 +1,16 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F2F2"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
-    <include layout="@layout/header_title_model1" />
+    <include
+        android:id="@+id/il_title_qianke"
+        layout="@layout/header_title_model1" />
 
     <com.vocinno.utils.view.refreshablelistview.XListView
         android:id="@+id/xlv_potential_custormer"
@@ -16,7 +20,9 @@
         android:scrollbars="none"
         android:cacheColorHint="@color/transparent"
         android:divider="@drawable/bg_custormer_info_list_divider_custormer_manage"
-        android:listSelector="@color/transparent" >
+        android:listSelector="@color/transparent"
+        android:layout_below="@+id/il_title_qianke"
+        >
     </com.vocinno.utils.view.refreshablelistview.XListView>
 
-</LinearLayout>
+</RelativeLayout>

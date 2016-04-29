@@ -21,17 +21,24 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.vocinno.centanet.housemanage.adapter.ImageCompress;
 import com.vocinno.utils.imageutils.imageblur.FastBlur;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -580,6 +587,131 @@ public final class MethodsFile {
         }).start();
     }
 
+
+    public static void yasuoimg(Context context,String filePath){
+        Uri uri = Uri.parse(filePath);
+        ImageCompress compress = new ImageCompress();
+        ImageCompress.CompressOptions options = new ImageCompress.CompressOptions();
+        options.uri = uri;
+        options.maxWidth=((Activity)context).getWindowManager().getDefaultDisplay().getWidth();
+        options.maxHeight=((Activity)context).getWindowManager().getDefaultDisplay().getHeight();
+        Bitmap bitmap = compress.compressFromUri(context, options,filePath);
+        saveBitmap(bitmap);
+    }
+    /**
+     * 上传文件
+     *
+     * @return "-1"代表上传失败
+     */
+    public static void saveBitmap(Bitmap bm) {
+        String filePath=Environment.getExternalStorageDirectory().getPath() + "/vocinno/compression/";
+        File f = new File(filePath, Long.toString(System.nanoTime())+".png");
+        File file = new File(filePath);
+        if(!file.exists()) {
+            file.mkdirs();
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 70;
+        while ( baos.toByteArray().length /(1024)>80) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            bm.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        FileOutputStream out;
+        try{
+            File ff = new File(filePath,Long.toString(System.nanoTime())+"zr.png");
+            out = new FileOutputStream(ff);
+            if(bitmap.compress(Bitmap.CompressFormat.PNG, options, out))
+            {
+                out.flush();
+                out.close();
+            }
+        }catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    /* 上传文件至Server的方法 */
+    public static String uploadFile(Activity context,String strURL, String strPath,String a) {
+        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+        Bitmap bitmap=BitmapFactory.decodeFile(strPath);
+        int beginRate = 100;
+        //第一个参数 ：图片格式 ，第二个参数： 图片质量，100为最高，0为最差  ，第三个参数：保存压缩后的数据的流
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
+        while(bOut.size()/1024/1024>100){  //如果压缩后大于100Kb，则提高压缩率，重新压缩
+            beginRate -=10;
+            bOut.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, beginRate, bOut);
+        }
+        ByteArrayInputStream bInt = new ByteArrayInputStream(bOut.toByteArray());
+        Bitmap newBitmap = BitmapFactory.decodeStream(bInt);
+        if(newBitmap!=null){
+//            return newBitmap;
+            saveBitmap(newBitmap);
+            return "";
+        }else{
+            return "";
+        }
+    }
+    public static String uploadFile(Activity context,String strURL,String strPath) {
+        DisplayMetrics dm = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float hh = dm.heightPixels;
+        float ww = dm.widthPixels;
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(strPath, opts);
+        opts.inJustDecodeBounds = false;
+        int w = opts.outWidth;
+        int h = opts.outHeight;
+        int size = 0;
+        if (w <= ww && h <= hh) {
+            size = 1;
+        } else {
+            double scale = w >= h ? w / ww : h / hh;
+            double log = Math.log(scale) / Math.log(2);
+            double logCeil = Math.ceil(log);
+            size = (int) Math.pow(2, logCeil);
+        }
+        opts.inSampleSize = size;
+        bitmap = BitmapFactory.decodeFile(strPath, opts);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int quality = 100;
+        bitmap.compress(Bitmap.CompressFormat.PNG, quality, baos);
+        System.out.println(baos.toByteArray().length);
+        while (baos.toByteArray().length > 45 * 1024) {
+            baos.reset();
+            bitmap.compress(Bitmap.CompressFormat.PNG, quality, baos);
+            quality -= 20;
+            System.out.println(baos.toByteArray().length);
+        }
+        try {
+            String filePath=Environment.getExternalStorageDirectory().getPath() + "/vocinno/compression";
+            File file = new File(filePath);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            baos.writeTo(new FileOutputStream(filePath+"/"+ UUID.randomUUID()+".jpg"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                baos.flush();
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
     /**
      * 上传文件
      *

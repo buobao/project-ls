@@ -425,8 +425,8 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			final List<String> descriptionList2 = descriptionList;
 			for (int i = 0; i < list.size(); i++) {
 				final int index = i;
+//				MethodsFile.yasuoimg(this, list.get(i));
 				String result = MethodsFile.uploadFile(getString(R.string.serverurl), list.get(i));
-//				String result = MethodsFile.uploadFileT(new File(list.get(i)),getString(R.string.serverurl));
 				Log.d("wan", "wanggsx uploadFile " + i + " resut=" + result);
 				JSReturn jsReturn = null;
 				jsReturn = MethodsJson.jsonToJsReturn(result,
@@ -434,7 +434,6 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 				List<UploadImageResult> imageResult = jsReturn.getListDatas();
 				ImageForJsParams tempData = new ImageForJsParams();
 				tempData.setType(type);
-//				tempData.setDesc(descriptionList2.get(index));
 				tempData.setPic(imageResult.get(0).getFileId());
 				mUploadImages.add(tempData);
 				mUploadCount = mUploadCount + 1;

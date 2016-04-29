@@ -169,12 +169,12 @@ public final class CST_JS {
 	}
 	public static String getJsonStringForKeYuanGuanJianZi(String type,String name,int page,int pagesize) {
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty(JS_CommonParam_Type, type);
 		jsonObject.addProperty(jS_CommonParam_Name, name);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
 		jsonObject.addProperty(JS_CommonParam_Pagesize,
 				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);
-		addJingWeiDegree(jsonObject);
+		jsonObject.addProperty(JS_CommonParam_Type, type);
+//		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}
 	public static String getJsonStringForHouseListGetList(String type,

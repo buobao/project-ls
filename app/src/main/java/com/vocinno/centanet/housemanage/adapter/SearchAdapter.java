@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.model.EstateSearchItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +19,15 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
 
     private Activity mContext;
-    private List<EstateSearchItem> mListTexts;
+    private List<EstateSearchItem> mListTexts=new ArrayList<EstateSearchItem>();
 
     public SearchAdapter(Activity context, List<EstateSearchItem> listTexts) {
         mContext = context;
         mListTexts = listTexts;
     }
-
+    public void setList(List<EstateSearchItem> listTexts){
+        mListTexts = listTexts;
+    }
     @Override
     public int getCount() {
         return mListTexts.size();

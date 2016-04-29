@@ -111,9 +111,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					R.string.customertitle, null);
 			// 添加通知
 			MethodsJni.addNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
 			MethodsJni.addNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		}
 
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
@@ -196,9 +196,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		}else{
 			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
 			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		}
 	}
 	// 调用数据
@@ -327,7 +327,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			if(jReturn.isSuccess()){
 				if(jReturn.getListDatas().size()>0){
 					mSearchListData = jReturn.getListDatas();
-					SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+					mSearch.setList(mSearchListData);
 					mListView.setAdapter(mSearch);
 				}else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
@@ -366,6 +366,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	private ListView mLvHostory;
 	public static EditText mEtSearch;
 	private List<String> mHistorySearch;
+	private SearchAdapter mSearch;
 	private void showSearchDialog() {
 		mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
 		mSearchDialog.setContentView(R.layout.dialog_search_house_manage);
@@ -375,7 +376,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		win.setGravity(Gravity.TOP);
 		mSearchDialog.setCanceledOnTouchOutside(true);
 		mListView = (ListView) mSearchDialog.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
-		SearchAdapter mSearch = new SearchAdapter(mContext,
+		mSearch = new SearchAdapter(mContext,
 				new ArrayList<EstateSearchItem>());
 		mListView.setAdapter(mSearch);
 
@@ -405,7 +406,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			}
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				searchHouse(arg0.toString().trim());
+				searchKeYuan(arg0.toString().trim());
 			}
 		});
 
@@ -430,9 +431,11 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		}
 		mSearchDialog.show();
 	}
-	private void searchHouse(String editString) {
+	private void searchKeYuan(String editString) {
 		mLvHostory.setVisibility(View.INVISIBLE);
 		if(editString==null||editString.length()<=0){
+//			mSearch.setList(null);
+//			mListView.setAdapter(mSearch);
 		}else{
 			// 在打字期间添加搜索栏数据
 			String reqparm = CST_JS

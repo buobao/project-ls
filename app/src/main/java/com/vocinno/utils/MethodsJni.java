@@ -1,17 +1,12 @@
 package com.vocinno.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.vocinno.centanet.apputils.AppInstance;
 import com.vocinno.centanet.myinterface.HttpInterface;
 
 import org.unify.helper.CELibHelper;
 import org.unify.helper.JsHelper;
-
-import java.lang.reflect.Method;
-import java.util.List;
 
 public final class MethodsJni {
 	private static HttpInterface httpInterFace=null;
@@ -74,7 +69,7 @@ public final class MethodsJni {
 		if(httpInterFace!=null){
 			httpInterFace.netWorkResult(name,className,data);
 		}
-			Log.d("tag", "tagwanggsx data:" + data + " name:" + name
+			/*Log.d("tag", "tagwanggsx data:" + data + " name:" + name
 					+ " className:" + className);
 			if (data != null) {
 				try {
@@ -98,7 +93,7 @@ public final class MethodsJni {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 
 	}
 

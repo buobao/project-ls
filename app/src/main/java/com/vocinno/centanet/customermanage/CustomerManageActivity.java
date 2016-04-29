@@ -4,17 +4,27 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerListAdapter;
+import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.CustomerItem;
 import com.vocinno.centanet.model.CustomerList;
+import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
@@ -36,7 +46,7 @@ import java.util.List;
  */
 public class CustomerManageActivity extends OtherBaseActivity implements
 		IXListViewListener {
-	private Dialog mMenuDialog;
+	private Dialog mMenuDialog,mSearchDialog;
 	private XListView mLvCustormers;
 	private View mBack, mSubmit;
 	private CustormerListAdapter mListAdapter;
@@ -48,6 +58,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 //	private String sOrZ;//用来判断客源跟进跳转查询出售还是出租的客源列表
 	private String delegationType;//用来判断客源跟进跳转查询出售还是出租的客源列表
 	private Intent intent;
+	private List<EstateSearchItem> mSearchListData;
+	private String type;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -134,6 +146,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		// 添加通知
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+		MethodsJni.addNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		// 调用数据
 		getDataFromNetwork(mPageIndex);
 	}
@@ -153,6 +167,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		switch (v.getId()) {
 		case R.id.ll_search_customer:
 //			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
+			showSearchDialog();
 			mMenuDialog.dismiss();
 			break;
 		case R.id.ll_add_customer:
@@ -165,64 +180,10 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		case R.id.img_right_mhead1:
 			showMenuDialog();
 			break;
-			/*//钥匙管理
-			case R.id.rlyt_key_house_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, KeyManageActivity.class);
-				break;
-			//我的客源
-			case R.id.rlyt_my_customer_main_page_slid_menus:
-				if(MethodsDeliverData.isMyCustomer){
-					drawer_layout.closeDrawer(leftMenuView);
-				}else{
-					MyUtils.removeActivityFromList();
-					MethodsDeliverData.keYuanOrGongKe=1;
-					MethodsDeliverData.isMyCustomer = true;
-					MethodsExtra.startActivity(mContext,
-							CustomerManageActivity.class);
-				}
-				break;
-			//抢公售
-			case R.id.rlyt_grab_house_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				startIntentToGongFangManager(0);
-				break;
-			//抢公租
-			case R.id.rlyt_grab_house_main_page_slid_menus2:
-				MyUtils.removeActivityFromList();
-				MethodsDeliverData.flag = 1;
-				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-				startIntentToGongFangManager(1);
-				break;
-			//抢公客
-			case R.id.rlyt_grab_customer_main_page_slid_menus:
-				if(MethodsDeliverData.isMyCustomer){
-					MyUtils.removeActivityFromList();
-					MethodsDeliverData.keYuanOrGongKe=1;
-					MethodsDeliverData.isMyCustomer = true;
-					MethodsExtra.startActivity(mContext,
-							CustomerManageActivity.class);
-				}else{
-					drawer_layout.closeDrawer(leftMenuView);
-				}
-				break;
-			//pin码
-			case R.id.rlyt_password_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
-				break;
-			//扫一扫
-			case R.id.rlyt_sacn_customer_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, CaptureActivity.class);
-				break;
-			//我的提醒
-			case R.id.rlyt_remind_customer_main_page_slid_menus:
-				MyUtils.removeActivityFromList();
-				MethodsExtra.startActivity(mContext, MessageListActivity.class);
-				break;*/
+		case R.id.btn_close_dialogSearchHouseManage:
+			mEtSearch.setText("");
+			mLvHostory.setVisibility(View.INVISIBLE);
+			break;
 		default:
 			break;
 		}
@@ -232,6 +193,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		super.onDestroy();
 		MethodsJni.removeNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+		MethodsJni.removeNotificationObserver(
+				CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 	}
 	// 调用数据
 	private void getDataFromNetwork(int page) {
@@ -256,7 +219,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
 							: CST_JS.JS_CustomerList_Type_Public), page, 8);
 		}
-		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+		MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getList, strReq);
 	}
 
@@ -289,71 +252,87 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		String strJson = (String) data;
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
 				CustomerList.class);
-		if (jsReturn.isSuccess()) {
-			// 检测数据是否重复回调过来
-			boolean isTheSame = false;
-			if (mListCustomersLast != null
-					&& jsReturn.getListDatas() != null
-					&& mListCustomersLast.size() >= 1
-					&& jsReturn.getListDatas().size() == mListCustomersLast
-					.size()) {
-				List<CustomerItem> thisCustomerItems = jsReturn.getListDatas();
-				for (int i = 0; i < thisCustomerItems.size(); i++) {
-					CustomerItem lastCustomerItem = mListCustomersLast.get(i);
-					CustomerItem thisCustomerItem = thisCustomerItems.get(i);
-					if (!lastCustomerItem.getName().equals(
-							thisCustomerItem.getName())) {
-						isTheSame = false;
-						break;
+		if (name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT)) {
+			if(jsReturn.isSuccess()){
+				// 检测数据是否重复回调过来
+				boolean isTheSame = false;
+				if (mListCustomersLast != null
+						&& jsReturn.getListDatas() != null
+						&& mListCustomersLast.size() >= 1
+						&& jsReturn.getListDatas().size() == mListCustomersLast
+						.size()) {
+					List<CustomerItem> thisCustomerItems = jsReturn.getListDatas();
+					for (int i = 0; i < thisCustomerItems.size(); i++) {
+						CustomerItem lastCustomerItem = mListCustomersLast.get(i);
+						CustomerItem thisCustomerItem = thisCustomerItems.get(i);
+						if (!lastCustomerItem.getName().equals(
+								thisCustomerItem.getName())) {
+							isTheSame = false;
+							break;
+						}
 					}
 				}
-			}
-			if (isTheSame) {
+				if (isTheSame) {
+					if (mPageIndex == 1) {
+						// 刷新失败
+						mHander.sendEmptyMessage(R.id.FINISH_REFRESH);
+					} else {
+						// 加载更多失败
+						mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
+					}
+				} else {
+					if (jsReturn.getParams().getIsAppend()) {
+						mListCustomers.addAll(jsReturn.getListDatas());
+					} else {
+						mListCustomers = jsReturn.getListDatas();
+					}
+					mHander.sendEmptyMessage(R.id.FINISH_LOAD_ALL_DATA);
+					if (mPageIndex == 1) {
+						// 刷新
+						mHander.sendEmptyMessageDelayed(R.id.FINISH_REFRESH, 500);
+					} else {
+						// 加载更多
+						Message msg = mHander.obtainMessage();
+						msg.arg1 = -1;
+						msg.what = R.id.FINISH_LOAD_MORE;
+						if (jsReturn.getListDatas() == null
+								|| jsReturn.getListDatas().size() == 0) {
+							msg.arg1 = 0;
+						} else {
+							msg.arg1 = jsReturn.getListDatas().size();
+						}
+						mHander.sendMessageDelayed(msg, 500);
+					}
+				}
+			} else {
 				if (mPageIndex == 1) {
 					// 刷新失败
 					mHander.sendEmptyMessage(R.id.FINISH_REFRESH);
 				} else {
 					// 加载更多失败
 					mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
+					mPageIndex--;
 				}
-			} else {
-
-				if (jsReturn.getParams().getIsAppend()) {
-					mListCustomers.addAll(jsReturn.getListDatas());
-				} else {
-					mListCustomers = jsReturn.getListDatas();
-				}
-				mHander.sendEmptyMessage(R.id.FINISH_LOAD_ALL_DATA);
-				if (mPageIndex == 1) {
-					// 刷新
-					mHander.sendEmptyMessageDelayed(R.id.FINISH_REFRESH, 500);
-				} else {
-					// 加载更多
-					Message msg = mHander.obtainMessage();
-					msg.arg1 = -1;
-					msg.what = R.id.FINISH_LOAD_MORE;
-					if (jsReturn.getListDatas() == null
-							|| jsReturn.getListDatas().size() == 0) {
-						msg.arg1 = 0;
-					} else {
-						msg.arg1 = jsReturn.getListDatas().size();
-					}
-					mHander.sendMessageDelayed(msg, 500);
-
-				}
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
-		} else {
-			if (mPageIndex == 1) {
-				// 刷新失败
-				mHander.sendEmptyMessage(R.id.FINISH_REFRESH);
-			} else {
-				// 加载更多失败
-				mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
-				mPageIndex--;
+			isLoading = false;
+		}else if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT)) {
+			JSReturn jReturn = MethodsJson.jsonToJsReturn((String) data,
+					EstateSearchItem.class);
+			if(jReturn.isSuccess()){
+				if(jReturn.getListDatas().size()>0){
+					mSearchListData = jReturn.getListDatas();
+					SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+					mListView.setAdapter(mSearch);
+				}else{
+//					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
+					//抱歉没有搜索到该房源
+				}
+			}else{
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
-			MethodsExtra.toast(mContext, jsReturn.getMsg());
+
 		}
-		isLoading = false;
 	}
 
 	private void showMenuDialog() {
@@ -371,5 +350,87 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				.findViewById(R.id.ll_add_customer);
 		ll_search_customer.setOnClickListener(this);
 		ll_add_customer.setOnClickListener(this);
+	}
+
+	private ListView mListView;
+	private ListView mLvHostory;
+	public static EditText mEtSearch;
+	private List<String> mHistorySearch;
+	private void showSearchDialog() {
+		mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
+		mSearchDialog.setContentView(R.layout.dialog_search_house_manage);
+		Window win = mSearchDialog.getWindow();
+		win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		win.setGravity(Gravity.TOP);
+		mSearchDialog.setCanceledOnTouchOutside(true);
+		mListView = (ListView) mSearchDialog.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
+		SearchAdapter mSearch = new SearchAdapter(mContext,
+				new ArrayList<EstateSearchItem>());
+		mListView.setAdapter(mSearch);
+
+		mEtSearch = (EditText) mSearchDialog
+				.findViewById(R.id.et_search_dialogSearchHouseManage);
+		Button mBtnSearch = (Button) mSearchDialog
+				.findViewById(R.id.btn_search_dialogSearchHouseManage);
+		TextView mTvAround = (TextView) mSearchDialog
+				.findViewById(R.id.tv_around_dialogSearchHouseManage);
+		mLvHostory = (ListView) mSearchDialog
+				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
+		Button mBtnClean = (Button) mSearchDialog
+				.findViewById(R.id.btn_close_dialogSearchHouseManage);
+		mBtnSearch.setOnClickListener(this);
+		mTvAround.setOnClickListener(this);
+		mBtnClean.setOnClickListener(this);
+		// 根据mEtSearch得到的字符串去请求
+
+		mEtSearch.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,int arg3) {
+				Log.d("on text changed", "true");
+			}
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,int arg2, int arg3) {
+				Log.d("before text changed", "true");
+			}
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				searchHouse(arg0.toString().trim());
+			}
+		});
+
+		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+									long arg3) {
+				String custCode = mSearchListData.get(arg2).getCustCode();
+				String reqparm = CST_JS.getJsonStringForCustomerList((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
+						: CST_JS.JS_CustomerList_Type_Public),custCode, 1, 20);
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+                        CST_JS.JS_Function_CustomerList_getList, reqparm);
+				mSearchDialog.dismiss();
+				showDialog();
+			}
+
+		});
+		// 然后填充入listView
+		if (mHistorySearch != null) {
+			mLvHostory.setVisibility(View.VISIBLE);
+		}
+		mSearchDialog.show();
+	}
+	private void searchHouse(String editString) {
+		mLvHostory.setVisibility(View.GONE);
+		if(editString==null||editString.length()<=0){
+		}else{
+			// 在打字期间添加搜索栏数据
+			String reqparm = CST_JS
+					.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
+							: CST_JS.JS_CustomerList_Type_Public),editString, 1, 20);
+			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
+					CST_JS.JS_Function_CustListMobile_Serarch, reqparm);
+			mLvHostory.setVisibility(View.VISIBLE);
+		}
 	}
 }

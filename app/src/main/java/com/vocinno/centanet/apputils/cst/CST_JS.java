@@ -74,6 +74,7 @@ public final class CST_JS {
 	public static String JS_CommonParam_Page = "page";
 	public static String JS_CommonParam_Pagesize = "pageSize";
 	public static String JS_CommonParam_Type = "type";
+	public static String JS_CommonParam_CustCode = "custCode";
 	public static String JS_CommonParam_ReqType = "reqType";
 	public static String jS_CommonParam_Name = "name";
 	public static String jS_CommonParam_Content = "content";
@@ -165,6 +166,16 @@ public final class CST_JS {
 	private static String zOrS="";
 	public static void setZOrS(String param){
 		zOrS=param;
+	}
+	public static String getJsonStringForKeYuanGuanJianZi(String type,String name,int page,int pagesize) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_CommonParam_Type, type);
+		jsonObject.addProperty(jS_CommonParam_Name, name);
+		jsonObject.addProperty(JS_CommonParam_Page, page);
+		jsonObject.addProperty(JS_CommonParam_Pagesize,
+				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
 	}
 	public static String getJsonStringForHouseListGetList(String type,
 														  String price, String square, String frame, String tag,
@@ -434,6 +445,18 @@ public final class CST_JS {
 		return jsonObject.toString();
 	}
 	//回传查询
+	public static String getJsonStringForCustomerList(String type,String custCode, int page,
+													  int pagesize) {
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(JS_CommonParam_Type, type);
+		jsonObject.addProperty(JS_CommonParam_CustCode, custCode);
+		jsonObject.addProperty(JS_CommonParam_Page, page);
+		jsonObject.addProperty(JS_CommonParam_Pagesize,
+				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
+	}
+	//回传查询
 	public static String getJsonStringForCustomerList(String type, int page,
 													  int pagesize,String sOrZ) {
 		JsonObject jsonObject = new JsonObject();
@@ -475,6 +498,10 @@ public final class CST_JS {
 	}
 
 	// Function >>>>>>>>>>>>>>>>>>>>>>
+	//关键字搜索客源
+	public static String JS_Function_CustListMobile_Serarch = "custListMobileSerarch";
+	public static String NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT = "notify_native_search_item_customer_result";
+
 	public static String JS_Function_CustomerList_addCustomer = "addCustomer";
 
 	// 请求参数name phone qq wechat reqType(rent or buy) area acreage price other

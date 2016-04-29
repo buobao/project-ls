@@ -1,6 +1,5 @@
 package com.vocinno.centanet.housemanage;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,12 +15,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -45,6 +41,7 @@ import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
+import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.EstateSearchItem;
@@ -943,8 +940,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         mBtnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-//				mEtSearch.setText("");
-                mLvHostory.setVisibility(View.GONE);
+				mEtSearch.setText("");
+                mLvHostory.setVisibility(View.INVISIBLE);
             }
         });
         // 根据mEtSearch得到的字符串去请求
@@ -1272,58 +1269,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
 
 
-
-    public class SearchAdapter extends BaseAdapter {
-
-        private Activity mContext;
-        private List<EstateSearchItem> mListTexts;
-
-        public SearchAdapter(Activity context, List<EstateSearchItem> listTexts) {
-            mContext = context;
-            mListTexts = listTexts;
-        }
-
-        @Override
-        public int getCount() {
-            return mListTexts.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mListTexts.get(position);
-        }
-
-        public List<EstateSearchItem> getListData() {
-            return mListTexts;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            SearchHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(mContext).inflate(
-                        R.layout.listitem_search_house_manage_dialog, null);
-                holder = new SearchHolder();
-                holder.mTvSearchText = (TextView) convertView
-                        .findViewById(R.id.tv_text_listitemSearchHouseManageDialog);
-                convertView.setTag(holder);
-            } else {
-                holder = (SearchHolder) convertView.getTag();
-            }
-            holder.mTvSearchText.setText(mListTexts.get(position)
-                    .getSearchName());
-            return convertView;
-        }
-
-        class SearchHolder {
-            TextView mTvSearchText;
-        }
-    }
 
     public void onBack() {
 

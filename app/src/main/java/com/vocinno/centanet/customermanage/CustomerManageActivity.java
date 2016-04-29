@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -398,11 +397,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		mEtSearch.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2,int arg3) {
-				Log.d("on text changed", "true");
 			}
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,int arg2, int arg3) {
-				Log.d("before text changed", "true");
 			}
 			@Override
 			public void afterTextChanged(Editable arg0) {
@@ -438,9 +435,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 //			mListView.setAdapter(mSearch);
 		}else{
 			// 在打字期间添加搜索栏数据
-			String reqparm = CST_JS
-					.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-							: CST_JS.JS_CustomerList_Type_Public),editString, 1, 20);
+			String reqparm = CST_JS.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My:CST_JS.JS_CustomerList_Type_Public),editString, 1, 20);
 			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 					CST_JS.JS_Function_CustListMobile_Serarch, reqparm);
 			mLvHostory.setVisibility(View.VISIBLE);

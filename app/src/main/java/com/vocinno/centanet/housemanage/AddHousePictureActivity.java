@@ -425,7 +425,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			final List<String> descriptionList2 = descriptionList;
 			for (int i = 0; i < list.size(); i++) {
 				final int index = i;
-//				MethodsFile.yasuoimg(this, list.get(i));
+//				String result = MethodsFile.getSmallBitmap(list.get(i));
 				String result = MethodsFile.uploadFile(getString(R.string.serverurl), list.get(i));
 				Log.d("wan", "wanggsx uploadFile " + i + " resut=" + result);
 				JSReturn jsReturn = null;

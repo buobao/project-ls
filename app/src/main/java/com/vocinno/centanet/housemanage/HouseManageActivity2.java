@@ -286,8 +286,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                         gongFangOrHouseTitle(position);
                         if(position==2){
                             mScrollTagView.setVisibility(View.GONE);
+                            mViewMore.setVisibility(View.INVISIBLE);
                         }else{
                             mScrollTagView.setVisibility(View.VISIBLE);
+                            mViewMore.setVisibility(View.VISIBLE);
                         }
                         switch (position){
                             case HouseListBaseFragment.NEAR_SELL:
@@ -354,6 +356,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
         if(viewPageIndex==2){
             mScrollTagView.setVisibility(View.GONE);
+            mViewMore.setVisibility(View.INVISIBLE);
         }
         addNotificationObserver();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);

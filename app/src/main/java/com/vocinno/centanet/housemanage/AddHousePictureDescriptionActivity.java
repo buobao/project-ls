@@ -1,37 +1,22 @@
 package com.vocinno.centanet.housemanage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.ImageUtil;
-import com.vocinno.centanet.apputils.SuperActivity;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Display;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.SuperActivity;
+import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
+import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsFile;
 
 public class AddHousePictureDescriptionActivity extends SuperActivity {
     private View mViewBack;
@@ -41,8 +26,8 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
     private TextView  tv_time;
     private ImageView  mImgHouseImage;
     private Bitmap mNewBitmap;
-    private LinearLayout ll_delete_img;
-    private String path;
+    private MyTextView tv_delete_img,tv_save_img;
+    private String path,newPath;
     private ImageView mSubmit;
     private Intent intent;
 
@@ -92,6 +77,7 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
         return inSampleSize;
     }
     public void setImg(String path,ImageView imageView) {
+        newPath=MethodsFile.getSmallBitmap(path);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;        // 获取这个图片的宽和高
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
@@ -118,8 +104,10 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
         MethodsExtra.findHeadTitle1(mContext, mRootView,
                 R.string.house_image_detail, null);
         mViewBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
-        ll_delete_img = (LinearLayout) findViewById(R.id.ll_delete_img);
-        ll_delete_img.setOnClickListener(this);
+        tv_delete_img = (MyTextView) findViewById(R.id.tv_delete_img);
+        tv_delete_img.setOnClickListener(this);
+        tv_save_img = (MyTextView) findViewById(R.id.tv_save_img);
+        tv_save_img.setOnClickListener(this);
         mImgHouseImage = (ImageView) findViewById(R.id.img_houseDetailPic_AddHouseImageDetailActivity);
 //        mImgHouseImage.setImageBitmap(bitmap2);
         setImg(path,mImgHouseImage);
@@ -136,16 +124,22 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_delete_img:
+            case R.id.tv_delete_img:
                 //MethodsDeliverData.mListImagePath.add(path);
                 onBack();
+            case R.id.tv_save_img:
+                showDialog();
+                intent.putExtra("path", newPath);
+                this.setResult(102, intent);
+                this.finish();
+                dismissDialog();
                 break;
             case R.id.img_right_mhead1:
             /*MethodsDeliverData.mListImagePath.add(path);
 			MethodsDeliverData.mListImages.add(path);*/
                 showDialog();
                 Intent intent = new Intent();
-                intent.putExtra("path", path);
+                intent.putExtra("path", newPath);
                 this.setResult(102, intent);
                 this.finish();
                 dismissDialog();

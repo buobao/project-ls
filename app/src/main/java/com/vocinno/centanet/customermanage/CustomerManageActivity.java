@@ -110,9 +110,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					R.string.customertitle, null);
 			// 添加通知
 			MethodsJni.addNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
 			MethodsJni.addNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
 		}
 
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
@@ -195,9 +195,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		}else{
 			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
 			MethodsJni.removeNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
 		}
 	}
 	// 调用数据

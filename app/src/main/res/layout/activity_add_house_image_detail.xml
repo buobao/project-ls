@@ -35,14 +35,28 @@
             android:background="@color/white"
             android:gravity="center"
             >
-
-            <TextView
-                android:layout_width="wrap_content"
+            <com.vocinno.centanet.apputils.selfdefineview.MyTextView
+                android:id="@+id/tv_delete_img"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/work_icon_delete"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="删除"
+                />
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/gray_text_login_input"
+                />
+            <com.vocinno.centanet.apputils.selfdefineview.MyTextView
+                android:id="@+id/tv_save_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/work_icon_done"
+                android:gravity="center_vertical"
+                android:text="完成"
                 />
         </LinearLayout>
     </LinearLayout>

@@ -390,7 +390,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		Button mBtnClean = (Button) mSearchDialog
 				.findViewById(R.id.btn_close_dialogSearchHouseManage);
 		mBtnSearch.setOnClickListener(this);
-		mTvAround.setOnClickListener(this);
+		mTvAround.setText("");
 		mBtnClean.setOnClickListener(this);
 		// 根据mEtSearch得到的字符串去请求
 

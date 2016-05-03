@@ -370,8 +370,6 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         searchType = "";
     }
 
-    ;
-
     @Override
     public void onRefresh() {
         resetSearch();

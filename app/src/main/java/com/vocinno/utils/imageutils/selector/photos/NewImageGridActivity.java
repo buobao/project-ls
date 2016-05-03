@@ -10,6 +10,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.AddHousePictureDescriptionActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.imageutils.selector.photos.NewImageGridAdapter.TextCallback;
 
 import android.app.Activity;
@@ -95,12 +96,14 @@ public class NewImageGridActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 //				mDialog.show();
+				showDialog();
 				ArrayList<String> list = new ArrayList<String>();
 				Collection<String> c = adapter.map.values();
 				Iterator<String> it = c.iterator();
 				for (; it.hasNext();) {
-					list.add(it.next());
+					list.add(MethodsFile.getSmallBitmap(it.next()));
 				}
+				dismissDialog();
 				Intent intent=new Intent();
 				intent.putStringArrayListExtra("pathList", list);
 				setResult(RESULT_OK,intent);

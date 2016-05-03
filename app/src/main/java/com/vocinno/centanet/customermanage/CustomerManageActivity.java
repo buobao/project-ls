@@ -389,7 +389,11 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		Button mBtnClean = (Button) mSearchDialog
 				.findViewById(R.id.btn_close_dialogSearchHouseManage);
-		mBtnSearch.setOnClickListener(this);
+		mBtnSearch.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				searchKeYuan(mEtSearch.getText().toString().trim());
+			}
+		});
 		mTvAround.setText("");
 		mBtnClean.setOnClickListener(this);
 		// 根据mEtSearch得到的字符串去请求

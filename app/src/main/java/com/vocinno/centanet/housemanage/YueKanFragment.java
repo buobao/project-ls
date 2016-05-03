@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -257,7 +258,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
             } else {
 //                itemList2.add(item1);
                 if(otherMap==null){
-                    otherMap=new HashMap<String,List>();
+                    otherMap=new LinkedHashMap<String,List>();
                 }
                 if(otherMap.containsKey(item1.getLookplan_date())){
                     otherMap.get(item1.getLookplan_date()).add(item1);

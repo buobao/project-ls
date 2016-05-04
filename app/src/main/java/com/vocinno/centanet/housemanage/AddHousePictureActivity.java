@@ -109,7 +109,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 					case UPLOAD_COMPLETED:
-					showDialog();
+//					showDialog();
 					mHasUploadSuccess = true;
 //					MethodsExtra.toast(mContext, "图片上传成功");
 					String miaoShu=et_miaoshu.getText().toString();//描述
@@ -122,6 +122,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_uploadImages,
 							teString);
+						break;
 				case UPLOAD_PIC_FAIL:
 					dismissDialog();
 					if (!mHasUploadSuccess) {
@@ -750,8 +751,8 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 					}
 				});
 			}else{
-				myDialog.setMessage("图片上传失败 是否继续上传?");
-//				myDialog.setMessage(jReturn.getMsg());
+				MethodsExtra.toast(mContext,jReturn.getMsg());
+				/*myDialog.setMessage("图片上传失败 是否继续上传?");
 				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -765,7 +766,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
 					}
-				});
+				});*/
 			}
 			myDialog.create().show();
 		}

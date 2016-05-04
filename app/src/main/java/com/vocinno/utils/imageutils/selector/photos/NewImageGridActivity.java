@@ -92,7 +92,6 @@ public class NewImageGridActivity extends Activity {
 		initView();
 		bt = (TextView) findViewById(R.id.bt_nextImage_NewImageGridActivity);
 		bt.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 //				mDialog.show();
@@ -173,7 +172,7 @@ public class NewImageGridActivity extends Activity {
 	}*/
 	public void showDialog(){
 		if(this.modelDialog==null){
-			this.modelDialog= ModelDialog.getModelDialog(this);
+			this.modelDialog=ModelDialog.getModelDialog(this);
 		}
 		this.modelDialog.show();
 	}

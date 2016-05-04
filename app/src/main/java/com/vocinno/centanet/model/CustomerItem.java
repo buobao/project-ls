@@ -4,13 +4,24 @@ public class CustomerItem {
 	private String custCode = ""; //客户编号
 	private String name ="";	 //姓名
 	private String reqType = "";	 //需求类型
+	public static final String GOU="20037001";
+	public static final String ZU="20037002";
 	private String area = "";	 //区域
 	private String acreage = "";	 //面积
 	private String price = "";	 //价格区间
 	private String other = "";	 //其他
 	private String relativeDate = "";//相对日期
 	private String frame = "";	 //户型
-	
+	private String custReqType = "";
+
+	public String getCustReqType() {
+		return custReqType;
+	}
+
+	public void setCustReqType(String custReqType) {
+		this.custReqType = custReqType;
+	}
+
 	public String getCustCode() {
 		return custCode;
 	}

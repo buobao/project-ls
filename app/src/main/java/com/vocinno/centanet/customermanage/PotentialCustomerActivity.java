@@ -179,6 +179,10 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, MessageListActivity.class);
 				break;*/
+            case R.id.btn_close_dialogSearchHouseManage:
+                mEtSearch.setText("");
+                mLvHostory.setVisibility(View.INVISIBLE);
+                break;
             default:
                 break;
         }
@@ -263,13 +267,16 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
             JSReturn jReturn = MethodsJson.jsonToJsReturn((String) data,
                     EstateSearchItem.class);
             if(jReturn.isSuccess()){
-                if(jReturn.getListDatas().size()>0){
-                    mSearchListData = jReturn.getListDatas();
-                    mSearch.setList(mSearchListData);
-                    mListView.setAdapter(mSearch);
-                }else{
+                if(jReturn.getListDatas()!=null){
+                    if(jReturn.getListDatas().size()>0){
+                        mSearchListData = jReturn.getListDatas();
+                        mSearch.setList(mSearchListData);
+                        mSearch.notifyDataSetChanged();
+//                    mListView.setAdapter(mSearch);
+                    }else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
-                    //抱歉没有搜索到该房源
+                        //抱歉没有搜索到该房源
+                    }
                 }
             }else{
                 MethodsExtra.toast(mContext, jsReturn.getMsg());
@@ -329,7 +336,7 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
                 searchKeYuan(mEtSearch.getText().toString().trim());
             }
         });
-        mTvAround.setOnClickListener(this);
+        mTvAround.setText("");
         mBtnClean.setOnClickListener(this);
         // 根据mEtSearch得到的字符串去请求
 

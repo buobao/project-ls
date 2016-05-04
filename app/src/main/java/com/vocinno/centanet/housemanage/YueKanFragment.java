@@ -284,7 +284,11 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
             public int compare(Object lhs, Object rhs) {
                 HouseItem item1 = (HouseItem) lhs;
                 HouseItem item2 = (HouseItem) rhs;
-                return item1.getLookplan_starttime().compareTo(item2.getLookplan_starttime());
+                int i=item1.getLookplan_starttime().compareTo(item2.getLookplan_starttime());
+                if(i==0){
+                    return item1.getLookplan_endtime().compareTo(item2.getLookplan_endtime());
+                }
+                return i;
             }
         });
     }

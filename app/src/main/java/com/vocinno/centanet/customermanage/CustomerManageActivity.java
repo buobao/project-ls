@@ -324,13 +324,16 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			JSReturn jReturn = MethodsJson.jsonToJsReturn((String) data,
 					EstateSearchItem.class);
 			if(jReturn.isSuccess()){
-				if(jReturn.getListDatas().size()>0){
-					mSearchListData = jReturn.getListDatas();
-					mSearch.setList(mSearchListData);
-					mListView.setAdapter(mSearch);
-				}else{
+				if(jReturn.getListDatas()!=null){
+					if(jReturn.getListDatas().size()>0){
+						mSearchListData = jReturn.getListDatas();
+						mSearch.setList(mSearchListData);
+						mSearch.notifyDataSetChanged();
+//					mListView.setAdapter(mSearch);
+					}else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
-					//抱歉没有搜索到该房源
+						//抱歉没有搜索到该房源
+					}
 				}
 			}else{
 				MethodsExtra.toast(mContext, jsReturn.getMsg());

@@ -69,7 +69,7 @@
             android:layout_below="@+id/llyt_search_dialogSearchHouseManage"
             android:layout_margin="6dp"
             android:gravity="center_vertical|left"
-            tools:text="附近.."
+            android:text="附近.."
             android:textColor="#AEAEAE" />
 
         <ListView

@@ -69,6 +69,8 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 					R.layout.item_potential_custormer_listview, null);
 			holder.mTvCustormerId = (TextView) convertView
 					.findViewById(R.id.tv_custormerId_customerManageListItem);
+			holder.mTvDemandType = (TextView) convertView
+					.findViewById(R.id.tv_demandType_customer);
 			holder.mTvHuXing = (TextView) convertView
 					.findViewById(R.id.tv_houseDetail_huxing);
 			holder.mTvCustormerName = (TextView) convertView
@@ -86,6 +88,16 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final CustomerItem item = mListCustomers.get(position);
+		holder.mTvDemandType.setVisibility(View.VISIBLE);
+		if(CustomerItem.ZU.equals(item.getReqType())){
+			holder.mTvDemandType.setText("求租");
+			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_zu));
+		}else if(CustomerItem.GOU.equals(item.getReqType())){
+			holder.mTvDemandType.setText("求购");
+			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_gou));
+		}else{
+			holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
+		}
 		// 客源编号
 		holder.mTvCustormerId.setText(item.getCustCode());
 		// 姓名
@@ -112,6 +124,7 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 
 	public class ViewHolder {
 		TextView mTvCustormerId;
+		TextView mTvDemandType;
 		TextView mTvHuXing;
 		TextView mTvCustormerName;
 		TextView mTvDemandDetail;

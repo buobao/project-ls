@@ -851,13 +851,15 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
                     EstateSearchItem.class);
             if(jsReturn.isSuccess()){
-                if(jsReturn.getListDatas().size()>0){
-                    mSearchListData = jsReturn.getListDatas();
-                    SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
-                    mListView.setAdapter(mSearch);
-                }else{
+                if(jsReturn.getListDatas()!=null){
+                    if(jsReturn.getListDatas().size()>0){
+                        mSearchListData = jsReturn.getListDatas();
+                        SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+                        mListView.setAdapter(mSearch);
+                    }else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
-                    //抱歉没有搜索到该房源
+                        //抱歉没有搜索到该房源
+                    }
                 }
             }else{
                 MethodsExtra.toast(mContext,jsReturn.getMsg());

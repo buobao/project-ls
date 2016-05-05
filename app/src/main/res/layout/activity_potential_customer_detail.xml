@@ -204,12 +204,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:background="#D1D1D1" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
+                android:visibility="gone"
                 android:background="@color/white" >
 
                 <TextView

@@ -10,8 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerDetailActivity;
 import com.vocinno.centanet.model.CustomerItem;
 
 import java.util.List;
@@ -114,7 +114,7 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent=new Intent(mContext,MyCustomerDetailActivity.class);
+				Intent intent=new Intent(mContext,PotentialCustomerDetailActivity.class);
 				intent.putExtra("custCode",item.getCustCode());
 				mContext.startActivityForResult(intent,10);
 			}

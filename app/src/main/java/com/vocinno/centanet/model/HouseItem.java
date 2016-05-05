@@ -33,7 +33,7 @@ public class HouseItem {
 	private String lookplan_endtime ;//  结束时间
 	private String lookplan_date  ;//约看日期
 	private String lookplan_custcode;//
-
+	private List<LookPlanInfo>lookplaninfo= new ArrayList<LookPlanInfo>();
 
 	// private Image prieviewImg = new Image();
 	public String getDelegationType() {
@@ -50,6 +50,14 @@ public class HouseItem {
 
 	public void setIsHD(int isHD) {
 		this.isHD = isHD;
+	}
+
+	public List<LookPlanInfo> getLookInfo() {
+		return lookplaninfo;
+	}
+
+	public void setLookInfo(List<LookPlanInfo>lookInfo) {
+		this.lookplaninfo = lookInfo;
 	}
 
 	public String getDelCode() {
@@ -243,5 +251,4 @@ public class HouseItem {
 	public void setKeyCount(String keyCount) {
 		this.keyCount = keyCount;
 	}
-
 }

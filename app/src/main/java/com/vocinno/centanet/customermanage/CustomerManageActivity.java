@@ -411,7 +411,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			}
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				searchKeYuan(arg0.toString().trim());
+//				searchKeYuan(arg0.toString().trim());
 			}
 		});
 
@@ -446,7 +446,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			String paramType="text";
 			if(MethodsExtra.isNumeric(editString.toString().trim())){
 				paramType="character";
-				if(editString.toString().trim().length()<11){
+				if(!MethodsExtra.isMobileNO(editString.toString().trim())){
+					MethodsExtra.toast(mContext,"请输入正确的手机号码");
 					return;
 				}
 			}else{

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.Vector;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
@@ -1096,5 +1097,13 @@ public final class MethodsExtra {
 	public static boolean isNumeric(String str){
 		Pattern pattern = Pattern.compile("[0-9]*");
 		return pattern.matcher(str).matches();
+	}
+	public static boolean isMobileNO(String mobiles) {
+		if(mobiles!=null){
+			Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(17[0,7]))\\d{8}$");
+			Matcher m = p.matcher(mobiles);
+			return m.matches();
+		}
+		return false;
 	}
 }

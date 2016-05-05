@@ -1,6 +1,7 @@
 package com.vocinno.centanet.housemanage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -171,6 +172,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                     tv_yuekan_date = (TextView) viewItem.findViewById(R.id.tv_yuekan_date);
                     ll_yuekan_item = (LinearLayout) viewItem.findViewById(R.id.ll_yuekan_item);
                     tv_yuekan_date.setText("今天");
+                    tv_yuekan_date.setTextColor(Color.RED);
                     ll_yuekan_layout.addView(viewItem, viewItemIndex);
                     viewItemIndex++;
                 }

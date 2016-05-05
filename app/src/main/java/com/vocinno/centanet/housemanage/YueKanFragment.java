@@ -1,5 +1,6 @@
 package com.vocinno.centanet.housemanage;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -35,7 +36,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+@SuppressLint("ValidFragment")
 public class YueKanFragment extends HouseListBaseFragment implements HttpInterface {
     private List<HouseItem> listHouses;
     private boolean firstLoading = true;
@@ -64,7 +65,8 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         getDataInterface = getData;
         this.viewPosition = position;
     }
-
+    public YueKanFragment() {
+    }
     @Override
     public void addNotification() {
         TAG = this.getClass().getName();

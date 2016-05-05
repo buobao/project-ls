@@ -1,5 +1,6 @@
 package com.vocinno.centanet.housemanage;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
@@ -16,7 +17,7 @@ import com.vocinno.utils.MethodsJson;
 
 import java.util.List;
 
-
+@SuppressLint("ValidFragment")
 public class NearSellFragment extends HouseListBaseFragment implements HttpInterface {
 //    private static String TAG = null;
     private List<HouseItem> listHouses;
@@ -31,7 +32,8 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         getDataInterface=getData;
         this.viewPosition=position;
     }
-
+    public NearSellFragment() {
+    }
     @Override
     public void initView() {
         if(HouseListBaseFragment.NEAR_SELL==viewPosition){

@@ -1,5 +1,6 @@
 package com.vocinno.centanet.housemanage;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
@@ -17,7 +18,7 @@ import com.vocinno.utils.MethodsJson;
 import org.unify.helper.CELibHelper;
 
 import java.util.List;
-
+@SuppressLint("ValidFragment")
 public class MyRentFragment extends HouseListBaseFragment implements HttpInterface {
 
     private List<HouseItem> listHouses;
@@ -33,6 +34,8 @@ public class MyRentFragment extends HouseListBaseFragment implements HttpInterfa
 
             initData();
         }
+    }
+    public MyRentFragment() {
     }
     public MyRentFragment(GetDataInterface getData,int position) {
         getDataInterface=getData;

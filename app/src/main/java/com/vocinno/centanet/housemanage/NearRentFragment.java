@@ -1,5 +1,6 @@
 package com.vocinno.centanet.housemanage;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
@@ -14,7 +15,7 @@ import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsJson;
 
 import java.util.List;
-
+@SuppressLint("ValidFragment")
 public class NearRentFragment extends HouseListBaseFragment implements HttpInterface {
 //    private static String TAG = null;
     @Override
@@ -30,6 +31,8 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     public NearRentFragment(GetDataInterface getData,int position) {
         getDataInterface=getData;
         this.viewPosition=position;
+    }
+    public NearRentFragment() {
     }
     @Override
     public void addNotification() {

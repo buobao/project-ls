@@ -164,9 +164,11 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			case R.id.imgView_addTrack_customerDetailActivity:
 				MethodsDeliverData.string = mCusterCode;
 				// listTracks
-				intent.setClass(mContext,
-						AddFollowInCustomerActivity.class);
-				MethodsExtra.startActivityForResult(mContext,10,intent);
+				intent.setClass(mContext,AddFollowInCustomerActivity.class);
+				intent.putExtra("custCode", mCusterCode);
+				startActivity(intent);
+				finish();
+//				MethodsExtra.startActivityForResult(mContext,10,intent);
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;

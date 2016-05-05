@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.utils.MethodsExtra;
@@ -34,7 +33,6 @@ import java.util.regex.Pattern;
 @SuppressLint("CutPasteId")
 public class AddPotentialActivity extends OtherBaseActivity {
 	private Map<String, String> mapPianQu = new HashMap<String, String>();
-	private ModelDialog modelDialog;
 	private static enum ConnectionType {
 		none, connTel, connQQ, connWeixin
 	};
@@ -43,7 +41,6 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	private EditText et_name_addqianke,tv_tel_addqianke;
 	private EditText /*mEtConnectionNumber, */mEtCustormerName, mEtOtherInfo;
 
-	private String mStrQQ, mStrTel, mStrWeixin;
 	private ConnectionType mCurrConnType = ConnectionType.none;
 
 	@Override
@@ -149,14 +146,10 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				}
 				showDialog();
 				// 上传数据
-				/*String strJson = CST_JS.getJsonStringForAddCustomer(
-						tv_tel_addqianke.getText().toString(), mStrTel, mStrQQ,
-						mStrWeixin, reqType,
-						mapPianQu.get(mTvCustormerPianqu.getText().toString()),
-						mTvCustormerArea.getText().toString().replace("平米", ""),
-						price, mEtOtherInfo.getText().toString());*/
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-						CST_JS.JS_Function_CustomerList_addCustomer, "strJson");
+				String strJson = CST_JS.getJsonStringForAddCustomer(et_name_addqianke.getText().toString().toString(),
+						tv_tel_addqianke.getText().toString(),mEtOtherInfo.getText().toString());
+				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
+						CST_JS.JS_Function_CustomerList_addCustomer, strJson);
 				break;
 			default:
 				break;
@@ -196,10 +189,8 @@ public class AddPotentialActivity extends OtherBaseActivity {
 		boolean isFinish = true;
 		if (tv_tel_addqianke.getText() == null || tv_tel_addqianke.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mStrTel == null) {
-			isFinish = false;
 		}
-		if(!(isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel))) {
+		if(!(isMobileNO("") || TextUtils.isEmpty(""))) {
 			isFinish = false;
 		}
 		if (isFinish) {
@@ -228,7 +219,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 
 	}
 	public void setLoseFocus(){
-		if(isMobileNO(mStrTel) && !TextUtils.isEmpty(mStrTel)){
+		if(isMobileNO("") && !TextUtils.isEmpty("")){
 			if(tv_tel_addqianke.isFocusable()){
 				tv_tel_addqianke.setFocusable(false);
 			}

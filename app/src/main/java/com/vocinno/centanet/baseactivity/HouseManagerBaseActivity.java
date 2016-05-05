@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.myinterface.HttpInterface;
 
 public abstract class HouseManagerBaseActivity extends FragmentActivity implements View.OnClickListener {
     public Activity mContext = null;
@@ -21,6 +22,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     private DrawerLayout drawer_layout;
     private View leftMenuView;
     public Intent intent;
+    public HttpInterface hif;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -38,6 +40,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        hif=(HttpInterface)this;
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();
         int layoutId=setContentLayoutId();

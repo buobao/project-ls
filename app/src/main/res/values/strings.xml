@@ -82,6 +82,7 @@
     <string name="followin_look">带看跟进</string>
 
     <!-- 客源管理 -->
+    <string name="search_cust_hit">按姓名或手机号搜索</string>
     <string name="customermanage">客源管理</string>
     <string name="addcustomer">添加客户</string>
     <string name="add_potential_customer">添加潜客</string>

@@ -384,6 +384,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 
 		mEtSearch = (EditText) mSearchDialog
 				.findViewById(R.id.et_search_dialogSearchHouseManage);
+		mEtSearch.setHint(getText(R.string.search_cust_hit));
 		Button mBtnSearch = (Button) mSearchDialog
 				.findViewById(R.id.btn_search_dialogSearchHouseManage);
 		TextView mTvAround = (TextView) mSearchDialog
@@ -442,11 +443,14 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 //			mSearch.setList(null);
 //			mListView.setAdapter(mSearch);
 		}else{
-			mSearch.setColorText(editString.toString().trim());
 			String paramType="text";
 			if(MethodsExtra.isNumeric(editString.toString().trim())){
 				paramType="character";
+				if(editString.toString().trim().length()<11){
+					return;
+				}
 			}else{
+				mSearch.setColorText(editString.toString().trim());
 				paramType="text";
 			}
 			// 在打字期间添加搜索栏数据

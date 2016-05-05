@@ -5,11 +5,19 @@ public class EstateSearchItem {
 	private String name = "";
 	private String type = "";
 	private String custCode;
-
+	private String mpNo;
 	public int getSearchId(){
 		return id;
 	}
-	
+
+	public String getMpNo() {
+		return mpNo;
+	}
+
+	public void setMpNo(String mpNo) {
+		this.mpNo = mpNo;
+	}
+
 	public String getSearchType(){
 		return type;
 	}

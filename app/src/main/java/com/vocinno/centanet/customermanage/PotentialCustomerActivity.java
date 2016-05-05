@@ -381,9 +381,16 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
 //			mSearch.setList(null);
 //			mListView.setAdapter(mSearch);
         }else{
+            mSearch.setColorText(editString.toString().trim());
+            String paramType="text";
+            if(MethodsExtra.isNumeric(editString.toString().trim())){
+                paramType="character";
+            }else{
+                paramType="text";
+            }
             // 在打字期间添加搜索栏数据
             String reqparm = CST_JS
-                    .getJsonStringForKeYuanGuanJianZi(CST_JS.JS_CustomerList_Type_Mypotien,editString, 1, 20);
+                    .getJsonStringForKeYuanGuanJianZi(CST_JS.JS_CustomerList_Type_Mypotien,editString,paramType, 1, 20);
             MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
                     CST_JS.JS_Function_CustListMobile_Serarch, reqparm);
             mLvHostory.setVisibility(View.VISIBLE);

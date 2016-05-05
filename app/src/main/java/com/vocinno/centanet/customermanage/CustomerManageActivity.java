@@ -435,14 +435,22 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		}
 		mSearchDialog.show();
 	}
+
 	private void searchKeYuan(String editString) {
 		mLvHostory.setVisibility(View.INVISIBLE);
 		if(editString==null||editString.length()<=0){
 //			mSearch.setList(null);
 //			mListView.setAdapter(mSearch);
 		}else{
+			mSearch.setColorText(editString.toString().trim());
+			String paramType="text";
+			if(MethodsExtra.isNumeric(editString.toString().trim())){
+				paramType="character";
+			}else{
+				paramType="text";
+			}
 			// 在打字期间添加搜索栏数据
-			String reqparm = CST_JS.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My:CST_JS.JS_CustomerList_Type_Public),editString, 1, 20);
+			String reqparm = CST_JS.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My:CST_JS.JS_CustomerList_Type_Public),editString,paramType, 1, 20);
 			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 					CST_JS.JS_Function_CustListMobile_Serarch, reqparm);
 			mLvHostory.setVisibility(View.VISIBLE);

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -1091,5 +1092,9 @@ public final class MethodsExtra {
 			Date date) {
 		SmsManager.writeMessageInbox(ctxt, phone, content, type, typeUri,
 				isRead, date);
+	}
+	public static boolean isNumeric(String str){
+		Pattern pattern = Pattern.compile("[0-9]*");
+		return pattern.matcher(str).matches();
 	}
 }

@@ -77,6 +77,7 @@ public final class CST_JS {
 	public static String JS_CommonParam_CustCode = "custCode";
 	public static String JS_CommonParam_ReqType = "reqType";
 	public static String jS_CommonParam_Name = "name";
+	public static String jS_CommonParam_ParamType = "paramType";
 	public static String jS_CommonParam_Content = "content";
 	public static String jS_CommonParam_Att = "att";
 	public static String jS_CommonParam_Lat = "lat";
@@ -167,9 +168,10 @@ public final class CST_JS {
 	public static void setZOrS(String param){
 		zOrS=param;
 	}
-	public static String getJsonStringForKeYuanGuanJianZi(String type,String name,int page,int pagesize) {
+	public static String getJsonStringForKeYuanGuanJianZi(String type,String name,String paramType,int page,int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
+		jsonObject.addProperty(jS_CommonParam_ParamType, paramType);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
 		jsonObject.addProperty(JS_CommonParam_Pagesize,
 				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);

@@ -533,7 +533,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 WheelView mWheelView2 = (WheelView) findViewById(R.id.wheelview_second_modelFourWheelView);
                 WheelView mWheelView3 = (WheelView)findViewById(R.id.wheelview_third_modelFourWheelView);
                 WheelView mWheelView4 = (WheelView)findViewById(R.id.wheelview_forth_modelFourWheelView);
-
                 mFrame[viewPageIndex] = mWheelView1.getSelectedText() + "-"
                         + mWheelView2.getSelectedText() + "-"
                         + mWheelView3.getSelectedText() + "-"

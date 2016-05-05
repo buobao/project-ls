@@ -102,9 +102,9 @@ public class CustormerListAdapter extends BaseAdapter {
 		// 姓名
 		holder.mTvCustormerName.setText(item.getName());
 		// 需求类型
-		if(isGongKe){
+	/*	if(isGongKe){
 			holder.mTvDemandType.setVisibility(View.GONE);
-		}else{
+		}else{*/
 			holder.mTvDemandType.setVisibility(View.VISIBLE);
 			if(CustomerItem.ZU.equals(item.getReqType())){
 				holder.mTvDemandType.setText("求租");
@@ -115,7 +115,7 @@ public class CustormerListAdapter extends BaseAdapter {
 			}else{
 				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
 			}
-		}
+//		}
 		// 区域
 		holder.mTvDemandDetail.setText(item.getArea() );
 		holder.mTvHuXing.setText(item.getFrame());

@@ -925,7 +925,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         mSearchDialog.setCanceledOnTouchOutside(true);
         mListView = (ListView) mSearchDialog
                 .findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
-        SearchAdapter mSearch = new SearchAdapter(mContext,
+        final SearchAdapter mSearch = new SearchAdapter(mContext,
                 new ArrayList<EstateSearchItem>());
         mListView.setAdapter(mSearch);
 
@@ -945,6 +945,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             @Override
             public void onClick(View arg0) {
 				mEtSearch.setText("");
+                mSearch.setList(null);
+                mSearch.notifyDataSetChanged();
                 mLvHostory.setVisibility(View.INVISIBLE);
             }
         });

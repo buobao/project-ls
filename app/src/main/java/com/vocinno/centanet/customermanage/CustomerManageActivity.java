@@ -180,6 +180,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			break;
 		case R.id.btn_close_dialogSearchHouseManage:
 			mEtSearch.setText("");
+			mSearch.setList(null);
+			mSearch.notifyDataSetChanged();
 			mLvHostory.setVisibility(View.INVISIBLE);
 			break;
 		default:

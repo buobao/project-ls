@@ -182,6 +182,8 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
 				break;*/
             case R.id.btn_close_dialogSearchHouseManage:
                 mEtSearch.setText("");
+                mSearch.setList(null);
+                mSearch.notifyDataSetChanged();
                 mLvHostory.setVisibility(View.INVISIBLE);
                 break;
             default:

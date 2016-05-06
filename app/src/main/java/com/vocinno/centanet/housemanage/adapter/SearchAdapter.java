@@ -31,7 +31,7 @@ public class SearchAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return mListTexts.size();
+        return mListTexts==null?0:mListTexts.size();
     }
     public void setColorText(String str){
         colorText=str;

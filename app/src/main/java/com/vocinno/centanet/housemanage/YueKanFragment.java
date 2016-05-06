@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -234,6 +235,8 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         TextView tv_yuekan_dong = (TextView) viewEntry.findViewById(R.id.tv_yuekan_dong);
         TextView tv_yuekan_gaodi = (TextView) viewEntry.findViewById(R.id.tv_yuekan_gaodi);
         tv_yuekan_time.setText(MyUtils.dateFormat(item.getStarttime()) + "--" + MyUtils.dateFormat(item.getEndtime()));
+        TextPaint tp = tv_yuekan_time.getPaint();
+        tp.setFakeBoldText(true);
         tv_yuekan_name.setText(item.getPLAN_DIRECTION());
         tv_yuekan_custcode.setText(item.getCUST_CODE());
         ll_yuekan_kehu.setOnClickListener(new View.OnClickListener() {

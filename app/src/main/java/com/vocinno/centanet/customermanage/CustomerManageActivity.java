@@ -27,6 +27,7 @@ import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -393,8 +394,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		Button mBtnClean = (Button) mSearchDialog
 				.findViewById(R.id.btn_close_dialogSearchHouseManage);
-		mBtnSearch.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+		mBtnSearch.setOnClickListener(new NoDoubleClickListener() {
+			@Override
+			protected void onNoDoubleClick(View v) {
 				searchKeYuan(mEtSearch.getText().toString().trim());
 			}
 		});

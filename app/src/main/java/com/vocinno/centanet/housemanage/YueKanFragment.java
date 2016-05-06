@@ -123,7 +123,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         if (!isXListViewLoad) {
             showDialog();
         }
-        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page,
+        getDataInterface.getListData(2,"" + type, price, square, frame, tag, usageType, page,
                 pageSize, sidx, sord, searchId, searchType);
         /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
                 CST_JS.JS_Function_HouseResource_getList, CST_JS

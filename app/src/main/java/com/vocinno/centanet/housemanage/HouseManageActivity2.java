@@ -365,14 +365,16 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
 
     @Override
-    public void getListData(String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
-        if(methodsJni==null){
-            methodsJni=new MethodsJni();
+    public void getListData(int yueKan,String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
+        if(yueKan==2){
+            methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
+                    CST_JS.JS_Function_HouseResource_getList, CST_JS
+                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
+        }else{
+            methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
+                    CST_JS.JS_Function_HouseResource_getList, CST_JS
+                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
         }
-        methodsJni.setMethodsJni((HttpInterface) this);
-        methodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                CST_JS.JS_Function_HouseResource_getList, CST_JS
-                        .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

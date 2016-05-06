@@ -365,10 +365,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
 
     @Override
-    public void getListData(int yueKan,String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
-        if(yueKan==2){
+    public void getListData(String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
+        if((HouseType.YUE_KAN+"").equals(type)){
             methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
-                    CST_JS.JS_Function_HouseResource_getList, CST_JS
+                    CST_JS.JS_Function_HouseResource_houLookPlanListMobile, CST_JS
                             .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
         }else{
             methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,

@@ -145,6 +145,7 @@ public final class CST_JS {
 	public static String JS_HouseResource_url = "url";
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_HouseResource_getList = "getHouseList";
+	public static String JS_Function_HouseResource_houLookPlanListMobile = "houLookPlanListMobile";
 	public static String JS_Function_HouseResource_getShiHao = "doRoomview";
 	public static String JS_CommonParam_Heason = "reason";
 	public static String JS_CommonParam_HelCode = "delCode";

@@ -53,9 +53,8 @@
 
             <Button
                 android:id="@+id/btn_search_dialogSearchHouseManage"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/selector_search"
                 android:gravity="center"
                 android:layout_marginLeft="3dp"

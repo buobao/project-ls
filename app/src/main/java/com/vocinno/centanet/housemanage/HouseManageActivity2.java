@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.centanet.apputils.MyUtils;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
@@ -816,9 +816,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
         dismissDialog();
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
-                || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){
-            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-                    HouseList.class);
+                || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)||name.equals(CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT)){
+            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,HouseList.class);
             int type = Integer.parseInt(jsReturn.getParams().getType());
             if (jsReturn.isSuccess()) {
                 int dataType=jsReturn.getParams().getIsAppend()?1:0;
@@ -828,6 +827,9 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     break;
                     case HouseType.CHU_ZU:
                         nearRentFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
+                    case 0:
+                        yueKanFragment.setListData(dataType,jsReturn.getListDatas());
                     break;
                     case HouseType.YUE_KAN:
                         yueKanFragment.setListData(dataType,jsReturn.getListDatas());
@@ -1019,6 +1021,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
         MethodsJni.addNotificationObserver(
                 CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
+        MethodsJni.addNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT, TAG);
     }
     @Override
     protected void onDestroy() {
@@ -1033,6 +1037,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
         MethodsJni.removeNotificationObserver(
                 CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
+        MethodsJni.removeNotificationObserver(
+                CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT, TAG);
 
         MethodsJni.removeAllNotifications(TAG);
     }

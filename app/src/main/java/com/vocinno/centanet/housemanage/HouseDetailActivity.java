@@ -36,7 +36,7 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.centanet.apputils.MyUtils;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;

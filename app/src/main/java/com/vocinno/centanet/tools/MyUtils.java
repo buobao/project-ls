@@ -1,4 +1,4 @@
-package com.vocinno.centanet.apputils;
+package com.vocinno.centanet.tools;
 
 import android.app.Activity;
 import android.content.Context;

@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.MyUtils;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.myinterface.HttpInterface;
 

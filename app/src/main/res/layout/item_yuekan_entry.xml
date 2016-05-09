@@ -119,6 +119,8 @@
                     android:background="@drawable/bg_house_list_red_house_manage"
                     tools:text="低层"
                     android:textColor="@color/red"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
                     />
             </LinearLayout>
 

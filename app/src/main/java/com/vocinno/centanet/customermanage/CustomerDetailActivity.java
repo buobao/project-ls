@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.MyUtils;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;

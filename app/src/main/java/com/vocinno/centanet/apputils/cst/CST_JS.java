@@ -116,6 +116,7 @@ public final class CST_JS {
 	// -----------------------------------房源列表------------------------------------------
 	// Proxy
 	public static String JS_ProxyName_HouseResource = "HouseResourceProxy";
+	public static String NOTIFY_NATIVE_CUSTOMER_YUE_RESULT = "notify_native_customer_yue_result";
 	// 参数定义
 	// "type"; 1=出租，2=出售，3=预约，4=我的，5=公房
 	public static String JS_HouseResource_Price = "price";

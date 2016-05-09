@@ -28,12 +28,13 @@ public class HouseItem {
 	public static final String SHOU="10015001";
 	public static final String ZU="10015002";
 
-	private String lookplan_custname;//   客户名字
-	private String lookplan_starttime;//   开始时间
-	private String lookplan_endtime ;//  结束时间
-	private String lookplan_date  ;//约看日期
-	private String lookplan_custcode;//
-	private List<LookPlanInfo>lookplaninfo= new ArrayList<LookPlanInfo>();
+	private String planDirection;//   客户名字
+	private String startDate;//   开始时间
+	private String endDate;//  结束时间
+	private String planDate;//约看日期
+	private String rmdCustTime;//约看提醒时间
+	private String custCode;//   客户编号
+	private List<LookPlanInfo> lookplanHouseList = new ArrayList<LookPlanInfo>();
 
 	// private Image prieviewImg = new Image();
 	public String getDelegationType() {
@@ -53,11 +54,19 @@ public class HouseItem {
 	}
 
 	public List<LookPlanInfo> getLookInfo() {
-		return lookplaninfo;
+		return lookplanHouseList;
 	}
 
 	public void setLookInfo(List<LookPlanInfo>lookInfo) {
-		this.lookplaninfo = lookInfo;
+		this.lookplanHouseList = lookInfo;
+	}
+
+	public String getRmdCustTime() {
+		return rmdCustTime;
+	}
+
+	public void setRmdCustTime(String rmdCustTime) {
+		this.rmdCustTime = rmdCustTime;
 	}
 
 	public String getDelCode() {
@@ -72,44 +81,44 @@ public class HouseItem {
 		this.unitprice = unitprice;
 	}
 
-	public String getLookplan_custname() {
-		return lookplan_custname;
+	public String getPlanDirection() {
+		return planDirection;
 	}
 
-	public void setLookplan_custname(String lookplan_custname) {
-		this.lookplan_custname = lookplan_custname;
+	public void setPlanDirection(String planDirection) {
+		this.planDirection = planDirection;
 	}
 
-	public String getLookplan_starttime() {
-		return lookplan_starttime;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setLookplan_starttime(String lookplan_starttime) {
-		this.lookplan_starttime = lookplan_starttime;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
-	public String getLookplan_endtime() {
-		return lookplan_endtime;
+	public String getEndDate() {
+		return endDate;
 	}
 
-	public void setLookplan_endtime(String lookplan_endtime) {
-		this.lookplan_endtime = lookplan_endtime;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
-	public String getLookplan_date() {
-		return lookplan_date;
+	public String getPlanDate() {
+		return planDate;
 	}
 
-	public void setLookplan_date(String lookplan_date) {
-		this.lookplan_date = lookplan_date;
+	public void setPlanDate(String planDate) {
+		this.planDate = planDate;
 	}
 
-	public String getLookplan_custcode() {
-		return lookplan_custcode;
+	public String getCustCode() {
+		return custCode;
 	}
 
-	public void setLookplan_custcode(String lookplan_custcode) {
-		this.lookplan_custcode = lookplan_custcode;
+	public void setCustCode(String custCode) {
+		this.custCode = custCode;
 	}
 
 	public String getKeyStatus() {

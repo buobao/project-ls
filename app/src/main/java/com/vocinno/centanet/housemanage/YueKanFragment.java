@@ -139,7 +139,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
 
     @Override
     public void setListData(int dataType, List lookList) {
-        List<LookPlanInfo>list=new ArrayList<LookPlanInfo>();
+        /*List<LookPlanInfo>list=new ArrayList<LookPlanInfo>();
         LookPlanInfo info;
         for(int i=0;i<lookList.size();i++){
             for (int j = 0; j < ((HouseItem)lookList.get(i)).getLookInfo().size(); j++) {
@@ -151,7 +151,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 info.setPlanDirection(((HouseItem) lookList.get(i)).getPlanDirection());
                 info.setRmdCustTime(((HouseItem) lookList.get(i)).getRmdCustTime());
                 info.setStartDate(((HouseItem) lookList.get(i)).getStartDate());
-                /*******************************************************/
+                *//*******************************************************//*
                 info.setBUILDING_NAME(lookInfo.getBUILDING_NAME());
                 info.setESTATE_NAME(lookInfo.getESTATE_NAME());
                 info.setHOUSE_DEL_CODE(lookInfo.getHOUSE_DEL_CODE());
@@ -163,14 +163,14 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
 
                 list.add(info);
             }
-        }
+        }*/
         dismissDialog();
         firstLoading = false;
         switch (dataType) {
             case LIST_REFRESH:
                 ll_yuekan_layout.removeAllViews();
                 map = new HashMap<Integer, List>();
-                map = mapSort(list);
+                map = mapSort(lookList);
                 inflater = mContext.getLayoutInflater();
                 int viewItemIndex=0;
                 if(map.get(0)!=null&map.get(0).size()>0){
@@ -183,13 +183,10 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                     viewItemIndex++;
 
                     for (int i = 0; i < map.get(0).size(); i++) {
-                        View viewEntry = addItemView((LookPlanInfo)map.get(0).get(i));
+                        View viewEntry = addItemView((HouseItem)map.get(0).get(i));
                         ll_yuekan_item.addView(viewEntry, i);
                     }
                 }
-
-
-
                 if(map.get(1)!=null&&map.get(1).size()>0){
                     viewItem = inflater.inflate(R.layout.item_yuekan_layout, null);
                     tv_yuekan_date = (TextView) viewItem.findViewById(R.id.tv_yuekan_date);
@@ -201,7 +198,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                     viewItemIndex++;
 
                     for (int i = 0; i < map.get(1).size(); i++) {
-                        View viewEntry = addItemView((LookPlanInfo)map.get(1).get(i));
+                        View viewEntry = addItemView((HouseItem)map.get(1).get(i));
                         ll_yuekan_item.addView(viewEntry, i);
                     }
                 }
@@ -215,9 +212,9 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                         ib_yuekan_img.setImageResource(R.drawable.calendar_unnormal);
                         ll_yuekan_layout.addView(viewItem,viewItemIndex);
                         viewItemIndex++;
-                        setTimeSort(otherMap.get(key));
+//                        setTimeSort(otherMap.get(key));
                         for (int i = 0; i <otherMap.get(key).size(); i++) {
-                            View viewEntry = addItemView((LookPlanInfo)otherMap.get(key).get(i));
+                            View viewEntry = addItemView((HouseItem)otherMap.get(key).get(i));
                             ll_yuekan_item.addView(viewEntry, i);
                         }
                     }
@@ -231,20 +228,11 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     }
 
     @NonNull
-    private View addItemView(final LookPlanInfo item) {
+    private View addItemView(final HouseItem item) {
+        List<LookPlanInfo> lookInfo = item.getLookInfo();
         View viewEntry = inflater.inflate(R.layout.item_yuekan_entry, null);
         LinearLayout ll_yuekan_kehu= (LinearLayout) viewEntry.findViewById(R.id.ll_yuekan_kehu);
-        LinearLayout ll_yuekan_fangyuan= (LinearLayout) viewEntry.findViewById(R.id.ll_yuekan_fangyuan);
-        TextView tv_yuekan_time = (TextView) viewEntry.findViewById(R.id.tv_yuekan_time);
-        TextView tv_yuekan_name = (TextView) viewEntry.findViewById(R.id.tv_yuekan_name);
         final TextView tv_yuekan_custcode = (TextView) viewEntry.findViewById(R.id.tv_yuekan_custcode);
-        TextView tv_yuekan_loupan = (TextView) viewEntry.findViewById(R.id.tv_yuekan_loupan);
-        TextView tv_yuekan_dong = (TextView) viewEntry.findViewById(R.id.tv_yuekan_dong);
-        TextView tv_yuekan_gaodi = (TextView) viewEntry.findViewById(R.id.tv_yuekan_gaodi);
-        tv_yuekan_time.setText(MyUtils.dateFormat(item.getStartDate()) + "--" + MyUtils.dateFormat(item.getEndDate()));
-        TextPaint tp = tv_yuekan_time.getPaint();
-        tp.setFakeBoldText(true);
-        tv_yuekan_name.setText(item.getPlanDirection());
         tv_yuekan_custcode.setText(item.getCustCode());
         ll_yuekan_kehu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,27 +240,41 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 Intent intent = new Intent(mContext, MyCustomerDetailActivity.class);
                 intent.putExtra("custCode", item.getCustCode());
                 startActivity(intent);
-//                MethodsExtra.toast(mContext,tv_yuekan_custcode.getText()+"");
             }
         });
-        ll_yuekan_fangyuan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(mContext, HouseDetailActivity.class);
-                MethodsDeliverData.mDelCode=item.getHOUSE_DEL_CODE();
-                intent.putExtra("houseCode", item.getHOUSE_DEL_CODE());
-                intent.putExtra(MyUtils.INTO_FROM_LIST,true);
-                startActivityForResult(intent,10);
-            }
-        });
-        tv_yuekan_loupan.setText(item.getESTATE_NAME());
-        tv_yuekan_dong.setText(item.getBUILDING_NAME()+"栋");
+        TextView tv_yuekan_name = (TextView) viewEntry.findViewById(R.id.tv_yuekan_name);
+        tv_yuekan_name.setText(item.getPlanDirection());
+        TextView tv_yuekan_time = (TextView) viewEntry.findViewById(R.id.tv_yuekan_time);
+        tv_yuekan_time.setText(MyUtils.dateFormat(item.getStartDate()) + "--" + MyUtils.dateFormat(item.getEndDate()));
+        TextPaint tp = tv_yuekan_time.getPaint();
+        tp.setFakeBoldText(true);
+        /***********************************************************************************************/
+        for (int i = 0; i <lookInfo.size(); i++) {
+            final LookPlanInfo info = lookInfo.get(i);
+            View viewHouseItem = inflater.inflate(R.layout.item_yuekan_houseitem, null);
+            LinearLayout ll_yuekan_fangyuan= (LinearLayout) viewHouseItem.findViewById(R.id.ll_yuekan_fangyuan);
+            ll_yuekan_fangyuan.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent=new Intent(mContext, HouseDetailActivity.class);
+                    MethodsDeliverData.mDelCode=info.getHOUSE_DEL_CODE();
+                    intent.putExtra("houseCode", info.getHOUSE_DEL_CODE());
+                    intent.putExtra(MyUtils.INTO_FROM_LIST,true);
+                    startActivityForResult(intent,10);
+                }
+            });
+            TextView tv_yuekan_loupan = (TextView) viewHouseItem.findViewById(R.id.tv_yuekan_loupan);
+            TextView tv_yuekan_dong = (TextView) viewHouseItem.findViewById(R.id.tv_yuekan_dong);
+            TextView tv_yuekan_gaodi = (TextView) viewHouseItem.findViewById(R.id.tv_yuekan_gaodi);
+            tv_yuekan_loupan.setText(info.getESTATE_NAME());
+            tv_yuekan_dong.setText(info.getBUILDING_NAME()+"栋");
         /*if (item.ishidden()) {
             tv_yuekan_gaodi.setVisibility(View.GONE);
         } else {*/
             tv_yuekan_gaodi.setVisibility(View.VISIBLE);
-            tv_yuekan_gaodi.setText(item.getFloor()+"层");
+            tv_yuekan_gaodi.setText(info.getFloor()+"层");
 //        }
+            ll_yuekan_kehu.addView(viewHouseItem);
+        }
         return viewEntry;
     }
 
@@ -286,10 +288,10 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         List itemList = new ArrayList();
         List itemList1 = new ArrayList();
         List itemList2 = new ArrayList();
-        LookPlanInfo item1;
+        HouseItem item1;
         setDateSort(list);
         for (int i = 0; i < list.size(); i++) {
-            item1 = (LookPlanInfo) list.get(i);
+            item1 = (HouseItem) list.get(i);
             if (MyUtils.compareNowDate(item1.getPlanDate()) == 0) {
                 itemList.add(item1);
             } else if (MyUtils.compareNowDate(item1.getPlanDate()) == 1) {
@@ -302,15 +304,12 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 if(otherMap.containsKey(item1.getPlanDate())){
                     otherMap.get(item1.getPlanDate()).add(item1);
                 }else{
-                    List<LookPlanInfo>iList=new ArrayList<LookPlanInfo>();
+                    List<HouseItem>iList=new ArrayList<HouseItem>();
                     iList.add(item1);
                     otherMap.put(item1.getPlanDate(),iList);
                 }
             }
         }
-        setTimeSort(itemList);
-        setTimeSort(itemList1);
-        setTimeSort(itemList2);
         map.put(0, itemList);//今天
         map.put(1, itemList1);//明天
 //        map.put(2, itemList2);//其他日期
@@ -318,7 +317,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     }
 
     private void setTimeSort(List list) {
-        Collections.sort(list, new Comparator() {
+        /*Collections.sort(list, new Comparator() {
             @Override
             public int compare(Object lhs, Object rhs) {
                 LookPlanInfo item1 = (LookPlanInfo) lhs;
@@ -329,15 +328,23 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 }
                 return i;
             }
-        });
+        });*/
     }
     private void setDateSort(List list) {
         Collections.sort(list, new Comparator() {
             @Override
             public int compare(Object lhs, Object rhs) {
-                LookPlanInfo item1 = (LookPlanInfo) lhs;
-                LookPlanInfo item2 = (LookPlanInfo) rhs;
-                return item1.getPlanDate().compareTo(item2.getPlanDate());
+                HouseItem item1 = (HouseItem) lhs;
+                HouseItem item2 = (HouseItem) rhs;
+                int i=item1.getPlanDate().compareTo(item2.getPlanDate());
+                if(i==0){
+                    int j=item1.getStartDate().compareTo(item2.getStartDate());
+                    if(j==0){
+                        return item1.getEndDate().compareTo(item2.getEndDate());
+                    }
+                    return j;
+                }
+                return i;
             }
         });
     }

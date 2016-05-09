@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/ll_yuekan_fangyuan"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/white"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/yuekan_bgcolor"
+    android:gravity="center_vertical"
+    android:minHeight="40dp"
+    android:orientation="vertical"
+    android:layout_marginTop="1dp"
+    >
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:background="@null"
+            android:src="@drawable/yuekan_house"
+            />
+
+        <TextView
+            android:id="@+id/tv_yuekan_loupan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            tools:text="密云路250弄"
+            />
+
+        <TextView
+            android:id="@+id/tv_yuekan_dong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            tools:text="2栋"
+            />
+
+        <TextView
+            android:id="@+id/tv_yuekan_gaodi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_house_list_red_house_manage"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColor="@color/red"
+            tools:text="低层"
+            />
+    </LinearLayout>
+</LinearLayout>
+</LinearLayout>

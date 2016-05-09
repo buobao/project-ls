@@ -86,7 +86,7 @@ public class LookPlanInfo{
         this.totalFloor = totalFloor;
     }
 
-    public String getPlanDirection() {
+    /*public String getPlanDirection() {
         return planDirection;
     }
 
@@ -132,7 +132,7 @@ public class LookPlanInfo{
 
     public void setCustCode(String custCode) {
         this.custCode = custCode;
-    }
+    }*/
 /*"BUILDING_NAME": "1",
             "ESTATE_NAME": "新陆花园(四平路480弄)",
             "HOUSE_DEL_CODE": "SHHKS000007521",

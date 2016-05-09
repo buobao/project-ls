@@ -821,9 +821,11 @@ public class AddCustomerActivity extends OtherBaseActivity {
 				mEtCustormerNumber.setFocusable(false);
 			}
 		}else{
-			MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
-			mEtCustormerNumber.setFocusable(true);
-			mEtCustormerNumber.setFocusableInTouchMode(true);
+			if(mStrTel.toString().trim()!=null&&mStrTel.toString().trim().length()>0){
+				MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+				mEtCustormerNumber.setFocusable(true);
+				mEtCustormerNumber.setFocusableInTouchMode(true);
+			}
 		}
 	}
 }

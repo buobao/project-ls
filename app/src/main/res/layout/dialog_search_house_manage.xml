@@ -31,7 +31,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/dialog_search_edit_bg_house_manage"
-                    android:drawableLeft="@drawable/h_manage_icon_search"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical|left"
                     android:hint="按拼音首字母搜索"

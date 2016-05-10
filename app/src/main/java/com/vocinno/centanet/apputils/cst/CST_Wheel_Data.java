@@ -1,19 +1,47 @@
 package com.vocinno.centanet.apputils.cst;
 
+import com.google.gson.internal.LinkedTreeMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CST_Wheel_Data {
+	public static LinkedTreeMap<String,String> sourceMap;
 	public static enum WheelType {
-		squareStart, squareEnd, priceChuzuStart, priceChuzuEnd, priceChushouStart, priceChushouEnd, huXing, louXing, biaoQian, area
+		squareStart, squareEnd, priceChuzuStart, priceChuzuEnd, priceChushouStart, priceChushouEnd, huXing, louXing, biaoQian, area,source,level
 	};
 
 	private static ArrayList<String> mListStrs = new ArrayList<String>();
 
+	private void setSourceMap(){
+		sourceMap=new LinkedTreeMap<String,String>();
+	}
 	public static ArrayList<String> getListDatas(WheelType type) {
 		mListStrs.clear();
 		switch (type) {
+		case source:
+			if(sourceMap==null||sourceMap.size()<=0){
+				sourceMap.put("来电","20040001");
+				sourceMap.put("来访","20040002");
+				sourceMap.put("中介","20040003");
+				sourceMap.put("朋友","20040004");
+				sourceMap.put("广告","20040005");
+				sourceMap.put("网络","20040006");
+				sourceMap.put("行街","20040007");
+				sourceMap.put("老客户","20040008");
+				sourceMap.put("客户介绍","20040009");
+			}
+			for (String key : sourceMap.keySet()) {
+				mListStrs.add(key);
+			}
+			break;
+		case level:
+			mListStrs.add("A");
+			mListStrs.add("B");
+			mListStrs.add("C");
+			mListStrs.add("D");
+			break;
 		case squareStart:
 			mListStrs.add("0平米");
 			mListStrs.add("50平米");

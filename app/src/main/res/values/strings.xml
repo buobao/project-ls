@@ -98,6 +98,8 @@
     <string name="input_phone">输入电话号码</string>
     <string name="need_info">需求信息</string>
     <string name="choose_type">点击选择类型</string>
+    <string name="source_addcustomer">点击选择来源</string>
+    <string name="level_addcustomer">点击选择等级</string>
     <string name="seek_house">求租</string>
     <string name="seek_buy">求购</string>
     <string name="choose_area">点击选择区域</string>

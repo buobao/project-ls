@@ -3,12 +3,15 @@ package com.vocinno.centanet.customermanage;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,6 +83,12 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	private String mStrQQ, mStrTel, mStrWeixin;
 	private ConnectionType mCurrConnType = ConnectionType.none;
 
+
+	private LinearLayout ll_source_addCustomer,ll_level_addCustomer, wv_choose_source_addCustomer,wv_choose_level_addCustomer;
+	private RelativeLayout rl_choose_source_addCustomer,rl_choose_level_addCustomer;
+	private CheckBox cb_source_addCustomer,cb_level_addCustomer;
+	private WheelView wv_source_addCustomer,wv_level_addCustomer;
+
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_custormer;
@@ -129,26 +138,6 @@ public class AddCustomerActivity extends OtherBaseActivity {
 				checkIsFinish();
 			}
 		});
-		/*mEtCustormerNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if(!hasFocus){
-					mStrTel=mEtCustormerNumber.getText().toString().trim();
-//					MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
-					if (isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel)) {
-						String phoneJson = CST_JS.getJsonStringForCheckPhoneNORepeated(mStrTel);
-						MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-								CST_JS.JS_Function_CustomerList_addCustomer_checkPhoneNORepeated, phoneJson);
-						//closeConnectionTypeContainer();
-					} else {
-						MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
-						mEtCustormerNumber.setFocusable(true);
-//						requestFocusFromTouch
-						mEtCustormerNumber.setFocusableInTouchMode(true);
-					}
-				}
-			}
-		});*/
 		mTvCustormerType = (TextView) findViewById(R.id.tv_type_addCustomerActivity);
 		mTvCustormerPlace = (TextView) findViewById(R.id.tv_changePlace_addCustomerActivity);
 		mTvCustormerPianqu = (TextView) findViewById(R.id.tv_changePianqu_addCustomerActivity);
@@ -167,18 +156,6 @@ public class AddCustomerActivity extends OtherBaseActivity {
 				.findViewById(R.id.tv_endTitle_modelTwoWheelView))
 				.setText(R.string.maxarea);
 		mRyltChoosePriceContaner = (RelativeLayout) findViewById(R.id.rlyt_choosePrice_addCustomerActivity);
-		// 原本隐藏起来的控件里需要加点击监听的
-//		mRyltPhone = (RelativeLayout) findViewById(R.id.rlyt_phone_addCustomerActivity);
-//		mImgPhoneImage = (ImageView) findViewById(R.id.img_phone_addCustomerActivity);
-//		mImgPhoneIcon = (ImageView) findViewById(R.id.img_addPhone_addCustomerActivity);
-
-//		mRyltQQ = (RelativeLayout) findViewById(R.id.rlyt_qq_addCustomerActivity);
-//		mImgQQImage = (ImageView) findViewById(R.id.img_qq_addCustomerActivity);
-//		mImgQQIcon = (ImageView) findViewById(R.id.img_addqq_addCustomerActivity);
-
-//		mRyltWX = (RelativeLayout) findViewById(R.id.rlyt_wx_addCustomerActivity);
-//		mImgWXImage = (ImageView) findViewById(R.id.img_wx_addCustomerActivity);
-//		mImgWXIcon = (ImageView) findViewById(R.id.img_addwx_addCustomerActivity);
 
 		mRyltQiuzu = (RelativeLayout) findViewById(R.id.rlyt_isChooseQiuzu_addCustomerActivity);
 		mRyltQiumai = (RelativeLayout) findViewById(R.id.rlyt_isChooseQiumai_addCustomerActivity);
@@ -207,15 +184,55 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		mImgQiuzu = (ImageView) findViewById(R.id.img_isChooseQiuzu_addCustomerActivity);
 		mImgQiumai = (ImageView) findViewById(R.id.img_isChooseQiumai_addCustomerActivity);
 
+		wv_choose_source_addCustomer =(LinearLayout)findViewById(R.id.wv_choose_source_addCustomer);
+		wv_choose_level_addCustomer=(LinearLayout)findViewById(R.id.wv_choose_level_addCustomer);
+
+		ll_source_addCustomer=(LinearLayout)findViewById(R.id.ll_source_addCustomer);
+		ll_source_addCustomer.setOnClickListener(this);
+
+		ll_level_addCustomer=(LinearLayout)findViewById(R.id.ll_level_addCustomer);
+		ll_level_addCustomer.setOnClickListener(this);
+
+		cb_source_addCustomer= (CheckBox) findViewById(R.id.cb_source_addCustomer);
+		cb_source_addCustomer.setOnCheckedChangeListener(getCheckBoxChangeListener());
+
+		cb_level_addCustomer= (CheckBox) findViewById(R.id.cb_level_addCustomer);
+		cb_level_addCustomer.setOnCheckedChangeListener(getCheckBoxChangeListener());
+
+		rl_choose_source_addCustomer = (RelativeLayout) findViewById(R.id.rl_choose_source_addCustomer);
+		wv_source_addCustomer = (WheelView) rl_choose_source_addCustomer.findViewById(R.id.wheelview_modelOneWheelView);
+		wv_level_addCustomer = (WheelView) rl_choose_level_addCustomer.findViewById(R.id.wheelview_modelOneWheelView);
 
 		setListener();
 	}
 
+	@NonNull
+	private CompoundButton.OnCheckedChangeListener getCheckBoxChangeListener() {
+		return new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				switch (buttonView.getId()){
+					case R.id.cb_source_addCustomer:
+						if(isChecked){
+							wv_choose_source_addCustomer.setVisibility(View.VISIBLE);
+						}else{
+							wv_choose_source_addCustomer.setVisibility(View.GONE);
+						}
+					break;
+					case R.id.cb_level_addCustomer:
+						if(isChecked){
+							wv_choose_level_addCustomer.setVisibility(View.VISIBLE);
+						}else{
+							wv_choose_level_addCustomer.setVisibility(View.GONE);
+						}
+					break;
+				}
+			}
+		};
+	}
+
 	public void setListener() {
 
-//		mRyltPhone.setOnClickListener(this);
-//		mRyltQQ.setOnClickListener(this);
-//		mRyltWX.setOnClickListener(this);
 		mRyltQiuzu.setOnClickListener(this);
 		mRyltQiumai.setOnClickListener(this);
 		mBtnSubmitChoosePlace.setOnClickListener(this);
@@ -225,10 +242,6 @@ public class AddCustomerActivity extends OtherBaseActivity {
 
 		mBackView.setOnClickListener(this);
 		mSubmitView.setOnClickListener(this);
-//		findViewById(R.id.et_connectionNumberOK_addCustomerActivity)
-//				.setOnClickListener(this);
-		;
-//		mRyltConnectionBanner.setOnClickListener(this);
 		mRyltTypeBanner.setOnClickListener(this);
 		mRyltPlaceBanner.setOnClickListener(this);
 		mRyltPianquBanner.setOnClickListener(this);
@@ -236,40 +249,6 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		mRyltPriceBanner.setOnClickListener(this);
 
 		mSubmitView.setClickable(false);
-		/*mEtConnectionNumber.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-									  int count) {
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-										  int after) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				switch (mCurrConnType) {
-					case connQQ:
-						mStrQQ = mEtConnectionNumber.getText().toString();
-						Log.d(TAG, "afterTextChanged strQQ:" + mStrQQ);
-						break;
-					case connTel:
-						mStrTel = mEtConnectionNumber.getText().toString();
-						Log.d(TAG, "afterTextChanged mStrTel:" + mStrTel);
-						break;
-					case connWeixin:
-						mStrWeixin = mEtConnectionNumber.getText().toString();
-						Log.d(TAG, "afterTextChanged mStrWeixin:" + mStrWeixin);
-						break;
-					default:
-						break;
-				}
-//				mTvCustormerNumber.setText(checkConnText());
-			}
-		});*/
 
 		mEtCustormerName.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -294,13 +273,21 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	@Override
 	public void initData() {
 		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
+		methodsJni.setMethodsJni((HttpInterface) this);
 		// 添加通知
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_ADD_CUSTOMER_RESULT, TAG);
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT, TAG);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO, TAG);
+		wv_source_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.source), CustomUtils.getWindowWidth(this));
+		wv_source_addCustomer.setEnabled(true);
+		wv_source_addCustomer.setSelectItem(0);
+		wv_level_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.level), CustomUtils.getWindowWidth(this));
+		wv_level_addCustomer.setEnabled(true);
+		wv_level_addCustomer.setSelectItem(0);
+		////////////////////////////////////////////////////
+
 		mWheelViewChoosePlace.setData(CST_Wheel_Data
 				.getListDatas(CST_Wheel_Data.WheelType.area), CustomUtils.getWindowWidth(this));
 		mWheelViewChoosePianqu.setData(new ArrayList<String>(), CustomUtils.getWindowWidth(this));
@@ -351,6 +338,12 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+			case R.id.ll_source_addCustomer:
+				cb_source_addCustomer.setChecked(!cb_source_addCustomer.isChecked());
+				break;
+			case R.id.ll_level_addCustomer:
+				cb_level_addCustomer.setChecked(!cb_level_addCustomer.isChecked());
+				break;
 			case R.id.tv_connect_addCustomerActivity:
 				mEtCustormerNumber.setFocusable(true);
 				mEtCustormerNumber.setFocusableInTouchMode(true);
@@ -816,15 +809,17 @@ public class AddCustomerActivity extends OtherBaseActivity {
 
 	}
 	public void setLoseFocus(){
-		if(isMobileNO(mStrTel) && !TextUtils.isEmpty(mStrTel)){
-			if(mEtCustormerNumber.isFocusable()){
-				mEtCustormerNumber.setFocusable(false);
-			}
-		}else{
-			if(mStrTel.toString().trim()!=null&&mStrTel.toString().trim().length()>0){
-				MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
-				mEtCustormerNumber.setFocusable(true);
-				mEtCustormerNumber.setFocusableInTouchMode(true);
+		if(mStrTel!=null){
+			if(isMobileNO(mStrTel) && !TextUtils.isEmpty(mStrTel)){
+				if(mEtCustormerNumber.isFocusable()){
+					mEtCustormerNumber.setFocusable(false);
+				}
+			}else{
+				if(mStrTel.toString().trim()!=null&&mStrTel.toString().trim().length()>0){
+					MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+					mEtCustormerNumber.setFocusable(true);
+					mEtCustormerNumber.setFocusableInTouchMode(true);
+				}
 			}
 		}
 	}

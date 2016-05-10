@@ -110,161 +110,139 @@
                     />
 
             </RelativeLayout>
-
-            <!--<LinearLayout
-                android:id="@+id/llyt_connectionType_addCustomerActivity"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:visibility="visible" >
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#D1D1D1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" >
-
-                    <RelativeLayout
-                        android:id="@+id/rlyt_phone_addCustomerActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" >
-
-                        <ImageView
-                            android:id="@+id/img_phone_addCustomerActivity"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/c_manage_icon_contact01" />
-
-                        <ImageView
-                            android:id="@+id/img_addPhone_addCustomerActivity"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_alignTop="@+id/img_phone_addCustomerActivity"
-                            android:layout_toRightOf="@+id/img_phone_addCustomerActivity"
-                            android:src="@drawable/add" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/img_phone_addCustomerActivity"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/contact_user"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rlyt_qq_addCustomerActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" >
-
-                        <ImageView
-                            android:id="@+id/img_qq_addCustomerActivity"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/c_manage_icon_qq01" />
-
-                        <ImageView
-                            android:id="@+id/img_addqq_addCustomerActivity"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_alignTop="@+id/img_qq_addCustomerActivity"
-                            android:layout_toRightOf="@+id/img_qq_addCustomerActivity"
-                            android:src="@drawable/add" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/img_qq_addCustomerActivity"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="5dp"
-                            android:text="QQ"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rlyt_wx_addCustomerActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" >
-
-                        <ImageView
-                            android:id="@+id/img_wx_addCustomerActivity"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/c_manage_icon_wechat01" />
-
-                        <ImageView
-                            android:id="@+id/img_addwx_addCustomerActivity"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_alignTop="@+id/img_wx_addCustomerActivity"
-                            android:layout_toRightOf="@+id/img_wx_addCustomerActivity"
-                            android:src="@drawable/add" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/img_wx_addCustomerActivity"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/weixin"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginRight="30dp"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <EditText
-                        android:id="@+id/et_connectionNumber_addCustomerActivity"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/h_search_bg"
-                        android:hint="@string/input_phone"
-                        android:inputType="number"
-                        android:textColor="#9E9E9E"
-                        android:textColorHint="#D1D1D1"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/et_connectionNumberOK_addCustomerActivity"
-                        android:layout_width="50dp"
-                        android:layout_height="fill_parent"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:padding="3dp"
-                        android:text="确定" />
-                </LinearLayout>
-            </LinearLayout>-->
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#D1D1D1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="6dp"
+                android:background="#D1D1D1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:id="@+id/ll_source_addCustomer"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="来源"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_type1_addCustomerActivity"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/source_addcustomer"
+                    android:textSize="13sp" >
+                </TextView>
+
+                <CheckBox
+                    android:id="@+id/cb_source_addCustomer"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_addcust_sanjiao"
+                    android:button="@null"
+                    />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1" />
+            <LinearLayout
+                android:id="@+id/wv_choose_source_addCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+                <include
+                    android:id="@+id/rl_choose_source_addCustomer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/model_wheel_view_one" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="6dp"
+                android:background="#D1D1D1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:id="@+id/ll_level_addCustomer"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="等级"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_type1_addCustomerActivity"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/level_addcustomer"
+                    android:textSize="13sp" >
+                </TextView>
+
+                <CheckBox
+                    android:id="@+id/cb_level_addCustomer"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_addcust_sanjiao"
+                    android:button="@null"
+                    />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1" />
+            <LinearLayout
+                android:id="@+id/wv_choose_level_addCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+                <include
+                    android:id="@+id/rl_choose_level_addCustomer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/model_wheel_view_one" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

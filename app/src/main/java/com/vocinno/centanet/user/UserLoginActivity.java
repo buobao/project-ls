@@ -1,17 +1,14 @@
 package com.vocinno.centanet.user;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInit;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
@@ -23,10 +20,6 @@ import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.DownloadApp;
-import com.vocinno.centanet.tools.MyToast;
-import com.vocinno.centanet.tools.OkHttpClientManager;
-import com.vocinno.centanet.tools.constant.NetWorkConstant;
-import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.centanet.tools.constant.SharedPre;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
@@ -35,8 +28,6 @@ import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.MethodsNetwork;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 用户登录
@@ -119,8 +110,8 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 					MethodsExtra.toast(mContext, "请输入密码");
 					return;
 				}
-//				showDialog();
-				URL = NetWorkConstant.PORT_URL + NetWorkMethod.login;
+				showDialog();
+				/*URL = NetWorkConstant.PORT_URL + NetWorkMethod.login;
 				Map<String, String> urlMap = new HashMap<String, String>();
 				urlMap.put(NetWorkConstant.source, NetWorkConstant.agencyApp);
 				urlMap.put(NetWorkConstant.username, userAccount);
@@ -143,10 +134,10 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 						}
 
 					}
-				}, urlMap);
-				/*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
+				}, urlMap);*/
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
 						CST_JS.JS_Function_Login_login,
-						CST_JS.getJsonStringForLogin(userAccount, userPassword));*/
+						CST_JS.getJsonStringForLogin(userAccount, userPassword));
 			}
 		});
 	}

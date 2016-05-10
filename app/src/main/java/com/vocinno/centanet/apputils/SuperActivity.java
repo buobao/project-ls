@@ -1,10 +1,5 @@
 package com.vocinno.centanet.apputils;
 
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.apputils.dialog.MyDialog;
-import com.vocinno.utils.MethodsJni;
-
-import cn.jpush.android.api.JPushInterface;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,15 +8,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.tools.MyLoadDialog;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.utils.MethodsJni;
+
+import cn.jpush.android.api.JPushInterface;
+
 public abstract class SuperActivity extends Activity implements OnClickListener {
 	public static String TAG = null;
 	public Activity mContext = null;
 	public Handler mHander = null;
 	public static View mRootView = null;
 	public ModelDialog modelDialog;
+	public OkHttpClientManager OKHCM;
+	public String URL;
+	public AppApplication myApp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myApp=(AppApplication)getApplication();
+		MyConstant.setMyApp(myApp);
+		MyToast.getInstance(this);
+		MyLoadDialog.getInstance(this);
 		AppInstance.mListActivitys.add(this);
 		mContext = this;
 		TAG = this.getClass().getName();

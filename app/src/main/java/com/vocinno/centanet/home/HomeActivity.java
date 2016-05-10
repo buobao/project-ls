@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
@@ -26,6 +25,8 @@ import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -200,8 +201,9 @@ public class HomeActivity extends HomeBaseActivity {
 				Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
 				exitTime = System.currentTimeMillis();
 			} else {
-				finish();
+				UserLoginActivity.ula.finish();
 				System.exit(0);
+				finish();
 			}
 			return true;
 		}

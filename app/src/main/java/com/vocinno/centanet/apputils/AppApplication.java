@@ -1,31 +1,26 @@
 package com.vocinno.centanet.apputils;
 
-import java.io.File;
+import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.vocinno.utils.MethodsFile;
 
-import android.app.Application;
+import java.io.File;
 
 public class AppApplication extends Application {
+	private String empId;
+	private String token;
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		initImageLoader();
+//		initImageLoader();
 		// 百度地图初始化
 		SDKInitializer.initialize(this.getApplicationContext());
 	}
-
 	public void initImageLoader() {
 		String strPath = MethodsFile.getAutoFileDirectory() + "imgCache/";
 		MethodsFile.mkdirs(strPath);
@@ -46,5 +41,21 @@ public class AppApplication extends Application {
 				.build();
 		MethodsFile.mImageLoader = ImageLoader.getInstance();
 		MethodsFile.mImageLoader.init(config);
+	}
+
+	public String getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

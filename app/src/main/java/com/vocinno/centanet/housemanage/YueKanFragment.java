@@ -340,7 +340,11 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 if(i==0){
                     int j=item1.getStartDate().compareTo(item2.getStartDate());
                     if(j==0){
-                        return item1.getEndDate().compareTo(item2.getEndDate());
+                        int k=item1.getEndDate().compareTo(item2.getEndDate());
+                        if(k==0){
+                            return item1.getRmdCustTime().compareTo(item2.getRmdCustTime());
+                        }
+                        return k;
                     }
                     return j;
                 }

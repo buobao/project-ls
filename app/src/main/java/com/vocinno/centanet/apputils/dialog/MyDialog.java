@@ -24,7 +24,6 @@ public class MyDialog extends Dialog {
 	public MyDialog(Context context, int theme) {
 		super(context, theme);
 	}
-
 	public static class Builder {
 		private Context context;
 		private String title;
@@ -56,7 +55,6 @@ public class MyDialog extends Dialog {
 			this.message = message;
 			return this;
 		}
-
 		public Builder setMessage(int message) {
 			this.message = (String) context.getText(message);
 			return this;
@@ -150,6 +148,7 @@ public class MyDialog extends Dialog {
 				// if no confirm button just set the visibility to GONE
 				layout.findViewById(R.id.positiveButton).setVisibility(
 						View.GONE);
+				layout.findViewById(R.id.v_xian).setVisibility(View.GONE);
 			}
 			// set the cancel button
 			if (negativeButtonText != null) {
@@ -174,12 +173,12 @@ public class MyDialog extends Dialog {
 			if (message != null) {
 				((TextView) layout.findViewById(R.id.message)).setText(message);
 			} else if (contentView != null) {
+
 				// if no message set
 				// add the contentView to the dialog body
-				((LinearLayout) layout.findViewById(R.id.ll_dialog))
-						.removeAllViews();
+				((LinearLayout) layout.findViewById(R.id.ll_dialog)).removeViews(0,2);
 				((LinearLayout) layout.findViewById(R.id.ll_dialog)).addView(
-						contentView, new LayoutParams(
+						contentView, 0, new LayoutParams(
 								LayoutParams.MATCH_PARENT,
 								LayoutParams.WRAP_CONTENT));
 

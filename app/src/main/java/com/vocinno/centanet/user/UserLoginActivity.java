@@ -1,8 +1,7 @@
 package com.vocinno.centanet.user;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.DownloadApp;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -29,9 +29,9 @@ import java.util.Calendar;
 
 /**
  * 用户登录
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	private Button mBtnLogin;
@@ -58,10 +58,12 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 					}
 
 					finish();
+					break;
 				case R.id.doFail:
 					if (!mIsLoginedJustNow) {
 						MethodsExtra.toast(mContext, (String) msg.obj);
 					}
+					break;
 				default:
 					break;
 				}
@@ -105,6 +107,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 					return;
 				}
 				showDialog();
+//				downloadApp("msg");
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
 						CST_JS.JS_Function_Login_login,
 						CST_JS.getJsonStringForLogin(userAccount, userPassword));
@@ -171,12 +174,31 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				DownloadApp ad=new DownloadApp(UserLoginActivity.this);
+				ad.setPath(Environment.getExternalStorageDirectory().getPath() + "/vocinno/appdownload");
+				ad.showDownloadDialog();
+				/*UpdateManager um=new UpdateManager(UserLoginActivity.this);
+				um.showDownloadDialog();*/
+				/*OkHttpClientManager.downloadApp("http://a.sh.centanet.com/app/centanet_Release.apk", Environment.getExternalStorageDirectory().getPath() + "/vocinno", new Callback() {
+					@Override
+					public void onFailure(Request request, IOException e) {
+						Log.i("onFailure=====","onFailure");
+					}
+
+					@Override
+					public void onResponse(Response response) throws IOException {
+						Headers responseHeaders = response.headers();
+						for (int i = 0; i < responseHeaders.size(); i++) {
+							Log.i("responseHeaders=====", responseHeaders.name(i) + ": " + responseHeaders.value(i));
+						}
+					}
+				});*/
 				/*UpdateManager um=new UpdateManager(mContext);
 				um.showDownloadDialog();*/
 				dialog.dismiss();
-				final Uri uri = Uri.parse(getString(R.string.download_url));
+				/*final Uri uri = Uri.parse(getString(R.string.download_url));
 				final Intent it = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(it);
+				startActivity(it);*/
 			}
 		});
 		myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {

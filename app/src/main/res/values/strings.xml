@@ -165,8 +165,8 @@
     <string name="title_activity_house_reason">HouseReasonActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="download_url">http://a.sh.centanet.com/app/centanet_Release.apk</string>
+    <string name="apk_name">centanet_Release.apk</string>
     <string name="wei_xin_share_url">http://a.sh.centanet.com/sales-web/mobile/houShare/</string>
-    <string name="apk_name">http://a.sh.centanet.com/app/centanet_Release.apk</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

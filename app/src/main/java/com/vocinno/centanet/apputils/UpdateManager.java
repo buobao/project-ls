@@ -245,7 +245,6 @@ public class UpdateManager{
 				String apkFile = saveFileName;
 				File ApkFile = new File(apkFile);
 				FileOutputStream fos = new FileOutputStream(ApkFile);
-
 				int count = 0;
 				byte buf[] = new byte[1024];
 

@@ -429,7 +429,8 @@ public final class CST_JS {
 	public static String JS_CustomerList_ReqType = "reqType";
 	public static String JS_CustomerList_Acreage = "acreage";
 	public static String JS_CustomerList_Area = "area";
-	public static String JS_CustomerList_Other = "other";
+	public static String JS_CustomerList_Other = "selfDescription";
+//	public static String JS_CustomerList_Other = "other";
 	public static String JS_CustomerList_districtCode = "districtCode";
 	//客源联系人列表--通知
 	public static String NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT = "notify_native_get_customer_contact_result";

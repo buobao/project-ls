@@ -291,6 +291,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 						}else{
 							wv_choose_level_addCustomer.setVisibility(View.GONE);
 						}
+					break;
 					case R.id.cb_fangxing_addCustomer:
 						if(isChecked){
 							wv_choose_fangxing_addCustomer.setVisibility(View.VISIBLE);

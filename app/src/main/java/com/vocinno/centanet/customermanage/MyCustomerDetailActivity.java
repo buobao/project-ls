@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
+	private ImageView iv_add_demand_detail;
 	public MyCustomerDetailActivity() {
 	}
 
@@ -103,6 +105,9 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		mImgViewAddTrack.setOnClickListener(this);
 //		mImgViewQQ.setOnClickListener(this);
 		mImgViewPhone.setOnClickListener(this);
+
+		iv_add_demand_detail= (ImageView) findViewById(R.id.iv_add_demand_detail);
+		iv_add_demand_detail.setOnClickListener(this);
 	}
 
 	@Override
@@ -147,6 +152,11 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+			case R.id.iv_add_demand_detail:
+				intent.setClass(this,AddDemandActivity.class);
+				intent.putExtra("custCode", mCusterCode);
+				startActivity(intent);
+				break;
 			case R.id.img_right_mhead1:
 				if(mDetail.getPhone()==null||mDetail.getPhone().length()<=0){
 					MethodsExtra.toast(mContext,"暂无联系人号码");

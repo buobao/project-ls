@@ -135,7 +135,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name=".housemanage.AddHouseDetailActivity"
+            android:name=".customermanage.AddDemandActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
@@ -144,14 +144,6 @@
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
             android:name=".housemanage.EditPicDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"/>
-        <activity
-            android:name=".housemanage.ChooseSystemAlbumsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"/>
-        <activity
-            android:name=".housemanage.AddPhotoPicDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity

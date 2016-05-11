@@ -5,7 +5,7 @@ public class Requets {
 	private String TenancyTime = "";// 租期
 	private String price = "";// 价格
 	private String reqType = "";// 类型
-
+	private String selfDescription ; // 需求自述
 	public Requets() {
 	}
 
@@ -31,6 +31,14 @@ public class Requets {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	public String getSelfDescription() {
+		return selfDescription;
+	}
+
+	public void setSelfDescription(String selfDescription) {
+		this.selfDescription = selfDescription;
 	}
 
 	public String getReqType() {

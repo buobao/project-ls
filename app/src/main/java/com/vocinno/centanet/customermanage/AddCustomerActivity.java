@@ -28,6 +28,7 @@ import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -84,10 +85,12 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	private ConnectionType mCurrConnType = ConnectionType.none;
 
 
-	private LinearLayout ll_source_addCustomer,ll_level_addCustomer, wv_choose_source_addCustomer,wv_choose_level_addCustomer;
-	private RelativeLayout rl_choose_source_addCustomer,rl_choose_level_addCustomer;
-	private CheckBox cb_source_addCustomer,cb_level_addCustomer;
-	private WheelView wv_source_addCustomer,wv_level_addCustomer;
+	private LinearLayout ll_source_addCustomer,ll_level_addCustomer, wv_choose_source_addCustomer,wv_choose_level_addCustomer,wv_choose_fangxing_addCustomer;
+	private RelativeLayout rl_choose_source_addCustomer,rl_choose_level_addCustomer,rl_fangxing_addCust,il_fangxing_addCust;
+	private CheckBox cb_source_addCustomer,cb_level_addCustomer,cb_fangxing_addCustomer;
+	private WheelView wv_source_addCustomer,wv_level_addCustomer,wv_fangxing_start_addCustomer,wv_fangxing_end_addCustomer;
+	private Button bt_source_addCustomer,bt_level_addCustomer,bt_fangxing_addCustomer;
+	private TextView tv_source_addCustomer,tv_level_addCustomer,tv_fangxing_addCust,tv_start_title,tv_end_title;
 
 	@Override
 	public int setContentLayoutId() {
@@ -184,8 +187,13 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		mImgQiuzu = (ImageView) findViewById(R.id.img_isChooseQiuzu_addCustomerActivity);
 		mImgQiumai = (ImageView) findViewById(R.id.img_isChooseQiumai_addCustomerActivity);
 
+		tv_source_addCustomer= (TextView) findViewById(R.id.tv_source_addCustomer);
+		tv_level_addCustomer= (TextView) findViewById(R.id.tv_level_addCustomer);
+		tv_fangxing_addCust= (TextView) findViewById(R.id.tv_fangxing_addCust);
+
 		wv_choose_source_addCustomer =(LinearLayout)findViewById(R.id.wv_choose_source_addCustomer);
 		wv_choose_level_addCustomer=(LinearLayout)findViewById(R.id.wv_choose_level_addCustomer);
+		wv_choose_fangxing_addCustomer=(LinearLayout)findViewById(R.id.wv_choose_fangxing_addCustomer);
 
 		ll_source_addCustomer=(LinearLayout)findViewById(R.id.ll_source_addCustomer);
 		ll_source_addCustomer.setOnClickListener(this);
@@ -199,9 +207,63 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		cb_level_addCustomer= (CheckBox) findViewById(R.id.cb_level_addCustomer);
 		cb_level_addCustomer.setOnCheckedChangeListener(getCheckBoxChangeListener());
 
+		cb_fangxing_addCustomer= (CheckBox) findViewById(R.id.cb_fangxing_addCustomer);
+		cb_fangxing_addCustomer.setOnCheckedChangeListener(getCheckBoxChangeListener());
+
 		rl_choose_source_addCustomer = (RelativeLayout) findViewById(R.id.rl_choose_source_addCustomer);
+		rl_choose_level_addCustomer = (RelativeLayout) findViewById(R.id.rl_choose_level_addCustomer);
+		rl_fangxing_addCust= (RelativeLayout) findViewById(R.id.rl_fangxing_addCust);
+		il_fangxing_addCust= (RelativeLayout) findViewById(R.id.il_fangxing_addCust);
+		rl_fangxing_addCust.setOnClickListener(this);
 		wv_source_addCustomer = (WheelView) rl_choose_source_addCustomer.findViewById(R.id.wheelview_modelOneWheelView);
 		wv_level_addCustomer = (WheelView) rl_choose_level_addCustomer.findViewById(R.id.wheelview_modelOneWheelView);
+		wv_fangxing_start_addCustomer = (WheelView) il_fangxing_addCust.findViewById(R.id.wheelview_start_modelTwoWheelView);
+		wv_fangxing_end_addCustomer = (WheelView) il_fangxing_addCust.findViewById(R.id.wheelview_end_modelTwoWheelView);
+		tv_start_title=(TextView) il_fangxing_addCust.findViewById(R.id.tv_startTitle_modelTwoWheelView);
+		tv_start_title.setText("最小房型");
+		tv_end_title=(TextView) il_fangxing_addCust.findViewById(R.id.tv_endTitle_modelTwoWheelView);
+		tv_end_title.setText("最大房型");
+		bt_fangxing_addCustomer= (Button) il_fangxing_addCust.findViewById(R.id.btn_submit_modelTwoWheelView);
+		bt_fangxing_addCustomer.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String fangxing = wv_fangxing_start_addCustomer.getSelectedText();
+				String maxFangxing = wv_fangxing_end_addCustomer.getSelectedText();
+				if(Integer.parseInt(fangxing.replace("室",""))>=Integer.parseInt(maxFangxing.replace("室", ""))){
+					MyToast.showToast("最大房型必须大于最小房型");
+					return;
+				}else{
+					tv_fangxing_addCust.setText(fangxing+"-"+maxFangxing+"");
+					wv_choose_fangxing_addCustomer.setVisibility(View.GONE);
+					cb_fangxing_addCustomer.setChecked(!cb_fangxing_addCustomer.isChecked());
+				}
+			}
+		});
+
+
+		bt_source_addCustomer = (Button) rl_choose_source_addCustomer.findViewById(R.id.btn_submit_modelOneWheelView);
+		bt_source_addCustomer.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String source = wv_source_addCustomer.getSelectedText();
+				tv_source_addCustomer.setText(source);
+				wv_choose_source_addCustomer.setVisibility(View.GONE);
+				cb_source_addCustomer.setChecked(!cb_source_addCustomer.isChecked());
+			}
+		});
+		bt_level_addCustomer = (Button) rl_choose_level_addCustomer.findViewById(R.id.btn_submit_modelOneWheelView);
+		bt_level_addCustomer.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String level = wv_level_addCustomer.getSelectedText();
+				tv_level_addCustomer.setText(level);
+				wv_choose_level_addCustomer.setVisibility(View.GONE);
+				cb_level_addCustomer.setChecked(!cb_level_addCustomer.isChecked());
+			}
+		});
+
+
+
 
 		setListener();
 	}
@@ -215,6 +277,8 @@ public class AddCustomerActivity extends OtherBaseActivity {
 					case R.id.cb_source_addCustomer:
 						if(isChecked){
 							wv_choose_source_addCustomer.setVisibility(View.VISIBLE);
+//							wv_choose_level_addCustomer.setVisibility(View.GONE);
+//							cb_level_addCustomer.setChecked(false);
 						}else{
 							wv_choose_source_addCustomer.setVisibility(View.GONE);
 						}
@@ -222,8 +286,16 @@ public class AddCustomerActivity extends OtherBaseActivity {
 					case R.id.cb_level_addCustomer:
 						if(isChecked){
 							wv_choose_level_addCustomer.setVisibility(View.VISIBLE);
+//							wv_choose_source_addCustomer.setVisibility(View.GONE);
+//							cb_source_addCustomer.setChecked(false);
 						}else{
 							wv_choose_level_addCustomer.setVisibility(View.GONE);
+						}
+					case R.id.cb_fangxing_addCustomer:
+						if(isChecked){
+							wv_choose_fangxing_addCustomer.setVisibility(View.VISIBLE);
+						}else{
+							wv_choose_fangxing_addCustomer.setVisibility(View.GONE);
 						}
 					break;
 				}
@@ -283,10 +355,18 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		wv_source_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.source), CustomUtils.getWindowWidth(this));
 		wv_source_addCustomer.setEnabled(true);
 		wv_source_addCustomer.setSelectItem(0);
+
 		wv_level_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.level), CustomUtils.getWindowWidth(this));
 		wv_level_addCustomer.setEnabled(true);
 		wv_level_addCustomer.setSelectItem(0);
-		////////////////////////////////////////////////////
+
+		wv_fangxing_start_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.fangxing), CustomUtils.getWindowWidth(this)/2);
+		wv_fangxing_start_addCustomer.setEnabled(true);
+		wv_fangxing_start_addCustomer.setSelectItem(0);
+
+		wv_fangxing_end_addCustomer.setData(CST_Wheel_Data.getListDatas(WheelType.maxfangxing), CustomUtils.getWindowWidth(this)/2);
+		wv_fangxing_end_addCustomer.setEnabled(true);
+		wv_fangxing_end_addCustomer.setSelectItem(0);
 
 		mWheelViewChoosePlace.setData(CST_Wheel_Data
 				.getListDatas(CST_Wheel_Data.WheelType.area), CustomUtils.getWindowWidth(this));
@@ -338,11 +418,26 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
+			case R.id.rl_fangxing_addCust:
+				cb_fangxing_addCustomer.setChecked(!cb_fangxing_addCustomer.isChecked());
+				if(cb_fangxing_addCustomer.isChecked()){
+					checkOpenOrClose(rl_fangxing_addCust.getId());
+				}
+				checkIsFinish();
+				break;
 			case R.id.ll_source_addCustomer:
 				cb_source_addCustomer.setChecked(!cb_source_addCustomer.isChecked());
+				if(cb_source_addCustomer.isChecked()){
+					checkOpenOrClose(ll_source_addCustomer.getId());
+				}
+				checkIsFinish();
 				break;
 			case R.id.ll_level_addCustomer:
 				cb_level_addCustomer.setChecked(!cb_level_addCustomer.isChecked());
+				if(cb_level_addCustomer.isChecked()){
+					checkOpenOrClose(ll_level_addCustomer.getId());
+				}
+				checkIsFinish();
 				break;
 			case R.id.tv_connect_addCustomerActivity:
 				mEtCustormerNumber.setFocusable(true);
@@ -695,7 +790,13 @@ public class AddCustomerActivity extends OtherBaseActivity {
 			isFinish = false;
 		} else if (mStrTel == null) {
 			isFinish = false;
-		} else if (mTvCustormerType.getText() == null || mTvCustormerType.getText().toString().length() == 0) {
+		} else if(tv_source_addCustomer==null|| tv_source_addCustomer.getText().toString().length() == 0){
+			isFinish = false;
+		}else if(tv_level_addCustomer==null|| tv_level_addCustomer.getText().toString().length() == 0){
+			isFinish = false;
+		}else if(tv_fangxing_addCust==null|| tv_fangxing_addCust.getText().toString().length() == 0){
+			isFinish = false;
+		}else if (mTvCustormerType.getText() == null || mTvCustormerType.getText().toString().length() == 0) {
 			isFinish = false;
 		} else if (mEtCustormerNumber.getText() == null || mEtCustormerNumber.getText().toString().length() == 0) {//mEtCustormerNumber
 			isFinish = false;
@@ -748,6 +849,29 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		if (intId != mLlytTypeContainer.getId()) {
 			closeTypeContainer();
 		}
+		if (intId != ll_source_addCustomer.getId()) {
+			closeSourceContainer();
+		}
+		if (intId != ll_level_addCustomer.getId()) {
+			closeLevelContainer();
+		}
+		if (intId != rl_fangxing_addCust.getId()) {
+			closeFangXingContainer();
+		}
+	}
+
+
+	private void closeFangXingContainer() {
+		wv_choose_fangxing_addCustomer.setVisibility(View.GONE);
+		cb_fangxing_addCustomer.setChecked(false);
+	}
+	private void closeSourceContainer() {
+		wv_choose_source_addCustomer.setVisibility(View.GONE);
+		cb_source_addCustomer.setChecked(false);
+	}
+	private void closeLevelContainer() {
+		wv_choose_level_addCustomer.setVisibility(View.GONE);
+		cb_level_addCustomer.setChecked(false);
 	}
 
 	private void closePlaceContainer() {

@@ -53,7 +53,9 @@
     <string name="mianji">面积</string>
     <string name="choose_mianji">点击选择面积</string>
     <string name="price">价格</string>
+    <string name="fangxing">房型</string>
     <string name="choose_price">点击选择价格</string>
+    <string name="choose_fangxing">点击选择房型</string>
     <string name="other_info">需求自述</string>
     <string name="input_other_info">请输入客户需求自述</string>
     <string name="time_add_custormer">委托日期2015-06-11</string>

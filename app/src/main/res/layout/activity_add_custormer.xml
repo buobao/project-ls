@@ -139,6 +139,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_source_addCustomer"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -203,6 +204,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_level_addCustomer"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -367,6 +369,72 @@
                         android:textSize="13sp" />
                 </RelativeLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="6dp"
+                android:background="#D1D1D1" />
+            <RelativeLayout
+                android:id="@+id/rl_fangxing_addCust"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/fangxing_addCust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="@string/fangxing"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_fangxing_addCust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/fangxing_addCust"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/choose_fangxing"
+                    android:textSize="13sp" >
+                </TextView>
+
+                <CheckBox
+                    android:id="@+id/cb_fangxing_addCustomer"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_addcust_sanjiao"
+                    android:button="@null"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/wv_choose_fangxing_addCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+                <include
+                    android:id="@+id/il_fangxing_addCust"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/model_wheel_view_two" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"

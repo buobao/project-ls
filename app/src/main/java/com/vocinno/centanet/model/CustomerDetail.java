@@ -66,6 +66,7 @@ public class CustomerDetail {
 		this.wechat = wechat;
 	}
 
+
 	public String getPaymentType() {
 		return paymentType;
 	}

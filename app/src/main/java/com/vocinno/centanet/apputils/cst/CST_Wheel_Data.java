@@ -9,19 +9,43 @@ import java.util.Map;
 public class CST_Wheel_Data {
 	public static LinkedTreeMap<String,String> sourceMap;
 	public static enum WheelType {
-		squareStart, squareEnd, priceChuzuStart, priceChuzuEnd, priceChushouStart, priceChushouEnd, huXing, louXing, biaoQian, area,source,level
+		squareStart, squareEnd, priceChuzuStart,
+		priceChuzuEnd, priceChushouStart,
+		priceChushouEnd, huXing, louXing,
+		biaoQian, area,source,level,fangxing,maxfangxing
 	};
 
 	private static ArrayList<String> mListStrs = new ArrayList<String>();
 
-	private void setSourceMap(){
-		sourceMap=new LinkedTreeMap<String,String>();
-	}
 	public static ArrayList<String> getListDatas(WheelType type) {
 		mListStrs.clear();
 		switch (type) {
+		case fangxing:
+			mListStrs.add("1室");
+			mListStrs.add("2室");
+			mListStrs.add("3室");
+			mListStrs.add("4室");
+			mListStrs.add("5室");
+			mListStrs.add("6室");
+			mListStrs.add("7室");
+			mListStrs.add("8室");
+			mListStrs.add("9室");
+			mListStrs.add("10室");
+			break;
+		case maxfangxing:
+			mListStrs.add("2室");
+			mListStrs.add("3室");
+			mListStrs.add("4室");
+			mListStrs.add("5室");
+			mListStrs.add("6室");
+			mListStrs.add("7室");
+			mListStrs.add("8室");
+			mListStrs.add("9室");
+			mListStrs.add("10室");
+			break;
 		case source:
 			if(sourceMap==null||sourceMap.size()<=0){
+				sourceMap=new LinkedTreeMap<String,String>();
 				sourceMap.put("来电","20040001");
 				sourceMap.put("来访","20040002");
 				sourceMap.put("中介","20040003");

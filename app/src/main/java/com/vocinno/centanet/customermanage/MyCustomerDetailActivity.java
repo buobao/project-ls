@@ -369,7 +369,6 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 				mDetail = (CustomerDetail) jsReturn.getObject();
 				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
 				mTvCustomerName.setText("姓名：" + mDetail.getName());
-				tv_money_customerDetailActivity.setText("");
 //				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
 				if (mDetail.isPay() == false) {
 //					mTvMoney.setText(R.string.money_false);
@@ -391,6 +390,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 					mTvAcreage.setText("区域：" + req.getAcreage());
 					mTvPrice.setText("租价：" + req.getPrice());// 价格
 					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
+					tv_money_customerDetailActivity.setText(req.getSelfDescription());
 				}
 				// 联系方式
 				if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {

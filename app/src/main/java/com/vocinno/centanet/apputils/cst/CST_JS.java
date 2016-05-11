@@ -429,6 +429,9 @@ public final class CST_JS {
 	public static String JS_CustomerList_ReqType = "reqType";
 	public static String JS_CustomerList_Acreage = "acreage";
 	public static String JS_CustomerList_Area = "area";
+	public static String JS_CustomerList_origin = "origin";//客户来源
+	public static String JS_CustomerList_rank = "rank";//客户等级
+	public static String JS_CustomerList_fromToRoom = "fromToRoom";//房型
 //	public static String JS_CustomerList_Other = "selfDescription";
 	public static String JS_CustomerList_Other = "other";
 	public static String JS_CustomerList_districtCode = "districtCode";
@@ -512,7 +515,7 @@ public final class CST_JS {
 	// 请求参数name phone qq wechat reqType(rent or buy) area acreage price other
 	public static String getJsonStringForAddCustomer(String name, String phone,
 													 String qq, String wechat, String reqType, String area,
-													 String acreage, String price, String other) {
+													 String acreage, String price, String other, String origin, String rank, String fromToRoom) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
 		jsonObject.addProperty(JS_CustomerList_Phone, phone);
@@ -523,6 +526,9 @@ public final class CST_JS {
 		jsonObject.addProperty(JS_CustomerList_Area, area);
 		jsonObject.addProperty(JS_HouseResource_Price, price);
 		jsonObject.addProperty(JS_CustomerList_Other, other);
+		jsonObject.addProperty(JS_CustomerList_origin, origin);
+		jsonObject.addProperty(JS_CustomerList_rank, rank);
+		jsonObject.addProperty(JS_CustomerList_fromToRoom, fromToRoom);
 		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}

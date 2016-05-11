@@ -6,6 +6,7 @@ public class Requets {
 	private String price = "";// 价格
 	private String reqType = "";// 类型
 	private String selfDescription ; // 需求自述
+	private String fromToRoom;
 	public Requets() {
 	}
 
@@ -49,4 +50,11 @@ public class Requets {
 		this.reqType = reqType;
 	}
 
+	public String getFromToRoom() {
+		return fromToRoom;
+	}
+
+	public void setFromToRoom(String fromToRoom) {
+		this.fromToRoom = fromToRoom;
+	}
 }

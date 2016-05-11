@@ -43,7 +43,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
-	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
+	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,tv_fangxing_cust,
 			mTvPrice, mTvTenancyTime/*mTvMoney, *//*mTvPaymenttype*/,tv_money_customerDetailActivity;
 	private ListViewNeedResetHeight mLvTracks;
 	//	private ImageView  mImgViewQQ, mImgWeixin;
@@ -73,7 +73,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 
 	@Override
 	public int setContentLayoutId() {
-		return R.layout.activity_customer_detail;
+		return R.layout.activity_my_customer_detail;
 	}
 
 	@SuppressLint("NewApi")
@@ -87,6 +87,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		mTvCustomerName = (TextView) findViewById(R.id.tv_customername_customerDetailActivity);
 		mTvType = (TextView) findViewById(R.id.tv_type_customerDetailActivity);
 		mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
+		tv_fangxing_cust = (TextView) findViewById(R.id.tv_fangxing_cust);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
 		tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
@@ -387,6 +388,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 				if (listReqs != null && listReqs.size() >= 1) {
 					Requets req = listReqs.get(0);
 					mTvType.setText("类型：" + req.getReqType());// 类型
+					tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 类型
 					mTvAcreage.setText("区域：" + req.getAcreage());
 					mTvPrice.setText("租价：" + req.getPrice());// 价格
 					mTvTenancyTime.setText("租期：" + req.getTenancyTime());

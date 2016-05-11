@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.AppApplication;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
@@ -43,6 +44,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public MyDialog.Builder myDialog;//自定义窗口
     public HttpInterface hif;
     public boolean isMyCustomerType = true;// 是否是我的客源，如果不是就认为是公客
+    public AppApplication myApp;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -58,6 +60,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApp= (AppApplication) getApplication();
         mContext = this;
         hif=(HttpInterface)this;
         MyUtils.addActivityToAllList(this);

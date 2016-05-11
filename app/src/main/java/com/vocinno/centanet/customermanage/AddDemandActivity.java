@@ -2,7 +2,9 @@ package com.vocinno.centanet.customermanage;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -10,13 +12,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.view.refreshablelistview.XListView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddDemandActivity extends OtherBaseActivity {
 
@@ -31,10 +41,11 @@ public class AddDemandActivity extends OtherBaseActivity {
     private LinearLayout ll_type_demand;
     private RelativeLayout rl_zu_demand,rl_gou_demand;
     private CheckBox cb_type_demand,cb_fangxing_demand,cb_place_demand,cb_pianqu_demand,cb_area_demand,cb_price_demand;
-    private String custCode;
     private TextView tv_type_demand,tv_fangxing_demand,tv_changePlace_demand,tv_changePianqu_demand,tv_changeArea_demand,tv_changePrice_demand;
+    private Button bt_fangxing_submit,bt_place_submit,bt_pianqu_submit,bt_area_submit,bt_price_submit;
+    private String custCode;
     private String reqType;
-
+    private TextView tv_min_fangxing,tv_max_fangxing,tv_min_area,tv_max_area;
     @Override
     public Handler setHandler() {
         return null;
@@ -54,6 +65,8 @@ public class AddDemandActivity extends OtherBaseActivity {
         mBack.setOnClickListener(this);
         mSubmitView = (ImageView)MethodsExtra.findHeadRightView1(mContext, baseView, 0,
                 R.drawable.universal_button_undone);
+        mSubmitView.setClickable(false);
+        mSubmitView.setEnabled(false);
         mSubmitView.setOnClickListener(this);
 
         iv_zu_demand= (ImageView) findViewById(R.id.iv_zu_demand);
@@ -128,7 +141,119 @@ public class AddDemandActivity extends OtherBaseActivity {
         wv_start_price_demand= (WheelView) il_price_demand.findViewById(R.id.wheelview_start_modelTwoWheelView);
         wv_end_price_demand= (WheelView) il_price_demand.findViewById(R.id.wheelview_end_modelTwoWheelView);
 
+        tv_min_fangxing= (TextView) il_fangxing_demand.findViewById(R.id.tv_startTitle_modelTwoWheelView);
+        tv_max_fangxing= (TextView) il_fangxing_demand.findViewById(R.id.tv_endTitle_modelTwoWheelView);
+        tv_min_area= (TextView) il_area_demand.findViewById(R.id.tv_startTitle_modelTwoWheelView);
+        tv_max_area= (TextView) il_area_demand.findViewById(R.id.tv_endTitle_modelTwoWheelView);
+        tv_min_fangxing.setText("最小房型");
+        tv_max_fangxing.setText("最大房型");
+        tv_min_area.setText("最小面积");
+        tv_max_area.setText("最大面积");
+
+        bt_fangxing_submit= (Button) il_fangxing_demand.findViewById(R.id.btn_submit_modelTwoWheelView);
+        bt_fangxing_submit.setOnClickListener(submitSelect(0));
+        bt_place_submit= (Button) il_place_demand.findViewById(R.id.btn_submit_modelOneWheelView);
+        bt_place_submit.setOnClickListener(submitSelect(1));
+        bt_pianqu_submit= (Button) il_pianqu_demand.findViewById(R.id.btn_submit_modelOneWheelView);
+        bt_pianqu_submit.setOnClickListener(submitSelect(2));
+        bt_area_submit = (Button) il_area_demand.findViewById(R.id.btn_submit_modelTwoWheelView);
+        bt_area_submit.setOnClickListener(submitSelect(3));
+        bt_price_submit= (Button) il_price_demand.findViewById(R.id.btn_submit_modelTwoWheelView);
+        bt_price_submit.setOnClickListener(submitSelect(4));
+
+
+        tv_type_demand= (TextView) findViewById(R.id.tv_type_demand);
+        tv_fangxing_demand= (TextView) findViewById(R.id.tv_fangxing_demand);
+        tv_changePlace_demand= (TextView) findViewById(R.id.tv_changePlace_demand);
+        tv_changePianqu_demand= (TextView) findViewById(R.id.tv_changePianqu_demand);
+        tv_changeArea_demand= (TextView) findViewById(R.id.tv_changeArea_demand);
+        tv_changePrice_demand= (TextView) findViewById(R.id.tv_changePrice_demand);
         initWheelViewData();
+    }
+
+    @NonNull
+    private View.OnClickListener submitSelect(final int type) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (type){
+                    case 0:
+                        String fangxing = wv_start_fangxing_demand.getSelectedText();
+                        String maxFangxing = wv_end_fangxing_demand.getSelectedText();
+                        if(Integer.parseInt(fangxing.replace("室",""))>=Integer.parseInt(maxFangxing.replace("室", ""))){
+                            MyToast.showToast("最大房型必须大于最小房型");
+                            return;
+                        }else{
+                            tv_fangxing_demand.setText(wv_start_fangxing_demand.getSelectedText()+"-"+wv_end_fangxing_demand.getSelectedText());
+                            cb_fangxing_demand.setChecked(false);
+                            il_fangxing_demand.setVisibility( View.GONE);
+                        }
+                    break;
+                    case 1:
+                        tv_changePlace_demand.setText(wv_place_demand.getSelectedText());
+                        cb_place_demand.setChecked(false);
+                        il_place_demand.setVisibility( View.GONE);
+                    break;
+                    case 2:
+                        tv_changePianqu_demand.setText(wv_pianqu_demand.getSelectedText());
+                        cb_pianqu_demand.setChecked(false);
+                        il_pianqu_demand.setVisibility(View.GONE);
+                        String url= NetWorkConstant.PORT_URL+ NetWorkMethod.addCustomerdelMobile;
+                        Map<String,String>map=new HashMap<String,String>();
+                        map.put(NetWorkConstant.token,myApp.getToken());
+                        /////////////////////////////////////
+                        OkHttpClientManager.postAsyn(url, new OkHttpClientManager.ResultCallback() {
+                            @Override
+                            public void onError(Request request, Exception e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Object response) {
+
+                            }
+                        },map);
+                    break;
+                    case 3:
+                        String area = wv_start_area_demand.getSelectedText();
+                        String maxarea = wv_end_area_demand.getSelectedText();
+                        if(Integer.parseInt(area.replace("平米",""))>=Integer.parseInt(maxarea.replace("平米", ""))){
+                            MyToast.showToast("最大面积应大于最小面积");
+                            return;
+                        }else{
+                            tv_changeArea_demand.setText(wv_start_area_demand.getSelectedText()+"-"+wv_end_area_demand.getSelectedText());
+                            cb_area_demand.setChecked(false);
+                            il_area_demand.setVisibility(View.GONE);
+                        }
+                    break;
+                    case 4:
+                        String price = wv_start_price_demand.getSelectedText();
+                        String maxprice = wv_end_price_demand.getSelectedText();
+                        if("rent".equals(reqType)){
+                            if(Integer.parseInt(price.replace("元",""))>=Integer.parseInt(maxprice.replace("元", ""))){
+                                MyToast.showToast("最高价格应大于最低价格");
+                                return;
+                            }else{
+                                tv_changePrice_demand.setText(wv_start_price_demand.getSelectedText()+"-"+wv_end_price_demand.getSelectedText());
+                                cb_price_demand.setChecked(false);
+                                il_price_demand.setVisibility(View.GONE);
+                            }
+                        }else{
+                            if(Integer.parseInt(price.replace("万",""))>=Integer.parseInt(maxprice.replace("万", ""))){
+                                MyToast.showToast("最高价格应大于最低价格");
+                                return;
+                            }else{
+                                tv_changePrice_demand.setText(wv_start_price_demand.getSelectedText()+"-"+wv_end_price_demand.getSelectedText());
+                                cb_price_demand.setChecked(false);
+                                il_price_demand.setVisibility( View.GONE);
+                            }
+                        }
+
+                    break;
+                }
+                checkIsFinish();
+            }
+        };
     }
 
     private void initWheelViewData() {
@@ -223,6 +348,12 @@ public class AddDemandActivity extends OtherBaseActivity {
         boolean cb_flag;
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.img_left_mhead1:
+                finish();
+                break;
+            case R.id.img_right_mhead1:
+
+                break;
             case R.id.rl_type_demand:
                 cb_flag=!cb_type_demand.isChecked();
                 cb_type_demand.setChecked(cb_flag);
@@ -266,6 +397,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 ll_type_demand.setVisibility(View.GONE);
                 // 求租
                 reqType = "rent";
+                tv_type_demand.setText("求租");
                 wv_start_price_demand.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart), CustomUtils.getWindowWidth(this)/2);
                 wv_start_price_demand.setEnabled(true);
                 wv_start_price_demand.setSelectItem(0);
@@ -281,6 +413,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 ll_type_demand.setVisibility(View.GONE);
                 // 求购
                 reqType = "buy";
+                tv_type_demand.setText("求购");
                 wv_start_price_demand.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart), CustomUtils.getWindowWidth(this)/2);
                 wv_start_price_demand.setEnabled(true);
                 wv_start_price_demand.setSelectItem(0);
@@ -306,7 +439,33 @@ public class AddDemandActivity extends OtherBaseActivity {
                 break;
         }
     }
-
+    private void checkIsFinish() {
+        boolean isFinish = true;
+        if (tv_type_demand.getText() == null || tv_type_demand.getText().toString().length() == 0) {
+            isFinish = false;
+        } else if(tv_fangxing_demand==null|| tv_fangxing_demand.getText().toString().length() == 0){
+            isFinish = false;
+        }else if(tv_changePlace_demand==null|| tv_changePlace_demand.getText().toString().length() == 0){
+            isFinish = false;
+        }else if(tv_changePianqu_demand==null|| tv_changePianqu_demand.getText().toString().length() == 0){
+            isFinish = false;
+        }else if (tv_changeArea_demand.getText() == null || tv_changeArea_demand.getText().toString().length() == 0) {
+            isFinish = false;
+        } else if (tv_changePrice_demand.getText() == null || tv_changePrice_demand.getText().toString().length() == 0) {
+            isFinish = false;
+        }
+        if (isFinish) {
+            mSubmitView = (ImageView)MethodsExtra.findHeadRightView1(mContext, baseView, 0,
+                    R.drawable.universal_button_done);
+            mSubmitView.setClickable(true);
+            mSubmitView.setEnabled(true);
+        } else {
+            mSubmitView = (ImageView)MethodsExtra.findHeadRightView1(mContext, baseView, 0,
+                    R.drawable.universal_button_undone);
+            mSubmitView.setClickable(false);
+            mSubmitView.setEnabled(false);
+        }
+    }
     @Override
     public void netWorkResult(String name, String className, Object data) {
 

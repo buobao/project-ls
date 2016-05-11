@@ -245,6 +245,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 				HouseList.class);
 		Message msg = new Message();
 		if (jReturn.isSuccess()) {
+			myApp.setToken(jReturn.getToken());
 			mUserId = jReturn.getEmpId();
 			msg.what = R.id.doSuccess;
 			msg.obj = jReturn.getMsg();

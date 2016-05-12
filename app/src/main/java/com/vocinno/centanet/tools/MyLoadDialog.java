@@ -17,6 +17,7 @@ public class MyLoadDialog extends Dialog {
     private static Context context;
     private static MyLoadDialog mInstance;
     private TextView tvMsg;
+    private static Dialog dialog;
 
     public static MyLoadDialog getInstance(Context mContext)
     {
@@ -27,12 +28,26 @@ public class MyLoadDialog extends Dialog {
                 if (mInstance == null)
                 {
                     context=mContext;
+                    getLoadDialog();
                     mInstance=new MyLoadDialog(context);
                 }
             }
         }
         return mInstance;
     }
+
+    private static void getLoadDialog() {
+        dialog = new Dialog(context, R.style.Theme_dialog);
+        dialog.setContentView(R.layout.loading);
+        dialog.setCanceledOnTouchOutside(false);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = ((Activity) context).getWindowManager().getDefaultDisplay().getWidth() * 3 / 4;
+        // params.height = default_height;
+        params.gravity = Gravity.CENTER;
+        window.setAttributes(params);
+    }
+
     public MyLoadDialog(Context context) {
         super(context, R.style.Theme_dialog);
         setContentView(R.layout.loading);

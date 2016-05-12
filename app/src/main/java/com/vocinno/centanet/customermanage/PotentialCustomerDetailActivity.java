@@ -10,11 +10,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
@@ -25,6 +27,10 @@ import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -34,7 +40,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private String mCusterCode = null;
@@ -47,6 +55,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private RelativeLayout mImgViewPhone;
     private Drawable drawable;
     private static final int RESET_LISTVIEW_TRACK = 1001;
+    private ImageView iv_add_demand_potential;
     @Override
     public Handler setHandler() {
         return null;
@@ -74,7 +83,8 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_qianke);
         mImgViewAddTrack = findViewById(R.id.imgView_addTrack_qianke);
         mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_qianke);
-
+        iv_add_demand_potential = (ImageView) findViewById(R.id.iv_add_demand_potential);
+        iv_add_demand_potential.setOnClickListener(this);
         mBackView.setOnClickListener(this);
         mGrabCustomer.setOnClickListener(this);
         mImgViewAddTrack.setOnClickListener(this);
@@ -112,6 +122,11 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.iv_add_demand_potential:
+                intent=new Intent(this, AddDemandActivity.class);
+                intent.putExtra("custCode", mCusterCode);
+                startActivityForResult(intent,101);
+                break;
             case R.id.img_right_mhead1:
                 if(mDetail.getPhone()==null||mDetail.getPhone().length()<=0){
                     MethodsExtra.toast(mContext,"暂无联系人号码");
@@ -155,13 +170,23 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ConstantResult.REFRESH) {
-            MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-            MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
+            URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
+            Map<String,String> map=new HashMap<String,String>();
+            map.put(NetWorkMethod.custCode,mCusterCode);
             showDialog();
-            // 调用数据
-            MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
-                    CST_JS.JS_Function_CustomerList_getCustomerInfo,
-                    CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+            OkHttpClientManager.postAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+                @Override
+                public void onError(Request request, Exception e) {
+                    dismissDialog();
+                }
+                @Override
+                public void onResponse(String response) {
+                    dismissDialog();
+                    JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
+                            CustomerDetail.class);
+                    getPotentialInfo(jsReturn);
+                }
+            });
 
         }
     }
@@ -246,26 +271,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                     MethodsExtra.toast(mContext,jsReturn.getMsg());
                 }
         }else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
-                mDetail = (CustomerDetail) jsReturn.getObject();
-                mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
-                mTvCustomerName.setText("姓名：" + mDetail.getName());
-                tv_money_customerDetailActivity.setText("");
-                // 填充跟踪信息列表
-                listTracks = mDetail.getTracks();
-                if (listTracks != null && listTracks.size() >= 1) {
-                    adapter = new CustomerDetailAdapter(mContext, listTracks);
-                    mLvTracks.setAdapter(adapter);
-                    mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-                }
-                // 填充需求信息
-                List<Requets> listReqs = mDetail.getRequets();
-                if (listReqs != null && listReqs.size() >= 1) {
-                    Requets req = listReqs.get(0);
-                    mTvType.setText("类型：" + req.getReqType());// 类型
-                    mTvAcreage.setText("区域：" + req.getAcreage());
-                    mTvPrice.setText("租价：" + req.getPrice());// 价格
-                    mTvTenancyTime.setText("租期：" + req.getTenancyTime());
-                }
+            getPotentialInfo(jsReturn);
         }else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
             if (jsReturn.isSuccess()) {
                 MethodsExtra.toast(mContext, jsReturn.getMsg());
@@ -276,6 +282,29 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                     MethodsExtra.toast(mContext,jsReturn.getMsg());
                 }
             }
+        }
+    }
+
+    private void getPotentialInfo(JSReturn jsReturn) {
+        mDetail = (CustomerDetail) jsReturn.getObject();
+        mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
+        mTvCustomerName.setText("姓名：" + mDetail.getName());
+        tv_money_customerDetailActivity.setText("");
+        // 填充跟踪信息列表
+        listTracks = mDetail.getTracks();
+        if (listTracks != null && listTracks.size() >= 1) {
+            adapter = new CustomerDetailAdapter(mContext, listTracks);
+            mLvTracks.setAdapter(adapter);
+            mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
+        }
+        // 填充需求信息
+        List<Requets> listReqs = mDetail.getRequets();
+        if (listReqs != null && listReqs.size() >= 1) {
+            Requets req = listReqs.get(0);
+            mTvType.setText("类型：" + req.getReqType());// 类型
+            mTvAcreage.setText("区域：" + req.getAcreage());
+            mTvPrice.setText("租价：" + req.getPrice());// 价格
+            mTvTenancyTime.setText("租期：" + req.getTenancyTime());
         }
     }
 

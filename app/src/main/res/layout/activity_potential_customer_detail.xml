@@ -107,7 +107,7 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/imgView_addTrack_xuqiu"
+                    android:id="@+id/iv_add_demand_potential"
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"

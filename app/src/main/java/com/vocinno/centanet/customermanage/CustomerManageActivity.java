@@ -28,6 +28,7 @@ import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;

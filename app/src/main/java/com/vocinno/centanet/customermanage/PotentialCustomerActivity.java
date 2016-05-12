@@ -27,6 +27,7 @@ import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;

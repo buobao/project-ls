@@ -24,6 +24,8 @@ public class NetWorkMethod {
     public static final String price="price";
     public static final String fromToRoom="fromToRoom";
     public static final String other="other";
+    /*****************客户详情********************/
+    public static final String custInfo="mobile/cust/custInfo";
     /*****************客户详情-区域获取片区********************/
     public static final String areas="mobile/hou/areas";
     public static final String districtCode="districtCode";

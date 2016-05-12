@@ -1,4 +1,4 @@
-package com.vocinno.centanet.customermanage;
+package com.vocinno.centanet.tools.constant;
 
 /**
  * Created by Administrator on 2016/4/5.

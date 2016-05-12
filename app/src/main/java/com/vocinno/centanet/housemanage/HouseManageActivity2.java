@@ -36,7 +36,7 @@ import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTag
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
-import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;

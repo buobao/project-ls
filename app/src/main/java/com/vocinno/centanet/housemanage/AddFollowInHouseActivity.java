@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsDeliverData;

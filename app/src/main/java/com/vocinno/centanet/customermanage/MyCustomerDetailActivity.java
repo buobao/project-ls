@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
@@ -29,6 +30,10 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -38,7 +43,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyCustomerDetailActivity extends OtherBaseActivity {
 	private String mCusterCode = null;
@@ -153,9 +160,9 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		super.onClick(v);
 		switch (v.getId()) {
 			case R.id.iv_add_demand_detail:
-				intent.setClass(this,AddDemandActivity.class);
+				intent=new Intent(this, AddDemandActivity.class);
 				intent.putExtra("custCode", mCusterCode);
-				startActivity(intent);
+				startActivityForResult(intent,101);
 				break;
 			case R.id.img_right_mhead1:
 				if(mDetail.getPhone()==null||mDetail.getPhone().length()<=0){
@@ -256,39 +263,24 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		/*if (data == null) {
-			return;
-		}*/
 		if (resultCode == ConstantResult.REFRESH) {
-			/*MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
+			URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
+			Map<String,String>map=new HashMap<String,String>();
+			map.put(NetWorkMethod.custCode,mCusterCode);
 			showDialog();
-			firstRefresh=true;
-			// 调用数据
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_getCustomerInfo,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-
-			if (MethodsDeliverData.flag1 == 1) {
-				MethodsDeliverData.flag1 = -1;
-				mGrabCustomer.setVisibility(View.VISIBLE);
-			}*/
-			firstRefresh=true;
-			MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-			MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-			showDialog();
-			// 调用数据
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-					CST_JS.JS_Function_CustomerList_getCustomerInfo,
-					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-
-//			initData();
-
-			/*Track track = new Track();
-			track.setTracktime(data.getStringExtra("time"));
-			track.setContent(data.getStringExtra("content"));
-			listTracks.add(listTracks.size(), track);
-			adapter = new CustomerDetailAdapter(mContext, listTracks);
-			mLvTracks.setAdapter(adapter);
-			mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-			adapter.notifyDataSetChanged();*/
+			OkHttpClientManager.postAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+				@Override
+				public void onError(Request request, Exception e) {
+					dismissDialog();
+				}
+				@Override
+				public void onResponse(String response) {
+					dismissDialog();
+					JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
+							CustomerDetail.class);
+					getCustInfo(jsReturn);
+				}
+			});
 		}
 	}
 	private Dialog mCallCustormerDialog;
@@ -377,44 +369,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 //			Log.i("jsReturn", "jsReturn"+jsReturn);
 		}else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
 			if(firstRefresh){
-				mDetail = (CustomerDetail) jsReturn.getObject();
-				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
-				mTvCustomerName.setText("姓名：" + mDetail.getName());
-//				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
-				if (mDetail.isPay() == false) {
-//					mTvMoney.setText(R.string.money_false);
-				} else {
-//					mTvMoney.setText(R.string.money_true);
-				}
-				// 填充跟踪信息列表
-				listTracks = mDetail.getTracks();
-				if (listTracks != null && listTracks.size() >= 1) {
-					adapter = new CustomerDetailAdapter(mContext, listTracks);
-					mLvTracks.setAdapter(adapter);
-					mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-				}
-				// 填充需求信息
-				List<Requets> listReqs = mDetail.getRequets();
-				if (listReqs != null && listReqs.size() >= 1) {
-					Requets req = listReqs.get(0);
-					mTvType.setText("类型：" + req.getReqType());// 类型
-					tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 类型
-					mTvAcreage.setText("区域：" + req.getAcreage());
-					mTvPrice.setText("租价：" + req.getPrice());// 价格
-					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
-					tv_money_customerDetailActivity.setText(req.getSelfDescription());
-				}
-				// 联系方式
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
-//					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
-				}
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
-//					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
-				}
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
-//					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
-				}
-				firstRefresh=false;
+				getCustInfo(jsReturn);
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
 			if (jsReturn.isSuccess()) {
@@ -444,6 +399,47 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 //				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
+	}
+
+	private void getCustInfo(JSReturn jsReturn) {
+		mDetail = (CustomerDetail) jsReturn.getObject();
+		mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
+		mTvCustomerName.setText("姓名：" + mDetail.getName());
+//				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
+		if (mDetail.isPay() == false) {
+//					mTvMoney.setText(R.string.money_false);
+        } else {
+//					mTvMoney.setText(R.string.money_true);
+        }
+		// 填充跟踪信息列表
+		listTracks = mDetail.getTracks();
+		if (listTracks != null && listTracks.size() >= 1) {
+            adapter = new CustomerDetailAdapter(mContext, listTracks);
+            mLvTracks.setAdapter(adapter);
+            mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
+        }
+		// 填充需求信息
+		List<Requets> listReqs = mDetail.getRequets();
+		if (listReqs != null && listReqs.size() >= 1) {
+            Requets req = listReqs.get(0);
+            mTvType.setText("类型：" + req.getReqType());// 类型
+            tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 类型
+            mTvAcreage.setText("区域：" + req.getAcreage());
+            mTvPrice.setText("租价：" + req.getPrice());// 价格
+            mTvTenancyTime.setText("租期：" + req.getTenancyTime());
+            tv_money_customerDetailActivity.setText(req.getSelfDescription());
+        }
+		// 联系方式
+		if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
+//					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
+        }
+		if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
+//					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
+        }
+		if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
+//					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
+        }
+		firstRefresh=false;
 	}
 
 	@Override

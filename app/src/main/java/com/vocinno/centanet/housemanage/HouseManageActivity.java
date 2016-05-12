@@ -42,7 +42,7 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
-import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseList;

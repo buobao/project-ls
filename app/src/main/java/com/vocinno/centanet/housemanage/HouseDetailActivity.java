@@ -44,7 +44,7 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.centanet.customermanage.ConstantResult;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;

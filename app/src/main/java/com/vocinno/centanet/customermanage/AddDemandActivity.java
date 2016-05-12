@@ -21,6 +21,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.CustomUtils;
@@ -64,7 +65,8 @@ public class AddDemandActivity extends OtherBaseActivity {
 
     @Override
     public void initView() {
-        custCode = getIntent().getStringExtra("custCode");
+        intent=getIntent();
+        custCode = intent.getStringExtra("custCode");
         MethodsExtra.findHeadTitle1(mContext, baseView,
                 R.string.my_potential_customer, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
@@ -494,6 +496,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
                 MyToast.showToast(jsReturn.getMsg());
                 if(jsReturn.isSuccess()){
+                    setResult(ConstantResult.REFRESH);
                     finish();
                 }
             }
@@ -502,16 +505,6 @@ public class AddDemandActivity extends OtherBaseActivity {
 
     @Override
     public void initData() {
-        intent = getIntent();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case ConstantResult.REFRESH:
-                break;
-        }
     }
 
     private void checkIsFinish() {

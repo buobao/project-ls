@@ -345,7 +345,6 @@ public class OkHttpClientManager {
         getInstance()._postAsyn(url, callback, params);
     }
 
-
     public static Response post(String url, File[] files, String[] fileKeys, Param... params) throws IOException
     {
         return getInstance()._post(url, files, fileKeys, params);

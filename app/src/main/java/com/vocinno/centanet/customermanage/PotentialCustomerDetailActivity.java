@@ -179,6 +179,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                 public void onError(Request request, Exception e) {
                     dismissDialog();
                 }
+
                 @Override
                 public void onResponse(String response) {
                     dismissDialog();

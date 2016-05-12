@@ -12,6 +12,7 @@ public class CustomerItem {
 	private String other = "";	 //其他
 	private String relativeDate = "";//相对日期
 	private String frame = "";	 //户型
+	private String fromToRoom  = "";	 //户型
 	private String custReqType = "";
 
 	public String getCustReqType() {
@@ -20,6 +21,14 @@ public class CustomerItem {
 
 	public void setCustReqType(String custReqType) {
 		this.custReqType = custReqType;
+	}
+
+	public String getFromToRoom() {
+		return fromToRoom;
+	}
+
+	public void setFromToRoom(String fromToRoom) {
+		this.fromToRoom = fromToRoom;
 	}
 
 	public String getCustCode() {

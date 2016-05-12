@@ -1,8 +1,11 @@
 package com.vocinno.centanet.tools;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
@@ -30,7 +33,7 @@ public class MyLoadDialog  extends Dialog {
         }
         return mInstance;
     }
-    /*public MyLoadDialog(Context context) {
+    public MyLoadDialog(Context context) {
         super(context, R.style.Theme_dialog);
         setContentView(R.layout.loading);
         Window window = getWindow();
@@ -45,14 +48,14 @@ public class MyLoadDialog  extends Dialog {
         // params.height = default_height;
         params.gravity = Gravity.CENTER;
         window.setAttributes(params);
-    }*/
+    }
 
-    private MyLoadDialog(Context context) {
+   /* private MyLoadDialog(Context context) {
         super(context, R.style.CustomProgressDialog);
         this.setContentView(R.layout.item_custom_dialog);
         this.getWindow().getAttributes().gravity = Gravity.CENTER;
         tvMsg=(TextView)findViewById(R.id.tv_dialg_title);
-    }
+    }*/
     public static void showDialog(){
         if(mInstance!=null&&!(mInstance.isShowing())){
             mInstance.show();

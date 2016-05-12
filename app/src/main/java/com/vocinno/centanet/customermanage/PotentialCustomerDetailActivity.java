@@ -49,7 +49,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private View mBackView, mImgViewAddTrack,mSubmit;
     private RelativeLayout mGrabCustomer;
     private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-            mTvPrice, mTvTenancyTime,tv_money_customerDetailActivity;
+            mTvPrice, tv_fangxing_potential,tv_area_potential,tv_money_customerDetailActivity;
     private ListViewNeedResetHeight mLvTracks;
     private CustomerDetail mDetail = null;
     private RelativeLayout mImgViewPhone;
@@ -78,7 +78,8 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         mTvType = (TextView) findViewById(R.id.tv_type_qianke);
         mTvAcreage = (TextView) findViewById(R.id.tv_acreage_qianke);
         mTvPrice = (TextView) findViewById(R.id.tv_price_qianke);
-        mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_qianke);
+        tv_fangxing_potential = (TextView) findViewById(R.id.tv_fangxing_potential);
+        tv_area_potential = (TextView) findViewById(R.id.tv_area_potential);
         tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_qianke);
         mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_qianke);
         mImgViewAddTrack = findViewById(R.id.imgView_addTrack_qianke);
@@ -303,9 +304,10 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         if (listReqs != null && listReqs.size() >= 1) {
             Requets req = listReqs.get(0);
             mTvType.setText("类型：" + req.getReqType());// 类型
+            tv_fangxing_potential.setText("房型：" + req.getFromToRoom());// 类型
             mTvAcreage.setText("区域：" + req.getAcreage());
-            mTvPrice.setText("租价：" + req.getPrice());// 价格
-            mTvTenancyTime.setText("租期：" + req.getTenancyTime());
+            mTvPrice.setText("价格：" + req.getPrice());// 价格
+            tv_area_potential.setText("面积：" + req.getAcreage());
         }
     }
 

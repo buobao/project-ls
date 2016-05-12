@@ -52,7 +52,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
 	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,tv_fangxing_cust,
-			mTvPrice,tv_area_custdetail, mTvTenancyTime/*mTvMoney, *//*mTvPaymenttype*/,tv_money_customerDetailActivity;
+			mTvPrice,tv_area_custdetail/*, mTvTenancyTimemTvMoney, *//*mTvPaymenttype*/,tv_money_customerDetailActivity;
 	private ListViewNeedResetHeight mLvTracks;
 	//	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
@@ -99,7 +99,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		tv_fangxing_cust = (TextView) findViewById(R.id.tv_fangxing_cust);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		tv_area_custdetail = (TextView) findViewById(R.id.tv_area_custdetail);
-		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
+//		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
 		tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
 //		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
@@ -428,7 +428,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
             mTvAcreage.setText("区域：" + req.getArea());//片区
             mTvPrice.setText("价格：" + req.getPrice());// 价格
 			tv_area_custdetail.setText("面积：" + req.getAcreage());// 面积
-            mTvTenancyTime.setText("租期：" + req.getTenancyTime());
+//            mTvTenancyTime.setText("租期：" + req.getTenancyTime());
             tv_money_customerDetailActivity.setText(req.getSelfDescription());
         }
 		// 联系方式

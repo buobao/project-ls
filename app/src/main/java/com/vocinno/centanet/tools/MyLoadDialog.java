@@ -13,7 +13,7 @@ import com.vocinno.centanet.R;
 /**
  * Created by Administrator on 2016/5/10.
  */
-public class MyLoadDialog  extends Dialog {
+public class MyLoadDialog extends Dialog {
     private static Context context;
     private static MyLoadDialog mInstance;
     private TextView tvMsg;

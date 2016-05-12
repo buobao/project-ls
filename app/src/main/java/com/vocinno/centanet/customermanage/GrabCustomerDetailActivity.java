@@ -44,8 +44,8 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
-	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-			mTvPrice, mTvTenancyTime, mTvMoney, mTvPaymenttype;
+	private TextView mTvCustomerCode, mTvCustomerName, mTvType, tv_fangxing_grab, mTvAcreage,
+			mTvPrice, mTvMoney, mTvPaymenttype;
 	private ListViewNeedResetHeight mLvTracks;
 //	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
@@ -87,9 +87,9 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 		mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_customerDetailActivity);
 		mTvCustomerName = (TextView) findViewById(R.id.tv_customername_customerDetailActivity);
 		mTvType = (TextView) findViewById(R.id.tv_type_customerDetailActivity);
+		tv_fangxing_grab = (TextView) findViewById(R.id.tv_fangxing_grab);
 		mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
-		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
 		mTvMoney = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
 		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
@@ -419,10 +419,10 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 				if (listReqs != null && listReqs.size() >= 1) {
 					Requets req = listReqs.get(0);
 					mTvType.setText("类型：" + req.getReqType());// 类型
+					tv_fangxing_grab.setText("房型：" + req.getFromToRoom());// 类型
 					mTvAcreage.setText("区域：" + req.getArea());
 					mTvPrice.setText("价格：" + req.getPrice());// 价格
 					tv_area_gkdetail.setText("面积：" + req.getAcreage());
-					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
 				}
 				// 联系方式
 				if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
@@ -28,7 +29,10 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -38,19 +42,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GrabCustomerDetailActivity extends OtherBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
 	private TextView mTvCustomerCode, mTvCustomerName, mTvType, tv_fangxing_grab, mTvAcreage,
-			mTvPrice, mTvMoney, mTvPaymenttype;
+			mTvPrice, mTvMoney/*, mTvPaymenttype*/;
 	private ListViewNeedResetHeight mLvTracks;
 //	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
 	private RelativeLayout mImgViewPhone;
-	private TextView tv_area_gkdetail;
+	private TextView tv_area_gkdetail,tv_xuqiuzishu_grab;
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
@@ -91,11 +97,12 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 		mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		mTvMoney = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
-		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
+//		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
 		mImgViewAddTrack = findViewById(R.id.imgView_addTrack_customerDetailActivity);
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
 		tv_area_gkdetail = (TextView) findViewById(R.id.tv_area_gkdetail);
+		tv_xuqiuzishu_grab = (TextView) findViewById(R.id.tv_xuqiuzishu_grab);
 //		mImgViewQQ = (ImageView) findViewById(R.id.imgView_qq_customerDetailActivity);
 //		mImgWeixin = (ImageView) findViewById(R.id.imgView_wx_customerDetailActivity);
 		mBackView.setOnClickListener(this);
@@ -164,8 +171,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 						AddFollowInCustomerActivity.class);
 				intent.putExtra("custCode",mCusterCode);
 //				MethodsExtra.startActivityForResult(mContext,10,intent);
-				startActivity(intent);
-				finish();
+				startActivityForResult(intent, 101);
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;
@@ -280,35 +286,24 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 			return;
 		}*/
 		if (resultCode == ConstantResult.REFRESH) {
-			/*MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
+			URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
+			Map<String,String> map=new HashMap<String,String>();
+			map.put(NetWorkMethod.custCode,mCusterCode);
 			showDialog();
-			firstRefresh=true;
-			// 调用数据
-			MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_getCustomerInfo,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+			OkHttpClientManager.postAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+				@Override
+				public void onError(Request request, Exception e) {
+					dismissDialog();
+				}
 
-			if (MethodsDeliverData.flag1 == 1) {
-				MethodsDeliverData.flag1 = -1;
-				mGrabCustomer.setVisibility(View.VISIBLE);
-			}*/
-			firstRefresh=true;
-//			MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-//			MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-			showDialog();
-			// 调用数据
-			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
-					CST_JS.JS_Function_CustomerList_getCustomerInfo,
-					CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-
-//			initData();
-
-			/*Track track = new Track();
-			track.setTracktime(data.getStringExtra("time"));
-			track.setContent(data.getStringExtra("content"));
-			listTracks.add(listTracks.size(), track);
-			adapter = new CustomerDetailAdapter(mContext, listTracks);
-			mLvTracks.setAdapter(adapter);
-			mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-			adapter.notifyDataSetChanged();*/
+				@Override
+				public void onResponse(String response) {
+					dismissDialog();
+					JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
+							CustomerDetail.class);
+					getGrabInfo(jsReturn);
+				}
+			});
 		}
 	}
 	private Dialog mCallCustormerDialog;
@@ -398,42 +393,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 //			Log.i("jsReturn", "jsReturn"+jsReturn);
 		}else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
 			if(firstRefresh){
-				mDetail = (CustomerDetail) jsReturn.getObject();
-				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
-				mTvCustomerName.setText("姓名：" + mDetail.getName());
-				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
-				if (mDetail.isPay() == false) {
-					mTvMoney.setText(R.string.money_false);
-				} else {
-					mTvMoney.setText(R.string.money_true);
-				}
-				// 填充跟踪信息列表
-				listTracks = mDetail.getTracks();
-				if (listTracks != null && listTracks.size() >= 1) {
-					adapter = new CustomerDetailAdapter(mContext, listTracks);
-					mLvTracks.setAdapter(adapter);
-					mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
-				}
-				// 填充需求信息
-				List<Requets> listReqs = mDetail.getRequets();
-				if (listReqs != null && listReqs.size() >= 1) {
-					Requets req = listReqs.get(0);
-					mTvType.setText("类型：" + req.getReqType());// 类型
-					tv_fangxing_grab.setText("房型：" + req.getFromToRoom());// 类型
-					mTvAcreage.setText("区域：" + req.getArea());
-					mTvPrice.setText("价格：" + req.getPrice());// 价格
-					tv_area_gkdetail.setText("面积：" + req.getAcreage());
-				}
-				// 联系方式
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
-//					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
-				}
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
-//					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
-				}
-				if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
-//					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
-				}
+				getGrabInfo(jsReturn);
 				firstRefresh=false;
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
@@ -464,6 +424,41 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 //				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		}
+	}
+
+	private void getGrabInfo(JSReturn jsReturn) {
+		mDetail = (CustomerDetail) jsReturn.getObject();
+		mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
+		mTvCustomerName.setText("姓名：" + mDetail.getName());
+//		mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
+		// 填充跟踪信息列表
+		listTracks = mDetail.getTracks();
+		if (listTracks != null && listTracks.size() >= 1) {
+            adapter = new CustomerDetailAdapter(mContext, listTracks);
+            mLvTracks.setAdapter(adapter);
+            mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
+        }
+		// 填充需求信息
+		List<Requets> listReqs = mDetail.getRequets();
+		if (listReqs != null && listReqs.size() >= 1) {
+            Requets req = listReqs.get(0);
+            mTvType.setText("类型：" + req.getReqType());// 类型
+            tv_fangxing_grab.setText("房型：" + req.getFromToRoom());// 类型
+            mTvAcreage.setText("区域：" + req.getArea());
+            mTvPrice.setText("价格：" + req.getPrice());// 价格
+            tv_area_gkdetail.setText("面积：" + req.getAcreage());
+			tv_xuqiuzishu_grab.setText(req.getSelfDescription());
+        }
+		// 联系方式
+		if (mDetail == null || TextUtils.isEmpty(mDetail.getPhone())||mDetail.getPhone().equals("null")) {
+//					mImgViewPhone.setImageResource(R.drawable.c_manage_icon_contact01);
+        }
+		if (mDetail == null || TextUtils.isEmpty(mDetail.getQq())||mDetail.getQq().equals("null")) {
+//					mImgViewQQ.setImageResource(R.drawable.c_manage_icon_qq01);
+        }
+		if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
+//					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
+        }
 	}
 
 	@Override

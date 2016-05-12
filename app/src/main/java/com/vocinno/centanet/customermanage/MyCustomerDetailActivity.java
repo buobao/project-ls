@@ -183,10 +183,9 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			case R.id.imgView_addTrack_customerDetailActivity:
 				MethodsDeliverData.string = mCusterCode;
 				// listTracks
-				intent.setClass(mContext,AddFollowInCustomerActivity.class);
+				intent.setClass(mContext, AddFollowInCustomerActivity.class);
 				intent.putExtra("custCode", mCusterCode);
-				startActivity(intent);
-				finish();
+				startActivityForResult(intent, 101);
 //				MethodsExtra.startActivityForResult(mContext,10,intent);
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
@@ -371,6 +370,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		}else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
 			if(firstRefresh){
 				getCustInfo(jsReturn);
+				firstRefresh=false;
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
 			if (jsReturn.isSuccess()) {
@@ -441,7 +441,6 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		if (mDetail == null || TextUtils.isEmpty(mDetail.getWechat())||mDetail.getWechat().equals("null")) {
 //					mImgWeixin.setImageResource(R.drawable.c_manage_icon_wechat01);
         }
-		firstRefresh=false;
 	}
 
 	@Override

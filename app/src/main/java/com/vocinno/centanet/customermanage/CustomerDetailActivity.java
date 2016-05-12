@@ -52,7 +52,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
 	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-			mTvPrice, mTvTenancyTime, mTvMoney, mTvPaymenttype;
+			mTvPrice, mTvTenancyTime, mTvMoney/*, mTvPaymenttype*/;
 	private ListViewNeedResetHeight mLvTracks;
 //	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
@@ -98,7 +98,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
 		mTvMoney = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
-		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
+//		mTvPaymenttype = (TextView) findViewById(R.id.tv_paymenttype_customerDetailActivity);
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
 		mImgViewAddTrack = findViewById(R.id.imgView_addTrack_customerDetailActivity);
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
@@ -401,7 +401,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				mDetail = (CustomerDetail) jsReturn.getObject();
 				mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
 				mTvCustomerName.setText("姓名：" + mDetail.getName());
-				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
+//				mTvPaymenttype.setText("付款方式：" + mDetail.getPaymentType());
 				if (mDetail.isPay() == false) {
 					mTvMoney.setText(R.string.money_false);
 				} else {

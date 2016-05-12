@@ -1,6 +1,5 @@
 package com.vocinno.centanet.customermanage;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -19,6 +18,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -171,12 +171,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			mSubmitView.setClickable(false);
 			break;
 		case R.id.img_left_mhead1:
-			if(intent==null){
-				intent=new Intent();
-			}
-			intent.setClass(this,GrabCustomerDetailActivity.class);
-			intent.putExtra("custCode",custCode);
-			startActivity(intent);
+//			setResult(ConstantResult.REFRESH);
 			finish();
 			break;
 		default:
@@ -189,14 +184,6 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 		if(this.modelDialog.isShowing()){
 			dismissDialog();
 			return true;
-		}else{
-			if(intent==null){
-				intent=new Intent();
-			}
-			intent.setClass(this,GrabCustomerDetailActivity.class);
-			intent.putExtra("custCode",custCode);
-			startActivity(intent);
-			finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -227,12 +214,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			setResult(10, intent);*/
 			/*setResult(ConstantResult.REFRESH);
 			finish();*/
-			if(intent==null){
-				intent=new Intent();
-			}
-			intent.setClass(this,GrabCustomerDetailActivity.class);
-			intent.putExtra("custCode",custCode);
-			startActivity(intent);
+			setResult(ConstantResult.REFRESH);
 			finish();
 		}
 	}

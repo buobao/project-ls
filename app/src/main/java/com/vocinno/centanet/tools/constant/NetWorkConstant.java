@@ -9,14 +9,4 @@ public class NetWorkConstant {
     public static final int pageSize=20;
 
 
-    /***********************登录*****************************/
-    public static final String source="source";
-    public static final String agencyApp="agencyApp";
-    public static final String username="username";
-    public static final String password="password";
-    public static final String version="version";
-    public static final String version_code="7.0";
-    public static final String empId="empId";
-    public static final String token="token";
-    /********************************************************/
 }

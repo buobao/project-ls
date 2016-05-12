@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppApplication;
-import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
@@ -22,6 +21,7 @@ import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -45,6 +45,8 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public HttpInterface hif;
     public boolean isMyCustomerType = true;// 是否是我的客源，如果不是就认为是公客
     public AppApplication myApp;
+    public String URL;
+
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();

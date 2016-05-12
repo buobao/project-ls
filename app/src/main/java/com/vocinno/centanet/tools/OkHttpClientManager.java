@@ -3,6 +3,7 @@ package com.vocinno.centanet.tools;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
@@ -73,11 +74,6 @@ public class OkHttpClientManager {
      * @param params
      */
     private void _postAsyn(String url, final ResultCallback callback, Param... params)
-    {
-        Request request = buildPostRequest(url, params);
-        deliveryResult(callback, request);
-    }
-    private void _postAsyn(String url, final Callback callback, Param... params)
     {
         Request request = buildPostRequest(url, params);
         deliveryResult(callback, request);
@@ -339,9 +335,9 @@ public class OkHttpClientManager {
     }
 
 
-    public static void postAsyn(String url, final ResultCallback callback, Map<String, String> params)
+    public static void postAsyn(String url, Map<String, String> params, final ResultCallback callback)
     {
-        MyLoadDialog.showDialog();
+//        MyLoadDialog.showDialog();
         Map<String, String> tokenMap=MyConstant.getToken();
         if(tokenMap!=null&&tokenMap.size()>0){
             params.putAll(tokenMap);
@@ -494,6 +490,7 @@ public class OkHttpClientManager {
             public void onResponse(final Response response) {
                 try {
                     final String string = response.body().string();
+                    Log.i("onResponse","return=="+string);
                     if (callback.mType == String.class) {
                         sendSuccessResultCallback(string, callback);
                     } else {

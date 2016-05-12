@@ -49,7 +49,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private View mBackView, mImgViewAddTrack,mSubmit;
     private RelativeLayout mGrabCustomer;
     private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-            mTvPrice, tv_fangxing_potential,tv_area_potential,tv_money_customerDetailActivity;
+            mTvPrice, tv_fangxing_potential,tv_area_potential, tv_xuqiu_qianke;
     private ListViewNeedResetHeight mLvTracks;
     private CustomerDetail mDetail = null;
     private RelativeLayout mImgViewPhone;
@@ -80,7 +80,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         mTvPrice = (TextView) findViewById(R.id.tv_price_qianke);
         tv_fangxing_potential = (TextView) findViewById(R.id.tv_fangxing_potential);
         tv_area_potential = (TextView) findViewById(R.id.tv_area_potential);
-        tv_money_customerDetailActivity = (TextView) findViewById(R.id.tv_money_qianke);
+        tv_xuqiu_qianke = (TextView) findViewById(R.id.tv_xuqiu_qianke);
         mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_qianke);
         mImgViewAddTrack = findViewById(R.id.imgView_addTrack_qianke);
         mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_qianke);
@@ -291,7 +291,6 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         mDetail = (CustomerDetail) jsReturn.getObject();
         mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
         mTvCustomerName.setText("姓名：" + mDetail.getName());
-        tv_money_customerDetailActivity.setText("");
         // 填充跟踪信息列表
         listTracks = mDetail.getTracks();
         if (listTracks != null && listTracks.size() >= 1) {
@@ -308,6 +307,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             mTvAcreage.setText("区域：" + req.getAcreage());
             mTvPrice.setText("价格：" + req.getPrice());// 价格
             tv_area_potential.setText("面积：" + req.getAcreage());
+            tv_xuqiu_qianke.setText( req.getSelfDescription());
         }
     }
 

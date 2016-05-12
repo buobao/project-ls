@@ -301,7 +301,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/tv_money_qianke"
+                    android:id="@+id/tv_xuqiu_qianke"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="50dp"

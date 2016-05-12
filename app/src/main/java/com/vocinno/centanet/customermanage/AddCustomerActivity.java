@@ -472,6 +472,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 					price = oldP;
 				}
 				String source=tv_source_addCustomer.getText().toString();
+				String sourceCode=CST_Wheel_Data.sourceMap.get(source);
 				String level=tv_level_addCustomer.getText().toString();
 				String fangxing=tv_fangxing_addCust.getText().toString().replace("室","");
 				String strJson = CST_JS.getJsonStringForAddCustomer(
@@ -479,7 +480,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 						mStrWeixin, reqType,
 						mapPianQu.get(mTvCustormerPianqu.getText().toString()),
 						mTvCustormerArea.getText().toString().replace("平米", ""),
-						price, mEtOtherInfo.getText().toString(),source,level,fangxing);
+						price, mEtOtherInfo.getText().toString(),sourceCode,level,fangxing);
 				Log.d(TAG, "updateAddUser :" + strJson);
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_addCustomer, strJson);

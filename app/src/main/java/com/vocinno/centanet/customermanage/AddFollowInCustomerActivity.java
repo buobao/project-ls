@@ -214,6 +214,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			setResult(10, intent);*/
 			/*setResult(ConstantResult.REFRESH);
 			finish();*/
+			MethodsExtra.toast(mContext, jsReturn.getMsg());
 			setResult(ConstantResult.REFRESH);
 			finish();
 		}

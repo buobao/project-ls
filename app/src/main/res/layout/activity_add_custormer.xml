@@ -161,6 +161,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/selector_addcust_sanjiao"
                     android:button="@null"
+                    android:enabled="false"
                     />
 
             </LinearLayout>
@@ -226,6 +227,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/selector_addcust_sanjiao"
                     android:button="@null"
+                    android:enabled="false"
                     />
 
             </LinearLayout>
@@ -419,6 +421,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/selector_addcust_sanjiao"
                     android:button="@null"
+                    android:enabled="false"
                     />
             </RelativeLayout>
 

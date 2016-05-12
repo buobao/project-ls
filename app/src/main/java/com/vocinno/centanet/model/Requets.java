@@ -2,6 +2,7 @@ package com.vocinno.centanet.model;
 
 public class Requets {
 	private String acreage = "";// 区域
+	private String area = "";//片区
 	private String TenancyTime = "";// 租期
 	private String price = "";// 价格
 	private String reqType = "";// 类型
@@ -28,6 +29,14 @@ public class Requets {
 
 	public String getPrice() {
 		return price;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 	public void setPrice(String price) {

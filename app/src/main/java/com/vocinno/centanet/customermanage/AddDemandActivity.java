@@ -53,6 +53,7 @@ public class AddDemandActivity extends OtherBaseActivity {
     private String reqType;
     private TextView tv_min_fangxing, tv_max_fangxing, tv_min_area, tv_max_area;
     private Map<String, String> mapPianQu = new HashMap<String, String>();
+    private String beforePlace;
     @Override
     public Handler setHandler() {
         return null;
@@ -185,7 +186,7 @@ public class AddDemandActivity extends OtherBaseActivity {
             @Override
             public void onClick(View v) {
                 switch (type) {
-                    case 0:
+                    case 0://房型
                         String fangxing = wv_start_fangxing_demand.getSelectedText();
                         String maxFangxing = wv_end_fangxing_demand.getSelectedText();
                         if (Integer.parseInt(fangxing.replace("室", "")) >= Integer.parseInt(maxFangxing.replace("室", ""))) {
@@ -197,13 +198,18 @@ public class AddDemandActivity extends OtherBaseActivity {
                             il_fangxing_demand.setVisibility(View.GONE);
                         }
                         break;
-                    case 1:
-                        tv_changePlace_demand.setText(wv_place_demand.getSelectedText());
+                    case 1://区域
+                        String quYu=wv_place_demand.getSelectedText();
+                        if(!quYu.equals(beforePlace)){
+                            tv_changePianqu_demand.setText("");
+                            beforePlace=quYu;
+                        }
+                        tv_changePlace_demand.setText(quYu);
                         cb_place_demand.setChecked(false);
                         il_place_demand.setVisibility(View.GONE);
                         Map<String, String> map = new HashMap<String, String>();
                         String strCode = CST_Wheel_Data
-                                .getCodeForArea(wv_place_demand.getSelectedText());
+                                .getCodeForArea(quYu);
                         map.put(NetWorkMethod.districtCode, strCode);
                         String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
                         showDialog();
@@ -220,12 +226,12 @@ public class AddDemandActivity extends OtherBaseActivity {
                             }
                         });
                         break;
-                    case 2:
+                    case 2://片区
                         tv_changePianqu_demand.setText(wv_pianqu_demand.getSelectedText());
                         cb_pianqu_demand.setChecked(false);
                         il_pianqu_demand.setVisibility(View.GONE);
                         break;
-                    case 3:
+                    case 3://面积
                         String area = wv_start_area_demand.getSelectedText();
                         String maxarea = wv_end_area_demand.getSelectedText();
                         if (Integer.parseInt(area.replace("平米", "")) >= Integer.parseInt(maxarea.replace("平米", ""))) {
@@ -237,7 +243,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                             il_area_demand.setVisibility(View.GONE);
                         }
                         break;
-                    case 4:
+                    case 4://价格
                         String price = wv_start_price_demand.getSelectedText();
                         String maxprice = wv_end_price_demand.getSelectedText();
                         if ("rent".equals(reqType)) {

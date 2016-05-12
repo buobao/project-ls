@@ -50,6 +50,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 //	private ImageView  mImgViewQQ, mImgWeixin;
 	private CustomerDetail mDetail = null;
 	private RelativeLayout mImgViewPhone;
+	private TextView tv_area_gkdetail;
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
@@ -94,6 +95,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 		mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_customerDetailActivity);
 		mImgViewAddTrack = findViewById(R.id.imgView_addTrack_customerDetailActivity);
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
+		tv_area_gkdetail = (TextView) findViewById(R.id.tv_area_gkdetail);
 //		mImgViewQQ = (ImageView) findViewById(R.id.imgView_qq_customerDetailActivity);
 //		mImgWeixin = (ImageView) findViewById(R.id.imgView_wx_customerDetailActivity);
 		mBackView.setOnClickListener(this);
@@ -417,8 +419,9 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 				if (listReqs != null && listReqs.size() >= 1) {
 					Requets req = listReqs.get(0);
 					mTvType.setText("类型：" + req.getReqType());// 类型
-					mTvAcreage.setText("区域：" + req.getAcreage());
-					mTvPrice.setText("租价：" + req.getPrice());// 价格
+					mTvAcreage.setText("区域：" + req.getArea());
+					mTvPrice.setText("价格：" + req.getPrice());// 价格
+					tv_area_gkdetail.setText("面积：" + req.getAcreage());
 					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
 				}
 				// 联系方式

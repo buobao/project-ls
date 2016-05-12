@@ -64,6 +64,7 @@
                  android:background="@drawable/selector_addcust_sanjiao"
                  android:button="@null"
                  android:checked="true"
+                 android:enabled="false"
                  />
          </RelativeLayout>
 
@@ -184,6 +185,7 @@
                  android:layout_marginRight="15dp"
                  android:background="@drawable/selector_addcust_sanjiao"
                  android:button="@null"
+                 android:enabled="false"
                  />
          </RelativeLayout>
 
@@ -244,6 +246,7 @@
                  android:layout_marginRight="15dp"
                  android:background="@drawable/selector_addcust_sanjiao"
                  android:button="@null"
+                 android:enabled="false"
                  />
          </RelativeLayout>
          <include
@@ -301,6 +304,7 @@
                  android:layout_marginRight="15dp"
                  android:background="@drawable/selector_addcust_sanjiao"
                  android:button="@null"
+                 android:enabled="false"
                  />
          </RelativeLayout>
          <include
@@ -358,6 +362,7 @@
                  android:layout_marginRight="15dp"
                  android:background="@drawable/selector_addcust_sanjiao"
                  android:button="@null"
+                 android:enabled="false"
                  />
          </RelativeLayout>
 
@@ -416,6 +421,7 @@
                  android:layout_marginRight="15dp"
                  android:background="@drawable/selector_addcust_sanjiao"
                  android:button="@null"
+                 android:enabled="false"
                  />
          </RelativeLayout>
          <include

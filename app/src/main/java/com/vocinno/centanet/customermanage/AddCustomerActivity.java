@@ -5,9 +5,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,12 +23,14 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data.WheelType;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.selfdefineview.ScrollViewCanStop;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -37,6 +39,7 @@ import com.vocinno.utils.MethodsJson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +53,11 @@ import java.util.regex.Pattern;
  *
  */
 @SuppressLint("CutPasteId")
-public class AddCustomerActivity extends OtherBaseActivity {
+public class AddCustomerActivity extends OtherBaseActivity implements View.OnTouchListener{
 	private Map<String, String> mapPianQu = new HashMap<String, String>();
 	private ModelDialog modelDialog;
+	private TextView tv_addcust_time;
+	private int isSameTel=0;
 	private static enum ConnectionType {
 		none, connTel, connQQ, connWeixin
 	};
@@ -81,7 +86,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 
 	private static final int MESSAGE_CLOSE_CHOOSER = 1001;
 	private static final int MESSAGE_REFRESH_WHEELVIEWPIANQU = 1002;
-	private String mStrQQ, mStrTel, mStrWeixin;
+	private String mStrQQ, mStrWeixin;
 	private ConnectionType mCurrConnType = ConnectionType.none;
 
 
@@ -91,7 +96,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	private WheelView wv_source_addCustomer,wv_level_addCustomer,wv_fangxing_start_addCustomer,wv_fangxing_end_addCustomer;
 	private Button bt_source_addCustomer,bt_level_addCustomer,bt_fangxing_addCustomer;
 	private TextView tv_source_addCustomer,tv_level_addCustomer,tv_fangxing_addCust,tv_start_title,tv_end_title;
-
+	private ScrollViewCanStop scrollView;
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_custormer;
@@ -101,6 +106,9 @@ public class AddCustomerActivity extends OtherBaseActivity {
 	public void initView() {
 		// 需要获取的输入控件
 //		mEtConnectionNumber = (EditText) findViewById(R.id.et_connectionNumber_addCustomerActivity);
+		scrollView = (ScrollViewCanStop) findViewById(R.id.scrollView1);
+		tv_addcust_time = (TextView) findViewById(R.id.tv_addcust_time);
+		tv_addcust_time.setText(MyUtils.getFormatDate(new Date()));
 		mEtCustormerName = (EditText) findViewById(R.id.et_name_addCustomerActivity);
 		// 需要添加点击事件的RelativeLayout
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
@@ -137,8 +145,13 @@ public class AddCustomerActivity extends OtherBaseActivity {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				mStrTel = mEtCustormerNumber.getText().toString().trim();
-				checkIsFinish();
+				String tel=mEtCustormerNumber.getText().toString().trim();
+				if(tel.length()>=11){
+					showDialog();
+					checkPhoneNum(tel);
+				}
+				///mStrTel = mEtCustormerNumber.getText().toString().trim();
+				///checkIsFinish();
 			}
 		});
 		mTvCustormerType = (TextView) findViewById(R.id.tv_type_addCustomerActivity);
@@ -441,18 +454,33 @@ public class AddCustomerActivity extends OtherBaseActivity {
 				checkIsFinish();
 				break;
 			case R.id.tv_connect_addCustomerActivity:
-				mEtCustormerNumber.setFocusable(true);
+				/*mEtCustormerNumber.setFocusable(true);
 				mEtCustormerNumber.setFocusableInTouchMode(true);
-				checkIsFinish();
+				checkIsFinish();*/
 				break;
 			case R.id.img_left_mhead1:
 				finish();
 				break;
 			case R.id.img_right_mhead1:
-				if(modelDialog==null){
-					modelDialog=new ModelDialog(this,R.layout.loading,R.style.Theme_dialog);
+				if(mEtCustormerNumber.getText()==null||mEtCustormerNumber.getText().toString().trim().length()<=0){
+					MethodsExtra.toast(mContext, "手机号码不能为空");
+					return;
+				}else{
+					if(!isMobileNO(mEtCustormerNumber.getText().toString())){
+						MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
+						mEtCustormerNumber.setFocusable(true);
+						mEtCustormerNumber.setFocusableInTouchMode(true);
+						return;
+					}
 				}
-				modelDialog.show();
+				if(isSameTel==0){
+					MethodsExtra.toast(mContext, "手机号码请查重");
+					return;
+				}else if(isSameTel==2){
+					MethodsExtra.toast(mContext, "手机号码重复");
+					return;
+				}
+				showDialog();
 				// 上传数据
 				String reqType = null;
 				if (mTvCustormerType.getText().toString().equals("求租")) {
@@ -476,14 +504,12 @@ public class AddCustomerActivity extends OtherBaseActivity {
 				String level=tv_level_addCustomer.getText().toString();
 				String fangxing=tv_fangxing_addCust.getText().toString().replace("室","");
 				String strJson = CST_JS.getJsonStringForAddCustomer(
-						mEtCustormerName.getText().toString(), mStrTel, mStrQQ,
-						mStrWeixin, reqType,
+						mEtCustormerName.getText().toString(), mEtCustormerNumber.getText().toString().trim(), reqType,
 						mapPianQu.get(mTvCustormerPianqu.getText().toString()),
 						mTvCustormerArea.getText().toString().replace("平米", ""),
 						price, mEtOtherInfo.getText().toString(),sourceCode,level,fangxing);
 				Log.d(TAG, "updateAddUser :" + strJson);
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-						CST_JS.JS_Function_CustomerList_addCustomer, strJson);
+				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_addCustomer, strJson);
 
 				break;
 			case R.id.rlyt_isChooseQiuzu_addCustomerActivity:
@@ -635,6 +661,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 							.getSelectedText());
 					String strCode = CST_Wheel_Data
 							.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
+					showDialog();
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 							CST_JS.JS_Function_HouseResource_getDistrictArray,
 							CST_JS.getJsonStringForGetAreaArray(strCode));
@@ -692,8 +719,14 @@ public class AddCustomerActivity extends OtherBaseActivity {
 				break;
 		}
 	}
+	private void checkPhoneNum(String tel){
+		String phoneJson = CST_JS.getJsonStringForCheckPhoneNORepeated(tel);
+		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+				CST_JS.JS_Function_CustomerList_addCustomer_checkPhoneNORepeated, phoneJson);
+	}
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
+		dismissDialog();
 		JSReturn jsReturn;
 		if (name.equals(CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT)) {
 			// 获取片区
@@ -715,12 +748,13 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		}else if(name.equals(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO)){
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, JSONObject.class);
 			if(jsReturn.isSuccess()){
+				isSameTel=1;
 				closeConnectionTypeContainer();
 			}else{
+				isSameTel=2;
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
 		} else {
-			modelDialog.dismiss();
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
@@ -793,9 +827,9 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		boolean isFinish = true;
 		if (mEtCustormerName.getText() == null || mEtCustormerName.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mStrTel == null) {
+		} /*else if (mStrTel == null) {
 			isFinish = false;
-		} else if(tv_source_addCustomer==null|| tv_source_addCustomer.getText().toString().length() == 0){
+		} */else if(tv_source_addCustomer==null|| tv_source_addCustomer.getText().toString().length() == 0){
 			isFinish = false;
 		}else if(tv_level_addCustomer==null|| tv_level_addCustomer.getText().toString().length() == 0){
 			isFinish = false;
@@ -803,9 +837,9 @@ public class AddCustomerActivity extends OtherBaseActivity {
 			isFinish = false;
 		}else if (mTvCustormerType.getText() == null || mTvCustormerType.getText().toString().length() == 0) {
 			isFinish = false;
-		} else if (mEtCustormerNumber.getText() == null || mEtCustormerNumber.getText().toString().length() == 0) {//mEtCustormerNumber
+		}/* else if (mEtCustormerNumber.getText() == null || mEtCustormerNumber.getText().toString().length() == 0) {//mEtCustormerNumber
 			isFinish = false;
-		} else if (mTvCustormerPlace.getText() == null || mTvCustormerPlace.getText().toString().length() == 0) {
+		} */else if (mTvCustormerPlace.getText() == null || mTvCustormerPlace.getText().toString().length() == 0) {
 			isFinish = false;
 		} else if (mTvCustormerPianqu.getText() == null || mTvCustormerPianqu.getText().toString().length() == 0) {
 			isFinish = false;
@@ -814,9 +848,9 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		} else if (mTvCustormerPrice.getText() == null || mTvCustormerPrice.getText().toString().length() == 0) {
 			isFinish = false;
 		}
-		if(!(isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel))) {
+		/*if(!(isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel))) {
 			isFinish = false;
-		}
+		}*/
 		if (isFinish) {
 			mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView,
 					0, R.drawable.universal_button_done);
@@ -909,21 +943,6 @@ public class AddCustomerActivity extends OtherBaseActivity {
 		mImgTypeRight.setBackgroundResource(R.drawable.h_manage_icon_down);
 	}
 
-	private String checkConnText() {
-		StringBuffer sb = new StringBuffer("");
-		if (mStrTel != null && mStrTel.length() >= 1) {
-			sb.append("tel:" + mStrTel);
-		}
-
-		if (mStrQQ != null && mStrQQ.length() >= 1) {
-			sb.append("qq:" + mStrQQ);
-		}
-
-		if (mStrWeixin != null && mStrWeixin.length() >= 1) {
-			sb.append("wx:" + mStrWeixin);
-		}
-		return sb.toString();
-	}
 
 	public static boolean isMobileNO(String mobiles) {
 		if(mobiles!=null){
@@ -938,7 +957,7 @@ public class AddCustomerActivity extends OtherBaseActivity {
 
 	}
 	public void setLoseFocus(){
-		if(mStrTel!=null){
+		/*if(mStrTel!=null){
 			if(isMobileNO(mStrTel) && !TextUtils.isEmpty(mStrTel)){
 				if(mEtCustormerNumber.isFocusable()){
 					mEtCustormerNumber.setFocusable(false);
@@ -950,6 +969,19 @@ public class AddCustomerActivity extends OtherBaseActivity {
 					mEtCustormerNumber.setFocusableInTouchMode(true);
 				}
 			}
+		}*/
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()){
+			case MotionEvent.ACTION_UP:
+				Log.i("v.getScaleX()", v.getScaleX() + "==========");
+				Log.i("v.getY()", v.getY() + "==========");
+				Log.i("v.getScrollY()", v.getScrollY() + "==========");
+				Log.i("v.getPivotY()",v.getPivotY()+"==========");
+			break;
 		}
+		return false;
 	}
 }

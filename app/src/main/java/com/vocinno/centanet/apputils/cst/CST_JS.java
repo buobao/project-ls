@@ -513,8 +513,7 @@ public final class CST_JS {
 	public static String JS_Function_CustomerList_addCustomer = "addCustomer";
 
 	// 请求参数name phone qq wechat reqType(rent or buy) area acreage price other
-	public static String getJsonStringForAddCustomer(String name, String phone,
-													 String qq, String wechat, String reqType, String area,
+	public static String getJsonStringForAddCustomer(String name, String phone, String reqType, String area,
 													 String acreage, String price, String other, String origin, String rank, String fromToRoom) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);

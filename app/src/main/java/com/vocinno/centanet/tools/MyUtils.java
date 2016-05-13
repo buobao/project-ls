@@ -116,4 +116,14 @@ public  class MyUtils {
             return date;
         }
     }
+    public static String getFormatDate(Date date){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            String format=sdf.format(date);
+            return format;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
 }

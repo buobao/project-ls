@@ -129,7 +129,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 		mCusterCode=getIntent().getStringExtra("custCode");
 		showDialog();
 		// 调用数据
-		MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
+		MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
 				CST_JS.JS_Function_CustomerList_getCustomerInfo,
 				CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
 		if (MethodsDeliverData.flag1 == 1) {
@@ -301,7 +301,11 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 					dismissDialog();
 					JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
 							CustomerDetail.class);
-					getGrabInfo(jsReturn);
+					if(jsReturn.isSuccess()){
+						getGrabInfo(jsReturn);
+					}else{
+						MethodsExtra.toast(mContext,jsReturn.getMsg());
+					}
 				}
 			});
 		}
@@ -393,8 +397,12 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 //			Log.i("jsReturn", "jsReturn"+jsReturn);
 		}else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
 			if(firstRefresh){
-				getGrabInfo(jsReturn);
-				firstRefresh=false;
+				if(jsReturn.isSuccess()){
+					getGrabInfo(jsReturn);
+					firstRefresh=false;
+				}else{
+					MethodsExtra.toast(mContext,jsReturn.getMsg());
+				}
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
 			if (jsReturn.isSuccess()) {

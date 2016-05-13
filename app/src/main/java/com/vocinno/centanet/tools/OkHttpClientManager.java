@@ -19,6 +19,9 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.vocinno.centanet.tools.constant.MyConstant;
 
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +30,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -78,6 +83,11 @@ public class OkHttpClientManager {
         Request request = buildPostRequest(url, params);
         deliveryResult(callback, request);
     }
+    private void requestForGet(String url, final ResultCallback callback)
+    {
+        Request request = buildGetRequest(url);
+        deliveryResult(callback, request);
+    }
     /**
      * 异步的post请求
      *
@@ -90,33 +100,6 @@ public class OkHttpClientManager {
         Param[] paramsArr = map2Params(params);
         Request request = buildPostRequest(url, paramsArr);
         deliveryResult(callback, request);
-    }
-    /**
-     * 同步的Get请求
-     *
-     * @param url
-     * @return Response
-     */
-    private Response _getAsyn(String url) throws IOException
-    {
-        final Request request = new Request.Builder()
-                .url(url)
-                .build();
-        Call call = mOkHttpClient.newCall(request);
-        Response execute = call.execute();
-        return execute;
-    }
-
-    /**
-     * 同步的Get请求
-     *
-     * @param url
-     * @return 字符串
-     */
-    private String _getAsString(String url) throws IOException
-    {
-        Response execute = _getAsyn(url);
-        return execute.body().string();
     }
 
 
@@ -299,21 +282,6 @@ public class OkHttpClientManager {
         return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
     }
 
-
-    //*************对外公布的方法************
-
-
-    public static Response getAsyn(String url) throws IOException
-    {
-        return getInstance()._getAsyn(url);
-    }
-
-
-    public static String getAsString(String url) throws IOException
-    {
-        return getInstance()._getAsString(url);
-    }
-
     public static void getAsyn(String url, ResultCallback callback)
     {
         getInstance()._getAsyn(url, callback);
@@ -343,6 +311,22 @@ public class OkHttpClientManager {
             params.putAll(tokenMap);
         }
         getInstance()._postAsyn(url, callback, params);
+    }
+    public static void getAsyn(String url, Map<String, String> params, final ResultCallback callback)
+    {
+//        MyLoadDialog.showDialog();
+        Map<String, String> tokenMap=MyConstant.getToken();
+        if(tokenMap!=null&&tokenMap.size()>0){
+            params.putAll(tokenMap);
+        }
+        List<BasicNameValuePair> NVPList=new ArrayList<BasicNameValuePair>();
+        BasicNameValuePair pair=null;
+        for (Map.Entry<String, String> temp : params.entrySet()) {
+            pair=new BasicNameValuePair(temp.getKey(), temp.getValue());
+            NVPList.add(pair);
+        }
+        url=attachHttpGetParams(url,NVPList);
+        getInstance().requestForGet(url, callback);
     }
 
     public static Response post(String url, File[] files, String[] fileKeys, Param... params) throws IOException
@@ -483,13 +467,14 @@ public class OkHttpClientManager {
             @Override
             public void onFailure(final Request request, final IOException e) {
                 sendFailedStringCallback(false, request, e, callback);
+                Log.i("e.getMessage()", "e.getMessage()==" + e.getMessage());
             }
 
             @Override
             public void onResponse(final Response response) {
                 try {
                     final String string = response.body().string();
-                    Log.i("onResponse","return=="+string);
+                    Log.i("onResponse", "return==" + string);
                     if (callback.mType == String.class) {
                         sendSuccessResultCallback(string, callback);
                     } else {
@@ -509,17 +494,19 @@ public class OkHttpClientManager {
 
     private void sendFailedStringCallback(final boolean isException ,final Request request, final Exception e, final ResultCallback callback)
     {
-        mDelivery.post(new Runnable()
-        {
+        mDelivery.post(new Runnable() {
             @Override
-            public void run()
-            {
-                if (callback != null){
+            public void run() {
+                if (callback != null) {
                     MyLoadDialog.dismissDialog();
-                    if(isException){
+                    if (isException) {
                         MyToast.showToast("net work error");
-                    }else{
-                        MyToast.showToast("请检查网络之后再试");
+                    } else {
+                        if(e.getMessage().indexOf("after")>=0){
+                            MyToast.showToast("请求超时,请稍后再试");
+                        }else{
+                            MyToast.showToast("请检查网络之后再试");
+                        }
                     }
                     callback.onError(request, e);
                 }
@@ -529,13 +516,10 @@ public class OkHttpClientManager {
 
     private void sendSuccessResultCallback(final Object object, final ResultCallback callback)
     {
-        mDelivery.post(new Runnable()
-        {
+        mDelivery.post(new Runnable() {
             @Override
-            public void run()
-            {
-                if (callback != null)
-                {
+            public void run() {
+                if (callback != null) {
                     MyLoadDialog.dismissDialog();
                     callback.onResponse(object);
                 }
@@ -543,6 +527,18 @@ public class OkHttpClientManager {
         });
     }
 
+    public static String formatParams(List<BasicNameValuePair> params){
+        return URLEncodedUtils.format(params, "UTF-8");
+    }
+    public static String attachHttpGetParams(String url, List<BasicNameValuePair> params){
+        return url + "?" + formatParams(params);
+    }
+    private Request buildGetRequest(String url)
+    {
+        return new Request.Builder()
+                .url(url)
+                .build();
+    }
     private Request buildPostRequest(String url, Param[] params)
     {
         if (params == null)

@@ -106,7 +106,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         mCusterCode=getIntent().getStringExtra("custCode");
         showDialog();
         // 调用数据
-        MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
+        MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
                 CST_JS.JS_Function_CustomerList_getCustomerInfo,
                 CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
         if (MethodsDeliverData.flag1 == 1) {
@@ -186,7 +186,11 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                     dismissDialog();
                     JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
                             CustomerDetail.class);
-                    getPotentialInfo(jsReturn);
+                    if(jsReturn.isSuccess()){
+                        getPotentialInfo(jsReturn);
+                    }else{
+                        MethodsExtra.toast(mContext,jsReturn.getMsg());
+                    }
                 }
             });
 
@@ -273,7 +277,11 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                     MethodsExtra.toast(mContext,jsReturn.getMsg());
                 }
         }else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
-            getPotentialInfo(jsReturn);
+            if(jsReturn.isSuccess()){
+                getPotentialInfo(jsReturn);
+            }else{
+                MethodsExtra.toast(mContext,jsReturn.getMsg());
+            }
         }else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
             if (jsReturn.isSuccess()) {
                 MethodsExtra.toast(mContext, jsReturn.getMsg());

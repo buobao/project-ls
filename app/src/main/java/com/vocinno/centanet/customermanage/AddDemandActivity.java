@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,7 +41,7 @@ public class AddDemandActivity extends OtherBaseActivity {
     private View mBack;
     private ImageView mSubmitView, iv_zu_demand, iv_gou_demand;
     private Intent intent;
-
+    private EditText et_otherInfo_demand;
     private RelativeLayout rl_type_demand, rl_fangxing_demand, rl_place_demand, rl_pianqu_demand, rl_area_demand, rl_price_demand;
     private RelativeLayout il_fangxing_demand, il_place_demand, il_pianqu_demand, il_area_demand, il_price_demand;
     private WheelView wv_start_fangxing_demand, wv_end_fangxing_demand, wv_place_demand, wv_pianqu_demand, wv_start_area_demand, wv_end_area_demand, wv_start_price_demand, wv_end_price_demand;
@@ -171,6 +172,7 @@ public class AddDemandActivity extends OtherBaseActivity {
         bt_price_submit.setOnClickListener(submitSelect(4));
 
 
+        et_otherInfo_demand = (EditText) findViewById(R.id.et_otherInfo_demand);
         tv_type_demand = (TextView) findViewById(R.id.tv_type_demand);
         tv_fangxing_demand = (TextView) findViewById(R.id.tv_fangxing_demand);
         tv_changePlace_demand = (TextView) findViewById(R.id.tv_changePlace_demand);
@@ -213,16 +215,21 @@ public class AddDemandActivity extends OtherBaseActivity {
                         map.put(NetWorkMethod.districtCode, strCode);
                         String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
                         showDialog();
-                        OkHttpClientManager.postAsyn(url,map, new OkHttpClientManager.ResultCallback<String>() {
+                        OkHttpClientManager.postAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
                             @Override
                             public void onError(Request request, Exception e) {
                                 dismissDialog();
                             }
+
                             @Override
                             public void onResponse(String response) {
                                 dismissDialog();
                                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PianQu.class);
-                                setPianQuData(jsReturn);
+                                if(jsReturn.isSuccess()){
+                                    setPianQuData(jsReturn);
+                                }else {
+                                    MyToast.showToast(jsReturn.getMsg());
+                                }
                             }
                         });
                         break;
@@ -481,27 +488,45 @@ public class AddDemandActivity extends OtherBaseActivity {
         }else{
             price=wv_start_price_demand.getSelectedText().replace("万","0000")+"-"+wv_end_price_demand.getSelectedText().replace("万","0000");
         }
+        String xuQiu=et_otherInfo_demand.getText().toString();
         URL=NetWorkConstant.PORT_URL+NetWorkMethod.addCustomerdelMobile;
-        Map<String,String>map=new HashMap<String,String>();
+        final Map<String,String>map=new HashMap<String,String>();
         map.put(NetWorkMethod.custCode,custCode);
         map.put(NetWorkMethod.reqType,reqType);
         map.put(NetWorkMethod.fromToRoom  ,fangXing);
         map.put(NetWorkMethod.distCode ,place);
         map.put(NetWorkMethod.area ,pianQu);
-        map.put(NetWorkMethod.acreage  ,area);
-        map.put(NetWorkMethod.price,price);
+        map.put(NetWorkMethod.acreage,area);
+        map.put(NetWorkMethod.other, xuQiu);
+        map.put(NetWorkMethod.price, price);
+//        map.put(NetWorkMethod.token, myApp.getToken());
         showDialog();
-        OkHttpClientManager.postAsyn(URL,map, new OkHttpClientManager.ResultCallback<String>() {
+        /*new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    dismissDialog();
+                    String returnStr= HttpRequest.httpClientByPost(URL, map);
+                    Log.i("returnStr", "returnStr"+returnStr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ;
+                }
+            }
+        }.start();*/
+        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissDialog();
             }
+
             @Override
             public void onResponse(String response) {
                 dismissDialog();
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
                 MyToast.showToast(jsReturn.getMsg());
-                if(jsReturn.isSuccess()){
+                if (jsReturn.isSuccess()) {
                     setResult(ConstantResult.REFRESH);
                     finish();
                 }

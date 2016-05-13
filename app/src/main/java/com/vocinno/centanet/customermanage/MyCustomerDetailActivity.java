@@ -369,8 +369,12 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 //			Log.i("jsReturn", "jsReturn"+jsReturn);
 		}else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
 			if(firstRefresh){
-				getCustInfo(jsReturn);
-				firstRefresh=false;
+				if (jsReturn.isSuccess()) {
+					getCustInfo(jsReturn);
+					firstRefresh=false;
+				}else{
+					MethodsExtra.toast(this,jsReturn.getMsg());
+				}
 			}
 		}else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
 			if (jsReturn.isSuccess()) {

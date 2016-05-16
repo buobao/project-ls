@@ -835,7 +835,14 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                         mSearchListData = jsReturn.getListDatas();
                         SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
                         lv_house_list.setAdapter(mSearch);
-                        ll_house_list.setVisibility(View.VISIBLE);
+                        if(jsReturn.getListDatas().size()==1&&isHiddenList){
+                            ll_house_list.setVisibility(View.GONE);
+                            mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
+                            isHiddenList=false;
+                        }else{
+                            ll_house_list.setVisibility(View.VISIBLE);
+                            mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_show);
+                        }
                     }else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
                         //抱歉没有搜索到该房源
@@ -895,6 +902,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
     public static EditText mEtSearch;
     private TextView tv_house_search;
+    private boolean isHiddenList;
     private void showSearchDialog() {
         mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
         mSearchDialog.setContentView(R.layout.dialog_search_house_manage2);
@@ -922,10 +930,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             @Override
             public void onClick(View arg0) {
                 ll_house_list.setVisibility(View.GONE);
+                mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
 				mEtSearch.setText("");
                 mSearch.setList(null);
                 mSearch.notifyDataSetChanged();
-                ll_house_list.setVisibility(View.GONE);
             }
         });
         // 根据mEtSearch得到的字符串去请求
@@ -940,7 +948,12 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             }
             @Override
             public void afterTextChanged(Editable arg0) {
-                searchHouse(arg0.toString().trim());
+                if(arg0==null||arg0.toString().trim().length()<=0){
+                    ll_house_list.setVisibility(View.GONE);
+                    mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
+                }else{
+                    searchHouse(arg0.toString().trim());
+                }
             }
         });
 
@@ -953,6 +966,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 searchType[viewPageIndex]=mSearchListData.get(arg2).getSearchType();
                 mEtSearch.setText(mSearchListData.get(arg2).getSearchName());
                 ll_house_list.setVisibility(View.GONE);
+                mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
+                isHiddenList=true;
 //                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
 //                mSearchDialog.dismiss();
             }

@@ -77,6 +77,8 @@ public final class CST_JS {
 	public static String JS_CommonParam_CustCode = "custCode";
 	public static String JS_CommonParam_ReqType = "reqType";
 	public static String jS_CommonParam_Name = "name";
+	public static String jS_CommonParam_buildingName = "buildingName";
+	public static String jS_CommonParam_roomNo = "roomNo";
 	public static String jS_CommonParam_ParamType = "paramType";
 	public static String jS_CommonParam_Content = "content";
 	public static String jS_CommonParam_Att = "att";
@@ -210,10 +212,12 @@ public final class CST_JS {
 	public static String JS_Function_HouseResource_searchEstateName = "searchEstateName";
 
 	// 请求参数 name page pageSize
-	public static String getJsonStringForHouseListSearchEstateName(String name,
+	public static String getJsonStringForHouseListSearchEstateName(String name,String buildingName,String roomNo,
 																   int page, int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
+		jsonObject.addProperty(jS_CommonParam_buildingName, buildingName);
+		jsonObject.addProperty(jS_CommonParam_roomNo, roomNo);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
 		jsonObject.addProperty(JS_CommonParam_Pagesize,
 				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);

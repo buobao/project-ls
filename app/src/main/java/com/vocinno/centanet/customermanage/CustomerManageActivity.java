@@ -170,7 +170,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			mMenuDialog.dismiss();
 			break;
 		case R.id.ll_add_customer:
-			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
+			startActivityForResult(new Intent(mContext, AddCustomerActivity.class),101);
 			mMenuDialog.dismiss();
 			break;
 		case R.id.img_left_mhead1:

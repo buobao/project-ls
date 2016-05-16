@@ -22,12 +22,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
@@ -36,7 +36,6 @@ import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTag
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
-import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
@@ -50,6 +49,8 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
@@ -82,13 +83,16 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private PaiXuType mPaiXuType = PaiXuType.None;
     private DrawerLayout drawer_layout;
     private View leftMenuView;
+    private PopupWindow popu;
+    private String dongHao;
+    private String shiHao;
 
     private enum PaiXuType {
         None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
     }
-    private LinearLayout ll_dialog_wheelview_two0, ll_dialog_wheelview_two1, ll_dialog_wheelview_two2, ll_dialog_wheelview_two3, ll_dialog_wheelview_two4;
+    private LinearLayout ll_house_list,ll_dialog_wheelview_two0, ll_dialog_wheelview_two1, ll_dialog_wheelview_two2, ll_dialog_wheelview_two3, ll_dialog_wheelview_two4;
     private List<String> mHistorySearch;
-    private ListView mListView;
+    private ListView lv_house_list;
     private View mViewBack, mViewMore;
     private Drawable drawable;
     private int layoutIndex=-1;//用于记录打开条件视图的下标
@@ -111,6 +115,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private RobGongZuFragment robGongZuFragment;
     private List<EstateSearchItem> mSearchListData;
     private boolean  isGongFang;
+    private EditText et_house_dong, et_house_shi;
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -195,7 +200,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         drawer_layout=(DrawerLayout)baseView.findViewById(R.id.drawer_layout);
         leftMenuView=baseView.findViewById(R.id.left_menu_housemanager);
         drawer_layout.closeDrawer(leftMenuView);
-        setViewPager( );
+        setViewPager();
         addLinearLayout();
         mViewBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mViewMore = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
@@ -220,6 +225,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                         }
                     }
                 });
+
     }
     private void setViewPager() {
 
@@ -373,7 +379,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         }else{
             methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_getList, CST_JS
-                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
+                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType,dongHao,shiHao));
         }
     }
     @Override
@@ -593,9 +599,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 closeOtherWheelView(layoutIndex);
                 showMenuDialog();
                 break;
-            case R.id.btn_search_dialogSearchHouseManage://搜索
-//			searchHouse();
-                break;
             //附近出售
             case R.id.rlyt_sell_house_main_page_slid_menus:
                 changeViewPager(0);
@@ -643,7 +646,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 }else{
                     viewPageIndex=0;
                     isGongFang=true;
-                    removeViewPager();
                     setFragmentToPager(true);
                 }
                 drawer_layout.closeDrawer(leftMenuView);
@@ -655,7 +657,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 }else{
                     viewPageIndex=1;
                     isGongFang=true;
-                    removeViewPager();
                     setFragmentToPager(true);
                 }
                 drawer_layout.closeDrawer(leftMenuView);
@@ -685,45 +686,20 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 MethodsDeliverData.flag = -1;
                 MethodsExtra.startActivity(mContext, MessageListActivity.class);
                 break;
+            case R.id.tv_house_search:
+                dongHao = et_house_dong.getText().toString();
+                shiHao = et_house_shi.getText().toString();
+                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
+                mSearchDialog.dismiss();
+                break;
             default:
                 break;
         }
-    }
-    public void removeViewPager(){
-//        if(isGongFang){
-            /*vp_house_manager.setVisibility(View.GONE);
-            vp_gong_fang_manager.setVisibility(View.VISIBLE);*/
-        /*}else{
-            vp_house_manager.setVisibility(View.VISIBLE);
-            vp_gong_fang_manager.setVisibility(View.GONE);
-        }*/
-        /*pagerAdapter.setFragmentToPager(null);
-        pagerAdapter.notifyDataSetChanged();
-        vp_house_manager.removeAllViews();
-        vp_house_manager.removeAllViewsInLayout();
-        vp_house_manager=null;*/
-//        setViewPager();
-    }
-    public void removeGongFangViewPager(){
-        /*if(isGongFang){
-            vp_house_manager.setVisibility(View.GONE);
-            vp_gong_fang_manager.setVisibility(View.VISIBLE);
-        }else{*/
-            /*vp_house_manager.setVisibility(View.VISIBLE);
-            vp_gong_fang_manager.setVisibility(View.GONE);*/
-//        }
-        /*pagerGongFangAdapter.setFragmentToPager(null);
-        pagerGongFangAdapter.notifyDataSetChanged();
-        vp_gong_fang_manager.removeAllViews();
-        vp_gong_fang_manager.removeAllViewsInLayout();
-        vp_gong_fang_manager=null;*/
-//        setViewPager();
     }
     private void changeViewPager(int index) {
         if(isGongFang){
             isGongFang=false;
             viewPageIndex=index;
-            removeGongFangViewPager();
             setFragmentToPager(false);
         }else{
             vp_house_manager.setCurrentItem(index);
@@ -858,7 +834,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     if(jsReturn.getListDatas().size()>0){
                         mSearchListData = jsReturn.getListDatas();
                         SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
-                        mListView.setAdapter(mSearch);
+                        lv_house_list.setAdapter(mSearch);
+                        ll_house_list.setVisibility(View.VISIBLE);
                     }else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
                         //抱歉没有搜索到该房源
@@ -872,8 +849,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
     MethodsJni methodsJni;
     private void searchHouse(String editString) {
-        mLvHostory.setVisibility(View.INVISIBLE);
-//		String editString=mEtSearch.getText().toString().trim();
+        lv_house_list.setVisibility(View.INVISIBLE);
         if(editString==null||editString.length()<=0){
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
 //            MethodsExtra.toast(mContext, "请输入搜索条件");
@@ -881,14 +857,14 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             if(methodsJni==null){
                 methodsJni=new MethodsJni();
             }
-            methodsJni.setMethodsJni((HttpInterface)this);
+            methodsJni.setMethodsJni((HttpInterface) this);
             // 在打字期间添加搜索栏数据
             MethodsJni.callProxyFun(
                     CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_searchEstateName,
                     CST_JS.getJsonStringForHouseListSearchEstateName(
-                            editString,"","",1, 20));
-            mLvHostory.setVisibility(View.VISIBLE);
+                            editString,1, 20));
+            lv_house_list.setVisibility(View.VISIBLE);
         }
     }
 
@@ -917,41 +893,39 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             mTvSearchInMap.setVisibility(View.VISIBLE);
         }
     }
-    private ListView mLvHostory;
     public static EditText mEtSearch;
+    private TextView tv_house_search;
     private void showSearchDialog() {
         mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
-        mSearchDialog.setContentView(R.layout.dialog_search_house_manage);
+        mSearchDialog.setContentView(R.layout.dialog_search_house_manage2);
         Window win = mSearchDialog.getWindow();
         win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         win.setGravity(Gravity.TOP);
         mSearchDialog.setCanceledOnTouchOutside(true);
-        mListView = (ListView) mSearchDialog
-                .findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
+        ll_house_list = (LinearLayout) mSearchDialog.findViewById(R.id.ll_house_list);
+        lv_house_list = (ListView) mSearchDialog.findViewById(R.id.lv_house_list);
         final SearchAdapter mSearch = new SearchAdapter(mContext,
                 new ArrayList<EstateSearchItem>());
-        mListView.setAdapter(mSearch);
-
+        lv_house_list.setAdapter(mSearch);
+        et_house_dong = (EditText) mSearchDialog.findViewById(R.id.et_house_dong);
+        et_house_shi = (EditText) mSearchDialog.findViewById(R.id.et_house_shi);
         mEtSearch = (EditText) mSearchDialog
                 .findViewById(R.id.et_search_dialogSearchHouseManage);
-        Button mBtnSearch = (Button) mSearchDialog
-                .findViewById(R.id.btn_search_dialogSearchHouseManage);
-        TextView mTvAround = (TextView) mSearchDialog
-                .findViewById(R.id.tv_around_dialogSearchHouseManage);
-        mLvHostory = (ListView) mSearchDialog
-                .findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
+        tv_house_search = (TextView) mSearchDialog
+                .findViewById(R.id.tv_house_search);
+        tv_house_search.setOnClickListener(this);
+        lv_house_list = (ListView) mSearchDialog.findViewById(R.id.lv_house_list);
         Button mBtnClean = (Button) mSearchDialog
                 .findViewById(R.id.btn_close_dialogSearchHouseManage);
-        mBtnSearch.setOnClickListener(this);
-        mTvAround.setOnClickListener(this);
         mBtnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                ll_house_list.setVisibility(View.GONE);
 				mEtSearch.setText("");
                 mSearch.setList(null);
                 mSearch.notifyDataSetChanged();
-                mLvHostory.setVisibility(View.INVISIBLE);
+                ll_house_list.setVisibility(View.GONE);
             }
         });
         // 根据mEtSearch得到的字符串去请求
@@ -959,57 +933,39 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         mEtSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-                Log.d("on text changed", "true");
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
-
             @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                                          int arg2, int arg3) {
-                Log.d("before text changed", "true");
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
-
             @Override
             public void afterTextChanged(Editable arg0) {
                 searchHouse(arg0.toString().trim());
-				// 在打字期间添加搜索栏数据
-				/*MethodsJni.callProxyFun(
-						CST_JS.JS_ProxyName_HouseResource,
-						CST_JS.JS_Function_HouseResource_searchEstateName,
-						CST_JS.getJsonStringForHouseListSearchEstateName(
-								arg0.toString(), 1, 20));
-				mLvHostory.setVisibility(View.VISIBLE);*/
             }
         });
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_house_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 searchId[viewPageIndex]=mSearchListData.get(arg2).getSearchId() + "";
                 searchType[viewPageIndex]=mSearchListData.get(arg2).getSearchType();
-                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
-                /*String reqparm = CST_JS
-                        .getJsonStringForHouseListGetList(type + "",
-                                mPrice[mCurrentPageIndex],
-                                mSquare[mCurrentPageIndex],
-                                mFrame[mCurrentPageIndex],
-                                mTags[mCurrentPageIndex],
-                                mUserType[mCurrentPageIndex], 1, 20, "", "",searchId[viewPagerIndex],searchType[viewPagerIndex]);
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                        CST_JS.JS_Function_HouseResource_getList, reqparm);*/
-                mSearchDialog.dismiss();
+                mEtSearch.setText(mSearchListData.get(arg2).getSearchName());
+                ll_house_list.setVisibility(View.GONE);
+//                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
+//                mSearchDialog.dismiss();
             }
 
         });
         // 然后填充入listView
         if (mHistorySearch != null) {
-            mLvHostory.setVisibility(View.VISIBLE);
+            lv_house_list.setVisibility(View.VISIBLE);
         }
         mSearchDialog.show();
     }
+
+
     private void addNotificationObserver() {
         MethodsJni.addNotificationObserver(
                 CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);

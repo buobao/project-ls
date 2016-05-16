@@ -999,7 +999,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 					CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_searchEstateName,
 					CST_JS.getJsonStringForHouseListSearchEstateName(
-							editString,"","", 1, 20));
+							editString, 1, 20));
             mLvHostory.setVisibility(View.VISIBLE);
         }
 	}

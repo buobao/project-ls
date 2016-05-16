@@ -186,6 +186,32 @@ public final class CST_JS {
 	public static String getJsonStringForHouseListGetList(String type,
 														  String price, String square, String frame, String tag,
 														  String userType, int page, int pagesize, String sidx, String sord,
+														  String searchId, String searchType, String dong, String shi) {
+		JsonObject jsonObject = new JsonObject();
+		if(!"3".equals(type)){//预约不传delType
+			jsonObject.addProperty(JS_HouseResource_DelType, zOrS);
+		}
+		jsonObject.addProperty(JS_CommonParam_Type, type);
+		jsonObject.addProperty(JS_HouseResource_Price, price);
+		jsonObject.addProperty(JS_HouseResource_Square, square);
+		jsonObject.addProperty(JS_HouseResource_Frame, frame);
+		jsonObject.addProperty(JS_HouseResource_Tag, tag);
+		jsonObject.addProperty(JS_HouseResource_UsageType, userType);
+		jsonObject.addProperty(JS_CommonParam_Page, page);
+		jsonObject.addProperty(JS_CommonParam_Pagesize,
+				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);
+		jsonObject.addProperty(JS_HouseResource_Sidx, sidx);
+		jsonObject.addProperty(JS_HouseResource_Sord, sord);
+		jsonObject.addProperty(JS_HouseResource_searchId, searchId);
+		jsonObject.addProperty(jS_HouseResource_searchType, searchType);
+		jsonObject.addProperty(jS_CommonParam_buildingName, dong);
+		jsonObject.addProperty(jS_CommonParam_roomNo, shi);
+		addJingWeiDegree(jsonObject);
+		return jsonObject.toString();
+	}
+	public static String getJsonStringForHouseListGetList(String type,
+														  String price, String square, String frame, String tag,
+														  String userType, int page, int pagesize, String sidx, String sord,
 														  String searchId, String searchType) {
 		JsonObject jsonObject = new JsonObject();
 		if(!"3".equals(type)){//预约不传delType
@@ -207,17 +233,13 @@ public final class CST_JS {
 		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}
-
 	// Function >>>>>>>>>>>>>>>>>>>>>>
 	public static String JS_Function_HouseResource_searchEstateName = "searchEstateName";
 
 	// 请求参数 name page pageSize
-	public static String getJsonStringForHouseListSearchEstateName(String name,String buildingName,String roomNo,
-																   int page, int pagesize) {
+	public static String getJsonStringForHouseListSearchEstateName(String name, int page, int pagesize) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
-		jsonObject.addProperty(jS_CommonParam_buildingName, buildingName);
-		jsonObject.addProperty(jS_CommonParam_roomNo, roomNo);
 		jsonObject.addProperty(JS_CommonParam_Page, page);
 		jsonObject.addProperty(JS_CommonParam_Pagesize,
 				pagesize >= 1 ? pagesize : JS_CommonValue_PageSize);

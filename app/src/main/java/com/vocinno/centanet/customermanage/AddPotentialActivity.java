@@ -6,13 +6,21 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
+import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
+import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
@@ -40,9 +48,14 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	private ImageView mSubmitView;
 	private EditText et_name_addqianke,tv_tel_addqianke;
 	private EditText /*mEtConnectionNumber, */mEtCustormerName;
-
+	private LinearLayout ll_source_addpotential,ll_level_addpotential;
 	private ConnectionType mCurrConnType = ConnectionType.none;
+	private CheckBox cb_source_addpotential, cb_level_addpotential;
 
+	private RelativeLayout rl_choose_source_addpotential,rl_choose_level_addpotential;
+	private WheelView wv_source_addpotential, wv_level_addpotential;
+	private Button bt_source_addpotential, bt_level_addpotential;
+	private TextView tv_source_addpotential,tv_level_addpotential;
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_potential;
@@ -59,7 +72,62 @@ public class AddPotentialActivity extends OtherBaseActivity {
 
 		et_name_addqianke = (EditText) findViewById(R.id.et_name_addqianke);
 		tv_tel_addqianke = (EditText) findViewById(R.id.tv_tel_addqianke);
+
+		tv_source_addpotential= (TextView) findViewById(R.id.tv_source_addpotential);
+		tv_level_addpotential= (TextView) findViewById(R.id.tv_level_addpotential);
+
+		rl_choose_source_addpotential=(RelativeLayout)findViewById(R.id.rl_choose_source_addpotential);
+		rl_choose_level_addpotential=(RelativeLayout)findViewById(R.id.rl_choose_level_addpotential);
+		rl_choose_level_addpotential.setVisibility(View.GONE);
+
+		wv_source_addpotential = (WheelView) rl_choose_source_addpotential.findViewById(R.id.wheelview_modelOneWheelView);
+		wv_level_addpotential = (WheelView) rl_choose_level_addpotential.findViewById(R.id.wheelview_modelOneWheelView);
+
+		ll_source_addpotential=(LinearLayout)findViewById(R.id.ll_source_addpotential);
+		ll_source_addpotential.setOnClickListener(this);
+
+		ll_level_addpotential=(LinearLayout)findViewById(R.id.ll_level_addpotential);
+		ll_level_addpotential.setOnClickListener(this);
+
+		cb_source_addpotential = (CheckBox) findViewById(R.id.cb_source_addpotential);
+
+		cb_level_addpotential = (CheckBox) findViewById(R.id.cb_level_addpotential);
+
+		bt_source_addpotential = (Button) rl_choose_source_addpotential.findViewById(R.id.btn_submit_modelOneWheelView);
+		bt_source_addpotential.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String source = wv_source_addpotential.getSelectedText();
+				tv_source_addpotential.setText(source);
+				rl_choose_source_addpotential.setVisibility(View.GONE);
+				cb_source_addpotential.setChecked(!cb_source_addpotential.isChecked());
+				checkIsFinish();
+			}
+		});
+		bt_level_addpotential = (Button) rl_choose_level_addpotential.findViewById(R.id.btn_submit_modelOneWheelView);
+		bt_level_addpotential.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String level = wv_level_addpotential.getSelectedText();
+				tv_level_addpotential.setText(level);
+				rl_choose_level_addpotential.setVisibility(View.GONE);
+				cb_level_addpotential.setChecked(!cb_level_addpotential.isChecked());
+				checkIsFinish();
+			}
+		});
+
 		setListener();
+		setData();
+	}
+
+	private void setData() {
+		wv_source_addpotential.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.source), CustomUtils.getWindowWidth(this));
+		wv_source_addpotential.setEnabled(true);
+		wv_source_addpotential.setSelectItem(0);
+
+		wv_level_addpotential.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.level), CustomUtils.getWindowWidth(this));
+		wv_level_addpotential.setEnabled(true);
+		wv_level_addpotential.setSelectItem(0);
 	}
 
 	public void setListener() {
@@ -97,23 +165,25 @@ public class AddPotentialActivity extends OtherBaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				String name = et_name_addqianke.getText().toString().trim();
-				if(name.length()<=0||s.toString().trim().length()<=0){
+				if (name.length() <= 0 || s.toString().trim().length() <= 0) {
 					mSubmitView.setImageResource(R.drawable.universal_button_undone);
 					mSubmitView.setClickable(false);
 					mSubmitView.setEnabled(false);
-				}else{
-					if(s.toString().trim().length()==11){
+				} else {
+					if (s.toString().trim().length() == 11) {
 						mSubmitView.setImageResource(R.drawable.universal_button_done);
 						mSubmitView.setClickable(true);
 						mSubmitView.setEnabled(true);
-					}else{
+					} else {
 						mSubmitView.setImageResource(R.drawable.universal_button_undone);
 					}
 				}
 			}
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
@@ -150,9 +220,43 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_addCustomer, strJson);
 				break;
+			case R.id.ll_source_addpotential:
+				cb_source_addpotential.setChecked(!cb_source_addpotential.isChecked());
+				if(cb_source_addpotential.isChecked()){
+					rl_choose_source_addpotential.setVisibility(View.VISIBLE);
+					checkOpenOrClose(rl_choose_source_addpotential.getId());
+				}else{
+					rl_choose_source_addpotential.setVisibility(View.GONE);
+				}
+				break;
+			case R.id.ll_level_addpotential:
+				cb_level_addpotential.setChecked(!cb_level_addpotential.isChecked());
+				if(cb_level_addpotential.isChecked()){
+					rl_choose_level_addpotential.setVisibility(View.VISIBLE);
+					checkOpenOrClose(rl_choose_level_addpotential.getId());
+				}else{
+					rl_choose_level_addpotential.setVisibility(View.GONE);
+				}
+				break;
 			default:
 				break;
 		}
+	}
+	private void checkOpenOrClose(int intId) {
+		if (intId != rl_choose_source_addpotential.getId()) {
+			closeLaiYuanContainer();
+		}
+		if (intId != rl_choose_level_addpotential.getId()) {
+			closeDengJiContainer();
+		}
+	}
+	private void closeLaiYuanContainer() {
+		rl_choose_source_addpotential.setVisibility(View.GONE);
+		cb_source_addpotential.setChecked(false);
+	}
+	private void closeDengJiContainer() {
+		rl_choose_level_addpotential.setVisibility(View.GONE);
+		cb_level_addpotential.setChecked(false);
 	}
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
@@ -186,20 +290,23 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	}
 	private void checkIsFinish() {
 		boolean isFinish = true;
-		if (tv_tel_addqianke.getText() == null || tv_tel_addqianke.getText().toString().length() == 0) {
-			isFinish = false;
-		}
-		if(!(isMobileNO("") || TextUtils.isEmpty(""))) {
-			isFinish = false;
+		String name = et_name_addqianke.getText().toString().trim();
+		String tel = tv_tel_addqianke.getText().toString().trim();
+		if (name.length() <= 0 || tel.length() <= 0) {
+			isFinish=false;
+		} else if(tel.toString().trim().length() != 11||!isMobileNO(tel)) {
+			isFinish=false;
+		}else if(tv_source_addpotential==null||tv_source_addpotential.getText().toString().trim().length()<=0){
+			isFinish=false;
+		}else if(tv_level_addpotential==null||tv_level_addpotential.getText().toString().trim().length()<=0){
+			isFinish=false;
 		}
 		if (isFinish) {
-			mSubmitView = (ImageView)MethodsExtra.findHeadRightView1(mContext, baseView,
-					0, R.drawable.universal_button_done);
+			mSubmitView.setImageResource(R.drawable.universal_button_done);
 			mSubmitView.setClickable(true);
 			mSubmitView.setEnabled(true);
 		} else {
-			mSubmitView = (ImageView)MethodsExtra.findHeadRightView1(mContext, baseView,
-					0, R.drawable.universal_button_undone);
+			mSubmitView.setImageResource(R.drawable.universal_button_undone);
 			mSubmitView.setClickable(false);
 			mSubmitView.setEnabled(false);
 		}

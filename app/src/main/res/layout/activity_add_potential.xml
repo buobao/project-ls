@@ -120,17 +120,17 @@
                 android:layout_marginTop="6dp"
                 android:background="#D1D1D1" />
 
-            <RelativeLayout
-                android:id="@+id/rl_rank_addqianke"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@color/white"
                 android:gravity="center_vertical"
-                android:background="@color/white" >
+                android:id="@+id/ll_source_addpotential"
+                >
 
                 <TextView
-                    android:id="@+id/tv_origin_addqianke"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
@@ -138,42 +138,58 @@
                     android:text="来源"
                     android:textSize="13sp" />
 
-                <EditText
-                    android:id="@+id/et_origin_addqianke"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toRightOf="@+id/tv_origin_addqianke"
+                <TextView
+                    android:id="@+id/tv_source_addpotential"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_type1_addpotential"
                     android:background="@null"
+                    android:ems="10"
                     android:gravity="left|center_vertical"
-                    android:hint="请选择来源"
-                    android:singleLine="true"
-                    android:textSize="13sp"
-                    android:inputType="number"
-                    android:maxLength="11"
+                    android:hint="@string/source_addcustomer"
+                    android:textSize="13sp" >
+                </TextView>
+
+                <CheckBox
+                    android:id="@+id/cb_source_addpotential"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_addcust_sanjiao"
+                    android:button="@null"
+                    android:enabled="false"
+                    android:checked="true"
                     />
-            </RelativeLayout>
+
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#D1D1D1" />
-
+                <include
+                    android:id="@+id/rl_choose_source_addpotential"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/model_wheel_view_one" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="6dp"
                 android:background="#D1D1D1" />
-
-            <RelativeLayout
-                android:id="@+id/rl_rank_addqianke"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@color/white"
                 android:gravity="center_vertical"
-                android:background="@color/white" >
-
+                android:id="@+id/ll_level_addpotential"
+                >
                 <TextView
-                    android:id="@+id/tv_rank_addqianke"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
@@ -181,21 +197,42 @@
                     android:text="等级"
                     android:textSize="13sp" />
 
-                <EditText
-                    android:id="@+id/et_rank_addqianke"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toRightOf="@+id/tv_rank_addqianke"
+                <TextView
+                    android:id="@+id/tv_level_addpotential"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_type1_addpotential"
                     android:background="@null"
+                    android:ems="10"
                     android:gravity="left|center_vertical"
-                    android:hint="请选择等级"
-                    android:singleLine="true"
-                    android:textSize="13sp"
-                    android:inputType="number"
-                    android:maxLength="11"
+                    android:hint="@string/level_addcustomer"
+                    android:textSize="13sp" >
+                </TextView>
+
+                <CheckBox
+                    android:id="@+id/cb_level_addpotential"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_addcust_sanjiao"
+                    android:button="@null"
+                    android:enabled="false"
                     />
-            </RelativeLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1" />
+                <include
+                    android:id="@+id/rl_choose_level_addpotential"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/model_wheel_view_one" />
         </LinearLayout>
     </com.vocinno.centanet.apputils.selfdefineview.ScrollViewCanStop>
-
 </LinearLayout>

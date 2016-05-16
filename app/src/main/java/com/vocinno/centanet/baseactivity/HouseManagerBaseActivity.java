@@ -34,7 +34,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan,woDeQianKe, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,9 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
 
         woDeTiXing = (RelativeLayout)findViewById(R.id.rlyt_remind_customer_main_page_slid_menus);
         woDeTiXing.setOnClickListener(this);
+
+        ry_exit = (RelativeLayout)findViewById(R.id.ry_exit);
+        ry_exit.setOnClickListener(this);
     }
 
     public void showDialog(){

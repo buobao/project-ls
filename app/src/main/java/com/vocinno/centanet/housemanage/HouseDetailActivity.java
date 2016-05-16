@@ -36,6 +36,7 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
+import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
@@ -544,6 +545,12 @@ public class HouseDetailActivity extends OtherBaseActivity {
 			case R.id.rlyt_remind_customer_main_page_slid_menus:
 				MethodsDeliverData.flag = -1;
 				MethodsExtra.startActivity(mContext, MessageListActivity.class);
+				break;
+			//我的提醒
+			case R.id.ry_exit:
+				HomeActivity.HA.finish();
+				MyUtils.removeActivityFromAllList();
+				System.exit(0);
 				break;
 		default:
 			break;

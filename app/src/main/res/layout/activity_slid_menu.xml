@@ -466,6 +466,37 @@
                 android:textSize="18dp"  />
         </RelativeLayout>
     </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/ry_exit_sild_menu"
+            android:layout_below="@+id/rylt_mid_3_sild_menu"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            >
+            <RelativeLayout
+                android:id="@+id/ry_exit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="33dp" >
+
+                <ImageView
+                    android:id="@+id/iv_exit"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/tuichu" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/iv_exit"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/exit_app"
+                    android:textColor="#F4F5F6"
+                    android:textSize="18dp"  />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

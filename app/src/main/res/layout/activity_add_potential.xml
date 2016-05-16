@@ -108,17 +108,7 @@
                     android:inputType="number"
                     android:maxLength="11"
                     />
-
             </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/other_info"
-                android:textSize="14sp" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -127,41 +117,84 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                android:layout_marginTop="6dp"
                 android:background="#D1D1D1" />
+
             <RelativeLayout
+                android:id="@+id/rl_rank_addqianke"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
                 android:background="@color/white" >
 
-                <EditText
-                    android:id="@+id/et_otherInfo_addqianke"
-                    android:layout_width="match_parent"
-                    android:minHeight="40dp"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/tv_origin_addqianke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:maxHeight="100dp"
-                    android:maxLength="500"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="left|center_vertical"
-                    android:hint="@string/input_other_info"
-                    android:paddingLeft="15dp"
-                    android:textSize="13sp" >
-                </EditText>
-            </RelativeLayout>
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="来源"
+                    android:textSize="13sp" />
 
+                <EditText
+                    android:id="@+id/et_origin_addqianke"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tv_origin_addqianke"
+                    android:background="@null"
+                    android:gravity="left|center_vertical"
+                    android:hint="请选择来源"
+                    android:singleLine="true"
+                    android:textSize="13sp"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    />
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#D1D1D1" />
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="@string/time_add_custormer"
-                android:textColor="#D1D1D1"
-                android:textSize="11sp" />
+                android:layout_height="0.5dp"
+                android:layout_marginTop="6dp"
+                android:background="#D1D1D1" />
+
+            <RelativeLayout
+                android:id="@+id/rl_rank_addqianke"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/tv_rank_addqianke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="等级"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/et_rank_addqianke"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tv_rank_addqianke"
+                    android:background="@null"
+                    android:gravity="left|center_vertical"
+                    android:hint="请选择等级"
+                    android:singleLine="true"
+                    android:textSize="13sp"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    />
+            </RelativeLayout>
         </LinearLayout>
     </com.vocinno.centanet.apputils.selfdefineview.ScrollViewCanStop>
 

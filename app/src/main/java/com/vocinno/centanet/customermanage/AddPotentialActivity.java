@@ -39,7 +39,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	private View mBackView;
 	private ImageView mSubmitView;
 	private EditText et_name_addqianke,tv_tel_addqianke;
-	private EditText /*mEtConnectionNumber, */mEtCustormerName, mEtOtherInfo;
+	private EditText /*mEtConnectionNumber, */mEtCustormerName;
 
 	private ConnectionType mCurrConnType = ConnectionType.none;
 
@@ -58,7 +58,6 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				null);
 
 		et_name_addqianke = (EditText) findViewById(R.id.et_name_addqianke);
-		mEtOtherInfo = (EditText) findViewById(R.id.et_otherInfo_addqianke);
 		tv_tel_addqianke = (EditText) findViewById(R.id.tv_tel_addqianke);
 		setListener();
 	}
@@ -147,7 +146,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				showDialog();
 				// 上传数据
 				String strJson = CST_JS.getJsonStringForAddCustomer(et_name_addqianke.getText().toString().toString(),
-						tv_tel_addqianke.getText().toString(),mEtOtherInfo.getText().toString());
+						tv_tel_addqianke.getText().toString());
 				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_addCustomer, strJson);
 				break;

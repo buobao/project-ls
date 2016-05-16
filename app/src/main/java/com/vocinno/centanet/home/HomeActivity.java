@@ -51,7 +51,7 @@ public class HomeActivity extends HomeBaseActivity {
 	private Bitmap mBitmap = null;
 	// 屏幕宽度和高度
 	private int[] mIntScreenWithHeight;
-
+	public static HomeActivity HA;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -80,6 +80,7 @@ public class HomeActivity extends HomeBaseActivity {
 
 	@Override
 	public void initView() {
+		HA=this;
 		setMenu();
 		iv_fangyuan = (ImageView) findViewById(R.id.iv_fangyuan);
 		iv_keyuan = (ImageView) findViewById(R.id.iv_keyuan);

@@ -558,11 +558,10 @@ public final class CST_JS {
 		return jsonObject.toString();
 	}
 	//添加潜客
-	public static String getJsonStringForAddCustomer(String name, String phone, String other) {
+	public static String getJsonStringForAddCustomer(String name, String phone) {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
 		jsonObject.addProperty(JS_CustomerList_Phone, phone);
-		jsonObject.addProperty(JS_CustomerList_Other, other);
 		addJingWeiDegree(jsonObject);
 		return jsonObject.toString();
 	}

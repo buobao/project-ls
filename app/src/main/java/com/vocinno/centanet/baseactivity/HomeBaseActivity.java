@@ -40,7 +40,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeQianKe,woDeKeYuan, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +147,10 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     MethodsDeliverData.flag = -1;
                     MethodsExtra.startActivity(mContext, MessageListActivity.class);
                     break;
+                //退出app
+                case R.id.ry_exit:
+                    System.exit(0);
+                    break;
         }
 
         if(drawer_layout.isDrawerOpen(leftMenuView)){
@@ -201,6 +205,9 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
 
         woDeTiXing = (RelativeLayout)findViewById(R.id.rlyt_remind_customer_main_page_slid_menus);
         woDeTiXing.setOnClickListener(this);
+
+        ry_exit = (RelativeLayout)findViewById(R.id.ry_exit);
+        ry_exit.setOnClickListener(this);
     }
 
     public void showDialog(){

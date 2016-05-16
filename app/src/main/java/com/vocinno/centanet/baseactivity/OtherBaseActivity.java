@@ -16,6 +16,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -57,7 +58,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
     public LinearLayout ll_left_menu;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan,woDeQianKe, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,9 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
 
         woDeTiXing = (RelativeLayout)findViewById(R.id.rlyt_remind_customer_main_page_slid_menus);
         woDeTiXing.setOnClickListener(this);
+
+        ry_exit = (RelativeLayout)findViewById(R.id.ry_exit);
+        ry_exit.setOnClickListener(this);
     }
 
     @Override
@@ -242,6 +246,12 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                     MethodsDeliverData.flag = -1;
                     MethodsExtra.startActivity(mContext, MessageListActivity.class);
                 }
+                break;
+            //我的提醒
+            case R.id.ry_exit:
+                HomeActivity.HA.finish();
+                MyUtils.removeActivityFromAllList();
+                System.exit(0);
                 break;
         }
     }

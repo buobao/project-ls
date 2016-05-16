@@ -38,6 +38,7 @@ import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
@@ -379,7 +380,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         }else{
             methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_getList, CST_JS
-                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType,dongHao,shiHao));
+                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType,dongHao==null?"":dongHao,shiHao==null?"":shiHao));
         }
     }
     @Override
@@ -691,6 +692,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 shiHao = et_house_shi.getText().toString();
                 searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
                 mSearchDialog.dismiss();
+                break;
+            case R.id.ry_exit:
+                HomeActivity.HA.finish();
+                System.exit(0);
                 break;
             default:
                 break;

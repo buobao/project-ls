@@ -23,6 +23,8 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:textSize="14sp"
+        android:singleLine="true"
+        android:ellipsize="end"
         tools:text="157214234"
         />
 </LinearLayout>

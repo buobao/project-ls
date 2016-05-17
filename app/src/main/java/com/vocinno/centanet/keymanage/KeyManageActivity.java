@@ -21,7 +21,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyHorizontalScrollView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.adapter.KeyListAdapter;
 import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey;
@@ -460,7 +460,7 @@ public class KeyManageActivity extends OtherBaseActivity implements
 			break;
 		case R.id.img_right_mhead1:
 			MethodsDeliverData.mIntHouseType = HouseType.YAO_SHI;
-			MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+			MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
 			break;
 		default:
 			break;

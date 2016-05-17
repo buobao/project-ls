@@ -91,6 +91,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	public void initView() {
 		ula=this;
 		iv_splash = (ImageView) findViewById(R.id.iv_splash);
+		iv_splash.setOnClickListener(this);
 		mEtUserAccount = (EditText) findViewById(R.id.et_userAccount_UserLoginActivity);
 		mEtUserpassword = (EditText) findViewById(R.id.et_userPassword_UserLoginActivity);
 		mBtnLogin = (Button) findViewById(R.id.btn_userLogin_UserLoginActivity);

@@ -291,7 +291,8 @@ public class AddDemandActivity extends OtherBaseActivity {
                 listStr.add(pq.getAreaName());
             }
         }
-        wv_pianqu_demand.setData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
+        wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
+//        wv_pianqu_demand.setData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
     }
 
 

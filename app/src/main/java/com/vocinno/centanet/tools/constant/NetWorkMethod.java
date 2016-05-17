@@ -29,7 +29,8 @@ public class NetWorkMethod {
     /*****************客户详情********************/
     public static final String custInfo="mobile/cust/custInfo";
     /*****************添加客户********************/
-    public static final String addCust = "mobile/cust/add";
+    public static final String addCust = "mobile/cust/add";//查重复手机号码
+    public static final String checkMpNo = "mobile/cust/checkMpNo";//查重复手机号码
     public static final String name = "name";
     public static final String phone = "phone";
     public static final String origin = "origin";//来源

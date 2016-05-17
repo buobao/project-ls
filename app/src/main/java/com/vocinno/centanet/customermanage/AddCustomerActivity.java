@@ -2,7 +2,6 @@ package com.vocinno.centanet.customermanage;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data.WheelType;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
@@ -29,7 +27,6 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
-import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -38,7 +35,6 @@ import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import org.json.JSONObject;
@@ -89,8 +85,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 			mWheelViewChoosePriceTop, mWheelViewChoosePriceLast;
 	private EditText /*mEtConnectionNumber, */mEtCustormerName, mEtOtherInfo;
 
-	private static final int MESSAGE_CLOSE_CHOOSER = 1001;
-	private static final int MESSAGE_REFRESH_WHEELVIEWPIANQU = 1002;
 	private String mStrQQ, mStrWeixin;
 	private ConnectionType mCurrConnType = ConnectionType.none;
 
@@ -155,8 +149,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 					showDialog();
 					checkPhoneNum(tel);
 				}
-				///mStrTel = mEtCustormerNumber.getText().toString().trim();
-				///checkIsFinish();
 			}
 		});
 		mTvCustormerType = (TextView) findViewById(R.id.tv_type_addCustomerActivity);
@@ -363,14 +355,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 
 	@Override
 	public void initData() {
-		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface) this);
-		// 添加通知
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_ADD_CUSTOMER_RESULT, TAG);
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT, TAG);
-		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO, TAG);
 		wv_source_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.source), CustomUtils.getWindowWidth(this));
 		wv_source_addCustomer.setEnabled(true);
 		wv_source_addCustomer.setSelectItem(0);
@@ -412,27 +396,8 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 
 	@Override
 	public Handler setHandler() {
-
-		return new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-					case MESSAGE_CLOSE_CHOOSER:
-						mRyltChoosePlaceContainer.setVisibility(View.GONE);
-						mRyltChoosePianquContainer.setVisibility(View.GONE);
-						mRyltChooseAreaContainer.setVisibility(View.GONE);
-						mRyltChoosePriceContaner.setVisibility(View.GONE);
-						break;
-					case MESSAGE_REFRESH_WHEELVIEWPIANQU:
-						mWheelViewChoosePianqu.setData((ArrayList<String>) msg.obj);
-						break;
-					default:
-						break;
-				}
-			}
-		};
+		return null;
 	}
-
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -655,10 +620,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 							.getSelectedText());
 					String strCode = CST_Wheel_Data
 							.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
-					showDialog();
-					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-							CST_JS.JS_Function_HouseResource_getDistrictArray,
-							CST_JS.getJsonStringForGetAreaArray(strCode));
+					getPianQu(strCode);
 					mTvCustormerPianqu.setText("");
 					closePlaceContainer();
 				} else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {
@@ -714,6 +676,36 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 		}
 	}
 
+	private void getPianQu(String strCode) {
+		Map<String,String> map=new HashMap<String,String>();
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.areas;
+		map.put(NetWorkMethod.districtCode, strCode);
+		showDialog();
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				dismissDialog();
+			}
+			@Override
+			public void onResponse(String response) {
+				dismissDialog();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PianQu.class);
+				List<PianQu> listPianQu = jsReturn.getListDatas();
+				mapPianQu.clear();
+				ArrayList<String> listStr = new ArrayList<String>();
+				if (jsReturn.isSuccess() && listPianQu != null) {
+					for (int i = 0; i < listPianQu.size(); i++) {
+						PianQu pq = listPianQu.get(i);
+						mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
+						listStr.add(pq.getAreaName());
+					}
+//					mWheelViewChoosePianqu.setData(listStr);
+					mWheelViewChoosePianqu.resetData(listStr, CustomUtils.getWindowWidth(AddCustomerActivity.this));
+				}
+			}
+		});
+	}
+
 	private void addCust(String reqType,String price) {
 		Map<String,String> map=new HashMap<String,String>();
 		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addCust;
@@ -754,50 +746,31 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 	}
 
 	private void checkPhoneNum(String tel){
-		String phoneJson = CST_JS.getJsonStringForCheckPhoneNORepeated(tel);
-		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-				CST_JS.JS_Function_CustomerList_addCustomer_checkPhoneNORepeated, phoneJson);
+		Map<String,String>map=new HashMap<String,String>();
+		map.put(NetWorkMethod.phone,tel);
+		URL=NetWorkConstant.PORT_URL+NetWorkMethod.checkMpNo;
+		showDialog();
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				dismissDialog();
+			}
+			@Override
+			public void onResponse(String response) {
+				dismissDialog();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, JSONObject.class);
+				if(jsReturn.isSuccess()){
+					isSameTel=1;
+					closeConnectionTypeContainer();
+				}else{
+					isSameTel=2;
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
+				}
+			}
+		});
 	}
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
-		dismissDialog();
-		JSReturn jsReturn;
-		if (name.equals(CST_JS.NOTIFY_NATIVE_GET_AREA_RESULT)) {
-			// 获取片区
-			jsReturn = MethodsJson.jsonToJsReturn((String) data, PianQu.class);
-			List<PianQu> listPianQu = jsReturn.getListDatas();
-			mapPianQu.clear();
-			ArrayList<String> listStr = new ArrayList<String>();
-			if (jsReturn.isSuccess() && listPianQu != null) {
-				for (int i = 0; i < listPianQu.size(); i++) {
-					PianQu pq = listPianQu.get(i);
-					mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
-					listStr.add(pq.getAreaName());
-				}
-			}
-			Message msg = new Message();
-			msg.what = MESSAGE_REFRESH_WHEELVIEWPIANQU;
-			msg.obj = listStr;
-			mHander.sendMessage(msg);
-		}else if(name.equals(CST_JS.NOTIFY_NATIVE_CHECK_PNONENO)){
-			jsReturn = MethodsJson.jsonToJsReturn((String) data, JSONObject.class);
-			if(jsReturn.isSuccess()){
-				isSameTel=1;
-				closeConnectionTypeContainer();
-			}else{
-				isSameTel=2;
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-			}
-		} /*else {
-			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
-			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				setResult(MyConstant.REFRESH);
-				finish();
-			} else {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-			}
-		}*/
 	}
 
 	@Override
@@ -809,54 +782,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 	public void onLoadMore() {
 
 	}
-	private void iconTest() {
-//		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact01);
-//		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq01);
-//		mImgWXImage.setImageResource(R.drawable.c_manage_icon_wechat01);
-
-//		mImgPhoneIcon.setImageResource(R.drawable.add);
-//		mImgQQIcon.setImageResource(R.drawable.add);
-//		mImgWXIcon.setImageResource(R.drawable.add);
-	}
-
-	private void addPhoneNumber() {
-		iconTest();
-//		mImgPhoneImage.setImageResource(R.drawable.c_manage_icon_contact);
-//		mImgPhoneIcon.setImageResource(R.drawable.h_manage_icon_choose);
-//		mEtConnectionNumber.setHint(R.string.addphonenumber);
-		mCurrConnType = ConnectionType.connTel;
-
-//		mEtConnectionNumber.setText(mStrTel);
-//		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-	}
-
-	private void addQQNumber() {
-		iconTest();
-//		mImgQQImage.setImageResource(R.drawable.c_manage_icon_qq);
-//		mImgQQIcon.setImageResource(R.drawable.h_manage_icon_choose);
-//		mEtConnectionNumber.setHint(R.string.addqqnumber);
-		mCurrConnType = ConnectionType.connQQ;
-//		mEtConnectionNumber.setText(mStrQQ);
-//		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_NUMBER);
-	}
-
-	private void addWXNumber() {
-		iconTest();
-//		mImgWXImage.setImageResource(R.drawable.c_manage_icon_wechat);
-//		mImgWXIcon.setImageResource(R.drawable.h_manage_icon_choose);
-//		mEtConnectionNumber.setHint(R.string.addwxnumber);
-		mCurrConnType = ConnectionType.connWeixin;
-//		mEtConnectionNumber.setText(mStrWeixin);
-//		mEtConnectionNumber.setInputType(InputType.TYPE_CLASS_TEXT);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		mHander.sendEmptyMessageDelayed(MESSAGE_CLOSE_CHOOSER, 50);
-	}
-
 	private void checkIsFinish() {
 		boolean isFinish = true;
 		if (mEtCustormerName.getText() == null || mEtCustormerName.getText().toString().length() == 0) {

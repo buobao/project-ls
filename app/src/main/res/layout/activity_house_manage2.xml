@@ -15,7 +15,6 @@
             layout="@layout/header_title_model1"
             android:layout_width="match_parent"
             android:layout_height="48dp"/>
-
         <com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView
             android:id="@+id/scrolltag_houseManage_houseManageActivity"
             android:layout_width="match_parent"
@@ -24,7 +23,11 @@
             android:background="@color/white"
             >
         </com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/wheel_unselect_text"
+            />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

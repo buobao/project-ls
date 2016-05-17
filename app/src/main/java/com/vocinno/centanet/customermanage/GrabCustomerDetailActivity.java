@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 	private Drawable drawable;
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
+	private ImageView iv_add_demand_gongke;
 	public GrabCustomerDetailActivity() {
 	}
 	@Override
@@ -103,6 +105,8 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
 		tv_area_gkdetail = (TextView) findViewById(R.id.tv_area_gkdetail);
 		tv_xuqiuzishu_grab = (TextView) findViewById(R.id.tv_xuqiuzishu_grab);
+		iv_add_demand_gongke = (ImageView) findViewById(R.id.iv_add_demand_gongke);
+		iv_add_demand_gongke.setOnClickListener(this);
 //		mImgViewQQ = (ImageView) findViewById(R.id.imgView_qq_customerDetailActivity);
 //		mImgWeixin = (ImageView) findViewById(R.id.imgView_wx_customerDetailActivity);
 		mBackView.setOnClickListener(this);
@@ -274,6 +278,11 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, MessageListActivity.class);
 				break;*/
+			case R.id.iv_add_demand_gongke:
+				intent=new Intent(this, AddDemandActivity.class);
+				intent.putExtra("custCode", mCusterCode);
+				startActivityForResult(intent,101);
+				break;
 			default:
 				break;
 		}

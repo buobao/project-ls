@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerDetailActivity;
 import com.vocinno.centanet.model.CustomerItem;
 
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PotentialCustormerListAdapter extends BaseAdapter {
 
-	private PotentialCustomerActivity mContext;
+	private PotentialCustomerListActivity mContext;
 	private LayoutInflater mInflater;
 	private List<CustomerItem> mListCustomers;
 	private boolean selectSOrZ=false;
@@ -29,12 +29,12 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 	public void addListDatas(List<CustomerItem> listCustomers) {
 		mListCustomers.addAll(listCustomers);
 	}
-	public PotentialCustormerListAdapter(PotentialCustomerActivity mContext) {
+	public PotentialCustormerListAdapter(PotentialCustomerListActivity mContext) {
 		this.mContext = mContext;
 		this.mInflater = (LayoutInflater) this.mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-	public PotentialCustormerListAdapter(PotentialCustomerActivity mContext,
+	public PotentialCustormerListAdapter(PotentialCustomerListActivity mContext,
 										 List<CustomerItem> listCustomers, boolean selectSOrZ) {
 		this.mContext = mContext;
 		this.mInflater = (LayoutInflater) this.mContext

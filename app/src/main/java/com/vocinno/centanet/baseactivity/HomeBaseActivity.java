@@ -12,7 +12,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -110,7 +110,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                 //我的潜客
                 case R.id.rlyt_my_potential_customer_main_page_slid_menus:
                     MethodsExtra.startActivity(mContext,
-                            PotentialCustomerActivity.class);
+                            PotentialCustomerListActivity.class);
                     break;
                 //抢公售
                 case R.id.rlyt_grab_house_main_page_slid_menus:

@@ -75,6 +75,8 @@
                             android:maxLength="5"
                             android:gravity="center"
                             android:background="@drawable/dialog_search_edit_bg_house_manage"
+                            android:textColorHint="#D1D1D1"
+                            android:textSize="14sp"
                             />
                         <TextView
                             android:layout_weight="1"
@@ -92,6 +94,8 @@
                             android:background="@drawable/dialog_search_edit_bg_house_manage"
                             android:gravity="center"
                             android:hint="室"
+                            android:textColorHint="#D1D1D1"
+                            android:textSize="14sp"
                             />
                     </LinearLayout>
                     <LinearLayout

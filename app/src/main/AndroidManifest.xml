@@ -468,7 +468,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
-        <activity android:name=".customermanage.PotentialCustomerActivity">
+        <activity android:name=".customermanage.PotentialCustomerListActivity">
         </activity>
         <activity android:name=".customermanage.PotentialCustomerDetailActivity">
         </activity>

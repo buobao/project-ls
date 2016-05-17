@@ -15,7 +15,7 @@ import com.vocinno.centanet.apputils.AppApplication;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
@@ -181,11 +181,11 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 break;
             //我的潜客
             case R.id.rlyt_my_potential_customer_main_page_slid_menus:
-                if(this.getClass().getName().equals(PotentialCustomerActivity.class.getName())){
+                if(this.getClass().getName().equals(PotentialCustomerListActivity.class.getName())){
                     drawer_layout.closeDrawer(leftMenuView);
                 }else{
                     MyUtils.removeActivityFromAllList();
-                    intent.setClass(mContext, PotentialCustomerActivity.class);
+                    intent.setClass(mContext, PotentialCustomerListActivity.class);
                     startActivity(intent);
                 }
             break;

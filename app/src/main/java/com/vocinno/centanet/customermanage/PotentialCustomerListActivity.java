@@ -36,7 +36,7 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PotentialCustomerActivity extends OtherBaseActivity implements XListView.IXListViewListener {
+public class PotentialCustomerListActivity extends OtherBaseActivity implements XListView.IXListViewListener {
 
     private Dialog mMenuDialog,mSearchDialog;
     private XListView mLvCustormers;
@@ -83,7 +83,7 @@ public class PotentialCustomerActivity extends OtherBaseActivity implements XLis
     public void initData() {
         intent=getIntent();
         boolean isGongKe = intent.getBooleanExtra("isGongKe", false);
-        mListAdapter = new PotentialCustormerListAdapter((PotentialCustomerActivity) mContext);
+        mListAdapter = new PotentialCustormerListAdapter((PotentialCustomerListActivity) mContext);
         mListAdapter.setListDatas(null);
         mLvCustormers.setAdapter(mListAdapter);
         // 添加通知

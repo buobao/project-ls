@@ -37,7 +37,7 @@ import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollT
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
-import com.vocinno.centanet.customermanage.PotentialCustomerActivity;
+import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
@@ -637,7 +637,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             case R.id.rlyt_my_potential_customer_main_page_slid_menus:
                 finish();
                 intent=new Intent();
-                intent.setClass(mContext, PotentialCustomerActivity.class);
+                intent.setClass(mContext, PotentialCustomerListActivity.class);
                 startActivity(intent);
                 break;
             //抢公售
@@ -922,7 +922,27 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 new ArrayList<EstateSearchItem>());
         lv_house_list.setAdapter(mSearch);
         et_house_dong = (EditText) mSearchDialog.findViewById(R.id.et_house_dong);
+        et_house_dong.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    et_house_dong.setHint("");
+                }else{
+                    et_house_dong.setHint("栋");
+                }
+            }
+        });
         et_house_shi = (EditText) mSearchDialog.findViewById(R.id.et_house_shi);
+        et_house_shi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    et_house_shi.setHint("");
+                }else{
+                    et_house_shi.setHint("室");
+                }
+            }
+        });
         mEtSearch = (EditText) mSearchDialog
                 .findViewById(R.id.et_search_dialogSearchHouseManage);
         tv_house_search = (TextView) mSearchDialog

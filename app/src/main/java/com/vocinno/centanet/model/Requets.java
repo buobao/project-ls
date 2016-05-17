@@ -1,7 +1,7 @@
 package com.vocinno.centanet.model;
 
 public class Requets {
-	private String acreage = "";// 区域
+	private String acreage = "";// 面积
 	private String area = "";//片区
 	private String TenancyTime = "";// 租期
 	private String price = "";// 价格

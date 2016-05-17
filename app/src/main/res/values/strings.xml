@@ -52,6 +52,9 @@
     <string name="basic_info">基本信息</string>
     <string name="add_explain">添加说明</string>
     <string name="mianji">面积</string>
+    <string name="leixing">类型</string>
+    <string name="quyu">区域</string>
+    <string name="pianqu">片区</string>
     <string name="choose_mianji">点击选择面积</string>
     <string name="price">价格</string>
     <string name="fangxing">房型</string>

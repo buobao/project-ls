@@ -310,11 +310,11 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         List<Requets> listReqs = mDetail.getRequets();
         if (listReqs != null && listReqs.size() >= 1) {
             Requets req = listReqs.get(0);
-            mTvType.setText("类型：" + req.getReqType());// 类型
-            tv_fangxing_potential.setText("房型：" + req.getFromToRoom());// 类型
-            mTvAcreage.setText("区域：" + req.getAcreage());
-            mTvPrice.setText("价格：" + req.getPrice());// 价格
-            tv_area_potential.setText("面积：" + req.getAcreage());
+            mTvType.setText(req.getReqType());// 类型
+            tv_fangxing_potential.setText( req.getFromToRoom());// 类型
+            mTvAcreage.setText(req.getArea());
+            mTvPrice.setText( req.getPrice());// 价格
+            tv_area_potential.setText( req.getAcreage());
             tv_xuqiu_qianke.setText( req.getSelfDescription());
         }
     }

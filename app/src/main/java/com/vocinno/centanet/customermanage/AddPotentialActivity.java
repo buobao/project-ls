@@ -138,7 +138,8 @@ public class AddPotentialActivity extends OtherBaseActivity {
 		et_name_addqianke.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
-				String tel = tv_tel_addqianke.getText().toString().trim();
+				checkIsFinish();
+				/*String tel = tv_tel_addqianke.getText().toString().trim();
 				if(tel.length()<=0||s.toString().trim().length()<=0){
 					mSubmitView.setImageResource(R.drawable.universal_button_undone);
 					mSubmitView.setClickable(false);
@@ -151,7 +152,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 					}else{
 						mSubmitView.setImageResource(R.drawable.universal_button_undone);
 					}
-				}
+				}*/
 			}
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -164,7 +165,8 @@ public class AddPotentialActivity extends OtherBaseActivity {
 		tv_tel_addqianke.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
-				String name = et_name_addqianke.getText().toString().trim();
+				checkIsFinish();
+				/*String name = et_name_addqianke.getText().toString().trim();
 				if (name.length() <= 0 || s.toString().trim().length() <= 0) {
 					mSubmitView.setImageResource(R.drawable.universal_button_undone);
 					mSubmitView.setClickable(false);
@@ -177,7 +179,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 					} else {
 						mSubmitView.setImageResource(R.drawable.universal_button_undone);
 					}
-				}
+				}*/
 			}
 
 			@Override

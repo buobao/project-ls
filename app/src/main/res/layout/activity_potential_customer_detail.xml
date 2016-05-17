@@ -128,25 +128,49 @@
                 android:layout_height="162dp"
                 android:background="@color/white"
                 android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/tv_type_qianke"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/white"
-                    android:gravity="center_vertical|left"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:paddingLeft="18dp"
-                    android:text=""
-                    android:textColor="#9E9E9E"
-                    android:textSize="13sp" />
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="类型:"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp"
+                        />
+                    <TextView
+                        android:id="@+id/tv_type_qianke"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/white"
+                        android:gravity="center_vertical|left"
+                        android:text=""
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="18dp"
                     android:background="#D1D1D1" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="18dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="房型:"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp"
+                        />
                 <TextView
                     android:id="@+id/tv_fangxing_potential"
                     android:layout_width="match_parent"
@@ -154,16 +178,28 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center_vertical|left"
-                    android:paddingLeft="18dp"
                     android:text=""
                     android:textColor="#9E9E9E"
                     android:textSize="13sp" />
-
+</LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="18dp"
                     android:background="#D1D1D1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="18dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="片区:"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp"
+                        />
                 <TextView
                     android:id="@+id/tv_acreage_qianke"
                     android:layout_width="match_parent"
@@ -171,17 +207,28 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center_vertical|left"
-                    android:paddingLeft="18dp"
                     android:text=""
                     android:textColor="#9E9E9E"
                     android:textSize="13sp" />
-
+</LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="18dp"
                     android:background="#D1D1D1" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="18dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格:"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp"
+                        />
                 <TextView
                     android:id="@+id/tv_price_qianke"
                     android:layout_width="match_parent"
@@ -189,17 +236,28 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center_vertical|left"
-                    android:paddingLeft="18dp"
                     android:text=""
                     android:textColor="#9E9E9E"
                     android:textSize="13sp" />
-
+</LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="18dp"
                     android:background="#D1D1D1" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="18dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="面积:"
+                        android:textSize="13sp"
+                        android:textColor="#9E9E9E"
+                        />
                 <TextView
                     android:id="@+id/tv_area_potential"
                     android:layout_width="match_parent"
@@ -207,10 +265,10 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/white"
                     android:gravity="center_vertical|left"
-                    android:paddingLeft="18dp"
                     android:text=""
                     android:textColor="#9E9E9E"
                     android:textSize="13sp" />
+                    </LinearLayout>
             </LinearLayout>
 
             <View

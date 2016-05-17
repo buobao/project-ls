@@ -152,7 +152,12 @@ public class XListView extends ListView implements OnScrollListener {
 			
 		}
 	}
-
+	public void setDataEmpty() {
+		mEnablePullLoad = true;
+		mFooterView.show();
+		mFooterView.setState(XListViewFooter.STATE_EMPTY);
+		mFooterView.setOnClickListener(null);
+	}
 	/**
 	 * 停止刷新
 	 */
@@ -184,7 +189,7 @@ public class XListView extends ListView implements OnScrollListener {
 	public void setRefreshTime() {
 		String format="yyyy年MM月dd日 HH:mm:ss";
 		SimpleDateFormat formatter = new SimpleDateFormat(
-				"HH:mm:ss");
+				"HH:mm");
 		Date curDate = new Date(System.currentTimeMillis());
 		String str = formatter.format(curDate);
 		if(date1==null){

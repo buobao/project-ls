@@ -429,7 +429,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
             Requets req = listReqs.get(0);
             mTvType.setText("类型：" + req.getReqType());// 类型
             tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 类型
-            mTvAcreage.setText("区域：" + req.getArea());//片区
+            mTvAcreage.setText("片区：" + req.getArea());//片区
             mTvPrice.setText("价格：" + req.getPrice());// 价格
 			tv_area_custdetail.setText("面积：" + req.getAcreage());// 面积
 //            mTvTenancyTime.setText("租期：" + req.getTenancyTime());

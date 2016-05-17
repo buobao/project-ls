@@ -4,6 +4,8 @@ package com.vocinno.centanet.tools.constant;
  * Created by Administrator on 2016/5/9.
  */
 public class NetWorkMethod {
+    public static final String jingDu="att";
+    public static final String weiDu="lat";
     /**********************登录*************************/
     public static final String login="mobile/login";
     public static final String source="source";
@@ -19,13 +21,19 @@ public class NetWorkMethod {
     public static final String custCode="custCode";
     public static final String reqType="reqType";
     public static final String distCode="distCode";
-    public static final String area="area";
-    public static final String acreage="acreage";
+    public static final String area="area";//片区
+    public static final String acreage="acreage";//面积
     public static final String price="price";
-    public static final String fromToRoom="fromToRoom";
+    public static final String fromToRoom="fromToRoom";//房型
     public static final String other="other";
     /*****************客户详情********************/
     public static final String custInfo="mobile/cust/custInfo";
+    /*****************添加客户********************/
+    public static final String addCust = "mobile/cust/add";
+    public static final String name = "name";
+    public static final String phone = "phone";
+    public static final String origin = "origin";//来源
+    public static final String rank = "rank";//等级
     /*****************客户详情-区域获取片区********************/
     public static final String areas="mobile/hou/areas";
     public static final String districtCode="districtCode";

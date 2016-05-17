@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
@@ -31,7 +32,10 @@ import com.vocinno.centanet.model.PianQu;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -500,18 +504,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				} else {
 					price = oldP;
 				}
-				String source=tv_source_addCustomer.getText().toString();
-				String sourceCode=CST_Wheel_Data.sourceMap.get(source);
-				String level=tv_level_addCustomer.getText().toString();
-				String fangxing=tv_fangxing_addCust.getText().toString().replace("室","");
-				String strJson = CST_JS.getJsonStringForAddCustomer(
-						mEtCustormerName.getText().toString(), mEtCustormerNumber.getText().toString().trim(), reqType,
-						mapPianQu.get(mTvCustormerPianqu.getText().toString()),
-						mTvCustormerArea.getText().toString().replace("平米", ""),
-						price, mEtOtherInfo.getText().toString(),sourceCode,level,fangxing);
-				Log.d(TAG, "updateAddUser :" + strJson);
-				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_addCustomer, strJson);
-
+				addCust(reqType,price);
 				break;
 			case R.id.rlyt_isChooseQiuzu_addCustomerActivity:
 				// 求租
@@ -720,6 +713,46 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				break;
 		}
 	}
+
+	private void addCust(String reqType,String price) {
+		Map<String,String> map=new HashMap<String,String>();
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addCust;
+		String source=tv_source_addCustomer.getText().toString();
+		String sourceCode=CST_Wheel_Data.sourceMap.get(source);
+		String level=tv_level_addCustomer.getText().toString();
+		String fromToRoom=tv_fangxing_addCust.getText().toString().replace("室","");
+		map.put(NetWorkMethod.name,mEtCustormerName.getText().toString());
+		map.put(NetWorkMethod.phone,mEtCustormerNumber.getText().toString());
+		map.put(NetWorkMethod.reqType,reqType);
+		map.put(NetWorkMethod.area,mapPianQu.get(mTvCustormerPianqu.getText().toString()));
+		map.put(NetWorkMethod.acreage,mTvCustormerArea.getText().toString().replace("平米", ""));
+		map.put(NetWorkMethod.price,price);
+		map.put(NetWorkMethod.other, mEtOtherInfo.getText().toString());
+		map.put(NetWorkMethod.origin,sourceCode);
+		map.put(NetWorkMethod.rank, level);
+		map.put(NetWorkMethod.fromToRoom, fromToRoom);
+
+		showDialog();
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				dismissDialog();
+			}
+			@Override
+			public void onResponse(String response) {
+				dismissDialog();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
+				if (jsReturn.isSuccess()) {
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
+					setResult(MyConstant.REFRESH);
+					finish();
+				} else {
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
+				}
+			}
+		});
+	}
+
 	private void checkPhoneNum(String tel){
 		String phoneJson = CST_JS.getJsonStringForCheckPhoneNORepeated(tel);
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
@@ -755,7 +788,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				isSameTel=2;
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
-		} else {
+		} /*else {
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
@@ -764,7 +797,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
 			}
-		}
+		}*/
 	}
 
 	@Override

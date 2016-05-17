@@ -302,7 +302,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:gravity="center_vertical|left"
-                    android:paddingLeft="18dp"
+                    android:paddingLeft="15dp"
                     android:text="@string/other_info"
                     android:textColor="#2E2E2E"
                     android:textSize="14sp" />

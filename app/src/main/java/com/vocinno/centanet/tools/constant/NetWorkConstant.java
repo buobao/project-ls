@@ -1,6 +1,7 @@
 package com.vocinno.centanet.tools.constant;
 
 import com.vocinno.centanet.apputils.AppApplication;
+import com.vocinno.utils.LocationUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,8 @@ public class NetWorkConstant {
             if(token!=null){
                 map.put(NetWorkMethod.token,token);
             }
+            map.put(NetWorkMethod.jingDu, LocationUtil.getLongitude()+"");
+            map.put(NetWorkMethod.weiDu, LocationUtil.getLatitude()+"");
             return map;
         }
         return null;

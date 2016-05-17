@@ -544,11 +544,9 @@ public final class CST_JS {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(jS_CommonParam_Name, name);
 		jsonObject.addProperty(JS_CustomerList_Phone, phone);
-//		jsonObject.addProperty(JS_CustomerList_QQ, qq);
-//		jsonObject.addProperty(JS_CustomerList_Wechat, wechat);
 		jsonObject.addProperty(JS_CustomerList_ReqType, reqType);
-		jsonObject.addProperty(JS_CustomerList_Acreage, acreage);
 		jsonObject.addProperty(JS_CustomerList_Area, area);
+		jsonObject.addProperty(JS_CustomerList_Acreage, acreage);
 		jsonObject.addProperty(JS_HouseResource_Price, price);
 		jsonObject.addProperty(JS_CustomerList_Other, other);
 		jsonObject.addProperty(JS_CustomerList_origin, origin);

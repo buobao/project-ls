@@ -49,7 +49,6 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         super.onCreate(savedInstanceState);
         mContext = this;
         hif=(HttpInterface)this;
-        MyUtils.addActivityToList(this);
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();
         int layoutId=setContentLayoutId();

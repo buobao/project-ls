@@ -38,7 +38,6 @@ import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
-import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
@@ -51,7 +50,8 @@ import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
@@ -387,7 +387,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode){
-            case ConstantResult.REFRESH:
+            case MyConstant.REFRESH:
 //                getDataFromNetwork(mType, mPageIndexs[mCurrentPageIndex]);
                 break;
             case RESULT_OK:
@@ -694,8 +694,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
-                HomeActivity.HA.finish();
-                System.exit(0);
+                intent.setClass(this, UserLoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(MyConstant.isExit, true);
+                startActivity(intent);
                 break;
             default:
                 break;

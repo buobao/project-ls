@@ -8,6 +8,8 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInit;
@@ -20,6 +22,8 @@ import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.DownloadApp;
+import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.SharedPre;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsExtra;
@@ -42,6 +46,8 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	private String mUserId = null;
 	private MethodsJni methodsJni=new MethodsJni();
 	public static UserLoginActivity ula;
+	private ImageView iv_splash;
+	private boolean isExit;
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -56,8 +62,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 								mEtUserAccount.getText().toString(),
 								mEtUserpassword.getText().toString(), mUserId);
 						MethodsExtra.toast(mContext, (String) msg.obj);
-						MethodsExtra
-								.startActivity(mContext, HomeActivity.class);
+						MethodsExtra.startActivity(mContext, HomeActivity.class);
 					}
 
 					finish();
@@ -85,6 +90,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	@Override
 	public void initView() {
 		ula=this;
+		iv_splash = (ImageView) findViewById(R.id.iv_splash);
 		mEtUserAccount = (EditText) findViewById(R.id.et_userAccount_UserLoginActivity);
 		mEtUserpassword = (EditText) findViewById(R.id.et_userPassword_UserLoginActivity);
 		mBtnLogin = (Button) findViewById(R.id.btn_userLogin_UserLoginActivity);
@@ -147,11 +153,26 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	 */
 	@Override
 	public void initData() {
-		methodsJni.setMethodsJni((HttpInterface)this);
+		methodsJni.setMethodsJni((HttpInterface) this);
 		AppInit.init(getApplicationContext());
 		MethodsNetwork.refreshAPNTypeInMainThread(this);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,
 				TAG);
+		isExit=getIntent().getBooleanExtra(MyConstant.isExit,false);
+		if(isExit){
+			iv_splash.setVisibility(View.GONE);
+		}else{
+			String userAccount = mEtUserAccount.getText().toString().trim();
+			String userPassword = mEtUserpassword.getText().toString().trim();
+			if(MethodsData.isEmptyString(userAccount)){
+				iv_splash.setVisibility(View.GONE);
+			}else{
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
+						CST_JS.JS_Function_Login_login,
+						CST_JS.getJsonStringForLogin(userAccount, userPassword));
+			}
+		}
+
 	}
 
 	@Override
@@ -167,9 +188,23 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	/**
 	 * 按返回键的时候的监听
 	 */
+	private long exitTime = 0;
 	@Override
 	public void onBack() {
-		MethodsExtra.backdailog(mContext);
+		if(iv_splash.getVisibility()==View.GONE){
+//			MethodsExtra.backdailog(mContext);
+			if((System.currentTimeMillis()-exitTime) > 2000){
+				Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				exitTime = System.currentTimeMillis();
+			} else {
+				finish();
+				MyUtils.removeActivityFromList();
+				MyUtils.removeActivityFromAllList();
+			}
+		}else{
+			finish();
+			System.exit(0);
+		}
 	}
 
 	@Override
@@ -250,6 +285,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 			msg.what = R.id.doSuccess;
 			msg.obj = jReturn.getMsg();
 		} else {
+			iv_splash.setVisibility(View.GONE);
 			if("0".equals(jReturn.getCode())){
 				//MethodsExtra.toast(this,jReturn.getMsg());
 				downloadApp(jReturn.getMsg());

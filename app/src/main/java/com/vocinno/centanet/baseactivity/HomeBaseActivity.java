@@ -17,6 +17,8 @@ import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.zbar.lib.CaptureActivity;
@@ -45,6 +47,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyUtils.addActivityToList(this);
         intent=new Intent();
         mContext = this;
         int layoutId=setContentLayoutId();
@@ -149,7 +152,10 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     break;
                 //退出app
                 case R.id.ry_exit:
-                    System.exit(0);
+                    intent.setClass(this, UserLoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra(MyConstant.isExit, true);
+                    startActivity(intent);
                     break;
         }
 

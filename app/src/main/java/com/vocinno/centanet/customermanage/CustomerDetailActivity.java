@@ -34,7 +34,7 @@ import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -280,7 +280,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 		/*if (data == null) {
 			return;
 		}*/
-		if (resultCode == ConstantResult.REFRESH) {
+		if (resultCode == MyConstant.REFRESH) {
 			/*MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
 			showDialog();
 			firstRefresh=true;
@@ -439,7 +439,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 			if (jsReturn.isSuccess()) {
 				if(returnRefresh){
 					MethodsExtra.toast(mContext, jsReturn.getMsg());
-					setResult(ConstantResult.REFRESH);
+					setResult(MyConstant.REFRESH);
 					returnRefresh=false;
 					finish();
 				}

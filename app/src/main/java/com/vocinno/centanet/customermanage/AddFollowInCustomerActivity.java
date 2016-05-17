@@ -18,7 +18,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -215,7 +215,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			/*setResult(ConstantResult.REFRESH);
 			finish();*/
 			MethodsExtra.toast(mContext, jsReturn.getMsg());
-			setResult(ConstantResult.REFRESH);
+			setResult(MyConstant.REFRESH);
 			finish();
 		}
 	}

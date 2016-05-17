@@ -36,8 +36,6 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.centanet.home.HomeActivity;
-import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
@@ -45,7 +43,6 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.centanet.tools.constant.ConstantResult;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.adapter.CustormerPhoneAdapter;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
@@ -61,6 +58,9 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -333,7 +333,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 
 				mTvName.setText(mHouseDetail.getAddr() + " "+buiding+" " + mHouseDetail.getDelCode());
 				break;
-			case ConstantResult.REFRESH:
+			case MyConstant.REFRESH:
 				showDialog();
 				// 调用初始化数据
 				MethodsJni
@@ -548,9 +548,10 @@ public class HouseDetailActivity extends OtherBaseActivity {
 				break;
 			//我的提醒
 			case R.id.ry_exit:
-				HomeActivity.HA.finish();
-				MyUtils.removeActivityFromAllList();
-				System.exit(0);
+				intent.setClass(this, UserLoginActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.putExtra(MyConstant.isExit, true);
+				startActivity(intent);
 				break;
 		default:
 			break;
@@ -1080,7 +1081,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 					Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				setResult(ConstantResult.REFRESH);
+				setResult(MyConstant.REFRESH);
 				finish();
 				/*myDialog=new MyDialog.Builder(this);
 				myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {

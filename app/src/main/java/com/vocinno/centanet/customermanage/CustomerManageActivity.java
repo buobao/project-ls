@@ -28,7 +28,7 @@ import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -155,7 +155,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode){
-			case ConstantResult.REFRESH:
+			case MyConstant.REFRESH:
 				getDataFromNetwork(mPageIndex);
 			break;
 		}

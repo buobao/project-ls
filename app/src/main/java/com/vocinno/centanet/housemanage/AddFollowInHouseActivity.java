@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsDeliverData;
@@ -172,7 +172,7 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		if (jsReturn.isSuccess()) {
 			MethodsExtra.toast(mContext, jsReturn.getMsg());
 			isSucessSave=true;
-			setResult(ConstantResult.REFRESH);
+			setResult(MyConstant.REFRESH);
 			finish();
 		}else{
 			MethodsExtra.toast(mContext,jsReturn.getMsg());

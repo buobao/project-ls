@@ -17,7 +17,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -306,7 +306,7 @@ public class OkHttpClientManager {
     public static void postAsyn(String url, Map<String, String> params, final ResultCallback callback)
     {
 //        MyLoadDialog.showDialog();
-        Map<String, String> tokenMap=MyConstant.getToken();
+        Map<String, String> tokenMap=NetWorkConstant.getToken();
         if(tokenMap!=null&&tokenMap.size()>0){
             params.putAll(tokenMap);
         }
@@ -315,7 +315,7 @@ public class OkHttpClientManager {
     public static void getAsyn(String url, Map<String, String> params, final ResultCallback callback)
     {
 //        MyLoadDialog.showDialog();
-        Map<String, String> tokenMap=MyConstant.getToken();
+        Map<String, String> tokenMap=NetWorkConstant.getToken();
         if(tokenMap!=null&&tokenMap.size()>0){
             params.putAll(tokenMap);
         }

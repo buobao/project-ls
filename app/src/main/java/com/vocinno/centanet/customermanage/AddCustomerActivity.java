@@ -31,7 +31,7 @@ import com.vocinno.centanet.model.PianQu;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -759,7 +759,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 			jsReturn = MethodsJson.jsonToJsReturn((String) data, Object.class);
 			if (jsReturn.isSuccess()) {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				setResult(ConstantResult.REFRESH);
+				setResult(MyConstant.REFRESH);
 				finish();
 			} else {
 				MethodsExtra.toast(mContext, jsReturn.getMsg());

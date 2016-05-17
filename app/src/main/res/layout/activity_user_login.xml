@@ -4,152 +4,169 @@
               android:layout_height="match_parent"
               android:background="@drawable/beijing"
               android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/transparent">
-
-        <TextView
-            android:id="@+id/tv_topText_UserLoginActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:text="三级市场销售平台"
-            android:textColor="@color/white"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/top_text_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tv_topText_UserLoginActivity"
-            android:layout_centerHorizontal="true"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="36sp"/>
-    </RelativeLayout>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/transparent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="13.5dp"
-        android:paddingRight="13.5dp"
-        android:paddingTop="8dp">
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/transparent">
+
+            <TextView
+                android:id="@+id/tv_topText_UserLoginActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:text="三级市场销售平台"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/top_text_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_topText_UserLoginActivity"
+                android:layout_centerHorizontal="true"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="36sp"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
-            android:background="@drawable/bg_login_user_login_activity"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:orientation="vertical"
+            android:paddingLeft="13.5dp"
+            android:paddingRight="13.5dp"
+            android:paddingTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_weight="0.8"
+                android:background="@drawable/bg_login_user_login_activity"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.16">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ures"/>
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/et_userAccount_UserLoginActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center_vertical|left"
+                        android:hint="请输入用户名"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/gray_text_login_input"
+                        android:textColorHint="@color/gray_text_login_input"
+                        android:textSize="14sp"/>
+                </LinearLayout>
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.16">
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.02"
+                    android:background="#6E6E6E"/>
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ures"/>
-                </RelativeLayout>
-
-                <EditText
-                    android:id="@+id/et_userAccount_UserLoginActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center_vertical|left"
-                    android:hint="请输入用户名"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/gray_text_login_input"
-                    android:textColorHint="@color/gray_text_login_input"
-                    android:textSize="14sp"/>
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.16">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/press"/>
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/et_userPassword_UserLoginActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center_vertical|left"
+                        android:hint="请输入密码"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/gray_text_login_input"
+                        android:textColorHint="@color/gray_text_login_input"
+                        android:textSize="14sp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.02"
-                android:background="#6E6E6E"/>
+                android:layout_weight="0.15">
+            </RelativeLayout>
 
-            <LinearLayout
+            <Button
+                android:id="@+id/btn_userLogin_UserLoginActivity"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.16">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/press"/>
-                </RelativeLayout>
-
-                <EditText
-                    android:id="@+id/et_userPassword_UserLoginActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center_vertical|left"
-                    android:hint="请输入密码"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/gray_text_login_input"
-                    android:textColorHint="@color/gray_text_login_input"
-                    android:textSize="14sp"/>
-            </LinearLayout>
+                android:layout_weight="0.4"
+                android:background="#444444"
+                android:text="登录"
+                android:textColor="@color/white"
+                android:textSize="15sp"/>
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.15">
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btn_userLogin_UserLoginActivity"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:background="#444444"
-            android:text="登录"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            >
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
+    <ImageView
+        android:id="@+id/iv_splash"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/transparent"
-        >
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:src="@drawable/splash_img"
+        android:scaleType="fitXY"
+        />
+</FrameLayout>
+
 </LinearLayout>

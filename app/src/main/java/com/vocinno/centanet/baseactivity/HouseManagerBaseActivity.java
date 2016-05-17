@@ -40,6 +40,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        intent=new Intent();
         hif=(HttpInterface)this;
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();

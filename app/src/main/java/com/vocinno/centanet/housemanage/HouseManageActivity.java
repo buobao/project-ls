@@ -42,7 +42,7 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseList;
@@ -595,7 +595,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode){
-			case ConstantResult.REFRESH:
+			case MyConstant.REFRESH:
 				getDataFromNetwork(mType, mPageIndexs[mCurrentPageIndex]);
 			break;
 		}

@@ -11,8 +11,9 @@ import android.view.View.OnClickListener;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.tools.MyLoadDialog;
 import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
-import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.utils.MethodsJni;
 
 import cn.jpush.android.api.JPushInterface;
@@ -30,10 +31,11 @@ public abstract class SuperActivity extends Activity implements OnClickListener 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		myApp=(AppApplication)getApplication();
-		MyConstant.setMyApp(myApp);
+		NetWorkConstant.setMyApp(myApp);
 		MyToast.getInstance(this);
 		MyLoadDialog.getInstance(this);
 		AppInstance.mListActivitys.add(this);
+		MyUtils.addActivityToList(this);
 		mContext = this;
 		TAG = this.getClass().getName();
 		mRootView = LayoutInflater.from(this).inflate(setContentLayoutId(),

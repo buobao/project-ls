@@ -26,7 +26,6 @@ import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
-import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -202,9 +201,10 @@ public class HomeActivity extends HomeBaseActivity {
 				Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
 				exitTime = System.currentTimeMillis();
 			} else {
-				UserLoginActivity.ula.finish();
+//				UserLoginActivity.ula.finish();
+//				finish();
+				MyUtils.removeActivityFromList();
 				System.exit(0);
-				finish();
 			}
 			return true;
 		}

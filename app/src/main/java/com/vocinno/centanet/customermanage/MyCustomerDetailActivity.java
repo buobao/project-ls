@@ -31,7 +31,7 @@ import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.OkHttpClientManager;
-import com.vocinno.centanet.tools.constant.ConstantResult;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
@@ -263,7 +263,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == ConstantResult.REFRESH) {
+		if (resultCode == MyConstant.REFRESH) {
 			URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
 			Map<String,String>map=new HashMap<String,String>();
 			map.put(NetWorkMethod.custCode,mCusterCode);
@@ -380,7 +380,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			if (jsReturn.isSuccess()) {
 				if(returnRefresh){
 					MethodsExtra.toast(mContext, jsReturn.getMsg());
-					setResult(ConstantResult.REFRESH);
+					setResult(MyConstant.REFRESH);
 					returnRefresh=false;
 					finish();
 				}

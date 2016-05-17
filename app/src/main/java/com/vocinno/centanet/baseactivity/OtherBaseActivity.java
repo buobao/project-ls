@@ -16,13 +16,14 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
-import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -249,9 +250,10 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
                 break;
             //我的提醒
             case R.id.ry_exit:
-                HomeActivity.HA.finish();
-                MyUtils.removeActivityFromAllList();
-                System.exit(0);
+                intent.setClass(this, UserLoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(MyConstant.isExit, true);
+                startActivity(intent);
                 break;
         }
     }

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="#F6F6F6"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp"
+        >
 
         <LinearLayout
             android:id="@+id/llyt_search_dialogSearchHouseManage"
@@ -62,14 +63,14 @@
         <ListView
             android:id="@+id/lv_historySearch_dialogSearchHouseManage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:layout_below="@+id/llyt_search_dialogSearchHouseManage"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="12dp"
             android:divider="@null"
             android:scrollbarSize="0dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

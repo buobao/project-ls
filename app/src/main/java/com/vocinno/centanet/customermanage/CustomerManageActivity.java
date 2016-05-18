@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -182,7 +183,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			mEtSearch.setText("");
 			mSearch.setList(null);
 			mSearch.notifyDataSetChanged();
-			mLvHostory.setVisibility(View.INVISIBLE);
 			break;
 		default:
 			break;
@@ -332,6 +332,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 						mSearchListData = jReturn.getListDatas();
 						mSearch.setList(mSearchListData);
 						mSearch.notifyDataSetChanged();
+						setListHeight(mSearch,mListView);
+						mListView.setVisibility(View.VISIBLE);
 //					mListView.setAdapter(mSearch);
 					}else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
@@ -343,6 +345,18 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			}
 
 		}
+	}
+
+	private void setListHeight(SearchAdapter mSearch,ListView mListView) {
+		int totalHeight = 0;
+		for (int i = 0, len = mSearch.getCount(); i < len; i++) {
+            View listItem = mSearch.getView(i, null, mListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+		ViewGroup.LayoutParams params = mListView.getLayoutParams();
+		params.height = totalHeight + (mListView.getDividerHeight() * (mSearch.getCount() - 1));
+		mListView.setLayoutParams(params);
 	}
 
 	private void showMenuDialog() {
@@ -368,7 +382,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	}
 
 	private ListView mListView;
-	private ListView mLvHostory;
 	public static EditText mEtSearch;
 	private List<String> mHistorySearch;
 	private SearchAdapter mSearch;
@@ -390,8 +403,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		mEtSearch.setHint(getText(R.string.search_cust_hit));
 		Button mBtnSearch = (Button) mSearchDialog
 				.findViewById(R.id.btn_search_dialogSearchHouseManage);
-		mLvHostory = (ListView) mSearchDialog
-				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		Button mBtnClean = (Button) mSearchDialog
 				.findViewById(R.id.btn_close_dialogSearchHouseManage);
 		mBtnSearch.setOnClickListener(new NoDoubleClickListener() {
@@ -417,7 +428,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		});
 
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 									long arg3) {
@@ -429,17 +439,11 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				mSearchDialog.dismiss();
 				showDialog();
 			}
-
 		});
-		// 然后填充入listView
-		if (mHistorySearch != null) {
-			mLvHostory.setVisibility(View.VISIBLE);
-		}
 		mSearchDialog.show();
 	}
 
 	private void searchKeYuan(String editString) {
-		mLvHostory.setVisibility(View.INVISIBLE);
 		if(editString==null||editString.length()<=0){
 //			mSearch.setList(null);
 //			mListView.setAdapter(mSearch);
@@ -457,9 +461,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			}
 			// 在打字期间添加搜索栏数据
 			String reqparm = CST_JS.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My:CST_JS.JS_CustomerList_Type_Public),editString,paramType, 1, 20);
-			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
+			MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
 					CST_JS.JS_Function_CustListMobile_Serarch, reqparm);
-			mLvHostory.setVisibility(View.VISIBLE);
 		}
 	}
 }

@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -48,6 +49,7 @@ import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.myinterface.TagSlidingInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -68,7 +70,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterface,GetDataInterface {
+public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterface,GetDataInterface,TagSlidingInterface {
     private static final String Weixin_APP_ID = "wx52560d39a9b47eae";
     private int[] mIntScreenWidthHeight = { 0, 0 };
     private final int NEAR_CHU_ZU=1;
@@ -117,6 +119,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private List<EstateSearchItem> mSearchListData;
     private boolean  isGongFang;
     private EditText et_house_dong, et_house_shi;
+    private ImageButton ib_tag_jiantou;
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -198,6 +201,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         isGongFang=getIntent().getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
         MethodsExtra.findHeadTitle1(mContext, baseView,
                 R.string.house_chushou, null);
+        ib_tag_jiantou= (ImageButton) findViewById(R.id.ib_tag_jiantou);
+        ib_tag_jiantou.setOnClickListener(this);
         drawer_layout=(DrawerLayout)baseView.findViewById(R.id.drawer_layout);
         leftMenuView=baseView.findViewById(R.id.left_menu_housemanager);
         drawer_layout.closeDrawer(leftMenuView);
@@ -209,6 +214,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         mViewMore.setOnClickListener(this);
         mScrollTagView = (ScrollTagView) baseView
                 .findViewById(R.id.scrolltag_houseManage_houseManageActivity);
+        mScrollTagView.setInterface((TagSlidingInterface)this);
         mScrollTagViewAdapter = new ScrollTagViewAdapter(mContext);
         // 添加标签
         mScrollTagViewAdapter.add(" 价格 ");
@@ -412,10 +418,29 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     public void selectTag(int currentIndex) {
         showTagSortDialog(currentIndex);
     }
-
+    @Override
+    public void sliding(boolean flag) {
+        if(flag){
+            ib_tag_jiantou.setImageResource(R.drawable.jiantou_right);
+            slidingFlag=true;
+        }else{
+            ib_tag_jiantou.setImageResource(R.drawable.jiantou_left);
+            slidingFlag=false;
+        }
+    }
+    private boolean slidingFlag;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ib_tag_jiantou:
+                slidingFlag=!slidingFlag;
+                if(slidingFlag){
+                    ib_tag_jiantou.setImageResource(R.drawable.jiantou_right);
+                }else{
+                    ib_tag_jiantou.setImageResource(R.drawable.jiantou_left);
+                }
+                mScrollTagView.setSliding(slidingFlag);
+                break;
             case R.id.tv_searchinmap_HouseManageActivity:
                 mMenuDialog.dismiss();
                 if (viewPageIndex==0) {

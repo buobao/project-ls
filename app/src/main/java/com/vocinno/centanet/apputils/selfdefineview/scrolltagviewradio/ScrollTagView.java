@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.myinterface.TagSlidingInterface;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class ScrollTagView extends HorizontalScrollView {
 	private onScrollTagViewChangeListener mCallBack;
 
 	private Context mContext;
-
+	private TagSlidingInterface tsi;
 	private int mScreenW = 0;
 
 	private int mSelectedItemIndex = 0;
@@ -36,17 +37,22 @@ public class ScrollTagView extends HorizontalScrollView {
 	public ScrollTagView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
-
+	public void setInterface(TagSlidingInterface tagSlidingInterface){
+		tsi=tagSlidingInterface;
+	}
 	public ScrollTagView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		mContext = context;
 		mScreenW = ((Activity) mContext).getWindowManager().getDefaultDisplay()
-				.getWidth();
+				.getWidth()-dip2px(context, 30);
 		mContainer = new LinearLayout(mContext);
 		mContainer.setOrientation(LinearLayout.HORIZONTAL);
 		addView(mContainer);
 	}
-
+	private int dip2px(Context context, float dipValue){
+		final float scale = context.getResources().getDisplayMetrics().density;
+		return (int)(dipValue * scale + 0.5f);
+	}
 	public SuperTagAdapter getAdapter() {
 		return mTagAdapter;
 	}
@@ -117,9 +123,15 @@ public class ScrollTagView extends HorizontalScrollView {
 		if (position <= 1) {
 //			smoothScrollTo(0, 0);
 		} else {
-			/*int halfCur = mListlens.get(position) - mListlens.get(position - 1);
-			smoothScrollTo(mListlens.get(position - 1) - mScreenW / 2 + halfCur / 2
-					- 18, 0);*/
+//			int halfCur = mListlens.get(position) - mListlens.get(position - 1);
+//			smoothScrollTo(mListlens.get(position - 1) - mScreenW / 2 + halfCur / 2- 18, 0);
+		}
+	}
+	public void setSliding(boolean flag){
+		if(flag){
+			smoothScrollTo(720,0);
+		}else{
+			smoothScrollTo(0,0);
 		}
 	}
 	int mPosX,mPosY,mCurrentPosX,mCurrentPosY;
@@ -129,52 +141,20 @@ public class ScrollTagView extends HorizontalScrollView {
 			mPosX = (int)event.getX();
 			mPosY = (int)event.getY();
 		}
-		/*if(MotionEvent.ACTION_UP == event.getAction()){
-			mPosX = (int)event.getX();
-			mPosY = (int)event.getY();
-			return true;
-		}*/
-		if (MotionEvent.ACTION_MOVE == event.getAction()) {
-			mCurrentPosX = mPosX-(int)event.getX();
-			mCurrentPosY = mPosY-(int)event.getY();
-			if(mCurrentPosX!=0){
-				smoothScrollTo(mCurrentPosX,mCurrentPosY);
-			}
-			/*mPosX = (int)event.getX();
-			mPosY = (int)event.getY();*/
-			/*if(mCurrentPosX<0){
+		if(MotionEvent.ACTION_UP == event.getAction()){
+			int x=(int)event.getX();
+			int y=(int)event.getY();
+			mCurrentPosX = mPosX-x;
+			mCurrentPosY = mPosY-y;
+			if(mCurrentPosX>0){
+				smoothScrollTo(720,0);
+				tsi.sliding(true);
+			}else if(mCurrentPosX<0){
 				smoothScrollTo(0,0);
-				return  true;
-			}else if(mCurrentPosX>0){
-				smoothScrollTo(9000,0);
-				return  true;
-			}*/
+				tsi.sliding(false);
+			}
 			return true;
 		}
-
-		/*if (mCurrentPosX  > 0 && Math.abs(mCurrentPosY - mPosY) < 1000) {
-
-			Log.i("==", "向右的按下位置" + mPosX + "移动位置"+mCurrentPosX);
-
-		}
-		else if (mCurrentPosX  < 0 && Math.abs(mCurrentPosY - mPosY) < 1000
-				) {
-
-			Log.i("==", "向左的按下位置" + mPosX + "移动位置"+mCurrentPosX);
-
-		}
-		else if (mCurrentPosY> 0 && Math.abs(mCurrentPosX - mPosX) < 1000)
-
-		{
-			Log.i("==", "向下的按下位置" + mPosX + "移动位置"+mCurrentPosX);
-
-		}
-		else if (mCurrentPosY  < 0 && Math.abs(mCurrentPosX - mPosX) < 1000)
-
-		{
-			Log.i("==", "向上的按下位置" + mPosX + "移动位置"+mCurrentPosX);
-
-		}*/
 		return super.onTouchEvent(event);
 	}
 }

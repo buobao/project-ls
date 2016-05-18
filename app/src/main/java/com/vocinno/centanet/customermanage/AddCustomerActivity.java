@@ -272,7 +272,10 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 			}
 		});
 
-
+		mRyltChoosePlaceContainer.setVisibility(View.GONE);
+		mRyltChoosePianquContainer.setVisibility(View.GONE);
+		mRyltChooseAreaContainer.setVisibility(View.GONE);
+		mRyltChoosePriceContaner.setVisibility(View.GONE);
 
 
 		setListener();

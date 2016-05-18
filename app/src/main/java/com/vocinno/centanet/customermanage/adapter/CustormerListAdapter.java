@@ -109,18 +109,33 @@ public class CustormerListAdapter extends BaseAdapter {
 			if(CustomerItem.ZU.equals(item.getReqType())){
 				holder.mTvDemandType.setText("求租");
 				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_zu));
+				holder.mTvDemandType.setVisibility(View.VISIBLE);
 			} else if(CustomerItem.GOU.equals(item.getReqType())){
 				holder.mTvDemandType.setText("求购");
 				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_gou));
+				holder.mTvDemandType.setVisibility(View.VISIBLE);
 			}else{
 				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
+				holder.mTvDemandType.setVisibility(View.GONE);
 			}
 //		}
 		// 区域
 		holder.mTvDemandDetail.setText(item.getArea() );
-		holder.mTvHuXing.setText(item.getFromToRoom());
 		// 户型+面积+价格
-		holder.mTvDemandPrice.setText( item.getAcreage()+" "+item.getPrice());
+		String fangXing=item.getFromToRoom();
+		String acreage=item.getAcreage();
+		String price=item.getAcreage();
+		if("不限".equals(acreage)){
+			acreage="";
+		}
+		if("不限".equals(price)){
+			price="";
+		}
+		if("不限".equals(fangXing)){
+			fangXing="";
+		}
+		holder.mTvHuXing.setText(fangXing);
+		holder.mTvDemandPrice.setText( acreage+" "+price);
 		// 说明
 		holder.mTvDescription.setText(item.getOther());
 		// 相对日期

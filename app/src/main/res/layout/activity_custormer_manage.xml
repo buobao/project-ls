@@ -12,7 +12,6 @@
         android:id="@+id/lv_custormerInfoList_CustomerManageActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
         android:scrollbars="none"
         android:cacheColorHint="@color/transparent"
         android:divider="@drawable/bg_custormer_info_list_divider_custormer_manage"

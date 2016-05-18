@@ -34,6 +34,7 @@
     <string name="zhanghaopinglun">使用已有账号发表评论</string>
 
     <!-- 钥匙管理 -->
+    <string name="keyhouselist">钥匙房源列表</string>
     <string name="keymanage">钥匙管理</string>
     <string name="keydetail">钥匙详情</string>
     <string name="key_getin_pwd">请输入接收的钥匙密码</string>

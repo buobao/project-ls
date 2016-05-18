@@ -239,11 +239,11 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 			public void onClick(View v) {
 				String fangxing = wv_fangxing_start_addCustomer.getSelectedText();
 				String maxFangxing = wv_fangxing_end_addCustomer.getSelectedText();
-				if(Integer.parseInt(fangxing.replace("室",""))>=Integer.parseInt(maxFangxing.replace("室", ""))){
+				if (Integer.parseInt(fangxing.replace("室", "")) >= Integer.parseInt(maxFangxing.replace("室", ""))) {
 					MyToast.showToast("最大房型必须大于最小房型");
 					return;
-				}else{
-					tv_fangxing_addCust.setText(fangxing+"-"+maxFangxing+"");
+				} else {
+					tv_fangxing_addCust.setText(fangxing + "-" + maxFangxing + "");
 					wv_choose_fangxing_addCustomer.setVisibility(View.GONE);
 					cb_fangxing_addCustomer.setChecked(!cb_fangxing_addCustomer.isChecked());
 				}
@@ -366,11 +366,11 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 		wv_level_addCustomer.setEnabled(true);
 		wv_level_addCustomer.setSelectItem(0);
 
-		wv_fangxing_start_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.fangxing), CustomUtils.getWindowWidth(this)/2);
+		wv_fangxing_start_addCustomer.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.fangxing), CustomUtils.getWindowWidth(this) / 2);
 		wv_fangxing_start_addCustomer.setEnabled(true);
 		wv_fangxing_start_addCustomer.setSelectItem(0);
 
-		wv_fangxing_end_addCustomer.setData(CST_Wheel_Data.getListDatas(WheelType.maxfangxing), CustomUtils.getWindowWidth(this)/2);
+		wv_fangxing_end_addCustomer.setData(CST_Wheel_Data.getListDatas(WheelType.maxfangxing), CustomUtils.getWindowWidth(this) / 2);
 		wv_fangxing_end_addCustomer.setEnabled(true);
 		wv_fangxing_end_addCustomer.setSelectItem(0);
 
@@ -386,6 +386,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 		mWheelViewChoosePriceTop.setData(CST_Wheel_Data
 				.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart), CustomUtils.getWindowWidth(this) / 2);
 		mWheelViewChoosePlace.setEnable(true);
+		mWheelViewChoosePlace.setSelectItem(0);
 		mWheelViewChoosePianqu.setEnable(true);
 		mWheelViewChooseAreaLast.setEnable(true);
 		mWheelViewChooseAreaTop.setEnable(true);
@@ -704,6 +705,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 					}
 //					mWheelViewChoosePianqu.setData(listStr);
 					mWheelViewChoosePianqu.resetData(listStr, CustomUtils.getWindowWidth(AddCustomerActivity.this));
+					mWheelViewChoosePianqu.setSelectItem(0);
 				}
 			}
 		});

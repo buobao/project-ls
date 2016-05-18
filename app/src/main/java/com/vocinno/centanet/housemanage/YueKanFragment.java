@@ -383,9 +383,9 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                     XHouseListView.setAdapter(houseListAdapter);
                     if (jsReturn.getListDatas() == null || jsReturn.getListDatas().size() <= 0) {
                         XHouseListView.setPullLoadEnable(false);
-                        setDataEmptyView(true);
+//                        setDataEmptyView(true);
                     } else {
-                        setDataEmptyView(false);
+//                        setDataEmptyView(false);
                     }
                 }
             }

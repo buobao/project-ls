@@ -204,7 +204,7 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 
 	@Override
 	public int setContentLayoutId() {
-		return R.layout.activity_house_manage;
+		return R.layout.activity_key_house_manage;
 	}
 
 	public void switchCurrentPageIndex(int houseType) {

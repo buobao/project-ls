@@ -292,6 +292,7 @@ public class AddDemandActivity extends OtherBaseActivity {
             }
         }
         wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
+        wv_pianqu_demand.setSelectItem(0);
 //        wv_pianqu_demand.setData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
     }
 

@@ -80,6 +80,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private MyFragmentAdapter pagerAdapter,pagerGongFangAdapter;
     private List<Fragment> fragmentList,gongFangList;
     private ScrollTagView mScrollTagView;
+    private LinearLayout ll_tag_contect;
     private ScrollTagViewAdapter mScrollTagViewAdapter;
     private Dialog mMenuDialog, mSearchDialog, mTagSortDialog;
     private TextView mTvAreaSort, mTvPriceSort;
@@ -109,6 +110,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     public String searchId[] ={"","","","","",""};
     public String searchType[] ={"","","","","",""};
     private int tagSelectIndex;
+    private KeyHouseFragment keyHouseFragment;
     private NearSellFragment nearSellFragment;
     private NearRentFragment nearRentFragment;
     private YueKanFragment yueKanFragment ;
@@ -117,7 +119,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private RobGongShouFragment robGongShouFragment;
     private RobGongZuFragment robGongZuFragment;
     private List<EstateSearchItem> mSearchListData;
-    private boolean  isGongFang;
+    private boolean  isGongFang,isKeyHouse;
     private EditText et_house_dong, et_house_shi;
     private ImageButton ib_tag_jiantou;
     @Override
@@ -128,7 +130,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.activity_house_manage2;
+        return R.layout.activity_house_manage;
     }
 
     @Override
@@ -199,8 +201,18 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     @Override
     public void initView() {
         isGongFang=getIntent().getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
-        MethodsExtra.findHeadTitle1(mContext, baseView,
-                R.string.house_chushou, null);
+        isKeyHouse=getIntent().getBooleanExtra(MyConstant.isKeyHouse,false);
+        if(isKeyHouse){
+            MethodsExtra.findHeadTitle1(mContext, baseView,
+                    R.string.keyhouselist, null);
+        }else{
+            MethodsExtra.findHeadTitle1(mContext, baseView,
+                    R.string.house_chushou, null);
+        }
+
+//        MethodsExtra.findHeadTitle1(mContext, baseView,
+//                R.string.house_chushou, null);
+        ll_tag_contect= (LinearLayout) findViewById(R.id.ll_tag_contect);
         ib_tag_jiantou= (ImageButton) findViewById(R.id.ib_tag_jiantou);
         ib_tag_jiantou.setOnClickListener(this);
         drawer_layout=(DrawerLayout)baseView.findViewById(R.id.drawer_layout);
@@ -298,15 +310,19 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                         viewPageIndex = position;
                         gongFangOrHouseTitle(position);
                         if(position==2){
-                            mScrollTagView.setVisibility(View.GONE);
+                            ll_tag_contect.setVisibility(View.GONE);
                             mViewMore.setVisibility(View.INVISIBLE);
                         }else{
-                            mScrollTagView.setVisibility(View.VISIBLE);
+                            ll_tag_contect.setVisibility(View.VISIBLE);
                             mViewMore.setVisibility(View.VISIBLE);
                         }
                         switch (position){
                             case HouseListBaseFragment.NEAR_SELL:
-                                nearSellFragment.initData();
+                                if(isKeyHouse){
+                                    keyHouseFragment.initData();
+                                }else{
+                                    nearSellFragment.initData();
+                                }
                                 break;
                             case HouseListBaseFragment.NEAR_RENT:
                                 nearRentFragment.initData();
@@ -334,27 +350,38 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 vp_gong_fang_manager.setVisibility(View.GONE);
             }
             vp_house_manager.setVisibility(View.VISIBLE);
-            if(nearSellFragment==null){
-                nearSellFragment = new NearSellFragment((GetDataInterface)this,viewPageIndex);
+            if(isKeyHouse){
+                if(keyHouseFragment==null){
+                    keyHouseFragment = new KeyHouseFragment((GetDataInterface)this,viewPageIndex);
+                }
+            }else{
+                if(nearSellFragment==null){
+                    nearSellFragment = new NearSellFragment((GetDataInterface)this,viewPageIndex);
+                }
+                if(nearRentFragment==null){
+                    nearRentFragment = new NearRentFragment((GetDataInterface)this,viewPageIndex);
+                }
+                if(yueKanFragment==null){
+                    yueKanFragment = new YueKanFragment((GetDataInterface)this,viewPageIndex);
+                }
+                if(mySellFragment==null){
+                    mySellFragment = new MySellFragment((GetDataInterface)this,viewPageIndex);
+                }
+                if(myRentFragment==null){
+                    myRentFragment = new MyRentFragment((GetDataInterface)this,viewPageIndex);
+                }
             }
-            if(nearRentFragment==null){
-                nearRentFragment = new NearRentFragment((GetDataInterface)this,viewPageIndex);
-            }
-            if(yueKanFragment==null){
-                yueKanFragment = new YueKanFragment((GetDataInterface)this,viewPageIndex);
-            }
-            if(mySellFragment==null){
-                mySellFragment = new MySellFragment((GetDataInterface)this,viewPageIndex);
-            }
-            if(myRentFragment==null){
-                myRentFragment = new MyRentFragment((GetDataInterface)this,viewPageIndex);
-            }
+
             if(fragmentList.size()<=0){
-                fragmentList.add(nearSellFragment);
-                fragmentList.add(nearRentFragment);
-                fragmentList.add(yueKanFragment);
-                fragmentList.add(mySellFragment);
-                fragmentList.add(myRentFragment);
+                if(isKeyHouse){
+                    fragmentList.add(keyHouseFragment);
+                }else{
+                    fragmentList.add(nearSellFragment);
+                    fragmentList.add(nearRentFragment);
+                    fragmentList.add(yueKanFragment);
+                    fragmentList.add(mySellFragment);
+                    fragmentList.add(myRentFragment);
+                }
                 pagerAdapter.setFragmentList(fragmentList);
 
                 vp_house_manager.setAdapter(pagerAdapter);
@@ -368,7 +395,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     public void initData() {
         viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
         if(viewPageIndex==2){
-            mScrollTagView.setVisibility(View.GONE);
+            ll_tag_contect.setVisibility(View.GONE);
             mViewMore.setVisibility(View.INVISIBLE);
         }
         addNotificationObserver();
@@ -742,8 +769,13 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void searchByOrder(String param,String order) {
         switch (viewPageIndex){
             case 0:
-                nearSellFragment.searchByOrderForList(param,order);
-                nearSellFragment.getData(1, false);
+                if(isKeyHouse){
+                    keyHouseFragment.searchByOrderForList(param,order);
+                    keyHouseFragment.getData(1, false);
+                }else{
+                    nearSellFragment.searchByOrderForList(param,order);
+                    nearSellFragment.getData(1, false);
+                }
                 break;
             case 1:
                 nearRentFragment.searchByOrderForList(param, order);
@@ -758,7 +790,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 mySellFragment.getData(1, false);
                 break;
             case 4:
-                myRentFragment.searchByOrderForList(param,order);
+                myRentFragment.searchByOrderForList(param, order);
                 myRentFragment.getData(1, false);
             break;
         }
@@ -766,8 +798,13 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void searchByKeyWord(String searchId,String searchType) {
         switch (viewPageIndex){
             case 0:
-                nearSellFragment.searchByKeyWord(searchId, searchType);
-                nearSellFragment.getData(1, false);
+                if(isKeyHouse){
+                    keyHouseFragment.searchByKeyWord(searchId, searchType);
+                    keyHouseFragment.getData(1, false);
+                }else{
+                    nearSellFragment.searchByKeyWord(searchId, searchType);
+                    nearSellFragment.getData(1, false);
+                }
                 break;
             case 1:
                 nearRentFragment.searchByKeyWord(searchId, searchType);
@@ -791,7 +828,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void searchByTag(int tagIndex,String param) {
         switch (viewPageIndex){
             case 0:
-                nearSellFragment.searchForList(tagIndex, param);
+                if(isKeyHouse){
+                    keyHouseFragment.searchForList(tagIndex, param);
+                }else{
+                    nearSellFragment.searchForList(tagIndex, param);
+                }
             break;
             case 1:
                 nearRentFragment.searchForList(tagIndex, param);
@@ -830,6 +871,9 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             if (jsReturn.isSuccess()) {
                 int dataType=jsReturn.getParams().getIsAppend()?1:0;
                 switch (type){
+                    case HouseType.YAO_SHI:
+                        keyHouseFragment.setListData(dataType,jsReturn.getListDatas());
+                    break;
                     case HouseType.CHU_SHOU:
                         nearSellFragment.setListData(dataType,jsReturn.getListDatas());
                     break;

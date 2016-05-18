@@ -8,13 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.myinterface.GetDataInterface;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 
@@ -57,7 +57,6 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     /*************************************************/
     /*******************View***************************/
     public View baseView=null;
-    public TextView tv_empty_listview;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -104,12 +103,18 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public void dataRefresh(List list) {
         if(list==null||list.size()<=0){
             XHouseListView.stopLoadMore();
-            XHouseListView.setPullLoadEnable(false);
-            setDataEmptyView(true);
+//            XHouseListView.setPullLoadEnable(false);
+            XHouseListView.setDataEmpty();
+//            setDataEmptyView(true);
         }else{
-            setDataEmptyView(false);
             page=1;
-            XHouseListView.setPullLoadEnable(true);
+            if(list.size()< NetWorkConstant.pageSize){
+                XHouseListView.setPullLoadEnable(false);
+            }else{
+                XHouseListView.setPullLoadEnable(true);
+            }
+//            setDataEmptyView(false);
+
         }
         XHouseListView.stopRefresh();
         houseListAdapter.setDataList(list);
@@ -119,6 +124,9 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         if(list==null||list.size()<=0){
             XHouseListView.setPullLoadEnable(false);
         }else{
+            if(list.size()< NetWorkConstant.pageSize){
+                XHouseListView.setPullLoadEnable(false);
+            }
             houseListAdapter.addDataList(list);
             houseListAdapter.notifyDataSetChanged();
             page++;
@@ -130,16 +138,8 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         XHouseListView.setXListViewListener(this);
         XHouseListView.setPullLoadEnable(true);
         XHouseListView.setPullRefreshEnable(true);
-        tv_empty_listview=(TextView)baseView.findViewById(R.id.tv_empty_listview);
     }
 
-    public void setDataEmptyView(boolean isShow) {
-        if(isShow){
-            tv_empty_listview.setVisibility(View.VISIBLE);
-        }else{
-            tv_empty_listview.setVisibility(View.GONE);
-        }
-    }
     public void showDialog(){
         if(this.modelDialog==null){
             this.modelDialog=ModelDialog.getModelDialog(getActivity());

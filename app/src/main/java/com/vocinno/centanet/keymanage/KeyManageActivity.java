@@ -31,6 +31,7 @@ import com.vocinno.centanet.model.KeyItem;
 import com.vocinno.centanet.model.KeyList;
 import com.vocinno.centanet.model.KeyReceiverInfo;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -460,7 +461,9 @@ public class KeyManageActivity extends OtherBaseActivity implements
 			break;
 		case R.id.img_right_mhead1:
 			MethodsDeliverData.mIntHouseType = HouseType.YAO_SHI;
-			MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
+			Intent intent=new Intent(mContext,HouseManageActivity2.class);
+			intent.putExtra(MyConstant.isKeyHouse,true);
+			startActivity(intent);
 			break;
 		default:
 			break;

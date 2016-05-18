@@ -59,25 +59,14 @@
                 android:layout_marginLeft="3dp"
                 />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_around_dialogSearchHouseManage"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_below="@+id/llyt_search_dialogSearchHouseManage"
-            android:layout_margin="6dp"
-            android:gravity="center_vertical|left"
-            android:text="附近.."
-            android:textColor="#AEAEAE" />
-
         <ListView
             android:id="@+id/lv_historySearch_dialogSearchHouseManage"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_below="@+id/tv_around_dialogSearchHouseManage"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llyt_search_dialogSearchHouseManage"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="12dp"
             android:divider="@null"
             android:scrollbarSize="0dp"
             android:visibility="visible" />

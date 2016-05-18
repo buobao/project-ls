@@ -1049,14 +1049,11 @@ public class HouseManageActivity extends SuperSlideMenuFragmentActivity {
 				.findViewById(R.id.et_search_dialogSearchHouseManage);
 		Button mBtnSearch = (Button) mSearchDialog
 				.findViewById(R.id.btn_search_dialogSearchHouseManage);
-		TextView mTvAround = (TextView) mSearchDialog
-				.findViewById(R.id.tv_around_dialogSearchHouseManage);
 		 mLvHostory = (ListView) mSearchDialog
 				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		Button mBtnClean = (Button) mSearchDialog
 				.findViewById(R.id.btn_close_dialogSearchHouseManage);
 		mBtnSearch.setOnClickListener(this);
-		mTvAround.setOnClickListener(this);
 		mBtnClean.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

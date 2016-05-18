@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
@@ -391,8 +390,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		mEtSearch.setHint(getText(R.string.search_cust_hit));
 		Button mBtnSearch = (Button) mSearchDialog
 				.findViewById(R.id.btn_search_dialogSearchHouseManage);
-		TextView mTvAround = (TextView) mSearchDialog
-				.findViewById(R.id.tv_around_dialogSearchHouseManage);
 		mLvHostory = (ListView) mSearchDialog
 				.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		Button mBtnClean = (Button) mSearchDialog
@@ -403,7 +400,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				searchKeYuan(mEtSearch.getText().toString().trim());
 			}
 		});
-		mTvAround.setText("");
 		mBtnClean.setOnClickListener(this);
 		// 根据mEtSearch得到的字符串去请求
 

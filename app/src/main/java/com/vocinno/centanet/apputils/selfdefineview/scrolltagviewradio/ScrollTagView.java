@@ -1,17 +1,18 @@
 package com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio;
 
-import java.util.ArrayList;
-
-import com.vocinno.centanet.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+
+import com.vocinno.centanet.R;
+
+import java.util.ArrayList;
 
 public class ScrollTagView extends HorizontalScrollView {
 
@@ -114,11 +115,66 @@ public class ScrollTagView extends HorizontalScrollView {
 			}
 		}
 		if (position <= 1) {
-			smoothScrollTo(0, 0);
+//			smoothScrollTo(0, 0);
 		} else {
-			int halfCur = mListlens.get(position) - mListlens.get(position - 1);
+			/*int halfCur = mListlens.get(position) - mListlens.get(position - 1);
 			smoothScrollTo(mListlens.get(position - 1) - mScreenW / 2 + halfCur / 2
-					- 18, 0);
+					- 18, 0);*/
 		}
+	}
+	int mPosX,mPosY,mCurrentPosX,mCurrentPosY;
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(MotionEvent.ACTION_DOWN==event.getAction()){
+			mPosX = (int)event.getX();
+			mPosY = (int)event.getY();
+		}
+		/*if(MotionEvent.ACTION_UP == event.getAction()){
+			mPosX = (int)event.getX();
+			mPosY = (int)event.getY();
+			return true;
+		}*/
+		if (MotionEvent.ACTION_MOVE == event.getAction()) {
+			mCurrentPosX = mPosX-(int)event.getX();
+			mCurrentPosY = mPosY-(int)event.getY();
+			if(mCurrentPosX!=0){
+				smoothScrollTo(mCurrentPosX,mCurrentPosY);
+			}
+			/*mPosX = (int)event.getX();
+			mPosY = (int)event.getY();*/
+			/*if(mCurrentPosX<0){
+				smoothScrollTo(0,0);
+				return  true;
+			}else if(mCurrentPosX>0){
+				smoothScrollTo(9000,0);
+				return  true;
+			}*/
+			return true;
+		}
+
+		/*if (mCurrentPosX  > 0 && Math.abs(mCurrentPosY - mPosY) < 1000) {
+
+			Log.i("==", "向右的按下位置" + mPosX + "移动位置"+mCurrentPosX);
+
+		}
+		else if (mCurrentPosX  < 0 && Math.abs(mCurrentPosY - mPosY) < 1000
+				) {
+
+			Log.i("==", "向左的按下位置" + mPosX + "移动位置"+mCurrentPosX);
+
+		}
+		else if (mCurrentPosY> 0 && Math.abs(mCurrentPosX - mPosX) < 1000)
+
+		{
+			Log.i("==", "向下的按下位置" + mPosX + "移动位置"+mCurrentPosX);
+
+		}
+		else if (mCurrentPosY  < 0 && Math.abs(mCurrentPosX - mPosX) < 1000)
+
+		{
+			Log.i("==", "向上的按下位置" + mPosX + "移动位置"+mCurrentPosX);
+
+		}*/
+		return super.onTouchEvent(event);
 	}
 }

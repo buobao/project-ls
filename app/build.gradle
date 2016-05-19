@@ -63,4 +63,8 @@ dependencies {
     compile 'com.baidu.location:locSDK:5.2'
     compile 'com.android.support:support-v4:23.2.1'
     compile files('libs/glide-3.7.0.jar')
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    // compile 'com.zhy:okhttputils:2.4.1'
+    // compile files('libs/okhttputils-2.0.0.jar')
+    compile files('libs/okhttputils-2_4_1.jar')
 }

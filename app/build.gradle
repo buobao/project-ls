@@ -40,7 +40,8 @@ dependencies {
     compile files('libs/photo.jar')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.loopj.android:android-async-' +
+            'http:1.4.9'
     compile 'org.igniterealtime.smack:smack-android-extensions:4.1.0-beta1'
     compile 'org.igniterealtime.smack:smack-tcp:4.1.0-beta1'
     compile 'commons-codec:commons-codec:1.6'
@@ -64,7 +65,4 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile files('libs/glide-3.7.0.jar')
     compile 'com.squareup.okhttp:okhttp:2.4.0'
-    // compile 'com.zhy:okhttputils:2.4.1'
-    // compile files('libs/okhttputils-2.0.0.jar')
-    compile files('libs/okhttputils-2_4_1.jar')
 }

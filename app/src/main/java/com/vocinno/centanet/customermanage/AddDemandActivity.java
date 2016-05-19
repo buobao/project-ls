@@ -215,7 +215,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                         map.put(NetWorkMethod.districtCode, strCode);
                         String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
                         showDialog();
-                        OkHttpClientManager.postAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
+                        OkHttpClientManager.getAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
                             @Override
                             public void onError(Request request, Exception e) {
                                 dismissDialog();

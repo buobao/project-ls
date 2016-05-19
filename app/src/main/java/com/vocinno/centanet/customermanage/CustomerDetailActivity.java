@@ -24,7 +24,7 @@ import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherHomeMenuBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
 import com.vocinno.centanet.customermanage.adapter.CustomerDetailAdapter;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -269,7 +269,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 	public void startIntent(int index){
 //		finish();
 		MyUtils.removeActivityFromList();
-		intent.setClass(this, HouseManageActivity2.class);
+		intent.setClass(this, HouseManageActivity.class);
 		intent.putExtra("viewPageIndex", index);
 		startActivity(intent);
 	};

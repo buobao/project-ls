@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
@@ -33,7 +34,7 @@ import com.zbar.lib.CaptureActivity;
 /**
  * Created by Administrator on 2016/4/20.
  */
-public abstract class OtherBaseActivity extends Activity implements HttpInterface,XListView.IXListViewListener,View.OnClickListener{
+public abstract class OtherBaseActivity extends FragmentActivity implements HttpInterface,XListView.IXListViewListener,View.OnClickListener{
     public Intent intent;
     public DrawerLayout drawer_layout;
     public View leftMenuView;
@@ -284,7 +285,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra("viewPageIndex", index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,true);
         startActivity(intent);
@@ -294,7 +295,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra("viewPageIndex", index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,flag);
         startActivity(intent);
@@ -304,7 +305,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         if(intent==null){
             intent = new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra("viewPageIndex", index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,false);
         startActivity(intent);
@@ -313,7 +314,7 @@ public abstract class OtherBaseActivity extends Activity implements HttpInterfac
         if(intent==null){
             intent=new Intent();
         }
-        intent.putExtra(HouseManageActivity2.VPI, index);
+        intent.putExtra(HouseManageActivity.VPI, index);
         intent.putExtra(MyUtils.ROB_GONG_FANG, flag);
         this.setResult(RESULT_OK, intent);
         finish();

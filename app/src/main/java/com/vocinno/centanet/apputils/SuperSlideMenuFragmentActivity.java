@@ -19,7 +19,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.SlideMenu;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.home.HomeActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -107,10 +107,10 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 		}
 	}
 	public void clearSearch(){
-		for (int i = 0; i < HouseManageActivity.searchId.length; i++) {
-			HouseManageActivity.searchId[i]="";
-			HouseManageActivity.searchType[i]="";
-		}
+		/*for (int i = 0; i < KeyHouseManageActivity.searchId.length; i++) {
+			KeyHouseManageActivity.searchId[i]="";
+			KeyHouseManageActivity.searchType[i]="";
+		}*/
 	}
 	@Override
 	public void onClick(View v) {
@@ -119,24 +119,23 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 		switch (v.getId()) {
 			//附近出售
 		case R.id.rlyt_sell_house_main_page_slid_menus:
-			HouseManageActivity.mArrayHouseItemList[0]=null;
+//			KeyHouseManageActivity.mArrayHouseItemList[0]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
 					&& AppInstance.mListActivitys
-							.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+							.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
-				AppInstance.mHouseManageActivity
-						.switchHouseType(HouseType.CHU_SHOU);
+//				AppInstance.mHouseManageActivity.switchHouseType(HouseType.CHU_SHOU);
 			} else if (AppInstance.mListActivitys
-					.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
 				AppInstance.mListActivitys.get(
 						AppInstance.mListActivitys.size() - 1).finish();
-				startActivity(new Intent(mContext, HouseManageActivity.class));
+				startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 			} else {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 				clearActivity();
 			}
 //			HouseManageActivity.mArrayHouseItemList[0]=null;
@@ -144,24 +143,23 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			break;
 		//附近出租
 		case R.id.rlyt_rent_house_main_page_slid_menus:
-			HouseManageActivity.mArrayHouseItemList[1]=null;
+//			KeyHouseManageActivity.mArrayHouseItemList[1]=null;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
 					&& AppInstance.mListActivitys
-							.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+							.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_ZU;
-				AppInstance.mHouseManageActivity
-						.switchHouseType(HouseType.CHU_ZU);
+//				AppInstance.mHouseManageActivity.switchHouseType(HouseType.CHU_ZU);
 			} else if (AppInstance.mListActivitys
-					.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_ZU;
 				AppInstance.mListActivitys.get(
 						AppInstance.mListActivitys.size() - 1).finish();
-				startActivity(new Intent(mContext, HouseManageActivity.class));
+				startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 			} else {
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_ZU;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 				clearActivity();
 			}
 			sendMessageCloseMenu();
@@ -172,69 +170,66 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
 					&& AppInstance.mListActivitys
-							.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+							.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.YUE_KAN;
-				AppInstance.mHouseManageActivity
-						.switchHouseType(HouseType.YUE_KAN);
+//				AppInstance.mHouseManageActivity.switchHouseType(HouseType.YUE_KAN);
 			} else if (AppInstance.mListActivitys
-					.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.YUE_KAN;
 				AppInstance.mListActivitys.get(
 						AppInstance.mListActivitys.size() - 1).finish();
-				startActivity(new Intent(mContext, HouseManageActivity.class));
+				startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 			} else {
 				MethodsDeliverData.mIntHouseType = HouseType.YUE_KAN;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 				clearActivity();
 			}
 			sendMessageCloseMenu();
 			break;
 		case R.id.rlyt_my_house_main_page_slid_menus://我的出售
-			HouseManageActivity.mArrayHouseItemList[3]=null;
+//			KeyHouseManageActivity.mArrayHouseItemList[3]=null;
 			CST_JS.setZOrS("s");
-			HouseManageActivity.zOrS=true;
+//			KeyHouseManageActivity.zOrS=true;
 			if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 					|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 					|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
 					&& AppInstance.mListActivitys
-							.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+							.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-				AppInstance.mHouseManageActivity
-						.switchHouseType(HouseType.WO_DE);
+//				AppInstance.mHouseManageActivity.switchHouseType(HouseType.WO_DE);
 			} else if (AppInstance.mListActivitys
-					.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
 				AppInstance.mListActivitys.get(
 						AppInstance.mListActivitys.size() - 1).finish();
-				startActivity(new Intent(mContext, HouseManageActivity.class));
+				startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 			} else {
 				MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 				clearActivity();
 			}
 			sendMessageCloseMenu();
 			break;
 			case R.id.rlyt_my_house_main_page_slid_menus2://我的出租
-				HouseManageActivity.mArrayHouseItemList[4]=null;
+//				KeyHouseManageActivity.mArrayHouseItemList[4]=null;
 				CST_JS.setZOrS("r");
-				HouseManageActivity.zOrS=false;
+//				KeyHouseManageActivity.zOrS=false;
 				if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
 						|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
 						|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
 						&& AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-					AppInstance.mHouseManageActivity
-							.switchHouseType(HouseType.WO_DEZU2);
+//					AppInstance.mHouseManageActivity.switchHouseType(HouseType.WO_DEZU2);
 				} else if (AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
 					AppInstance.mListActivitys.get(
 							AppInstance.mListActivitys.size() - 1).finish();
-					startActivity(new Intent(mContext, HouseManageActivity.class));
+					startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 				} else {
 					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-					MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+					MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 					clearActivity();
 				}
 				sendMessageCloseMenu();
@@ -268,18 +263,18 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 		case R.id.rlyt_grab_house_main_page_slid_menus:
 			if (MethodsDeliverData.mIntHouseType == HouseType.GONG_FANG
 					&& AppInstance.mListActivitys
-							.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+							.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 			} else if (AppInstance.mListActivitys
-					.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+					.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
 				AppInstance.mListActivitys.get(
 						AppInstance.mListActivitys.size() - 1).finish();
-				startActivity(new Intent(mContext, HouseManageActivity.class));
+				startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 			} else {
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+				MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 				clearActivity();
 			}
 			sendMessageCloseMenu();
@@ -287,18 +282,18 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			case R.id.rlyt_grab_house_main_page_slid_menus2:
 				if (MethodsDeliverData.mIntHouseType == HouseType.GONG_FANGZU
 						&& AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 				} else if (AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof HouseManageActivity) {
+						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
 					MethodsDeliverData.flag = 1;
 					MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
 					AppInstance.mListActivitys.get(
 							AppInstance.mListActivitys.size() - 1).finish();
-					startActivity(new Intent(mContext, HouseManageActivity.class));
+					startActivity(new Intent(mContext, KeyHouseManageActivity.class));
 				} else {
 					MethodsDeliverData.flag = 1;
 					MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-					MethodsExtra.startActivity(mContext, HouseManageActivity.class);
+					MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
 					clearActivity();
 				}
 				sendMessageCloseMenu();

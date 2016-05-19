@@ -21,8 +21,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyHorizontalScrollView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
-import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.keymanage.adapter.KeyListAdapter;
 import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey;
 import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
@@ -460,8 +459,7 @@ public class KeyManageActivity extends OtherBaseActivity implements
 			finish();
 			break;
 		case R.id.img_right_mhead1:
-			MethodsDeliverData.mIntHouseType = HouseType.YAO_SHI;
-			Intent intent=new Intent(mContext,HouseManageActivity2.class);
+			Intent intent=new Intent(mContext,KeyHouseManageActivity.class);
 			intent.putExtra(MyConstant.isKeyHouse,true);
 			startActivity(intent);
 			break;

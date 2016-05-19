@@ -13,7 +13,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.view.refreshablelistview.XListView;
@@ -145,7 +145,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra("viewPageIndex", index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,true);
         startActivity(intent);
@@ -164,7 +164,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra("viewPageIndex", index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,flag);
         startActivity(intent);
@@ -174,7 +174,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra("viewPageIndex", index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,false);
         startActivity(intent);
@@ -183,7 +183,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         if(intent==null){
             intent=new Intent();
         }
-        intent.putExtra(HouseManageActivity2.VPI, index);
+        intent.putExtra(HouseManageActivity.VPI, index);
         intent.putExtra(MyUtils.ROB_GONG_FANG,flag);
         this.setResult(RESULT_OK, intent);
         finish();

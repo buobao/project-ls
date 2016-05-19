@@ -26,6 +26,19 @@ public class NetWorkMethod {
     public static final String price="price";
     public static final String fromToRoom="fromToRoom";//房型
     public static final String other="other";
+    /*****************钥匙房源列表********************/
+    public static final String houLookPlanListMobile="mobile/hou/houLookPlanListMobile";
+    public static final String type="type";
+    public static final String square="square";
+    public static final String frame="frame";
+    public static final String tag="tag";
+    public static final String usageType="usageType";
+    public static final String page="page";
+    public static final String pageSize="pageSize";
+    public static final String sidx="sidx";
+    public static final String sord="sord";
+    public static final String searchId="searchId";
+    public static final String searchType="searchType";
     /*****************客户详情********************/
     public static final String custInfo="mobile/cust/custInfo";
     /*****************添加客户********************/

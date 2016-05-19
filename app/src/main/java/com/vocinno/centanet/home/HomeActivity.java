@@ -20,7 +20,6 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
@@ -142,10 +141,10 @@ public class HomeActivity extends HomeBaseActivity {
 				MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
 				MethodsDeliverData.mIntHouseType = HouseType.CHU_SHOU;
 				CST_JS.setZOrS("s");
-				HouseManageActivity.zOrS=true;
+//				KeyHouseManageActivity.zOrS=true;
 //				MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
 				Intent intent=new Intent();
-				intent.setClass(mContext, HouseManageActivity2.class);
+				intent.setClass(mContext, HouseManageActivity.class);
 				intent.putExtra(MyUtils.ROB_GONG_FANG,false);
 				intent.putExtra("viewPageIndex", 0);
 				startActivity(intent);
@@ -162,7 +161,7 @@ public class HomeActivity extends HomeBaseActivity {
 			case R.id.iv_qianggongfang:
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
-				intent=new Intent(mContext, HouseManageActivity2.class);
+				intent=new Intent(mContext, HouseManageActivity.class);
 				intent.putExtra(MyUtils.ROB_GONG_FANG,true);
 				intent.putExtra("viewPageIndex",0);
 				//viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);

@@ -43,11 +43,11 @@
 
                 <Button
                     android:id="@+id/btn_close_dialogSearchHouseManage"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="3dp"
+                    android:layout_marginRight="9dp"
                     android:background="@drawable/close_search" />
             </RelativeLayout>
             <FrameLayout

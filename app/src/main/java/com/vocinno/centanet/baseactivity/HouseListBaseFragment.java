@@ -29,6 +29,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public static final int ROB_GONG_SHOU=0;
     public static final int ROB_GONG_ZU=1;
     public MethodsJni methodsJni;
+    public String URL;
     public Activity mContext = null;
     public Handler mHander = null;
     public ModelDialog modelDialog;

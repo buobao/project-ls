@@ -95,7 +95,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         map.put(NetWorkMethod.sidx,sidx);
         map.put(NetWorkMethod.sord,sord);
         map.put(NetWorkMethod.searchId,searchId);
-        map.put(NetWorkMethod.searchType,searchType);
+        map.put(NetWorkMethod.searchType, searchType);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
@@ -109,6 +109,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
                     int dataType = jsReturn.getParams().getIsAppend() ? 1 : 0;
                     setListData(dataType, jsReturn.getListDatas());
                 }
+                XHouseListView.stopRefresh();
             }
         });
        }

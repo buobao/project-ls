@@ -25,7 +25,7 @@ import android.widget.EditText;
 public class MainActivity extends SuperActivity implements OnClickListener {
 	private EditText mEtText, mEtUrl;
 	private Button mBtnSaveToFile, mBtnOpenWeb, mBtnLoginByQQ, mBtnScan;
-
+//
 	@Override
 	public Handler setHandler() {
 		return new Handler() {

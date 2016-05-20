@@ -6,7 +6,7 @@ import android.os.Handler;
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
-import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
+import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
@@ -49,9 +49,9 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void initData() {
         if(firstLoading){
-            houseListAdapter = new MyHouseListAdapter(mContext, HouseType.YAO_SHI);
-            houseListAdapter.setDataList(null);
-            XHouseListView.setAdapter(houseListAdapter);
+            keyHouseListAdapter = new KeyHouseListAdapter(mContext, HouseType.YAO_SHI);
+            keyHouseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(keyHouseListAdapter);
             type = HouseType.YAO_SHI;
             getData(1, false);
         }
@@ -125,10 +125,10 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         firstLoading=false;
         switch (dataType){
             case LIST_REFRESH:
-                dataRefresh(list);
+                keyHouseDataRefresh(list);
                 break;
             case LIST_LOADMORE:
-                dataLoadMore(list);
+                keyHouseDtaLoadMore(list);
                 break;
         }
     }

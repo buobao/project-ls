@@ -580,8 +580,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
             MethodsJni.callProxyFun(
                     CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_searchEstateName,
-                    CST_JS.getJsonStringForHouseListSearchEstateName(
-                            editString, 1, 20));
+                    CST_JS.getJsonStringForHouseListSearchEstateName(editString, 1, 20));
             lv_house_list.setVisibility(View.VISIBLE);
         }
     }

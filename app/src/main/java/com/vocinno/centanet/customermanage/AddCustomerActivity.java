@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
@@ -398,6 +399,22 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 		mWheelViewChoosePriceTop.setSelectItem(0);
 	}
 
+	private void setScrollView(){
+//		scrollView.scrollTo(0,20000);
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+			}
+		}, 100);
+//		scrollView.scrollTo(0,scrollView.getChildAt(0).getHeight());
+		/*scrollView.post(new Runnable() {
+			@Override
+			public void run() {
+				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+			}
+		});*/
+	}
 	@Override
 	public Handler setHandler() {
 		return null;
@@ -407,6 +424,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 		super.onClick(v);
 		switch (v.getId()) {
 			case R.id.rl_fangxing_addCust:
+				setScrollView();
 				cb_fangxing_addCustomer.setChecked(!cb_fangxing_addCustomer.isChecked());
 				if(cb_fangxing_addCustomer.isChecked()){
 					checkOpenOrClose(rl_fangxing_addCust.getId());
@@ -414,6 +432,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				checkIsFinish();
 				break;
 			case R.id.ll_source_addCustomer:
+				setScrollView();
 				cb_source_addCustomer.setChecked(!cb_source_addCustomer.isChecked());
 				if(cb_source_addCustomer.isChecked()){
 					checkOpenOrClose(ll_source_addCustomer.getId());
@@ -421,6 +440,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				checkIsFinish();
 				break;
 			case R.id.ll_level_addCustomer:
+				setScrollView();
 				cb_level_addCustomer.setChecked(!cb_level_addCustomer.isChecked());
 				if(cb_level_addCustomer.isChecked()){
 					checkOpenOrClose(ll_level_addCustomer.getId());
@@ -540,6 +560,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				}
 				break;*/
 			case R.id.rlyt_typeBanner_addCustomerActivity:
+				setScrollView();
 				setLoseFocus();
 				if (mLlytTypeContainer.getVisibility() == View.GONE) {
 					mLlytTypeContainer.setVisibility(View.VISIBLE);
@@ -553,6 +574,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				checkIsFinish();
 				break;
 			case R.id.rlyt_placeBanner_addCustomerActivity:
+				setScrollView();
 				setLoseFocus();
 				if (mRyltChoosePlaceContainer.getVisibility() == View.GONE) {
 					mRyltChoosePlaceContainer.setVisibility(View.VISIBLE);
@@ -566,6 +588,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				checkIsFinish();
 				break;
 			case R.id.rlyt_pianquBanner_addCustomerActivity:
+				setScrollView();
 				setLoseFocus();
 				if (mRyltChoosePianquContainer.getVisibility() == View.GONE
 						&& mWheelViewChoosePianqu.getListSize() >= 1) {
@@ -582,6 +605,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				checkIsFinish();
 				break;
 			case R.id.rlyt_areaBanner_addCustomerActivity:
+				setScrollView();
 				setLoseFocus();
 				if (mRyltChooseAreaContainer.getVisibility() == View.GONE) {
 					mRyltChooseAreaContainer.setVisibility(View.VISIBLE);
@@ -595,6 +619,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				checkIsFinish();
 				break;
 			case R.id.rlyt_priceBanner_addCustomerActivity:
+				setScrollView();
 				setLoseFocus();
 				if (mRyltChoosePriceContaner.getVisibility() == View.GONE) {
 					mRyltChoosePriceContaner.setVisibility(View.VISIBLE);

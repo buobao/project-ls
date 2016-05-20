@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -35,6 +36,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public ModelDialog modelDialog;
     public XListView XHouseListView;
     public MyHouseListAdapter houseListAdapter;
+    public KeyHouseListAdapter keyHouseListAdapter;
     public boolean isBackDismiss=true;
     public GetDataInterface getDataInterface;
     public final int LIST_REFRESH=0;
@@ -130,6 +132,36 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
             }
             houseListAdapter.addDataList(list);
             houseListAdapter.notifyDataSetChanged();
+            page++;
+        }
+        XHouseListView.stopLoadMore();
+    }
+    public void keyHouseDataRefresh(List list) {
+        if(list==null||list.size()<=0){
+            XHouseListView.stopLoadMore();
+            XHouseListView.setDataEmpty();
+        }else{
+            page=1;
+            if(list.size()< NetWorkConstant.pageSize){
+                XHouseListView.setPullLoadEnable(false);
+            }else{
+                XHouseListView.setPullLoadEnable(true);
+            }
+
+        }
+        XHouseListView.stopRefresh();
+        keyHouseListAdapter.setDataList(list);
+        XHouseListView.setAdapter(keyHouseListAdapter);
+    }
+    public void keyHouseDtaLoadMore(List list) {
+        if(list==null||list.size()<=0){
+            XHouseListView.setPullLoadEnable(false);
+        }else{
+            if(list.size()< NetWorkConstant.pageSize){
+                XHouseListView.setPullLoadEnable(false);
+            }
+            keyHouseListAdapter.addDataList(list);
+            keyHouseListAdapter.notifyDataSetChanged();
             page++;
         }
         XHouseListView.stopLoadMore();

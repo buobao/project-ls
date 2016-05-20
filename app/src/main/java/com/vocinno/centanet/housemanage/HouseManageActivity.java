@@ -87,7 +87,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     private PaiXuType mPaiXuType = PaiXuType.None;
     private DrawerLayout drawer_layout;
     private View leftMenuView;
-    private PopupWindow popu;
     private String dongHao;
     private String shiHao;
 
@@ -622,9 +621,11 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 ll_dialog_wheelview_two3.setVisibility(View.GONE);
                 layoutIndex=-1;
                 break;
+            //TitleBar左侧
             case R.id.img_left_mhead1:
                 onBack();
                 break;
+            //TitleBar右侧
             case R.id.img_right_mhead1:
                 closeOtherWheelView(layoutIndex);
                 showMenuDialog();

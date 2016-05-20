@@ -724,7 +724,7 @@
                 android:layout_height="50dp"
                 android:gravity="center"
                 tools:text="@string/time_add_custormer"
-                android:textColor="#D1D1D1"
+                android:textColor="#66000000"
                 android:textSize="11sp" />
         </LinearLayout>
     </com.vocinno.centanet.apputils.selfdefineview.ScrollViewCanStop>

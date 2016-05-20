@@ -1,16 +1,7 @@
 package com.vocinno.utils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.vocinno.centanet.model.BorrowKey;
@@ -22,6 +13,7 @@ import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.HouseMapList;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.model.KeyItem;
 import com.vocinno.centanet.model.KeyList;
 import com.vocinno.centanet.model.KeyReceiverInfo;
@@ -29,6 +21,16 @@ import com.vocinno.centanet.model.MessageItem;
 import com.vocinno.centanet.model.Params;
 import com.vocinno.centanet.model.PianQu;
 import com.vocinno.centanet.model.UploadImageResult;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public final class MethodsJson {
 
@@ -207,8 +209,12 @@ public final class MethodsJson {
 				if (jsonObjectContent.has("rows")) {
 					Gson gson = new Gson();
 					if (clazz == HouseList.class) {
-						HouseList dataList = (HouseList)gson.fromJson(
-								jsonObjectContent.toString(), clazz);
+						String replace = jsonObjectContent.toString();
+						HouseList dataList = (HouseList)gson.fromJson(replace, clazz);
+						jsReturn.setListDatas(dataList.getRows());
+					}else if(clazz == KeyHouseList.class){
+						String replace = jsonObjectContent.toString();
+						KeyHouseList dataList = (KeyHouseList)gson.fromJson(replace, clazz);
 						jsReturn.setListDatas(dataList.getRows());
 					} else if (clazz == CustomerList.class) {
 						CustomerList dataList = (CustomerList)gson.fromJson(

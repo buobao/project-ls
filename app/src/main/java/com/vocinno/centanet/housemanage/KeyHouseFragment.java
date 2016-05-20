@@ -8,8 +8,8 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
-import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -82,9 +82,10 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
             showDialog();
         }
 //        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType);
-        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houLookPlanListMobile;
+        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();
         map.put(NetWorkMethod.type,type+"");
+        map.put("listType", "KEY_HOULIST");//listType = "KEY_HOULIST";
         map.put(NetWorkMethod.price,price);
         map.put(NetWorkMethod.square,square);
         map.put(NetWorkMethod.frame,frame);
@@ -101,10 +102,11 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
             public void onError(Request request, Exception e) {
                 dismissDialog();
             }
+
             @Override
             public void onResponse(String response) {
                 dismissDialog();
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, HouseList.class);
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
                 if (jsReturn.isSuccess()) {
                     int dataType = jsReturn.getParams().getIsAppend() ? 1 : 0;
                     setListData(dataType, jsReturn.getListDatas());
@@ -135,7 +137,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     public void resetSearch(){
         page = 1;
         pageSize = 20;
-        delType = "s";
+//        delType = "s";
         type = HouseType.YAO_SHI;
         price = "0-不限";
         square = "0-不限";

@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -77,7 +76,6 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
     private Dialog mMenuDialog, mSearchDialog, mTagSortDialog;
     private TextView mTvAreaSort, mTvPriceSort;
     private PaiXuType mPaiXuType = PaiXuType.None;
-    private DrawerLayout drawer_layout;
     private PopupWindow popu;
     private String dongHao;
     private String shiHao;
@@ -200,7 +198,6 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
         ll_tag_contect = (LinearLayout) findViewById(R.id.ll_tag_contect);
         ib_tag_jiantou = (ImageButton) findViewById(R.id.ib_tag_jiantou);
         ib_tag_jiantou.setOnClickListener(this);
-        drawer_layout = (DrawerLayout) baseView.findViewById(R.id.drawer_layout);
         setViewPager();
         addLinearLayout();
         mViewBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);

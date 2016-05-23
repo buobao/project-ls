@@ -164,19 +164,19 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
-		case R.id.ll_search_customer:
+		case R.id.ll_search_customer:	//标题右侧Toast 关键词搜索
 //			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
 			showSearchDialog();
 			mMenuDialog.dismiss();
 			break;
-		case R.id.ll_add_customer:
+		case R.id.ll_add_customer:		//标题右侧Toast 添加客户
 			startActivityForResult(new Intent(mContext, AddCustomerActivity.class),101);
 			mMenuDialog.dismiss();
 			break;
-		case R.id.img_left_mhead1:
+		case R.id.img_left_mhead1:		//标题右侧按钮
 			finish();
 			break;
-		case R.id.img_right_mhead1:
+		case R.id.img_right_mhead1:		//标题左侧箭头
 			showMenuDialog();
 			break;
 		case R.id.btn_close_dialogSearchHouseManage:

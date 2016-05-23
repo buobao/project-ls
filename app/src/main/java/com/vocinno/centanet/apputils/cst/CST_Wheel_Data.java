@@ -15,7 +15,7 @@ public class CST_Wheel_Data {
 		biaoQian, area,source,level,fangxing,maxfangxing
 	};
 
-	private static ArrayList<String> mListStrs = new ArrayList<String>();
+	private static ArrayList<String> mListStrs = new ArrayList<String>();	//区域的集合
 
 	public static ArrayList<String> getListDatas(WheelType type) {
 		mListStrs.clear();
@@ -172,7 +172,8 @@ public class CST_Wheel_Data {
 			mListStrs.add("租售");
 			mListStrs.add("独家");
 			break;
-		case area:
+		case area: //区域
+			mListStrs.add(0,"全部");
 			mListStrs.add("黄浦区");
 			mListStrs.add("卢湾区");
 			mListStrs.add("徐汇区");

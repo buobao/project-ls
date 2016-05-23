@@ -60,6 +60,7 @@
                     android:ems="10"
                     android:gravity="left|center_vertical"
                     android:hint="@string/input_name"
+                    android:textColorHint="@color/slightGray"
                     android:textSize="13sp" >
 
                     <requestFocus />
@@ -96,6 +97,7 @@
                     android:textSize="13sp" />
 
                 <EditText
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_tel_addqianke"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -139,6 +141,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_source_addpotential"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -162,7 +165,7 @@
                     android:background="@drawable/selector_addcust_sanjiao"
                     android:button="@null"
                     android:enabled="false"
-                    android:checked="true"
+                    android:checked="false"
                     />
 
             </LinearLayout>

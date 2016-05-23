@@ -108,19 +108,19 @@ public class PotentialCustomerListActivity extends OtherBaseActivity implements 
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.ll_search_customer:
+            case R.id.ll_search_customer:   //关键词搜索
 //			MethodsExtra.startActivity(mContext, AddCustomerActivity.class);
                 showSearchDialog();
                 mMenuDialog.dismiss();
                 break;
-            case R.id.ll_add_customer:
+            case R.id.ll_add_customer:     //添加客户
                 MethodsExtra.startActivity(mContext, AddPotentialActivity.class);
                 mMenuDialog.dismiss();
                 break;
-            case R.id.img_left_mhead1:
+            case R.id.img_left_mhead1:     //标题左侧箭头
                 finish();
                 break;
-            case R.id.img_right_mhead1:
+            case R.id.img_right_mhead1:    //标题右侧
                 showMenuDialog();
                 break;
 			/*//钥匙管理

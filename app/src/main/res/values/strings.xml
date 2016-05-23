@@ -4,6 +4,7 @@
     >
 
     <!-- 公共 -->
+    <string name="saveCustomer">保存</string>
     <string name="exit_app">退出登录</string>
     <string name="weixin">微信</string>
     <string name="addphonenumber">请输入电话号码</string>

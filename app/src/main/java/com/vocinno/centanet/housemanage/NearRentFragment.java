@@ -2,40 +2,61 @@ package com.vocinno.centanet.housemanage;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
-import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
-import com.vocinno.centanet.model.HouseList;
+import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
+import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsJson;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @SuppressLint("ValidFragment")
 public class NearRentFragment extends HouseListBaseFragment implements HttpInterface {
-//    private static String TAG = null;
+    private List<HouseItem> listHouses;
+    private boolean firstLoading=true;
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_near_sell;
     }
-    @Override
-    public void initView() {
-        if(HouseListBaseFragment.NEAR_RENT==viewPosition){
-            initData();
-        }
-    }
-    public NearRentFragment(GetDataInterface getData,int position) {
+
+    public NearRentFragment(GetDataInterface getData, int position) {
         getDataInterface=getData;
         this.viewPosition=position;
     }
     public NearRentFragment() {
+
+    }
+    @Override
+    public void initView() {
+        if(HouseListBaseFragment.NEAR_SELL==viewPosition){
+            initData();
+        }
     }
     @Override
     public void addNotification() {
+        TAG=this.getClass().getName();
+    }
+    @Override
+    public void initData() {
+        if(firstLoading){
+            keyHouseListAdapter = new KeyHouseListAdapter(mContext, HouseType.CHU_ZU);
+            keyHouseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(keyHouseListAdapter);
+            type = HouseType.CHU_ZU;
+            getData(1, false,false);
+        }
     }
     public void searchForList(int tagIndex,String param){
         switch (tagIndex){
@@ -56,28 +77,57 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
                 break;
         }
         resetSearchOtherTag(tagIndex);
-        getData(1, false);
+        getData(1, false,true);
     }
-    public void initData() {
-        if(firstLoading){
-            type = HouseType.CHU_ZU;
-            houseListAdapter = new MyHouseListAdapter(mContext,type);
-            houseListAdapter.setDataList(null);
-            XHouseListView.setAdapter(houseListAdapter);
-            getData(1, false);
-        }
-
-    }
-    public void getData(int page,boolean isXListViewLoad){
-        methodsJni.setMethodsJni((HttpInterface) this);
+    public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
         if(!isXListViewLoad){
             showDialog();
         }
-        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page,
-                pageSize, sidx, sord, searchId, searchType);
-       /* MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                CST_JS.JS_Function_HouseResource_getList, CST_JS.getJsonStringForHouseListGetList("" + type, price, square, frame, tag, usageType, page,
-                        pageSize, sidx, sord, searchId, searchType));*/
+//        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType);
+        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
+        Map<String,String> map=new HashMap<String,String>();
+        map.put(NetWorkMethod.type,type+"");
+        map.put(NetWorkMethod.listType,NetWorkMethod.NEAR_BY);
+        map.put(NetWorkMethod.delType,NetWorkMethod.r);
+        map.put(NetWorkMethod.price,price);
+        map.put(NetWorkMethod.square,square);
+        map.put(NetWorkMethod.frame,frame);
+        map.put(NetWorkMethod.tag,tag);
+        map.put(NetWorkMethod.usageType,usageType);
+        map.put(NetWorkMethod.page,pageNo+"");
+        map.put(NetWorkMethod.pageSize,pageSize+"");
+        map.put(NetWorkMethod.sidx,sidx);
+        map.put(NetWorkMethod.sord,sord);
+        map.put(NetWorkMethod.searchId,searchId);
+        map.put(NetWorkMethod.searchType,searchType);
+        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                XHouseListView.stopRefresh();
+                XHouseListView.stopLoadMore();
+                dismissDialog();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                XHouseListView.stopRefresh();
+                XHouseListView.stopLoadMore();
+                dismissDialog();
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
+                if (jsReturn.isSuccess()) {
+                    int dataType = 0;
+                    Log.i("page", "s" + page);
+                    if (!isRefresh) {
+                        dataType = 1;
+                    }
+                    setListData(dataType, jsReturn.getListDatas());
+                }
+            }
+        });
+    }
+    @Override
+    public Handler setHandler() {
+        return null;
     }
 
     @Override
@@ -86,65 +136,19 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
         firstLoading=false;
         switch (dataType){
             case LIST_REFRESH:
-                dataRefresh(list);
+                keyHouseDataRefresh(list);
                 break;
             case LIST_LOADMORE:
-                dataLoadMore(list);
+                keyHouseDtaLoadMore(list);
                 break;
         }
     }
-    @Override
-    public void netWorkResult(String name, String className, Object data) {
-//        methodsJni.setMethodsJni(null);
-        //页面刷新
-        if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
-                || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)){
-            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-                    HouseList.class);
-            int type = Integer.parseInt(jsReturn.getParams().getType());
-            Message msg = new Message();
-            if (jsReturn.isSuccess()) {
-                if (jsReturn.getParams().getIsAppend()) {
-                    if(jsReturn.getListDatas()==null||jsReturn.getListDatas().size()<=0){
-                        XHouseListView.stopLoadMore();
-                        XHouseListView.setPullLoadEnable(false);
-                    }else{
-                        houseListAdapter.addDataList(jsReturn.getListDatas());
-                        houseListAdapter.notifyDataSetChanged();
-                        XHouseListView.stopLoadMore();
-                        page++;
-                    }
-                } else {
-                    firstLoading=false;
-                    houseListAdapter.setDataList(jsReturn.getListDatas());
-                    XHouseListView.setAdapter(houseListAdapter);
-                    page=1;
-                    XHouseListView.setPullLoadEnable(true);
-                    XHouseListView.stopRefresh();
-                }
-            }
-        }else if(false){
-        }
-        dismissDialog();
-    }
-    @Override
-    public Handler setHandler() {
-        return new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                dismissDialog();
-                switch (msg.what) {
-                    case R.id.doSuccess:
-                        break;
-                }
-            }
-        };
-    }
+
     //重置搜索条件
     public void resetSearch(){
         page = 1;
         pageSize = 20;
-        delType = "r";
+        delType = "s";
         type = HouseType.CHU_ZU;
         price = "0-不限";
         square = "0-不限";
@@ -159,27 +163,16 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void onRefresh() {
         resetSearch();
-        getData(1,true);
+        getData(1,true,true);
     }
 
     @Override
     public void onLoadMore() {
-        getData(page+1,true);
+        getData(page+1,true,false);
     }
 
-    /*@Override
-    public void onDestroy() {
-        super.onDestroy();
-        // 移除通知
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
-    }*/
+    @Override
+    public void netWorkResult(String name, String className, Object data) {
+
+    }
 }

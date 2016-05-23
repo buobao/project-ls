@@ -99,7 +99,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
             if(baseView!=null){
-//                initData();
+                initData();
             }
         }
     }
@@ -177,11 +177,15 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         if(this.modelDialog==null){
             this.modelDialog=ModelDialog.getModelDialog(getActivity());
         }
-        this.modelDialog.show();
+        if(ModelDialog.showTag==0){
+            ModelDialog.showTag=1;
+            this.modelDialog.show();
+        }
     }
     public void dismissDialog(){
         isBackDismiss=false;
         if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+            ModelDialog.showTag=0;
             this.modelDialog.dismiss();
         }
     }

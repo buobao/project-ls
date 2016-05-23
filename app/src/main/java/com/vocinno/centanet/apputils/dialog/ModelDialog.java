@@ -10,10 +10,13 @@ import android.view.WindowManager;
 import com.vocinno.centanet.R;
 
 public class ModelDialog extends Dialog {
+    public static int showTag=0;
     public static ModelDialog getModelDialog(Context context) {
         return new ModelDialog(context, R.layout.loading, R.style.Theme_dialog);
     }
-
+    public synchronized void setIsShow(int flag){
+        showTag=flag;
+    }
     public ModelDialog(Context context, int layout, int style) {
         super(context, style);
         setContentView(layout);

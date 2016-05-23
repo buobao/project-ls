@@ -729,7 +729,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         switch (viewPageIndex){
             case 0:
                 nearSellFragment.searchByOrderForList(param,order);
-                nearSellFragment.getData(1, false,false);
+                nearSellFragment.getData(1, false,true);
                 break;
             case 1:
                 nearRentFragment.searchByOrderForList(param, order);
@@ -753,7 +753,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         switch (viewPageIndex){
             case 0:
                 nearSellFragment.searchByKeyWord(searchId, searchType);
-                nearSellFragment.getData(1, false,false);
+                nearSellFragment.getData(1, false,true);
                 break;
             case 1:
                 nearRentFragment.searchByKeyWord(searchId, searchType);

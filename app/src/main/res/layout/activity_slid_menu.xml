@@ -207,7 +207,80 @@
                 android:textSize="18dp"  />
         </RelativeLayout>
     </RelativeLayout>
+///////////////
+        <RelativeLayout
+            android:id="@+id/rl_collection"
+            android:layout_width="250dp"
+            android:layout_height="90dp"
+            android:layout_below="@+id/rlyt_top_sild_menu"
+            android:layout_marginTop="8dp"
+            >
 
+            <RelativeLayout
+                android:id="@+id/rl_my_collection"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="30dp" >
+
+                <ImageView
+                    android:id="@+id/iv_my_collection"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/my_collection" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/iv_my_collection"
+                    android:gravity="center_vertical|left"
+                    android:text="我的收藏"
+                    android:textColor="#F4F5F6"
+                    android:textSize="18dp"  />
+            </RelativeLayout>
+            <View
+                android:id="@+id/v_my_collection"
+                android:layout_below="@+id/rl_my_collection"
+                android:layout_width="match_parent"
+                android:layout_height="0.33dp"
+                android:layout_marginLeft="33dp"
+                android:background="#D1D1D1" />
+            <RelativeLayout
+                android:id="@+id/rl_dian_collection"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/v_my_collection"
+                android:paddingLeft="30dp" >
+
+                <ImageView
+                    android:id="@+id/iv_dian_collection"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/dianzu_collection" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/iv_dian_collection"
+                    android:gravity="center_vertical|left"
+                    android:text="店租收藏"
+                    android:textColor="#F4F5F6"
+                    android:textSize="18dp"  />
+            </RelativeLayout>
+            <View
+                android:id="@+id/v_dian_collection"
+                android:layout_below="@+id/rl_dian_collection"
+                android:layout_width="match_parent"
+                android:layout_height="0.33dp"
+                android:layout_marginLeft="33dp"
+                android:background="#D1D1D1" />
+
+
+        </RelativeLayout>
+        /////////////
     <RelativeLayout
         android:id="@+id/rylt_mid_2_sild_menu"
         android:layout_width="250dp"

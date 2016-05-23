@@ -755,15 +755,15 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
             case 2:
                 yueKanFragment.searchByOrderForList(param, order);
-                yueKanFragment.getData(1, false);
+                yueKanFragment.getData(1, false,true);
                 break;
             case 3:
                 mySellFragment.searchByOrderForList(param, order);
-                mySellFragment.getData(1, false);
+                mySellFragment.getData(1, false,true);
                 break;
             case 4:
                 myRentFragment.searchByOrderForList(param,order);
-                myRentFragment.getData(1, false);
+                myRentFragment.getData(1, false,true);
             break;
         }
     }
@@ -779,15 +779,15 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
             case 2:
                 yueKanFragment.searchByKeyWord(searchId, searchType);
-                yueKanFragment.getData(1, false);
+                yueKanFragment.getData(1, false,true);
                 break;
             case 3:
                 mySellFragment.searchByKeyWord(searchId, searchType);
-                mySellFragment.getData(1, false);
+                mySellFragment.getData(1, false,true);
                 break;
             case 4:
                 myRentFragment.searchByKeyWord(searchId, searchType);
-                myRentFragment.getData(1, false);
+                myRentFragment.getData(1, false,true);
                 break;
         }
 

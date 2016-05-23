@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
@@ -13,18 +12,22 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
-import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.model.LookPlanInfo;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsJson;
 
@@ -58,7 +61,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         ll_yuekan_layout = (LinearLayout) baseView.findViewById(R.id.ll_yuekan_layout);
 
         if (HouseListBaseFragment.YUE_KAN == viewPosition) {
-            initData();
+//            initData();
         }
     }
 
@@ -104,7 +107,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 break;
         }
         resetSearchOtherTag(tagIndex);
-        getData(1, false);
+        getData(1, false,true);
     }
 
     @Override
@@ -114,21 +117,52 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
             houseListAdapter.setDataList(null);
             XHouseListView.setAdapter(houseListAdapter);
             type = HouseType.YUE_KAN;
-            getData(1, false);
+            getData(1, false,true);
         }
     }
 
-    public void getData(int page, boolean isXListViewLoad) {
-//        methodsJni.setMethodsJni((HttpInterface)this);
-        if (!isXListViewLoad) {
-            showDialog();
+    public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
+        if(!isXListViewLoad){
+            Loading.show(getActivity());
         }
-        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page,
-                pageSize, sidx, sord, searchId, searchType);
-        /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
-                CST_JS.JS_Function_HouseResource_getList, CST_JS
-                        .getJsonStringForHouseListGetList("" + type, price, square, frame, tag, usageType, page,
-                                pageSize, sidx, sord, searchId, searchType));*/
+        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
+        Map<String,String> map=new HashMap<String,String>();
+        map.put(NetWorkMethod.type,type+"");
+        map.put(NetWorkMethod.listType,NetWorkMethod.APPO_HOULIST);
+        map.put(NetWorkMethod.price,price);
+        map.put(NetWorkMethod.square,square);
+        map.put(NetWorkMethod.frame,frame);
+        map.put(NetWorkMethod.tag,tag);
+        map.put(NetWorkMethod.usageType,usageType);
+        map.put(NetWorkMethod.page,pageNo+"");
+        map.put(NetWorkMethod.pageSize,pageSize+"");
+        map.put(NetWorkMethod.sidx,sidx);
+        map.put(NetWorkMethod.sord,sord);
+        map.put(NetWorkMethod.searchId,searchId);
+        map.put(NetWorkMethod.searchType,searchType);
+        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                XHouseListView.stopRefresh();
+                XHouseListView.stopLoadMore();
+                Loading.dismissLoading();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                XHouseListView.stopRefresh();
+                XHouseListView.stopLoadMore();
+                Loading.dismissLoading();
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
+                if (jsReturn.isSuccess()) {
+                    int dataType = 0;
+                    if (!isRefresh) {
+                        dataType = 1;
+                    }
+                    setListData(dataType, jsReturn.getListDatas());
+                }
+            }
+        });
     }
 
 
@@ -139,31 +173,6 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
 
     @Override
     public void setListData(int dataType, List lookList) {
-        /*List<LookPlanInfo>list=new ArrayList<LookPlanInfo>();
-        LookPlanInfo info;
-        for(int i=0;i<lookList.size();i++){
-            for (int j = 0; j < ((HouseItem)lookList.get(i)).getLookInfo().size(); j++) {
-                LookPlanInfo  lookInfo = ((HouseItem) lookList.get(i)).getLookInfo().get(j);
-                info=new LookPlanInfo();
-                info.setCustCode(((HouseItem) lookList.get(i)).getCustCode());
-                info.setEndDate(((HouseItem) lookList.get(i)).getEndDate());
-                info.setPlanDate(((HouseItem) lookList.get(i)).getPlanDate());
-                info.setPlanDirection(((HouseItem) lookList.get(i)).getPlanDirection());
-                info.setRmdCustTime(((HouseItem) lookList.get(i)).getRmdCustTime());
-                info.setStartDate(((HouseItem) lookList.get(i)).getStartDate());
-                *//*******************************************************//*
-                info.setBUILDING_NAME(lookInfo.getBUILDING_NAME());
-                info.setESTATE_NAME(lookInfo.getESTATE_NAME());
-                info.setHOUSE_DEL_CODE(lookInfo.getHOUSE_DEL_CODE());
-                info.setHOUSE_ID(lookInfo.getHOUSE_ID());
-                info.setLOOKPLAN_ID(lookInfo.getLOOKPLAN_ID());
-                info.setROOM_NO(lookInfo.getROOM_NO());
-                info.setFloor(lookInfo.getFloor());
-                info.setTotalFloor(lookInfo.getTotalFloor());
-
-                list.add(info);
-            }
-        }*/
         dismissDialog();
         firstLoading = false;
         switch (dataType) {
@@ -316,20 +325,6 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         return map;
     }
 
-    private void setTimeSort(List list) {
-        /*Collections.sort(list, new Comparator() {
-            @Override
-            public int compare(Object lhs, Object rhs) {
-                LookPlanInfo item1 = (LookPlanInfo) lhs;
-                LookPlanInfo item2 = (LookPlanInfo) rhs;
-                int i=item1.getStartDate().compareTo(item2.getStartDate());
-                if(i==0){
-                    return item1.getEndDate().compareTo(item2.getEndDate());
-                }
-                return i;
-            }
-        });*/
-    }
     private void setDateSort(List list) {
         Collections.sort(list, new Comparator() {
             @Override
@@ -355,57 +350,12 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
 
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        dismissDialog();
-        //页面刷新
-        if (name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
-                || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)) {
-            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-                    HouseList.class);
-            int type = Integer.parseInt(jsReturn.getParams().getType());
-            Message msg = new Message();
-            if (jsReturn.isSuccess()) {
-                if (jsReturn.getParams().getIsAppend()) {
-                    if (jsReturn.getListDatas() == null || jsReturn.getListDatas().size() <= 0) {
-                        XHouseListView.stopLoadMore();
-                        XHouseListView.setPullLoadEnable(false);
-                    } else {
-                        houseListAdapter.addDataList(jsReturn.getListDatas());
-                        houseListAdapter.notifyDataSetChanged();
-                        XHouseListView.stopLoadMore();
-                        page++;
-                    }
-                } else {
-                    firstLoading = false;
-                    page = 1;
-                    XHouseListView.stopRefresh();
-                    XHouseListView.setPullLoadEnable(true);
-                    houseListAdapter.setDataList(jsReturn.getListDatas());
-                    XHouseListView.setAdapter(houseListAdapter);
-                    if (jsReturn.getListDatas() == null || jsReturn.getListDatas().size() <= 0) {
-                        XHouseListView.setPullLoadEnable(false);
-//                        setDataEmptyView(true);
-                    } else {
-//                        setDataEmptyView(false);
-                    }
-                }
-            }
-        } else if (false) {
 
-        }
     }
 
     @Override
     public Handler setHandler() {
-        return new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                dismissDialog();
-                switch (msg.what) {
-                    case R.id.doSuccess:
-                        break;
-                }
-            }
-        };
+        return null;
     }
 
     //重置搜索条件
@@ -428,12 +378,12 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     @Override
     public void onRefresh() {
         resetSearch();
-        getData(1, true);
+        getData(1, true,true);
     }
 
     @Override
     public void onLoadMore() {
-        getData(page + 1, true);
+        getData(page + 1, true,false);
     }
 
 

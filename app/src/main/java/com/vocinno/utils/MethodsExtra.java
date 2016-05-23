@@ -98,7 +98,7 @@ public final class MethodsExtra {
 	 * @param period
 	 *            如果需要重复执行，则间隔多少毫秒执行一次任务
 	 * 
-	 * @param callback
+	 * @param timerCallback
 	 *            执行任务需触发的回调
 	 * @return
 	 */
@@ -226,7 +226,7 @@ public final class MethodsExtra {
 	 * 
 	 * @param context
 	 * @param preContent
-	 * @param sendDialogTextListener实现回调接口
+	 * @param sendDialogTextListener 实现回调接口
 	 */
 	public static void showEditTextInputDialog(Context context,
 			String preContent, InputEditTextListener sendDialogTextListener) {
@@ -307,7 +307,7 @@ public final class MethodsExtra {
 	/**
 	 * 退出app的确认对话框
 	 * 
-	 * @param context
+	 * @param mcontext
 	 */
 	public static void backdailog(final Context mcontext) {
 		final ModelDialog dialog = new ModelDialog(mcontext,
@@ -623,7 +623,7 @@ public final class MethodsExtra {
 	/**
 	 * 隐藏软键盘
 	 * 
-	 * @param view
+	 * @param activity
 	 */
 	public static void hideSoftInput(Activity activity) {
 		Log.d("hidesoft", "hidesoft");
@@ -698,39 +698,18 @@ public final class MethodsExtra {
 		RelativeLayout mLayout = (RelativeLayout) view
 				.findViewById(R.id.rlyt_right_mhread1);
 		mLayout.setVisibility(View.VISIBLE);
-		ImageView bgImageView = (ImageView) view
-				.findViewById(R.id.img_right_mhead1);
+		ImageView bgImageView = (ImageView) view.findViewById(R.id.img_right_mhead1);
 		TextView tView = (TextView) mLayout.findViewById(R.id.tv_right_mhead1);
-		if (intString != 0) {
-			tView.setText(activity.getResources().getString(intString));
-		} else {
-			tView.setVisibility(View.GONE);
-		}
 		if (backgroudImgId != 0) {
-			bgImageView.setImageDrawable(activity.getResources().getDrawable(
-					backgroudImgId));
-		}
-		return bgImageView;
-	}
-
-	/**
-	 * 显示并赋值给标题右边按钮
-	 * 
-	 * @param activity
-	 * @param intString
-	 * @return
-	 */
-	public static View findHeadRightViewNew(Activity activity, View view,
-			int intString) {
-		RelativeLayout mLayout = (RelativeLayout) view
-				.findViewById(R.id.rlyt_right_mhread1);
-		mLayout.setVisibility(View.VISIBLE);
-		if (intString != 0) {
-			TextView tView = (TextView) mLayout
-					.findViewById(R.id.tv_right_mhead1);
+			bgImageView.setImageDrawable(activity.getResources().getDrawable(backgroudImgId));
+			tView.setVisibility(View.GONE);
+			return bgImageView;
+		}else if(intString != 0) {
 			tView.setText(activity.getResources().getString(intString));
+			bgImageView.setVisibility(View.GONE);
+			return tView;
 		}
-		return view.findViewById(R.id.img_right_mhead1);
+		return bgImageView;		//不指定就返回默认图片
 	}
 
 	/**
@@ -1020,7 +999,7 @@ public final class MethodsExtra {
 	/**
 	 * 根据文件后缀名获得对应的MIME类型。
 	 * 
-	 * @param file
+	 * @param fName
 	 */
 	public static String getMIMEType(String fName) {
 		String type = "*/*";

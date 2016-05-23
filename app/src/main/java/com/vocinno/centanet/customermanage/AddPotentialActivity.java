@@ -45,7 +45,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 		none, connTel, connQQ, connWeixin
 	};
 	private View mBackView;
-	private ImageView mSubmitView;
+	private TextView mSubmitView;		//标题栏右侧
 	private EditText et_name_addqianke,tv_tel_addqianke;
 	private EditText /*mEtConnectionNumber, */mEtCustormerName;
 	private LinearLayout ll_source_addpotential,ll_level_addpotential;
@@ -64,8 +64,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	@Override
 	public void initView() {
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-		mSubmitView = (ImageView)MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-				R.drawable.universal_button_undone);
+		mSubmitView = (TextView)MethodsExtra.findHeadRightView1(mContext, baseView,R.string.saveCustomer,0);
 
 		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_potential_customer,
 				null);
@@ -76,8 +75,9 @@ public class AddPotentialActivity extends OtherBaseActivity {
 		tv_source_addpotential= (TextView) findViewById(R.id.tv_source_addpotential);
 		tv_level_addpotential= (TextView) findViewById(R.id.tv_level_addpotential);
 
-		rl_choose_source_addpotential=(RelativeLayout)findViewById(R.id.rl_choose_source_addpotential);
-		rl_choose_level_addpotential=(RelativeLayout)findViewById(R.id.rl_choose_level_addpotential);
+		rl_choose_source_addpotential=(RelativeLayout)findViewById(R.id.rl_choose_source_addpotential);	//来源下拉
+		rl_choose_source_addpotential.setVisibility(View.GONE);
+		rl_choose_level_addpotential=(RelativeLayout)findViewById(R.id.rl_choose_level_addpotential);	//等级下拉
 		rl_choose_level_addpotential.setVisibility(View.GONE);
 
 		wv_source_addpotential = (WheelView) rl_choose_source_addpotential.findViewById(R.id.wheelview_modelOneWheelView);
@@ -207,10 +207,10 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
-			case R.id.img_left_mhead1:
+			case R.id.img_left_mhead1:		//标题栏左侧图片
 				finish();
 				break;
-			case R.id.img_right_mhead1:
+			case R.id.tv_right_mhead1:		//标题栏右侧文字
 				if(!isMobileNO(tv_tel_addqianke.getText().toString().trim())){
 					MethodsExtra.toast(mContext,"手机号码格式不正确");
 					return;
@@ -304,11 +304,9 @@ public class AddPotentialActivity extends OtherBaseActivity {
 			isFinish=false;
 		}
 		if (isFinish) {
-			mSubmitView.setImageResource(R.drawable.universal_button_done);
 			mSubmitView.setClickable(true);
 			mSubmitView.setEnabled(true);
 		} else {
-			mSubmitView.setImageResource(R.drawable.universal_button_undone);
 			mSubmitView.setClickable(false);
 			mSubmitView.setEnabled(false);
 		}

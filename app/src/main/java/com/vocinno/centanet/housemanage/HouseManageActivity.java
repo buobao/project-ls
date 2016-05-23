@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -748,7 +747,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         switch (viewPageIndex){
             case 0:
                 nearSellFragment.searchByOrderForList(param,order);
-                nearSellFragment.getData(1, false);
+                nearSellFragment.getData(1, false,false);
                 break;
             case 1:
                 nearRentFragment.searchByOrderForList(param, order);
@@ -772,7 +771,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         switch (viewPageIndex){
             case 0:
                 nearSellFragment.searchByKeyWord(searchId, searchType);
-                nearSellFragment.getData(1, false);
+                nearSellFragment.getData(1, false,false);
                 break;
             case 1:
                 nearRentFragment.searchByKeyWord(searchId, searchType);

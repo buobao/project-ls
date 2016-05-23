@@ -160,6 +160,8 @@
     <string name="house_chushou">附近出售</string>
     <string name="house_chuzu">附近出租</string>
     <string name="house_yuekan">约看房源</string>
+    <string name="house_my_collection">我的收藏</string>
+    <string name="house_dian_collection">店租收藏</string>
     <string name="house_my">我的出售</string>
     <string name="house_my2">我的出租</string>
     <string name="house_public">抢公房</string>

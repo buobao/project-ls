@@ -502,10 +502,10 @@ public class OkHttpClientManager {
                     if (isException) {
                         MyToast.showToast("net work error");
                     } else {
-                        if(e.getMessage().indexOf("after")>=0){
-                            MyToast.showToast("请求超时,请稍后再试");
-                        }else{
+                        if(e.getMessage().indexOf("unreachable")>=0){
                             MyToast.showToast("请检查网络之后再试");
+                        }else{
+                            MyToast.showToast("请求超时,请稍后再试");
                         }
                     }
                     callback.onError(request, e);

@@ -1,15 +1,14 @@
 package com.vocinno.centanet.housemanage;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
-import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
+import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
+import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -21,8 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressLint("ValidFragment")
-public class KeyHouseFragment extends HouseListBaseFragment implements HttpInterface {
+public class MyCollectionFragment extends HouseListBaseFragment implements HttpInterface {
     private List<HouseItem> listHouses;
     private boolean firstLoading=true;
     @Override
@@ -30,11 +28,12 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         return R.layout.activity_near_sell;
     }
 
-    public KeyHouseFragment(GetDataInterface getData, int position) {
+    public MyCollectionFragment(GetDataInterface getData, int position) {
         getDataInterface=getData;
         this.viewPosition=position;
     }
-    public KeyHouseFragment() {
+    public MyCollectionFragment() {
+
     }
     @Override
     public void initView() {
@@ -49,11 +48,11 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void initData() {
         if(firstLoading){
-            keyHouseListAdapter = new KeyHouseListAdapter(mContext, HouseType.YAO_SHI);
-            keyHouseListAdapter.setDataList(null);
-            XHouseListView.setAdapter(keyHouseListAdapter);
-            type = HouseType.YAO_SHI;
-            getData(1, false,true);
+            houseListAdapter = new MyHouseListAdapter(mContext, HouseType.WO_SHOU_CANG);
+            houseListAdapter.setDataList(null);
+            XHouseListView.setAdapter(houseListAdapter);
+            type = HouseType.WO_SHOU_CANG;
+            getData(1, false);
         }
     }
     public void searchForList(int tagIndex,String param){
@@ -75,9 +74,9 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
                 break;
         }
         resetSearchOtherTag(tagIndex);
-        getData(1, false,true);
+        getData(1, false);
     }
-    public void getData(int page,boolean isXListViewLoad,final boolean isRefresh){
+    public void getData(int page,boolean isXListViewLoad){
         if(!isXListViewLoad){
             showDialog();
         }
@@ -85,7 +84,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();
         map.put(NetWorkMethod.type,type+"");
-        map.put("listType", "KEY_HOULIST");//listType = "KEY_HOULIST";
+        map.put(NetWorkMethod.listType,NetWorkMethod.MY_HOUFAVOR);
         map.put(NetWorkMethod.price,price);
         map.put(NetWorkMethod.square,square);
         map.put(NetWorkMethod.frame,frame);
@@ -100,27 +99,20 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-                XHouseListView.stopRefresh();
-                XHouseListView.stopLoadMore();
                 dismissDialog();
             }
 
             @Override
             public void onResponse(String response) {
-                XHouseListView.stopRefresh();
-                XHouseListView.stopLoadMore();
                 dismissDialog();
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, HouseList.class);
                 if (jsReturn.isSuccess()) {
-                    int dataType=0;
-                    if(!isRefresh){
-                        dataType=1;
-                    }
+                    int dataType = jsReturn.getParams().getIsAppend() ? 1 : 0;
                     setListData(dataType, jsReturn.getListDatas());
                 }
             }
         });
-       }
+    }
     @Override
     public Handler setHandler() {
         return null;
@@ -145,7 +137,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         page = 1;
         pageSize = 20;
 //        delType = "s";
-        type = HouseType.YAO_SHI;
+        type = HouseType.WO_SHOU_CANG;
         price = "0-不限";
         square = "0-不限";
         frame = "不限-不限-不限-不限";
@@ -159,12 +151,12 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void onRefresh() {
         resetSearch();
-        getData(1,true,true);
+        getData(1,true);
     }
 
     @Override
     public void onLoadMore() {
-        getData(page+1,true,false);
+        getData(page+1,true);
     }
 
     @Override

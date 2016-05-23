@@ -30,6 +30,17 @@ public class NetWorkMethod {
     public static final String houList="mobile/hou/houList";
     public static final String houLookPlanListMobile="mobile/hou/houLookPlanListMobile";
     public static final String type="type";
+    public static final String listType="listType";
+    public static final String KEY_HOULIST="KEY_HOULIST";//6钥匙房源
+    public static final String NEAR_BY="NEAR_BY";//附近1出租2出售
+    public static final String delType="delType";//出售or出租
+    public static final String s="s";//出售
+    public static final String r="r";//出租
+    public static final String APPO_HOULIST="APPO_HOULIST";//3约看
+    public static final String MY_HOULIST="MY_HOULIST";//4我的出售7我的出租
+    public static final String POOL_HOULIST="POOL_HOULIST";//5公房售8公房租
+    public static final String MY_HOUFAVOR="MY_HOUFAVOR";//我的收藏
+    public static final String GROUP_HOUFAVOR="GROUP_HOUFAVOR";//店租收藏
     public static final String square="square";
     public static final String frame="frame";
     public static final String tag="tag";

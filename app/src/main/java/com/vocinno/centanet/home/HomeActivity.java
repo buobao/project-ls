@@ -20,11 +20,13 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.HomeBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -144,9 +146,11 @@ public class HomeActivity extends HomeBaseActivity {
 //				KeyHouseManageActivity.zOrS=true;
 //				MethodsExtra.startActivity(mContext, HouseManageActivity2.class);
 				Intent intent=new Intent();
-				intent.setClass(mContext, HouseManageActivity.class);
-				intent.putExtra(MyUtils.ROB_GONG_FANG,false);
+				intent.setClass(mContext, HouseManageActivity2.class);
+				intent.putExtra(MyUtils.ROB_GONG_FANG, false);
 				intent.putExtra("viewPageIndex", 0);
+				intent.putExtra(MyConstant.listType, 0);
+				intent.putExtra(MyConstant.menuType, 0);
 				startActivity(intent);
 
 				break;

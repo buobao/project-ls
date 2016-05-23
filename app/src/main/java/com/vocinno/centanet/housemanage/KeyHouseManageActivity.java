@@ -495,7 +495,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
         switch (0) {
             case 0:
                 keyHouseFragment.searchByOrderForList(param, order);
-                keyHouseFragment.getData(1, false);
+                keyHouseFragment.getData(1, false,true);
                 break;
         }
     }
@@ -504,7 +504,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
         switch (0) {
             case 0:
                 keyHouseFragment.searchByKeyWord(searchId, searchType);
-                keyHouseFragment.getData(1, false);
+                keyHouseFragment.getData(1, false,true);
                 break;
         }
 

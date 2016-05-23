@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
@@ -65,6 +66,10 @@ public class MyLoadDialog extends Dialog {
         window.setAttributes(params);
     }
 
+    public void getLoading(){
+        Dialog dialog=new Dialog(context);
+        dialog.addContentView(LinearLayout.inflate(context, R.layout.loading, null), null);
+    }
    /* private MyLoadDialog(Context context) {
         super(context, R.style.CustomProgressDialog);
         this.setContentView(R.layout.item_custom_dialog);

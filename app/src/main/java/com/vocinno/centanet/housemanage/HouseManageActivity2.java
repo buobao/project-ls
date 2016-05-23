@@ -244,7 +244,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         listType=intent.getIntExtra(MyConstant.listType, 0);
         menuType=intent.getIntExtra(MyConstant.menuType, 0);
         setTagHidden(menuType);
-        setViewPager();
+        setViewPager(listType);
     }
 
     private void setTagHidden(int viewPageIndex) {
@@ -262,15 +262,15 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void setFragmentToPager(boolean p) {
 
     }
-    private void setViewPager() {
-        switch (listType){
-            case 0:
+    private void setViewPager(int listTypeTag) {
+        switch (listTypeTag){
+            case MyConstant.houseList:
                 setFangYuanFragment();
                 break;
-            case 1:
+            case MyConstant.collectionHouseList:
                 setCollectionFragment();
                 break;
-            case 2:
+            case MyConstant.robGongHouseList:
                 setQiangGongFangFragment();
                 break;
         }
@@ -286,6 +286,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                menuType=position;
                 gongFangOrHouseTitle(position);
                 setTagHidden(position);
             }
@@ -613,23 +614,23 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
             //附近出售
             case R.id.rlyt_sell_house_main_page_slid_menus:
-                changeViewPager(0);
+                changeViewPager(MyConstant.houseList,0);
                 break;
             //附近出租
             case R.id.rlyt_rent_house_main_page_slid_menus:
-                changeViewPager(1);
+                changeViewPager(MyConstant.houseList,1);
                 break;
             //约看房源
             case R.id.rlyt_see_house_main_page_slid_menus:
-                changeViewPager(2);
+                changeViewPager(MyConstant.houseList,2);
                 break;
             //我的出售
             case R.id.rlyt_my_house_main_page_slid_menus:
-                changeViewPager(3);
+                changeViewPager(MyConstant.houseList,3);
                 break;
             //我的出租
             case R.id.rlyt_my_house_main_page_slid_menus2:
-                changeViewPager(4);
+                changeViewPager(MyConstant.houseList,4);
                 break;
             //钥匙管理
             case R.id.rlyt_key_house_main_page_slid_menus:
@@ -653,25 +654,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
             //抢公售
             case R.id.rlyt_grab_house_main_page_slid_menus:
-                if(isGongFang){
-//                    vp_gong_fang_manager.setCurrentItem(0);
-                }else{
-                    viewPageIndex=0;
-                    isGongFang=true;
-                    setFragmentToPager(true);
-                }
-                drawer_layout.closeDrawer(leftMenuView);
+                changeViewPager(MyConstant.robGongHouseList,0);
                 break;
             //抢公租
             case R.id.rlyt_grab_house_main_page_slid_menus2:
-                if(isGongFang){
-//                    vp_gong_fang_manager.setCurrentItem(1);
-                }else{
-                    viewPageIndex=1;
-                    isGongFang=true;
-                    setFragmentToPager(true);
-                }
-                drawer_layout.closeDrawer(leftMenuView);
+                changeViewPager(MyConstant.robGongHouseList,1);
                 break;
             //抢公客
             case R.id.rlyt_grab_customer_main_page_slid_menus:
@@ -714,15 +701,15 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
         }
     }
-    private void changeViewPager(int index) {
-        if(isGongFang){
-            isGongFang=false;
-            viewPageIndex=index;
-            setFragmentToPager(false);
-        }else{
-            vp_house_manager.setCurrentItem(index);
-        }
+    private void changeViewPager(int type,int index) {
         drawer_layout.closeDrawer(leftMenuView);
+        if(listType==type){
+            if(menuType!=index){
+                vp_house_manager.setCurrentItem(index);
+            }
+        }else{
+            setViewPager(type);
+        }
     }
 
     private void searchByOrder(String param,String order) {

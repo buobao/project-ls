@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.model.KeyHouseItem;
@@ -33,12 +34,18 @@ public class KeyHouseListAdapter extends BaseAdapter {
 	private List<KeyHouseItem> mListHouses;
 	private int mType = HouseType.NONE;
 	public static Map<Integer,String[]> tagMap;
+	public boolean isKey;
 	public KeyHouseListAdapter(Context mContext, int type) {
 		this.mContext = mContext;
 		this.mType = type;
 		tagMap=new HashMap<>();
 	}
-
+	public KeyHouseListAdapter(Context mContext, int type,boolean isKey) {
+		this.mContext = mContext;
+		this.mType = type;
+		tagMap=new HashMap<>();
+		this.isKey=isKey;
+	}
 	public void setDataList(List<KeyHouseItem> listHouses) {
 		this.mListHouses=null;
 		this.mListHouses = listHouses;
@@ -244,8 +251,12 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				}
 //				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 				Intent intent=new Intent(mContext, HouseDetailActivity.class);
-				intent.putExtra(MyUtils.INTO_FROM_LIST,true);
-				((KeyHouseManageActivity) mContext).startActivityForResult(intent, 10);
+				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
+				if(isKey){
+					((KeyHouseManageActivity) mContext).startActivityForResult(intent, 10);
+				}else{
+					((HouseManageActivity) mContext).startActivityForResult(intent, 10);
+				}
 			}
 		});
 		return convertView;

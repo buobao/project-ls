@@ -76,14 +76,14 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         ll_left_menu=(LinearLayout)baseView.findViewById(R.id.ll_left_menu);
         ll_left_menu.addView(view);
         setContentView(baseView);
+        drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
+        leftMenuView=findViewById(R.id.left_base_menu);
         initView();
         mHander = setHandler();
         setClickListener();
         initData();
     }
     private void setClickListener() {
-        drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
-        leftMenuView=findViewById(R.id.left_base_menu);
 
         fuJinChuShou=(RelativeLayout)findViewById(R.id.rlyt_sell_house_main_page_slid_menus);
         fuJinChuShou.setOnClickListener(this);

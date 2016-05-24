@@ -52,7 +52,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void initData() {
         if(firstLoading){
-            keyHouseListAdapter = new KeyHouseListAdapter(mContext, HouseType.YAO_SHI);
+            keyHouseListAdapter = new KeyHouseListAdapter(mContext, HouseType.YAO_SHI,true);
             keyHouseListAdapter.setDataList(null);
             XHouseListView.setAdapter(keyHouseListAdapter);
             type = HouseType.YAO_SHI;

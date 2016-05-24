@@ -267,6 +267,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 
 			}
 		});
+//		drawer_layout.setVisibility(View.GONE);
 	}
 	@Override
 	public void initData() {

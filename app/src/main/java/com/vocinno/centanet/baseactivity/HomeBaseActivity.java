@@ -110,8 +110,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                 case R.id.rlyt_my_customer_main_page_slid_menus:
                     MethodsDeliverData.keYuanOrGongKe=1;
                     MethodsDeliverData.isMyCustomer = true;
-                    MethodsExtra.startActivity(mContext,
-                            CustomerManageActivity.class);
+                    MethodsExtra.startActivity(mContext, CustomerManageActivity.class);
                     break;
                 //我的潜客
                 case R.id.rlyt_my_potential_customer_main_page_slid_menus:

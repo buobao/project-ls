@@ -2,6 +2,7 @@
 <resources>
 
     <!-- 公用颜色 -->
+    <color name="sortText_color">#e0e0e0</color>   <!--排序选择框颜色 -->
     <color name="slightGray">#c5c5c7</color>
     <color name="black">#000000</color>
     <color name="darkgray">#808080</color>

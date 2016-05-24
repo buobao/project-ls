@@ -265,7 +265,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/iv_dian_collection"
                     android:gravity="center_vertical|left"
-                    android:text="店租收藏"
+                    android:text="@string/house_dian_collection"
                     android:textColor="#F4F5F6"
                     android:textSize="17dp"  />
             </RelativeLayout>

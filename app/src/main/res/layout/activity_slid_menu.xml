@@ -46,7 +46,7 @@
                 android:gravity="center_vertical|left"
                 android:text="@string/house_chushou"
                 android:textColor="#F4F5F6"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
         </RelativeLayout>
 
         <View
@@ -77,7 +77,7 @@
                 android:gravity="center_vertical|left"
                 android:text="@string/house_chuzu"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
 
         <View
@@ -108,7 +108,7 @@
                 android:gravity="center_vertical|left"
                 android:text="约看房源"
                 android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
     </LinearLayout>
 
@@ -141,7 +141,7 @@
                 android:gravity="center_vertical|left"
                 android:text="我的出售"
                 android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
         <View
             android:id="@+id/view_line_32"
@@ -172,7 +172,7 @@
                 android:gravity="center_vertical|left"
                 android:text="我的出租"
                 android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
         <View
             android:id="@+id/view_line_3"
@@ -204,10 +204,9 @@
                 android:gravity="center_vertical|left"
                 android:text="钥匙管理"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
     </RelativeLayout>
-///////////////
         <RelativeLayout
             android:id="@+id/rl_collection"
             android:layout_width="250dp"
@@ -237,7 +236,7 @@
                     android:gravity="center_vertical|left"
                     android:text="我的收藏"
                     android:textColor="#F4F5F6"
-                    android:textSize="18dp"  />
+                    android:textSize="17dp"  />
             </RelativeLayout>
             <View
                 android:id="@+id/v_my_collection"
@@ -268,7 +267,7 @@
                     android:gravity="center_vertical|left"
                     android:text="店租收藏"
                     android:textColor="#F4F5F6"
-                    android:textSize="18dp"  />
+                    android:textSize="17dp"  />
             </RelativeLayout>
             <View
                 android:id="@+id/v_dian_collection"
@@ -280,7 +279,6 @@
 
 
         </RelativeLayout>
-        /////////////
     <RelativeLayout
         android:id="@+id/rylt_mid_2_sild_menu"
         android:layout_width="250dp"
@@ -310,7 +308,7 @@
                 android:gravity="center_vertical|left"
                 android:text="我的客源"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
 
         <View
@@ -342,7 +340,7 @@
                 android:gravity="center_vertical|left"
                 android:text="我的潜客"
                 android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
 
         <View
@@ -374,7 +372,7 @@
                 android:gravity="center_vertical|left"
                 android:text="抢公售"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
 
         <View
@@ -406,7 +404,7 @@
                 android:gravity="center_vertical|left"
                 android:text="抢公租"
                 android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
 
         <View
@@ -438,7 +436,7 @@
                 android:gravity="center_vertical|left"
                 android:text="抢公客"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -471,7 +469,7 @@
                 android:gravity="center_vertical|left"
                 android:text="输PIN码"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
 
         <View
@@ -504,7 +502,7 @@
                 android:gravity="center_vertical|left"
                 android:text="扫一扫"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -536,7 +534,7 @@
                 android:gravity="center_vertical|left"
                 android:text="我的提醒"
                  android:textColor="#F4F5F6"
-                android:textSize="18dp"  />
+                android:textSize="17dp"  />
         </RelativeLayout>
     </RelativeLayout>
         <RelativeLayout
@@ -567,7 +565,7 @@
                     android:gravity="center_vertical|left"
                     android:text="@string/exit_app"
                     android:textColor="#F4F5F6"
-                    android:textSize="18dp"  />
+                    android:textSize="17dp"  />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

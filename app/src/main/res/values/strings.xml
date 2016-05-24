@@ -4,7 +4,7 @@
     >
 
     <!-- 公共 -->
-    <string name="saveCustomer">保存</string>
+    <string name="save">保存</string>
     <string name="exit_app">退出登录</string>
     <string name="weixin">微信</string>
     <string name="addphonenumber">请输入电话号码</string>
@@ -91,6 +91,7 @@
     <string name="text_dialg">加载中,请稍候...</string>
 
     <!-- 客源管理 -->
+    <string name="add_demand">添加需求</string>
     <string name="search_cust_hit">按姓名或手机号搜索</string>
     <string name="customermanage">客源管理</string>
     <string name="addcustomer">添加客户</string>

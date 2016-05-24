@@ -87,8 +87,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 	@SuppressLint("NewApi")
 	@Override
 	public void initView() {
-		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.customernews,
-				null);
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.customernews, null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_seize_customerDetailActivity);
 		mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_customerDetailActivity);

@@ -39,7 +39,8 @@ public class AddDemandActivity extends OtherBaseActivity {
 
     private XListView mLvCustormers;
     private View mBack;
-    private ImageView mSubmitView, iv_zu_demand, iv_gou_demand;
+    private ImageView iv_zu_demand, iv_gou_demand;
+    private TextView mSubmitView;
     private Intent intent;
     private EditText et_otherInfo_demand;
     private RelativeLayout rl_type_demand, rl_fangxing_demand, rl_place_demand, rl_pianqu_demand, rl_area_demand, rl_price_demand;
@@ -69,12 +70,10 @@ public class AddDemandActivity extends OtherBaseActivity {
     public void initView() {
         intent=getIntent();
         custCode = intent.getStringExtra("custCode");
-        MethodsExtra.findHeadTitle1(mContext, baseView,
-                R.string.my_potential_customer, null);
+        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_demand, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mBack.setOnClickListener(this);
-        mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-                R.drawable.universal_button_undone);
+        mSubmitView = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
         mSubmitView.setClickable(false);
         mSubmitView.setEnabled(false);
         mSubmitView.setOnClickListener(this);
@@ -398,7 +397,7 @@ public class AddDemandActivity extends OtherBaseActivity {
             case R.id.img_left_mhead1:
                 finish();
                 break;
-            case R.id.img_right_mhead1:
+            case R.id.tv_right_mhead1:
                 saveDemand();
                 break;
             case R.id.rl_type_demand:
@@ -556,13 +555,9 @@ public class AddDemandActivity extends OtherBaseActivity {
             isFinish = false;
         }
         if (isFinish) {
-            mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-                    R.drawable.universal_button_done);
             mSubmitView.setClickable(true);
             mSubmitView.setEnabled(true);
         } else {
-            mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-                    R.drawable.universal_button_undone);
             mSubmitView.setClickable(false);
             mSubmitView.setEnabled(false);
         }

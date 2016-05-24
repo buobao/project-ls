@@ -12,7 +12,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity2;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
@@ -66,7 +66,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.setClass(mContext, HouseManageActivity.class);
         intent.putExtra(MyConstant.listType, type);
         intent.putExtra(MyConstant.menuType, index);
         startActivity(intent);

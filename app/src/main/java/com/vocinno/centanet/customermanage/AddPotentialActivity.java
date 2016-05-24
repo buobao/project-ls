@@ -2,6 +2,7 @@ package com.vocinno.centanet.customermanage;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +63,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mSubmitView = (TextView)MethodsExtra.findHeadRightView1(mContext, baseView,R.string.save,0);
 

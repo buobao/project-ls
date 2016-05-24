@@ -3,6 +3,7 @@ package com.vocinno.centanet.housemanage;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -73,6 +74,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		dialogView = getLayoutInflater().inflate(R.layout.time_dialog, null);
 		wv_year= (WheelView) dialogView.findViewById(R.id.wv_year);
 		wv_month= (WheelView) dialogView.findViewById(R.id.wv_month);

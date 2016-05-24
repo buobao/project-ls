@@ -2,6 +2,7 @@ package com.vocinno.centanet.housemanage;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
@@ -39,6 +40,7 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.followinhouse, null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);

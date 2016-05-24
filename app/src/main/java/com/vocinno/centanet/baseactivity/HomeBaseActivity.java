@@ -53,6 +53,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         int layoutId=setContentLayoutId();
         baseView=getLayoutInflater().inflate(layoutId,null);
         setContentView(baseView);
+        drawer_layout= (DrawerLayout) findViewById(R.id.dl_home_page);
         initView();
         mHander = setHandler();
         setClickListener();
@@ -164,7 +165,6 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     }
 
     private void setClickListener() {
-        drawer_layout= (DrawerLayout) findViewById(R.id.dl_home_page);
         leftMenuView=findViewById(R.id.left_home_page);
         drawer_layout.closeDrawer(leftMenuView);
 

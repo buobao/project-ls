@@ -2,6 +2,7 @@ package com.vocinno.centanet.customermanage;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
@@ -43,6 +44,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.followincustomer, null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);

@@ -47,13 +47,13 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         int layoutId=setContentLayoutId();
         baseView=getLayoutInflater().inflate(layoutId,null);
         setContentView(baseView);
+        drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
         initView();
         mHander = setHandler();
         setClickListener();
         initData();
     }
     private void setClickListener() {
-        drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
         leftMenuView=findViewById(R.id.left_menu_housemanager);
         fuJinChuShou=(RelativeLayout)findViewById(R.id.rlyt_sell_house_main_page_slid_menus);
         fuJinChuShou.setOnClickListener(this);

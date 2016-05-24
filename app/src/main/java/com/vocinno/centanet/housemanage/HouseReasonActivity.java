@@ -3,6 +3,7 @@ package com.vocinno.centanet.housemanage;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -43,6 +44,7 @@ public class HouseReasonActivity extends OtherBaseActivity {
 
     @Override
     public void initView() {
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         intent=getIntent();
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0, R.drawable.universal_button_undone);

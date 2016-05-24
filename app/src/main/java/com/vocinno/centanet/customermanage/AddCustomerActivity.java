@@ -3,6 +3,7 @@ package com.vocinno.centanet.customermanage;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -110,6 +111,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 
     @Override
     public void initView() {
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         // 需要获取的输入控件
 //		mEtConnectionNumber = (EditText) findViewById(R.id.et_connectionNumber_addCustomerActivity);
         scrollView = (ScrollViewCanStop) findViewById(R.id.scrollView1);

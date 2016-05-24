@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -69,6 +70,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     @SuppressLint("NewApi")
     @Override
     public void initView() {
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.customernews,
                 null);
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);

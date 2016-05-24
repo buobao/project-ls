@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -185,6 +186,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.housedecribe,
 				null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);

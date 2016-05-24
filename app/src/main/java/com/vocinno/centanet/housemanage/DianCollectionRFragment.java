@@ -41,6 +41,9 @@ public class DianCollectionRFragment extends HouseListBaseFragment implements Ht
 //            initData();
         }
     }
+    public void setFirstLoading(){
+        firstLoading=true;
+    }
     @Override
     public void addNotification() {
         TAG=this.getClass().getName();

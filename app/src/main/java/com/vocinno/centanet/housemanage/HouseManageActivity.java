@@ -34,6 +34,7 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
+import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
@@ -281,6 +282,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case MyConstant.robGongHouseList:
                 setQiangGongFangFragment();
                 break;
+        }
+        for (int i = 0; i <fragmentList.size() ; i++) {
+            ((HouseListBaseFragment)fragmentList.get(i)).setFirstLoading();
         }
         pagerAdapter.setFragmentList(fragmentList);
         vp_house_manager.setAdapter(pagerAdapter);

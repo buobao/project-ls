@@ -59,6 +59,9 @@ public class YueKanFragment extends HouseListBaseFragment{
         }
     }
 
+    public void setFirstLoading(){
+        firstLoading=true;
+    }
     public YueKanFragment( int position) {
         this.viewPosition = position;
     }

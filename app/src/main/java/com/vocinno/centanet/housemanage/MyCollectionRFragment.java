@@ -41,6 +41,9 @@ public class MyCollectionRFragment extends HouseListBaseFragment implements Http
 //            initData();
         }
     }
+    public void setFirstLoading(){
+        firstLoading=true;
+    }
     @Override
     public void addNotification() {
         TAG=this.getClass().getName();

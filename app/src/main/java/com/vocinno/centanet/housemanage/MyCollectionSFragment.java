@@ -55,6 +55,9 @@ public class MyCollectionSFragment extends HouseListBaseFragment implements Http
             getData(1, false, true);
         }
     }
+    public void setFirstLoading(){
+        firstLoading=true;
+    }
     public void searchForList(int tagIndex,String param){
         switch (tagIndex){
             case 0:

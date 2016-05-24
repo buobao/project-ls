@@ -66,6 +66,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public abstract void addNotification();
     public abstract void initData();
     public abstract Handler setHandler();
+    public abstract void setFirstLoading();
     public String TAG;
 //    public abstract void notifCallBack(final String name,final String className, final Object data);
     /********************************************************/

@@ -43,6 +43,9 @@ public class RobGongShouFragment extends HouseListBaseFragment implements HttpIn
 //            initData();
         }
     }
+    public void setFirstLoading(){
+        firstLoading=true;
+    }
     @Override
     public void addNotification() {
         TAG=this.getClass().getName();

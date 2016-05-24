@@ -42,6 +42,9 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
             initData();
         }
     }
+    public void setFirstLoading(){
+        firstLoading=true;
+    }
     @Override
     public void addNotification() {
         TAG=this.getClass().getName();

@@ -64,7 +64,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	@Override
 	public void initView() {
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-		mSubmitView = (TextView)MethodsExtra.findHeadRightView1(mContext, baseView,R.string.saveCustomer,0);
+		mSubmitView = (TextView)MethodsExtra.findHeadRightView1(mContext, baseView,R.string.save,0);
 
 		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_potential_customer,
 				null);

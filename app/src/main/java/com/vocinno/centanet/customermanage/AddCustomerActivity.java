@@ -118,8 +118,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
         mEtCustormerName = (EditText) findViewById(R.id.et_name_addCustomerActivity);
         // 需要添加点击事件的RelativeLayout
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-        mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-                R.drawable.universal_button_undone);
+        mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
         mSubmitView.setEnabled(false);
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.addcustomer,
                 null);
@@ -460,10 +459,10 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 				mEtCustormerNumber.setFocusableInTouchMode(true);
 				checkIsFinish();*/
                 break;
-            case R.id.img_left_mhead1:
+            case R.id.img_left_mhead1:  //标题栏左侧箭头
                 finish();
                 break;
-            case R.id.img_right_mhead1:
+            case R.id.tv_right_mhead1:  //标题栏右侧 "保存"文字
                 if (mEtCustormerNumber.getText() == null || mEtCustormerNumber.getText().toString().trim().length() <= 0) {
                     MethodsExtra.toast(mContext, "手机号码不能为空");
                     return;
@@ -868,14 +867,11 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 		/*if(!(isMobileNO(mStrTel) || TextUtils.isEmpty(mStrTel))) {
 			isFinish = false;
 		}*/
+        mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
         if (isFinish) {
-            mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView,
-                    0, R.drawable.universal_button_done);
             mSubmitView.setClickable(true);
             mSubmitView.setEnabled(true);
         } else {
-            mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView,
-                    0, R.drawable.universal_button_undone);
             mSubmitView.setClickable(false);
             mSubmitView.setEnabled(false);
         }

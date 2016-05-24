@@ -10,9 +10,9 @@ import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
-import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
@@ -31,8 +31,7 @@ public class MySellFragment extends HouseListBaseFragment implements HttpInterfa
         return R.layout.activity_near_sell;
     }
 
-    public MySellFragment(GetDataInterface getData, int position) {
-        getDataInterface=getData;
+    public MySellFragment( int position) {
         this.viewPosition=position;
     }
     public MySellFragment() {
@@ -119,6 +118,8 @@ public class MySellFragment extends HouseListBaseFragment implements HttpInterfa
                         dataType = 1;
                     }
                     setListData(dataType, jsReturn.getListDatas());
+                }else{
+                    MyToast.showToast(jsReturn.getMsg());
                 }
             }
         });

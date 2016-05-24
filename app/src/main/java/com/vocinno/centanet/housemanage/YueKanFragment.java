@@ -18,20 +18,17 @@ import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
+import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.model.LookPlanInfo;
-import com.vocinno.centanet.myinterface.GetDataInterface;
-import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsJson;
-
-import org.unify.helper.CELibHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 @SuppressLint("ValidFragment")
-public class YueKanFragment extends HouseListBaseFragment implements HttpInterface {
+public class YueKanFragment extends HouseListBaseFragment{
     private List<HouseItem> listHouses;
     private boolean firstLoading = true;
     private LinearLayout ll_yuekan_layout;
@@ -53,9 +50,6 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
     public int setContentLayoutId() {
         return R.layout.activity_yue_kan;
     }
-
-    CELibHelper ceLibHelper;
-
     @Override
     public void initView() {
         ll_yuekan_layout = (LinearLayout) baseView.findViewById(R.id.ll_yuekan_layout);
@@ -65,8 +59,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         }
     }
 
-    public YueKanFragment(GetDataInterface getData, int position) {
-        getDataInterface = getData;
+    public YueKanFragment( int position) {
         this.viewPosition = position;
     }
     public YueKanFragment() {
@@ -125,7 +118,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         if(!isXListViewLoad){
             Loading.show(getActivity());
         }
-        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
+        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houLookPlanListMobile;
         Map<String,String> map=new HashMap<String,String>();
         map.put(NetWorkMethod.type,type+"");
         map.put(NetWorkMethod.listType,NetWorkMethod.APPO_HOULIST);
@@ -153,13 +146,15 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
                 Loading.dismissLoading();
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, HouseList.class);
                 if (jsReturn.isSuccess()) {
                     int dataType = 0;
                     if (!isRefresh) {
                         dataType = 1;
                     }
                     setListData(dataType, jsReturn.getListDatas());
+                }else{
+                    MyToast.showToast(jsReturn.getMsg());
                 }
             }
         });
@@ -348,10 +343,7 @@ public class YueKanFragment extends HouseListBaseFragment implements HttpInterfa
         });
     }
 
-    @Override
-    public void netWorkResult(String name, String className, Object data) {
 
-    }
 
     @Override
     public Handler setHandler() {

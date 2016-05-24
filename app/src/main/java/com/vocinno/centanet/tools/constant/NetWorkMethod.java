@@ -28,7 +28,7 @@ public class NetWorkMethod {
     public static final String other="other";
     /*****************钥匙房源列表********************/
     public static final String houList="mobile/hou/houList";
-    public static final String houLookPlanListMobile="mobile/hou/houLookPlanListMobile";
+    public static final String houLookPlanListMobile="mobile/hou/houLookPlanListMobile";//约看
     public static final String type="type";
     public static final String listType="listType";
     public static final String KEY_HOULIST="KEY_HOULIST";//6钥匙房源

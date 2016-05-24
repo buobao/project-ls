@@ -275,10 +275,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             vp_gong_fang_manager.setVisibility(View.VISIBLE);
 
             if(robGongShouFragment==null){
-                robGongShouFragment = new RobGongShouFragment((GetDataInterface)this,viewPageIndex);
+                robGongShouFragment = new RobGongShouFragment(viewPageIndex);
             }
             if(robGongZuFragment==null){
-                robGongZuFragment = new RobGongZuFragment((GetDataInterface)this,viewPageIndex);
+                robGongZuFragment = new RobGongZuFragment(viewPageIndex);
             }
             if(gongFangList.size()<=0){
                 gongFangList.add(robGongShouFragment);
@@ -337,19 +337,19 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             }
             vp_house_manager.setVisibility(View.VISIBLE);
             if(nearSellFragment==null){
-                nearSellFragment = new NearSellFragment((GetDataInterface)this,viewPageIndex);
+                nearSellFragment = new NearSellFragment(viewPageIndex);
             }
             if(nearRentFragment==null){
-                nearRentFragment = new NearRentFragment((GetDataInterface)this,viewPageIndex);
+                nearRentFragment = new NearRentFragment(viewPageIndex);
             }
             if(yueKanFragment==null){
-                yueKanFragment = new YueKanFragment((GetDataInterface)this,viewPageIndex);
+                yueKanFragment = new YueKanFragment(viewPageIndex);
             }
             if(mySellFragment==null){
-                mySellFragment = new MySellFragment((GetDataInterface)this,viewPageIndex);
+                mySellFragment = new MySellFragment(viewPageIndex);
             }
             if(myRentFragment==null){
-                myRentFragment = new MyRentFragment((GetDataInterface)this,viewPageIndex);
+                myRentFragment = new MyRentFragment(viewPageIndex);
             }
             if(fragmentList.size()<=0){
                 fragmentList.add(nearSellFragment);

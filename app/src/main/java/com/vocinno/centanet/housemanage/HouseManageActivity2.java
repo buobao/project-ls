@@ -43,9 +43,7 @@ import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.EstateSearchItem;
-import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.TagSlidingInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
@@ -68,7 +66,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterface,GetDataInterface,TagSlidingInterface {
+public class HouseManageActivity2 extends HouseManagerBaseActivity implements HttpInterface,TagSlidingInterface {
     private static final String Weixin_APP_ID = "wx52560d39a9b47eae";
     private int[] mIntScreenWidthHeight = { 0, 0 };
     private final int NEAR_CHU_ZU=1;
@@ -280,7 +278,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         vp_house_manager.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                vp_house_manager.setCurrentItem(menuType);
+                vp_house_manager.setCurrentItem(menuType);
             }
         }, 200);
         vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -303,10 +301,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void setQiangGongFangFragment() {
         fragmentList.clear();
         if(robGongShouFragment==null){
-            robGongShouFragment = new RobGongShouFragment((GetDataInterface)this,viewPageIndex);
+            robGongShouFragment = new RobGongShouFragment(viewPageIndex);
         }
         if(robGongZuFragment== null) {
-            robGongZuFragment = new RobGongZuFragment((GetDataInterface)this,viewPageIndex);
+            robGongZuFragment = new RobGongZuFragment(viewPageIndex);
         }
         if(fragmentList.size()<=0){
             fragmentList.add(robGongShouFragment);
@@ -317,10 +315,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void setCollectionFragment() {
         fragmentList.clear();
         if(myCollectionFragment==null){
-            myCollectionFragment = new MyCollectionFragment((GetDataInterface)this,viewPageIndex);
+            myCollectionFragment = new MyCollectionFragment(viewPageIndex);
         }
         if(dianCollectionFragment==null){
-            dianCollectionFragment = new DianCollectionFragment((GetDataInterface)this,viewPageIndex);
+            dianCollectionFragment = new DianCollectionFragment(viewPageIndex);
         }
         if(fragmentList.size()<=0){
             fragmentList.add(myCollectionFragment);
@@ -331,19 +329,19 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private void setFangYuanFragment() {
         fragmentList.clear();
         if(nearSellFragment==null){
-            nearSellFragment = new NearSellFragment((GetDataInterface)this,viewPageIndex);
+            nearSellFragment = new NearSellFragment(viewPageIndex);
         }
         if(nearRentFragment==null){
-            nearRentFragment = new NearRentFragment((GetDataInterface)this,viewPageIndex);
+            nearRentFragment = new NearRentFragment(viewPageIndex);
         }
         if(yueKanFragment==null){
-            yueKanFragment = new YueKanFragment((GetDataInterface)this,viewPageIndex);
+            yueKanFragment = new YueKanFragment(viewPageIndex);
         }
         if(mySellFragment==null){
-            mySellFragment = new MySellFragment((GetDataInterface)this,viewPageIndex);
+            mySellFragment = new MySellFragment(viewPageIndex);
         }
         if(myRentFragment==null){
-            myRentFragment = new MyRentFragment((GetDataInterface)this,viewPageIndex);
+            myRentFragment = new MyRentFragment(viewPageIndex);
         }
         if(fragmentList.size()<=0){
             fragmentList.add(nearSellFragment);
@@ -357,23 +355,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
     @Override
     public void initData() {
-        addNotificationObserver();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
         registerWeiXin();
     }
 
-    @Override
-    public void getListData(String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
-        if((HouseType.YUE_KAN+"").equals(type)){
-            methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
-                    CST_JS.JS_Function_HouseResource_houLookPlanListMobile, CST_JS
-                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
-        }else{
-            methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
-                    CST_JS.JS_Function_HouseResource_getList, CST_JS
-                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType,dongHao==null?"":dongHao,shiHao==null?"":shiHao));
-        }
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -614,11 +599,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
             //附近出售
             case R.id.rlyt_sell_house_main_page_slid_menus:
-                changeViewPager(MyConstant.houseList,0);
+                changeViewPager(MyConstant.houseList, 0);
                 break;
             //附近出租
             case R.id.rlyt_rent_house_main_page_slid_menus:
-                changeViewPager(MyConstant.houseList,1);
+                changeViewPager(MyConstant.houseList, 1);
                 break;
             //约看房源
             case R.id.rlyt_see_house_main_page_slid_menus:
@@ -631,6 +616,14 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             //我的出租
             case R.id.rlyt_my_house_main_page_slid_menus2:
                 changeViewPager(MyConstant.houseList,4);
+                break;
+            //我的收藏
+            case R.id.rl_my_collection:
+                changeViewPager(MyConstant.collectionHouseList,0);
+                break;
+            //店租收藏
+            case R.id.rl_dian_collection:
+                changeViewPager(MyConstant.collectionHouseList,1);
                 break;
             //钥匙管理
             case R.id.rlyt_key_house_main_page_slid_menus:
@@ -708,6 +701,8 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 vp_house_manager.setCurrentItem(index);
             }
         }else{
+            listType=type;
+            menuType=index;
             setViewPager(type);
         }
     }
@@ -784,54 +779,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
 
     @Override
     public void netWorkResult(String name, String className, Object data) {
-//        methodsJni.setMethodsJni(null);
-        if(isGongFang){
-            /*if(vp_gong_fang_manager.getCurrentItem()!=viewPageIndex){
-                vp_gong_fang_manager.setCurrentItem(viewPageIndex);
-            }*/
-        }else{
-            if(vp_house_manager.getCurrentItem()!=viewPageIndex){
-                vp_house_manager.setCurrentItem(viewPageIndex);
-            }
-        }
-
         dismissDialog();
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)||name.equals(CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT)){
-            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,HouseList.class);
-            int type = Integer.parseInt(jsReturn.getParams().getType());
-            if (jsReturn.isSuccess()) {
-                int dataType=jsReturn.getParams().getIsAppend()?1:0;
-                switch (type){
-                    case HouseType.CHU_SHOU:
-                        nearSellFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.CHU_ZU:
-                        nearRentFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case 0:
-                        yueKanFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.YUE_KAN:
-                        yueKanFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.WO_DE:
-                        mySellFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.WO_DEZU2:
-                        myRentFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.GONG_FANG:
-                        robGongShouFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.GONG_FANGZU:
-                        robGongZuFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                }
-            }else {
-                MethodsExtra.toast(mContext,jsReturn.getMsg());
-            }
-        }else if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
+             if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
             JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
                     EstateSearchItem.class);
             if(jsReturn.isSuccess()){
@@ -858,7 +809,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             }
 
         }
-    }
+    }}
     MethodsJni methodsJni;
     private void searchHouse(String editString) {
         lv_house_list.setVisibility(View.INVISIBLE);
@@ -871,7 +822,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             }
             methodsJni.setMethodsJni((HttpInterface) this);
             // 在打字期间添加搜索栏数据
-            MethodsJni.callProxyFun(
+            MethodsJni.callProxyFun(hif,
                     CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_searchEstateName,
                     CST_JS.getJsonStringForHouseListSearchEstateName(
@@ -1003,40 +954,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             lv_house_list.setVisibility(View.VISIBLE);
         }
         mSearchDialog.show();
-    }
-
-
-    private void addNotificationObserver() {
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT, TAG);
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT, TAG);
-
-        MethodsJni.removeAllNotifications(TAG);
     }
 
     private void showTagSortDialog(int tagIndex) {

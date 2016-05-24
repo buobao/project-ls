@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity2;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
@@ -42,7 +42,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeQianKe,woDeKeYuan, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit,rl_my_collection,rl_dian_collection;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +60,15 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
 
     }
     public void startIntentToHouseManager(int index){
-        if(intent==null){
-            intent=new Intent();
-        }
-        intent.setClass(mContext, HouseManageActivity.class);
-        intent.putExtra("viewPageIndex", index);
-        startActivity(intent);
+        startIntentToHouseManager(0, index);
     };
-    public void startIntentToGongFangManager(int index){
+    public void startIntentToHouseManager(int type,int index){
         if(intent==null){
             intent=new Intent();
         }
-        intent.setClass(mContext, HouseManageActivity.class);
-        intent.putExtra("viewPageIndex", index);
-        intent.putExtra(MyUtils.ROB_GONG_FANG,true);
+        intent.setClass(mContext, HouseManageActivity2.class);
+        intent.putExtra(MyConstant.listType, type);
+        intent.putExtra(MyConstant.menuType, index);
         startActivity(intent);
     };
     @Override
@@ -99,6 +94,14 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                 case R.id.rlyt_my_house_main_page_slid_menus2:
                     startIntentToHouseManager(4);
                     break;
+                //我的收藏
+                case R.id.rl_my_collection:
+                    startIntentToHouseManager(1,0);
+                    break;
+                //店租收藏
+                case R.id.rl_dian_collection:
+                    startIntentToHouseManager(1,1);
+                    break;
                 //钥匙管理
                 case R.id.rlyt_key_house_main_page_slid_menus:
                     MethodsExtra.startActivity(mContext, KeyManageActivity.class);
@@ -120,14 +123,14 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     /*MethodsDeliverData.flag = 1;
                     MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
                     MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
-                    startIntentToGongFangManager(0);
+                    startIntentToHouseManager(2,0);
                     break;
                 //抢公租
                 case R.id.rlyt_grab_house_main_page_slid_menus2:
                     /*MethodsDeliverData.flag = 1;
                     MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
                     MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
-                    startIntentToGongFangManager(1);
+                    startIntentToHouseManager(2,1);
                     break;
                 //抢公客
                 case R.id.rlyt_grab_customer_main_page_slid_menus:
@@ -214,6 +217,12 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
 
         ry_exit = (RelativeLayout)findViewById(R.id.ry_exit);
         ry_exit.setOnClickListener(this);
+
+        rl_my_collection = (RelativeLayout)findViewById(R.id.rl_my_collection);
+        rl_my_collection.setOnClickListener(this);
+
+        rl_dian_collection = (RelativeLayout)findViewById(R.id.rl_dian_collection);
+        rl_dian_collection.setOnClickListener(this);
     }
 
     public void showDialog(){

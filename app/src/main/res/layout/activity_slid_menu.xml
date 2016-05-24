@@ -60,7 +60,7 @@
             android:id="@+id/rlyt_rent_house_main_page_slid_menus"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_rent_house_main_page_slid_menus"
@@ -91,7 +91,7 @@
             android:id="@+id/rlyt_see_house_main_page_slid_menus"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_see_house_main_page_slid_menus"
@@ -187,7 +187,7 @@
             android:layout_below="@+id/view_line_3"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_key_house_main_page_slid_menus"
@@ -291,7 +291,7 @@
             android:id="@+id/rlyt_my_customer_main_page_slid_menus"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_my_customer_main_page_slid_menus"
@@ -323,7 +323,7 @@
             android:id="@+id/rlyt_my_potential_customer_main_page_slid_menus"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_my_potential_customer_main_page_slid_menus"
@@ -355,7 +355,7 @@
             android:id="@+id/rlyt_grab_house_main_page_slid_menus"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_grab_house_main_page_slid_menus"
@@ -387,7 +387,7 @@
             android:id="@+id/rlyt_grab_house_main_page_slid_menus2"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingLeft="33dp" >
+            android:paddingLeft="30dp" >
 
             <ImageView
                 android:id="@+id/img_grab_house_main_page_slid_menus2"

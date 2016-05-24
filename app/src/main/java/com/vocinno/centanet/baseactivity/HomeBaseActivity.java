@@ -96,11 +96,11 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     break;
                 //我的收藏
                 case R.id.rl_my_collection:
-                    startIntentToHouseManager(1,0);
+                    startIntentToHouseManager(MyConstant.myCollectionHouseList,0);
                     break;
                 //店租收藏
                 case R.id.rl_dian_collection:
-                    startIntentToHouseManager(1,1);
+                    startIntentToHouseManager(MyConstant.dianzCollectionHouseList,0);
                     break;
                 //钥匙管理
                 case R.id.rlyt_key_house_main_page_slid_menus:

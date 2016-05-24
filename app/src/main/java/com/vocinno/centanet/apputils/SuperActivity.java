@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.tools.MyLoadDialog;
-import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -32,8 +30,6 @@ public abstract class SuperActivity extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 		myApp=(AppApplication)getApplication();
 		NetWorkConstant.setMyApp(myApp);
-		MyToast.getInstance(this);
-		MyLoadDialog.getInstance(this);
 		AppInstance.mListActivitys.add(this);
 		MyUtils.addActivityToList(this);
 		mContext = this;

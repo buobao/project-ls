@@ -115,8 +115,10 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     private YueKanFragment yueKanFragment ;
     private MySellFragment mySellFragment;
     private MyRentFragment myRentFragment;
-    private MyCollectionFragment myCollectionFragment;
-    private DianCollectionFragment dianCollectionFragment;
+    private MyCollectionSFragment myCollectionSFragment;
+    private MyCollectionRFragment myCollectionRFragment;
+    private DianCollectionSFragment dianCollectionSFragment;
+    private DianCollectionRFragment dianCollectionRFragment;
     private RobGongShouFragment robGongShouFragment;
     private RobGongZuFragment robGongZuFragment;
     private List<EstateSearchItem> mSearchListData;
@@ -270,8 +272,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
             case MyConstant.houseList:
                 setFangYuanFragment();
                 break;
-            case MyConstant.collectionHouseList:
-                setCollectionFragment();
+            case MyConstant.myCollectionHouseList:
+                setMyCollectionFragment();
+                break;
+            case MyConstant.dianzCollectionHouseList:
+                setDianCollectionFragment();
                 break;
             case MyConstant.robGongHouseList:
                 setQiangGongFangFragment();
@@ -317,20 +322,32 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         }
     }
 
-    private void setCollectionFragment() {
+    private void setMyCollectionFragment() {
         fragmentList.clear();
-        if(myCollectionFragment==null){
-            myCollectionFragment = new MyCollectionFragment(viewPageIndex);
+        if(myCollectionSFragment ==null){
+            myCollectionSFragment = new MyCollectionSFragment(viewPageIndex);
         }
-        if(dianCollectionFragment==null){
-            dianCollectionFragment = new DianCollectionFragment(viewPageIndex);
+        if(myCollectionRFragment ==null){
+            myCollectionRFragment = new MyCollectionRFragment(viewPageIndex);
         }
         if(fragmentList.size()<=0){
-            fragmentList.add(myCollectionFragment);
-            fragmentList.add(dianCollectionFragment);
+            fragmentList.add(myCollectionSFragment);
+            fragmentList.add(myCollectionRFragment);
         }
     }
-
+    private void setDianCollectionFragment() {
+        fragmentList.clear();
+        if(dianCollectionSFragment ==null){
+            dianCollectionSFragment = new DianCollectionSFragment(viewPageIndex);
+        }
+        if(dianCollectionRFragment ==null){
+            dianCollectionRFragment = new DianCollectionRFragment(viewPageIndex);
+        }
+        if(fragmentList.size()<=0){
+            fragmentList.add(dianCollectionSFragment);
+            fragmentList.add(dianCollectionRFragment);
+        }
+    }
     private void setFangYuanFragment() {
         fragmentList.clear();
         if(nearSellFragment==null){
@@ -624,11 +641,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
             //我的收藏
             case R.id.rl_my_collection:
-                changeViewPager(MyConstant.collectionHouseList,0);
+                changeViewPager(MyConstant.myCollectionHouseList,0);
                 break;
             //店租收藏
             case R.id.rl_dian_collection:
-                changeViewPager(MyConstant.collectionHouseList,1);
+                changeViewPager(MyConstant.dianzCollectionHouseList,0);
                 break;
             //钥匙管理
             case R.id.rlyt_key_house_main_page_slid_menus:
@@ -714,7 +731,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
 
     private void searchByOrder(String param,String order) {
-        if(listType==0){
+        if(listType==MyConstant.houseList){
             switch (menuType){
                 case 0:
                     nearSellFragment.searchByOrderForList(param,order);
@@ -737,18 +754,18 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     myRentFragment.getData(1, false,true);
                     break;
             }
-        }else if(listType==1){
+        }else if(listType==MyConstant.myCollectionHouseList){
             switch (menuType){
                 case 0:
-                    myCollectionFragment.searchByOrderForList(param,order);
-                    myCollectionFragment.getData(1, false,true);
+                    myCollectionSFragment.searchByOrderForList(param, order);
+                    myCollectionSFragment.getData(1, false, true);
                     break;
                 case 1:
-                    dianCollectionFragment.searchByOrderForList(param, order);
-                    dianCollectionFragment.getData(1, false,true);
+                    myCollectionRFragment.searchByOrderForList(param, order);
+                    myCollectionRFragment.getData(1, false, true);
                     break;
             }
-        }else if(listType==2){
+        }else if(listType==MyConstant.robGongHouseList){
             switch (menuType){
                 case 0:
                     robGongShouFragment.searchByOrderForList(param,order);
@@ -759,11 +776,22 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     robGongZuFragment.getData(1, false,true);
                     break;
             }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    dianCollectionSFragment.searchByOrderForList(param, order);
+                    dianCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    dianCollectionRFragment.searchByOrderForList(param, order);
+                    dianCollectionRFragment.getData(1, false, true);
+                    break;
+            }
         }
 
     }
     private void searchByKeyWord(String searchId,String searchType) {
-        if(listType==0){
+        if(listType==MyConstant.houseList){
             switch (menuType){
                 case 0:
                     nearSellFragment.searchByKeyWord(searchId, searchType);
@@ -786,18 +814,18 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     myRentFragment.getData(1, false,true);
                     break;
             }
-        }else if(listType==1){
+        }else if(listType==MyConstant.myCollectionHouseList){
             switch (menuType){
                 case 0:
-                    myCollectionFragment.searchByKeyWord(searchId, searchType);
-                    myCollectionFragment.getData(1, false,true);
+                    myCollectionSFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionSFragment.getData(1, false, true);
                     break;
                 case 1:
-                    dianCollectionFragment.searchByKeyWord(searchId, searchType);
-                    dianCollectionFragment.getData(1, false,true);
+                    myCollectionRFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionRFragment.getData(1, false, true);
                     break;
             }
-        }else if(listType==2){
+        }else if(listType==MyConstant.robGongHouseList){
             switch (menuType){
                 case 0:
                     robGongShouFragment.searchByKeyWord(searchId, searchType);
@@ -806,6 +834,17 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 case 1:
                     robGongZuFragment.searchByKeyWord(searchId, searchType);
                     robGongZuFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    dianCollectionSFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    dianCollectionRFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionRFragment.getData(1, false, true);
                     break;
             }
         }
@@ -1312,7 +1351,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         }
     }
     private void gongFangOrHouseTitle(int position){
-        if(listType==0){
+        if(listType==MyConstant.houseList){
             switch (position) {
                 case 0:
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_chushou, null);
@@ -1330,22 +1369,31 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my2, null);
                     break;
             }
-        }else if(listType==1){
+        }else if(listType==MyConstant.myCollectionHouseList){
             switch (position) {
                 case 0:
-                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my_collection, null);
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my_collection_s, null);
                     break;
                 case 1:
-                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_dian_collection, null);
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my_collection_r, null);
                     break;
             }
-        }else if(listType==2){
+        }else if(listType==MyConstant.robGongHouseList){
             switch (position) {
                 case 0:
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_publicshou, null);
                     break;
                 case 1:
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_publiczu, null);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (position) {
+                case 0:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_dian_collection_s, null);
+                    break;
+                case 1:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_dian_collection_r, null);
                     break;
             }
         }

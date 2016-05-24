@@ -7,6 +7,7 @@ import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.utils.MethodsFile;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public class AppApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		MyToast.getInstance(this);
 //		initImageLoader();
 		// 百度地图初始化
 		SDKInitializer.initialize(this.getApplicationContext());

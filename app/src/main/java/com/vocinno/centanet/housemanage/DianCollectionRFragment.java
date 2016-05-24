@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyCollectionFragment extends HouseListBaseFragment implements HttpInterface {
+public class DianCollectionRFragment extends HouseListBaseFragment implements HttpInterface {
     private List<HouseItem> listHouses;
     private boolean firstLoading=true;
     @Override
@@ -29,10 +29,10 @@ public class MyCollectionFragment extends HouseListBaseFragment implements HttpI
         return R.layout.activity_near_sell;
     }
 
-    public MyCollectionFragment(  int position) {
+    public DianCollectionRFragment(int position) {
         this.viewPosition=position;
     }
-    public MyCollectionFragment() {
+    public DianCollectionRFragment() {
 
     }
     @Override
@@ -83,7 +83,8 @@ public class MyCollectionFragment extends HouseListBaseFragment implements HttpI
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();
         map.put(NetWorkMethod.type,type+"");
-        map.put(NetWorkMethod.listType,NetWorkMethod.MY_HOUFAVOR);
+        map.put(NetWorkMethod.listType,NetWorkMethod.GROUP_HOUFAVOR);
+        map.put(NetWorkMethod.delType,NetWorkMethod.r);
         map.put(NetWorkMethod.price,price);
         map.put(NetWorkMethod.square,square);
         map.put(NetWorkMethod.frame,frame);

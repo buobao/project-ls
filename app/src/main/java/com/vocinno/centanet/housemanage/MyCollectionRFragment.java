@@ -11,6 +11,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DianCollectionFragment extends HouseListBaseFragment implements HttpInterface {
+public class MyCollectionRFragment extends HouseListBaseFragment implements HttpInterface {
     private List<HouseItem> listHouses;
     private boolean firstLoading=true;
     @Override
@@ -28,10 +29,10 @@ public class DianCollectionFragment extends HouseListBaseFragment implements Htt
         return R.layout.activity_near_sell;
     }
 
-    public DianCollectionFragment(  int position) {
+    public MyCollectionRFragment(int position) {
         this.viewPosition=position;
     }
-    public DianCollectionFragment() {
+    public MyCollectionRFragment() {
 
     }
     @Override
@@ -82,7 +83,8 @@ public class DianCollectionFragment extends HouseListBaseFragment implements Htt
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();
         map.put(NetWorkMethod.type,type+"");
-        map.put(NetWorkMethod.listType,NetWorkMethod.GROUP_HOUFAVOR);
+        map.put(NetWorkMethod.listType,NetWorkMethod.MY_HOUFAVOR);
+        map.put(NetWorkMethod.delType,NetWorkMethod.r);
         map.put(NetWorkMethod.price,price);
         map.put(NetWorkMethod.square,square);
         map.put(NetWorkMethod.frame,frame);
@@ -114,6 +116,8 @@ public class DianCollectionFragment extends HouseListBaseFragment implements Htt
                         dataType = 1;
                     }
                     setListData(dataType, jsReturn.getListDatas());
+                }else{
+                    MyToast.showToast(jsReturn.getMsg());
                 }
             }
         });

@@ -474,7 +474,7 @@
         </activity>
         <activity android:name=".customermanage.PotentialCustomerDetailActivity">
         </activity>
-        <activity android:name=".housemanage.MyCollectionFragment">
+        <activity android:name=".housemanage.MyCollectionRFragment">
         </activity>
     </application>
 

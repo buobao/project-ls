@@ -130,7 +130,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     /*MethodsDeliverData.flag = 1;
                     MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
                     MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
-                    startIntentToHouseManager(2,1);
+                    startIntentToHouseManager(2, 1);
                     break;
                 //抢公客
                 case R.id.rlyt_grab_customer_main_page_slid_menus:
@@ -155,10 +155,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     break;
                 //退出app
                 case R.id.ry_exit:
-                    intent.setClass(this, UserLoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra(MyConstant.isExit, true);
-                    startActivity(intent);
+                    MyUtils.showDialog(intent,this, UserLoginActivity.class);
                     break;
         }
 

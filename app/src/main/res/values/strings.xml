@@ -171,6 +171,7 @@
     <string name="house_publiczu">抢公租</string>
     <string name="house_near">附近楼盘</string>
     <string name="house_image_detail">添加详情</string>
+    <string name="dialog_title">提示</string>
     <!-- 我的提醒 -->
     <string name="remind_zhisun">止损提醒</string>
     <string name="remind_dongtai">我的动态</string>

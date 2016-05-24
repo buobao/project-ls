@@ -723,10 +723,11 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
-                intent.setClass(this, UserLoginActivity.class);
+                /*intent.setClass(this, UserLoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(MyConstant.isExit, true);
-                startActivity(intent);
+                startActivity(intent);*/
+                MyUtils.showDialog(intent,this, UserLoginActivity.class);
                 break;
             default:
                 break;

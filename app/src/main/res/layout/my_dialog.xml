@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="提示"
+            android:layout_marginTop="8dp"
             android:textColor="#000000"
             android:textSize="15dp"
             android:visibility="visible" />
@@ -34,7 +35,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="10dp"
-            android:textColor="#ff666666"
+            android:textColor="@color/gray_slid_menu_item_bg"
             android:text="确定退出吗？"
             android:textSize="16dp" />
 
@@ -59,7 +60,7 @@
                 android:background="@drawable/dialog_btn_selector"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="#000000"
+                android:textColor="@color/dodgerblue"
                 android:textSize="15dp" />
 
             <View
@@ -75,9 +76,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/dialog_btn_selector"
                 android:gravity="center"
+                android:textColor="@color/dodgerblue"
                 android:text="确定"
-
-                android:textColor="#000000"
                 android:textSize="15dp" />
         </LinearLayout>
     </LinearLayout>

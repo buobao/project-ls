@@ -21,10 +21,10 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     public ModelDialog modelDialog;
     private DrawerLayout drawer_layout;
     private View leftMenuView;
+    public String URL;
     public Intent intent;
     public HttpInterface hif;
     public abstract int setContentLayoutId();    /*******************抽象方法***************************/
-
     public abstract void initView();
     public abstract void initData();
     public  String TAG = null;

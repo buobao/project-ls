@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
@@ -48,7 +49,10 @@ import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.TagSlidingInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
@@ -59,7 +63,9 @@ import com.vocinno.utils.MethodsJson;
 import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 房源管理
@@ -685,10 +691,11 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
-                intent.setClass(this, UserLoginActivity.class);
+                /*intent.setClass(this, UserLoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(MyConstant.isExit, true);
-                startActivity(intent);
+                startActivity(intent);*/
+                MyUtils.showDialog(intent,this, UserLoginActivity.class);
                 break;
             default:
                 break;
@@ -821,12 +828,46 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 methodsJni=new MethodsJni();
             }
             methodsJni.setMethodsJni((HttpInterface) this);
-            // 在打字期间添加搜索栏数据
+            Map<String,String>map=new HashMap<String,String>();
+            URL= NetWorkConstant.PORT_URL+ NetWorkMethod.estateName;
+            map.put(NetWorkMethod.page,1+"");
+            map.put(NetWorkMethod.pageSize,NetWorkConstant.pageSize+"");
+            map.put(NetWorkMethod.name, editString);
+            OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+                @Override
+                public void onError(Request request, Exception e) {
+                }
+
+                @Override
+                public void onResponse(String response) {
+                    JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, EstateSearchItem.class);
+                    if (jsReturn.isSuccess()) {
+                        if (jsReturn.getListDatas() != null) {
+                            if (jsReturn.getListDatas().size() > 0) {
+                                mSearchListData = jsReturn.getListDatas();
+                                SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+                                lv_house_list.setAdapter(mSearch);
+                                if (jsReturn.getListDatas().size() == 1 && isHiddenList) {
+                                    ll_house_list.setVisibility(View.GONE);
+                                    mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
+                                    isHiddenList = false;
+                                } else {
+                                    ll_house_list.setVisibility(View.VISIBLE);
+                                    mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_show);
+                                }
+                            }
+                        }
+                    } else {
+                        MethodsExtra.toast(mContext, jsReturn.getMsg());
+                    }
+                }
+            });
+            /*// 在打字期间添加搜索栏数据
             MethodsJni.callProxyFun(hif,
                     CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_searchEstateName,
                     CST_JS.getJsonStringForHouseListSearchEstateName(
-                            editString,1, 20));
+                            editString,1, 20));*/
             lv_house_list.setVisibility(View.VISIBLE);
         }
     }

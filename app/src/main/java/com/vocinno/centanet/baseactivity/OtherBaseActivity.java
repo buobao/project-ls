@@ -23,7 +23,6 @@ import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
-import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -251,10 +250,11 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
                 break;
             //我的提醒
             case R.id.ry_exit:
-                intent.setClass(this, UserLoginActivity.class);
+                /*intent.setClass(this, UserLoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(MyConstant.isExit, true);
-                startActivity(intent);
+                startActivity(intent);*/
+                MyUtils.showDialog(intent,this, UserLoginActivity.class);
                 break;
         }
     }

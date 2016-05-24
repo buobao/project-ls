@@ -51,6 +51,8 @@ public class NetWorkMethod {
     public static final String sord="sord";
     public static final String searchId="searchId";
     public static final String searchType="searchType";
+    /*****************房源搜索********************/
+    public static final String estateName="mobile/hou/estateName";
     /*****************客户详情********************/
     public static final String custInfo="mobile/cust/custInfo";
     /*****************添加客户********************/

@@ -45,6 +45,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.TagSlidingInterface;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.CustomUtils;
@@ -481,10 +482,11 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
-                intent.setClass(this, UserLoginActivity.class);
+                /*intent.setClass(this, UserLoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(MyConstant.isExit, true);
-                startActivity(intent);
+                startActivity(intent);*/
+                MyUtils.showDialog(intent, this, UserLoginActivity.class);
                 break;
             default:
                 break;

@@ -2,6 +2,11 @@ package com.vocinno.centanet.tools;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+
+import com.vocinno.centanet.apputils.dialog.MyDialog;
+import com.vocinno.centanet.tools.constant.MyConstant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -125,5 +130,28 @@ public  class MyUtils {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public static void showDialog(final Intent intent,final Context ctx,final Class clazz){
+        MyDialog.Builder builder=new MyDialog.Builder(ctx);
+        builder.setTitle("友情提示");
+        builder.setMessage("是否要退出当前账号");
+        builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                intent.setClass(ctx,clazz);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(MyConstant.isExit, true);
+                ctx.startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("点错了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

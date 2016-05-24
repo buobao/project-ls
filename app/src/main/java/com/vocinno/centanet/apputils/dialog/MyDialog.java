@@ -185,8 +185,8 @@ public class MyDialog extends Dialog {
 			}
 			dialog.setContentView(layout);
 			WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-			p.height = (int) (width* 0.6); // 高度设置为屏幕的0.6
-			p.width = (int) (width * 0.6); // 宽度设置为屏幕的0.65
+			p.height = (int) (width* 0.7); // 高度设置为屏幕的0.6
+			p.width = (int) (width * 0.7); // 宽度设置为屏幕的0.65
 			dialogWindow.setAttributes(p);
 			return dialog;
 		}

@@ -465,7 +465,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <activity
-            android:name=".housemanage.HouseManageActivity2"
+            android:name=".housemanage.HouseManageActivity"
             android:configChanges="orientation|keyboard|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">

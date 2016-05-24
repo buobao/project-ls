@@ -14,7 +14,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -25,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInstance;
@@ -34,7 +34,6 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagView;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.ScrollTagViewAdapter;
 import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollTagViewChangeListener;
-import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
@@ -44,14 +43,15 @@ import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.model.EstateSearchItem;
-import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.TagSlidingInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsData;
@@ -62,20 +62,22 @@ import com.vocinno.utils.MethodsJson;
 import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 房源管理
  *
  * @author Administrator
  */
-public class HouseManageActivity extends HouseManagerBaseActivity implements HttpInterface,GetDataInterface,TagSlidingInterface {
+public class HouseManageActivity extends HouseManagerBaseActivity implements HttpInterface,TagSlidingInterface {
     private static final String Weixin_APP_ID = "wx52560d39a9b47eae";
     private int[] mIntScreenWidthHeight = { 0, 0 };
     private final int NEAR_CHU_ZU=1;
     private final int MY_CHU_ZU=4;
     private int viewPageIndex;
-    private ViewPager vp_house_manager,vp_gong_fang_manager;
+    private ViewPager vp_house_manager/*,vp_gong_fang_manager*/;
     private MyFragmentAdapter pagerAdapter,pagerGongFangAdapter;
     private List<Fragment> fragmentList,gongFangList;
     private ScrollTagView mScrollTagView;
@@ -113,12 +115,18 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     private YueKanFragment yueKanFragment ;
     private MySellFragment mySellFragment;
     private MyRentFragment myRentFragment;
+    private MyCollectionSFragment myCollectionSFragment;
+    private MyCollectionRFragment myCollectionRFragment;
+    private DianCollectionSFragment dianCollectionSFragment;
+    private DianCollectionRFragment dianCollectionRFragment;
     private RobGongShouFragment robGongShouFragment;
     private RobGongZuFragment robGongZuFragment;
     private List<EstateSearchItem> mSearchListData;
     private boolean  isGongFang;
     private EditText et_house_dong, et_house_shi;
     private ImageButton ib_tag_jiantou;
+    private int listType =0;//0 房源列表，1收藏，2抢公房
+    private int menuType;
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -208,7 +216,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         drawer_layout=(DrawerLayout)baseView.findViewById(R.id.drawer_layout);
         leftMenuView=baseView.findViewById(R.id.left_menu_housemanager);
         drawer_layout.closeDrawer(leftMenuView);
-        setViewPager();
         addLinearLayout();
         mViewBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mViewMore = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
@@ -216,7 +223,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         mViewMore.setOnClickListener(this);
         mScrollTagView = (ScrollTagView) baseView
                 .findViewById(R.id.scrolltag_houseManage_houseManageActivity);
-        mScrollTagView.setInterface((TagSlidingInterface)this);
+        mScrollTagView.setInterface((TagSlidingInterface) this);
         mScrollTagViewAdapter = new ScrollTagViewAdapter(mContext);
         // 添加标签
         mScrollTagViewAdapter.add(" 价格 ");
@@ -235,162 +242,145 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     }
                 });
 
+        fragmentList = new ArrayList<Fragment>();
+        pagerAdapter = new MyFragmentAdapter(getSupportFragmentManager());
+        vp_house_manager = (ViewPager) baseView.findViewById(R.id.vp_house_manager);
+        intent=getIntent();
+        listType=intent.getIntExtra(MyConstant.listType, 0);
+        menuType=intent.getIntExtra(MyConstant.menuType, 0);
+        setTagHidden(menuType);
+        setViewPager(listType);
     }
-    private void setViewPager() {
 
-    }
-
-    private  void setFragmentToPager(boolean isGongFang){
-        if(isGongFang){
-            if(vp_gong_fang_manager==null){
-                gongFangList = new ArrayList<Fragment>();
-                pagerGongFangAdapter = new MyFragmentAdapter(getSupportFragmentManager());
-                vp_gong_fang_manager = (ViewPager) baseView.findViewById(R.id.vp_gong_fang_manager);
-                vp_gong_fang_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        viewPageIndex = position;
-                        gongFangOrHouseTitle(position);
-                        switch (position){
-                            case HouseListBaseFragment.ROB_GONG_SHOU:
-                                robGongShouFragment.initData();
-                            break;
-                            case HouseListBaseFragment.ROB_GONG_ZU:
-                                robGongZuFragment.initData();
-                            break;
-
-                        }
-                    }
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                    }
-                });
+    private void setTagHidden(int viewPageIndex) {
+        if(listType==0){
+            if(viewPageIndex==2){
+                ll_tag_contect.setVisibility(View.GONE);
+                mViewMore.setVisibility(View.INVISIBLE);
+            }else{
+                ll_tag_contect.setVisibility(View.VISIBLE);
+                mViewMore.setVisibility(View.VISIBLE);
             }
-            if(vp_house_manager!=null){
-                vp_house_manager.setVisibility(View.GONE);
-            }
-            vp_gong_fang_manager.setVisibility(View.VISIBLE);
-
-            if(robGongShouFragment==null){
-                robGongShouFragment = new RobGongShouFragment(viewPageIndex);
-            }
-            if(robGongZuFragment==null){
-                robGongZuFragment = new RobGongZuFragment(viewPageIndex);
-            }
-            if(gongFangList.size()<=0){
-                gongFangList.add(robGongShouFragment);
-                gongFangList.add(robGongZuFragment);
-                pagerGongFangAdapter.setFragmentList(gongFangList);
-
-                vp_gong_fang_manager.setAdapter(pagerGongFangAdapter);
-                vp_gong_fang_manager.setOffscreenPageLimit(gongFangList.size() - 1);
-            }
-//            vp_gong_fang_manager.setCurrentItem(viewPageIndex);
-        }else{
-            if(vp_house_manager==null){
-                fragmentList = new ArrayList<Fragment>();
-                pagerAdapter = new MyFragmentAdapter(getSupportFragmentManager());
-                vp_house_manager = (ViewPager) baseView.findViewById(R.id.vp_house_manager);
-                vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        viewPageIndex = position;
-                        gongFangOrHouseTitle(position);
-                        if(position==2){
-                            ll_tag_contect.setVisibility(View.GONE);
-                            mViewMore.setVisibility(View.INVISIBLE);
-                        }else{
-                            ll_tag_contect.setVisibility(View.VISIBLE);
-                            mViewMore.setVisibility(View.VISIBLE);
-                        }
-                        switch (position){
-                            case HouseListBaseFragment.NEAR_SELL:
-                                nearSellFragment.initData();
-                                break;
-                            case HouseListBaseFragment.NEAR_RENT:
-                                nearRentFragment.initData();
-                                break;
-                            case HouseListBaseFragment.YUE_KAN:
-                                yueKanFragment.initData();
-                                break;
-                            case HouseListBaseFragment.MY_SELL:
-                                mySellFragment.initData();
-                                break;
-                            case HouseListBaseFragment.MY_RENT:
-                                myRentFragment.initData();
-                                break;
-                        }
-                    }
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                    }
-                });
-            }
-            if(vp_gong_fang_manager!=null){
-                vp_gong_fang_manager.setVisibility(View.GONE);
-            }
-            vp_house_manager.setVisibility(View.VISIBLE);
-            if(nearSellFragment==null){
-                nearSellFragment = new NearSellFragment(viewPageIndex);
-            }
-            if(nearRentFragment==null){
-                nearRentFragment = new NearRentFragment(viewPageIndex);
-            }
-            if(yueKanFragment==null){
-                yueKanFragment = new YueKanFragment(viewPageIndex);
-            }
-            if(mySellFragment==null){
-                mySellFragment = new MySellFragment(viewPageIndex);
-            }
-            if(myRentFragment==null){
-                myRentFragment = new MyRentFragment(viewPageIndex);
-            }
-            if(fragmentList.size()<=0){
-                fragmentList.add(nearSellFragment);
-                fragmentList.add(nearRentFragment);
-                fragmentList.add(yueKanFragment);
-                fragmentList.add(mySellFragment);
-                fragmentList.add(myRentFragment);
-                pagerAdapter.setFragmentList(fragmentList);
-
-                vp_house_manager.setAdapter(pagerAdapter);
-                vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
-            }
-//            vp_house_manager.setCurrentItem(viewPageIndex);
         }
-        gongFangOrHouseTitle(viewPageIndex);
     }
+
+    private void setFragmentToPager(boolean p) {
+
+    }
+    private void setViewPager(int listTypeTag) {
+        switch (listTypeTag){
+            case MyConstant.houseList:
+                setFangYuanFragment();
+                break;
+            case MyConstant.myCollectionHouseList:
+                setMyCollectionFragment();
+                break;
+            case MyConstant.dianzCollectionHouseList:
+                setDianCollectionFragment();
+                break;
+            case MyConstant.robGongHouseList:
+                setQiangGongFangFragment();
+                break;
+        }
+        pagerAdapter.setFragmentList(fragmentList);
+        vp_house_manager.setAdapter(pagerAdapter);
+        vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
+        vp_house_manager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                vp_house_manager.setCurrentItem(menuType);
+            }
+        }, 200);
+        vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                menuType=position;
+                gongFangOrHouseTitle(position);
+                setTagHidden(position);
+            }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        gongFangOrHouseTitle(menuType);
+    }
+
+    private void setQiangGongFangFragment() {
+        fragmentList.clear();
+        if(robGongShouFragment==null){
+            robGongShouFragment = new RobGongShouFragment(viewPageIndex);
+        }
+        if(robGongZuFragment== null) {
+            robGongZuFragment = new RobGongZuFragment(viewPageIndex);
+        }
+        if(fragmentList.size()<=0){
+            fragmentList.add(robGongShouFragment);
+            fragmentList.add(robGongZuFragment);
+        }
+    }
+
+    private void setMyCollectionFragment() {
+        fragmentList.clear();
+        if(myCollectionSFragment ==null){
+            myCollectionSFragment = new MyCollectionSFragment(viewPageIndex);
+        }
+        if(myCollectionRFragment ==null){
+            myCollectionRFragment = new MyCollectionRFragment(viewPageIndex);
+        }
+        if(fragmentList.size()<=0){
+            fragmentList.add(myCollectionSFragment);
+            fragmentList.add(myCollectionRFragment);
+        }
+    }
+    private void setDianCollectionFragment() {
+        fragmentList.clear();
+        if(dianCollectionSFragment ==null){
+            dianCollectionSFragment = new DianCollectionSFragment(viewPageIndex);
+        }
+        if(dianCollectionRFragment ==null){
+            dianCollectionRFragment = new DianCollectionRFragment(viewPageIndex);
+        }
+        if(fragmentList.size()<=0){
+            fragmentList.add(dianCollectionSFragment);
+            fragmentList.add(dianCollectionRFragment);
+        }
+    }
+    private void setFangYuanFragment() {
+        fragmentList.clear();
+        if(nearSellFragment==null){
+            nearSellFragment = new NearSellFragment(viewPageIndex);
+        }
+        if(nearRentFragment==null){
+            nearRentFragment = new NearRentFragment(viewPageIndex);
+        }
+        if(yueKanFragment==null){
+            yueKanFragment = new YueKanFragment(viewPageIndex);
+        }
+        if(mySellFragment==null){
+            mySellFragment = new MySellFragment(viewPageIndex);
+        }
+        if(myRentFragment==null){
+            myRentFragment = new MyRentFragment(viewPageIndex);
+        }
+        if(fragmentList.size()<=0){
+            fragmentList.add(nearSellFragment);
+            fragmentList.add(nearRentFragment);
+            fragmentList.add(yueKanFragment);
+            fragmentList.add(mySellFragment);
+            fragmentList.add(myRentFragment);
+        }
+    }
+
+
     @Override
     public void initData() {
-        viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
-        if(viewPageIndex==2){
-            ll_tag_contect.setVisibility(View.GONE);
-            mViewMore.setVisibility(View.INVISIBLE);
-        }
-        addNotificationObserver();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);
-        setFragmentToPager(isGongFang);
         registerWeiXin();
     }
 
-    @Override
-    public void getListData(String type, String price, String square, String frame, String tag, String usageType, int page, int pageSize, String sidx, String sord, String searchId, String searchType) {
-        if((HouseType.YUE_KAN+"").equals(type)){
-            methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
-                    CST_JS.JS_Function_HouseResource_houLookPlanListMobile, CST_JS
-                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType));
-        }else{
-            methodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
-                    CST_JS.JS_Function_HouseResource_getList, CST_JS
-                            .getJsonStringForHouseListGetList(type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType,dongHao==null?"":dongHao,shiHao==null?"":shiHao));
-        }
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -622,7 +612,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
             //TitleBar左侧
             case R.id.img_left_mhead1:
-                onBack();
+                finish();
                 break;
             //TitleBar右侧
             case R.id.img_right_mhead1:
@@ -631,23 +621,31 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
             //附近出售
             case R.id.rlyt_sell_house_main_page_slid_menus:
-                changeViewPager(0);
+                changeViewPager(MyConstant.houseList, 0);
                 break;
             //附近出租
             case R.id.rlyt_rent_house_main_page_slid_menus:
-                changeViewPager(1);
+                changeViewPager(MyConstant.houseList, 1);
                 break;
             //约看房源
             case R.id.rlyt_see_house_main_page_slid_menus:
-                changeViewPager(2);
+                changeViewPager(MyConstant.houseList,2);
                 break;
             //我的出售
             case R.id.rlyt_my_house_main_page_slid_menus:
-                changeViewPager(3);
+                changeViewPager(MyConstant.houseList,3);
                 break;
             //我的出租
             case R.id.rlyt_my_house_main_page_slid_menus2:
-                changeViewPager(4);
+                changeViewPager(MyConstant.houseList,4);
+                break;
+            //我的收藏
+            case R.id.rl_my_collection:
+                changeViewPager(MyConstant.myCollectionHouseList,0);
+                break;
+            //店租收藏
+            case R.id.rl_dian_collection:
+                changeViewPager(MyConstant.dianzCollectionHouseList,0);
                 break;
             //钥匙管理
             case R.id.rlyt_key_house_main_page_slid_menus:
@@ -671,25 +669,11 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
             //抢公售
             case R.id.rlyt_grab_house_main_page_slid_menus:
-                if(isGongFang){
-                    vp_gong_fang_manager.setCurrentItem(0);
-                }else{
-                    viewPageIndex=0;
-                    isGongFang=true;
-                    setFragmentToPager(true);
-                }
-                drawer_layout.closeDrawer(leftMenuView);
+                changeViewPager(MyConstant.robGongHouseList,0);
                 break;
             //抢公租
             case R.id.rlyt_grab_house_main_page_slid_menus2:
-                if(isGongFang){
-                    vp_gong_fang_manager.setCurrentItem(1);
-                }else{
-                    viewPageIndex=1;
-                    isGongFang=true;
-                    setFragmentToPager(true);
-                }
-                drawer_layout.closeDrawer(leftMenuView);
+                changeViewPager(MyConstant.robGongHouseList,1);
                 break;
             //抢公客
             case R.id.rlyt_grab_customer_main_page_slid_menus:
@@ -733,63 +717,136 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
         }
     }
-    private void changeViewPager(int index) {
-        if(isGongFang){
-            isGongFang=false;
-            viewPageIndex=index;
-            setFragmentToPager(false);
-        }else{
-            vp_house_manager.setCurrentItem(index);
-        }
+    private void changeViewPager(int type,int index) {
         drawer_layout.closeDrawer(leftMenuView);
+        if(listType==type){
+            if(menuType!=index){
+                vp_house_manager.setCurrentItem(index);
+            }
+        }else{
+            listType=type;
+            menuType=index;
+            setViewPager(type);
+        }
     }
 
     private void searchByOrder(String param,String order) {
-        switch (viewPageIndex){
-            case 0:
-                nearSellFragment.searchByOrderForList(param,order);
-                nearSellFragment.getData(1, false,false);
-                break;
-            case 1:
-                nearRentFragment.searchByOrderForList(param, order);
-                nearRentFragment.getData(1, false,true);
-                break;
-            case 2:
-                yueKanFragment.searchByOrderForList(param, order);
-                yueKanFragment.getData(1, false,true);
-                break;
-            case 3:
-                mySellFragment.searchByOrderForList(param, order);
-                mySellFragment.getData(1, false,true);
-                break;
-            case 4:
-                myRentFragment.searchByOrderForList(param,order);
-                myRentFragment.getData(1, false,true);
-            break;
+        if(listType==MyConstant.houseList){
+            switch (menuType){
+                case 0:
+                    nearSellFragment.searchByOrderForList(param,order);
+                    nearSellFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    nearRentFragment.searchByOrderForList(param, order);
+                    nearRentFragment.getData(1, false,true);
+                    break;
+                case 2:
+                    yueKanFragment.searchByOrderForList(param, order);
+                    yueKanFragment.getData(1, false,true);
+                    break;
+                case 3:
+                    mySellFragment.searchByOrderForList(param, order);
+                    mySellFragment.getData(1, false,true);
+                    break;
+                case 4:
+                    myRentFragment.searchByOrderForList(param,order);
+                    myRentFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.myCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    myCollectionSFragment.searchByOrderForList(param, order);
+                    myCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    myCollectionRFragment.searchByOrderForList(param, order);
+                    myCollectionRFragment.getData(1, false, true);
+                    break;
+            }
+        }else if(listType==MyConstant.robGongHouseList){
+            switch (menuType){
+                case 0:
+                    robGongShouFragment.searchByOrderForList(param,order);
+                    robGongShouFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    robGongZuFragment.searchByOrderForList(param, order);
+                    robGongZuFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    dianCollectionSFragment.searchByOrderForList(param, order);
+                    dianCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    dianCollectionRFragment.searchByOrderForList(param, order);
+                    dianCollectionRFragment.getData(1, false, true);
+                    break;
+            }
         }
+
     }
     private void searchByKeyWord(String searchId,String searchType) {
-        switch (viewPageIndex){
-            case 0:
-                nearSellFragment.searchByKeyWord(searchId, searchType);
-                nearSellFragment.getData(1, false,false);
-                break;
-            case 1:
-                nearRentFragment.searchByKeyWord(searchId, searchType);
-                nearRentFragment.getData(1, false,true);
-                break;
-            case 2:
-                yueKanFragment.searchByKeyWord(searchId, searchType);
-                yueKanFragment.getData(1, false,true);
-                break;
-            case 3:
-                mySellFragment.searchByKeyWord(searchId, searchType);
-                mySellFragment.getData(1, false,true);
-                break;
-            case 4:
-                myRentFragment.searchByKeyWord(searchId, searchType);
-                myRentFragment.getData(1, false,true);
-                break;
+        if(listType==MyConstant.houseList){
+            switch (menuType){
+                case 0:
+                    nearSellFragment.searchByKeyWord(searchId, searchType);
+                    nearSellFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    nearRentFragment.searchByKeyWord(searchId, searchType);
+                    nearRentFragment.getData(1, false,true);
+                    break;
+                case 2:
+                    yueKanFragment.searchByKeyWord(searchId, searchType);
+                    yueKanFragment.getData(1, false,true);
+                    break;
+                case 3:
+                    mySellFragment.searchByKeyWord(searchId, searchType);
+                    mySellFragment.getData(1, false,true);
+                    break;
+                case 4:
+                    myRentFragment.searchByKeyWord(searchId, searchType);
+                    myRentFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.myCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    myCollectionSFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    myCollectionRFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionRFragment.getData(1, false, true);
+                    break;
+            }
+        }else if(listType==MyConstant.robGongHouseList){
+            switch (menuType){
+                case 0:
+                    robGongShouFragment.searchByKeyWord(searchId, searchType);
+                    robGongShouFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    robGongZuFragment.searchByKeyWord(searchId, searchType);
+                    robGongZuFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    dianCollectionSFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    dianCollectionRFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionRFragment.getData(1, false, true);
+                    break;
+            }
         }
 
     }
@@ -816,54 +873,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
 
     @Override
     public void netWorkResult(String name, String className, Object data) {
-//        methodsJni.setMethodsJni(null);
-        if(isGongFang){
-            if(vp_gong_fang_manager.getCurrentItem()!=viewPageIndex){
-                vp_gong_fang_manager.setCurrentItem(viewPageIndex);
-            }
-        }else{
-            if(vp_house_manager.getCurrentItem()!=viewPageIndex){
-                vp_house_manager.setCurrentItem(viewPageIndex);
-            }
-        }
-
         dismissDialog();
         if(name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT)
                 || name.equals(CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT)||name.equals(CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT)){
-            JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,HouseList.class);
-            int type = Integer.parseInt(jsReturn.getParams().getType());
-            if (jsReturn.isSuccess()) {
-                int dataType=jsReturn.getParams().getIsAppend()?1:0;
-                switch (type){
-                    case HouseType.CHU_SHOU:
-                        nearSellFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.CHU_ZU:
-                        nearRentFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case 0:
-                        yueKanFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.YUE_KAN:
-                        yueKanFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.WO_DE:
-                        mySellFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.WO_DEZU2:
-                        myRentFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.GONG_FANG:
-                        robGongShouFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                    case HouseType.GONG_FANGZU:
-                        robGongZuFragment.setListData(dataType,jsReturn.getListDatas());
-                    break;
-                }
-            }else {
-                MethodsExtra.toast(mContext,jsReturn.getMsg());
-            }
-        }else if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
+             if (name.equals(CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT)) {
             JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
                     EstateSearchItem.class);
             if(jsReturn.isSuccess()){
@@ -890,7 +903,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             }
 
         }
-    }
+    }}
     MethodsJni methodsJni;
     private void searchHouse(String editString) {
         lv_house_list.setVisibility(View.INVISIBLE);
@@ -902,12 +915,46 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 methodsJni=new MethodsJni();
             }
             methodsJni.setMethodsJni((HttpInterface) this);
-            // 在打字期间添加搜索栏数据
-            MethodsJni.callProxyFun(
+            Map<String,String>map=new HashMap<String,String>();
+            URL= NetWorkConstant.PORT_URL+ NetWorkMethod.estateName;
+            map.put(NetWorkMethod.page,1+"");
+            map.put(NetWorkMethod.pageSize,NetWorkConstant.pageSize+"");
+            map.put(NetWorkMethod.name, editString);
+            OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+                @Override
+                public void onError(Request request, Exception e) {
+                }
+
+                @Override
+                public void onResponse(String response) {
+                    JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, EstateSearchItem.class);
+                    if (jsReturn.isSuccess()) {
+                        if (jsReturn.getListDatas() != null) {
+                            if (jsReturn.getListDatas().size() > 0) {
+                                mSearchListData = jsReturn.getListDatas();
+                                SearchAdapter mSearch = new SearchAdapter(mContext, mSearchListData);
+                                lv_house_list.setAdapter(mSearch);
+                                if (jsReturn.getListDatas().size() == 1 && isHiddenList) {
+                                    ll_house_list.setVisibility(View.GONE);
+                                    mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
+                                    isHiddenList = false;
+                                } else {
+                                    ll_house_list.setVisibility(View.VISIBLE);
+                                    mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_show);
+                                }
+                            }
+                        }
+                    } else {
+                        MethodsExtra.toast(mContext, jsReturn.getMsg());
+                    }
+                }
+            });
+            /*// 在打字期间添加搜索栏数据
+            MethodsJni.callProxyFun(hif,
                     CST_JS.JS_ProxyName_HouseResource,
                     CST_JS.JS_Function_HouseResource_searchEstateName,
                     CST_JS.getJsonStringForHouseListSearchEstateName(
-                            editString,1, 20));
+                            editString,1, 20));*/
             lv_house_list.setVisibility(View.VISIBLE);
         }
     }
@@ -1035,40 +1082,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             lv_house_list.setVisibility(View.VISIBLE);
         }
         mSearchDialog.show();
-    }
-
-
-    private void addNotificationObserver() {
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT, TAG);
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_SEARCH_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_HOU_LIST_CLICK_MAP_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_CUSTOMER_YUE_RESULT, TAG);
-
-        MethodsJni.removeAllNotifications(TAG);
     }
 
     private void showTagSortDialog(int tagIndex) {
@@ -1310,22 +1323,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
 
     }
 
-
-
-    public void onBack() {
-
-        finish();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     private void registerWeiXin() {
         // 通过WXAPIFactory工厂获取实例
         AppInstance.mWXAPI = WXAPIFactory.createWXAPI(mContext, Weixin_APP_ID,
@@ -1354,16 +1351,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         }
     }
     private void gongFangOrHouseTitle(int position){
-        if(isGongFang){
-            switch (position) {
-                case 0:
-                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_publicshou, null);
-                    break;
-                case 1:
-                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_publiczu, null);
-                    break;
-            }
-        }else{
+        if(listType==MyConstant.houseList){
             switch (position) {
                 case 0:
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_chushou, null);
@@ -1379,6 +1367,33 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     break;
                 case 4:
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my2, null);
+                    break;
+            }
+        }else if(listType==MyConstant.myCollectionHouseList){
+            switch (position) {
+                case 0:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my_collection_s, null);
+                    break;
+                case 1:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_my_collection_r, null);
+                    break;
+            }
+        }else if(listType==MyConstant.robGongHouseList){
+            switch (position) {
+                case 0:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_publicshou, null);
+                    break;
+                case 1:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_publiczu, null);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (position) {
+                case 0:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_dian_collection_s, null);
+                    break;
+                case 1:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_dian_collection_r, null);
                     break;
             }
         }

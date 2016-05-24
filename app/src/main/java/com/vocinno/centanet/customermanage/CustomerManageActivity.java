@@ -210,7 +210,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		}else{
 			showDialog();
 		}
-		String strReq;
+		String strReq;	//请求网络返回的数据
 //		if("S".equalsIgnoreCase(sOrZ)){
 		if(HouseItem.SHOU.equals(delegationType)){
 			  strReq = CST_JS.getJsonStringForCustomerList(

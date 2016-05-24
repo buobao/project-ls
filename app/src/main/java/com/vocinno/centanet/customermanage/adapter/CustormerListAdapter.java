@@ -18,6 +18,9 @@ import com.vocinno.utils.MethodsDeliverData;
 
 import java.util.List;
 
+/**
+ * 	我的客源  条目适配器
+ */
 public class CustormerListAdapter extends BaseAdapter {
 
 	private CustomerManageActivity mContext;
@@ -96,7 +99,7 @@ public class CustormerListAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		final CustomerItem item = mListCustomers.get(position);
+		final CustomerItem item = mListCustomers.get(position);		//从集合取对应position的值
 		// 客源编号
 		holder.mTvCustormerId.setText(item.getCustCode());
 		// 姓名
@@ -120,7 +123,11 @@ public class CustormerListAdapter extends BaseAdapter {
 			}
 //		}
 		// 区域
-		holder.mTvDemandDetail.setText(item.getArea() );
+		if(item.getArea().equals("0")){
+			holder.mTvDemandDetail.setText("所有");
+		}else{
+			holder.mTvDemandDetail.setText(item.getArea());
+		}
 		// 户型+面积+价格
 		String fangXing=item.getFromToRoom();
 		String acreage=item.getAcreage();

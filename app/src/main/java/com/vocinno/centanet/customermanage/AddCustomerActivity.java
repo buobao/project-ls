@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
@@ -103,7 +101,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
     private Button bt_source_addCustomer, bt_level_addCustomer, bt_fangxing_addCustomer;
     private TextView tv_source_addCustomer, tv_level_addCustomer, tv_fangxing_addCust, tv_start_title, tv_end_title;
     private ScrollViewCanStop scrollView;
-
+    private int wheelViewHeight;
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_add_custormer;
@@ -127,10 +125,15 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
         mEtOtherInfo = (EditText) findViewById(R.id.et_otherInfo_addCustomerActivity);
 //		mRyltConnectionBanner = (RelativeLayout) findViewById(R.id.rlyt_connectionBanner_addCustomerActivity);
         mRyltTypeBanner = (RelativeLayout) findViewById(R.id.rlyt_typeBanner_addCustomerActivity);
+        mRyltTypeBanner.setOnTouchListener(this);
         mRyltPlaceBanner = (RelativeLayout) findViewById(R.id.rlyt_placeBanner_addCustomerActivity);
+        mRyltPlaceBanner.setOnTouchListener(this);
         mRyltPianquBanner = (RelativeLayout) findViewById(R.id.rlyt_pianquBanner_addCustomerActivity);
+        mRyltPianquBanner.setOnTouchListener(this);
         mRyltAreaBanner = (RelativeLayout) findViewById(R.id.rlyt_areaBanner_addCustomerActivity);
+        mRyltAreaBanner.setOnTouchListener(this);
         mRyltPriceBanner = (RelativeLayout) findViewById(R.id.rlyt_priceBanner_addCustomerActivity);
+        mRyltPriceBanner.setOnTouchListener(this);
         // 点击Relative之后需要改变的右边的img
 //		mImgConnectionRight = (ImageView) findViewById(R.id.img_connectionRight_addCustomerActivity);
         mImgTypeRight = (ImageView) findViewById(R.id.img_chooseType_addCustomerActivity);
@@ -215,9 +218,11 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 
         ll_source_addCustomer = (LinearLayout) findViewById(R.id.ll_source_addCustomer);
         ll_source_addCustomer.setOnClickListener(this);
+        ll_source_addCustomer.setOnTouchListener(this);
 
         ll_level_addCustomer = (LinearLayout) findViewById(R.id.ll_level_addCustomer);
         ll_level_addCustomer.setOnClickListener(this);
+        ll_level_addCustomer.setOnTouchListener(this);
 
         cb_source_addCustomer = (CheckBox) findViewById(R.id.cb_source_addCustomer);
         cb_source_addCustomer.setOnCheckedChangeListener(getCheckBoxChangeListener());
@@ -233,6 +238,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
         rl_fangxing_addCust = (RelativeLayout) findViewById(R.id.rl_fangxing_addCust);
         il_fangxing_addCust = (RelativeLayout) findViewById(R.id.il_fangxing_addCust);
         rl_fangxing_addCust.setOnClickListener(this);
+        rl_fangxing_addCust.setOnTouchListener(this);
         wv_source_addCustomer = (WheelView) rl_choose_source_addCustomer.findViewById(R.id.wheelview_modelOneWheelView);
         wv_level_addCustomer = (WheelView) rl_choose_level_addCustomer.findViewById(R.id.wheelview_modelOneWheelView);
         wv_fangxing_start_addCustomer = (WheelView) il_fangxing_addCust.findViewById(R.id.wheelview_start_modelTwoWheelView);
@@ -285,7 +291,12 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
         mRyltChooseAreaContainer.setVisibility(View.GONE);
         mRyltChoosePriceContaner.setVisibility(View.GONE);
 
-
+        mWheelViewChoosePlace.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wheelViewHeight = mWheelViewChoosePlace.getHeight();
+            }
+        },100);
         setListener();
     }
 
@@ -407,20 +418,12 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
     }
 
     private void setScrollView() {
-//		scrollView.scrollTo(0,20000);
         scrollView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+//                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         }, 100);
-//		scrollView.scrollTo(0,scrollView.getChildAt(0).getHeight());
-		/*scrollView.post(new Runnable() {
-			@Override
-			public void run() {
-				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-			}
-		});*/
     }
 
     @Override
@@ -992,13 +995,24 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_UP:
-                Log.i("v.getScaleX()", v.getScaleX() + "==========");
-                Log.i("v.getY()", v.getY() + "==========");
-                Log.i("v.getScrollY()", v.getScrollY() + "==========");
-                Log.i("v.getPivotY()", v.getPivotY() + "==========");
+        if (event.getAction()==MotionEvent.ACTION_UP) {
+        final int y= (int)event.getRawY();
+        int totalHeight=y+MyUtils.dip2px(this,230);
+        int phoneHeight = MyUtils.getHeight(this);
+        if(totalHeight>=phoneHeight){
+            scrollView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.smoothScrollTo(0, y/2);
+                }
+            },100);
+        }
+            /*switch (event.getAction()) {
+                case R.id.ll_source_addCustomer:
                 break;
+                case R.id.rlyt_areaBanner_addCustomerActivity:
+                break;
+            }*/
         }
         return false;
     }

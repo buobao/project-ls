@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.WindowManager;
 
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -153,5 +154,14 @@ public  class MyUtils {
             }
         });
         builder.create().show();
+    }
+
+    public static int getHeight(Context context){
+        WindowManager wm = ((Activity)context).getWindowManager();
+        return wm.getDefaultDisplay().getHeight();
+    }
+    public static int getWidth(Context context){
+        WindowManager wm = ((Activity)context).getWindowManager();
+        return wm.getDefaultDisplay().getWidth();
     }
 }

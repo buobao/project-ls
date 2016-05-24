@@ -94,4 +94,7 @@
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowNoTitle">true</item>
     </style>
+    <style name="slidmenu_style">
+        <item name="android:background">@drawable/selector_bg_slidmenu</item>
+    </style>
 </resources>

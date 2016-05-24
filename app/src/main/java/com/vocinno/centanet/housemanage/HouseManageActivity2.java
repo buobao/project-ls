@@ -14,7 +14,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -596,7 +595,7 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
                 break;
             //TitleBar左侧
             case R.id.img_left_mhead1:
-                onBack();
+                finish();
                 break;
             //TitleBar右侧
             case R.id.img_right_mhead1:
@@ -715,51 +714,100 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
     }
 
     private void searchByOrder(String param,String order) {
-        switch (viewPageIndex){
-            case 0:
-                nearSellFragment.searchByOrderForList(param,order);
-                nearSellFragment.getData(1, false,true);
-                break;
-            case 1:
-                nearRentFragment.searchByOrderForList(param, order);
-                nearRentFragment.getData(1, false,true);
-                break;
-            case 2:
-                yueKanFragment.searchByOrderForList(param, order);
-                yueKanFragment.getData(1, false,true);
-                break;
-            case 3:
-                mySellFragment.searchByOrderForList(param, order);
-                mySellFragment.getData(1, false,true);
-                break;
-            case 4:
-                myRentFragment.searchByOrderForList(param,order);
-                myRentFragment.getData(1, false,true);
-            break;
+        if(listType==0){
+            switch (menuType){
+                case 0:
+                    nearSellFragment.searchByOrderForList(param,order);
+                    nearSellFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    nearRentFragment.searchByOrderForList(param, order);
+                    nearRentFragment.getData(1, false,true);
+                    break;
+                case 2:
+                    yueKanFragment.searchByOrderForList(param, order);
+                    yueKanFragment.getData(1, false,true);
+                    break;
+                case 3:
+                    mySellFragment.searchByOrderForList(param, order);
+                    mySellFragment.getData(1, false,true);
+                    break;
+                case 4:
+                    myRentFragment.searchByOrderForList(param,order);
+                    myRentFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==1){
+            switch (menuType){
+                case 0:
+                    myCollectionFragment.searchByOrderForList(param,order);
+                    myCollectionFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    dianCollectionFragment.searchByOrderForList(param, order);
+                    dianCollectionFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==2){
+            switch (menuType){
+                case 0:
+                    robGongShouFragment.searchByOrderForList(param,order);
+                    robGongShouFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    robGongZuFragment.searchByOrderForList(param, order);
+                    robGongZuFragment.getData(1, false,true);
+                    break;
+            }
         }
+
     }
     private void searchByKeyWord(String searchId,String searchType) {
-        switch (viewPageIndex){
-            case 0:
-                nearSellFragment.searchByKeyWord(searchId, searchType);
-                nearSellFragment.getData(1, false,true);
-                break;
-            case 1:
-                nearRentFragment.searchByKeyWord(searchId, searchType);
-                nearRentFragment.getData(1, false,true);
-                break;
-            case 2:
-                yueKanFragment.searchByKeyWord(searchId, searchType);
-                yueKanFragment.getData(1, false,true);
-                break;
-            case 3:
-                mySellFragment.searchByKeyWord(searchId, searchType);
-                mySellFragment.getData(1, false,true);
-                break;
-            case 4:
-                myRentFragment.searchByKeyWord(searchId, searchType);
-                myRentFragment.getData(1, false,true);
-                break;
+        if(listType==0){
+            switch (menuType){
+                case 0:
+                    nearSellFragment.searchByKeyWord(searchId, searchType);
+                    nearSellFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    nearRentFragment.searchByKeyWord(searchId, searchType);
+                    nearRentFragment.getData(1, false,true);
+                    break;
+                case 2:
+                    yueKanFragment.searchByKeyWord(searchId, searchType);
+                    yueKanFragment.getData(1, false,true);
+                    break;
+                case 3:
+                    mySellFragment.searchByKeyWord(searchId, searchType);
+                    mySellFragment.getData(1, false,true);
+                    break;
+                case 4:
+                    myRentFragment.searchByKeyWord(searchId, searchType);
+                    myRentFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==1){
+            switch (menuType){
+                case 0:
+                    myCollectionFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    dianCollectionFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==2){
+            switch (menuType){
+                case 0:
+                    robGongShouFragment.searchByKeyWord(searchId, searchType);
+                    robGongShouFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    robGongZuFragment.searchByKeyWord(searchId, searchType);
+                    robGongZuFragment.getData(1, false,true);
+                    break;
+            }
         }
 
     }
@@ -1234,22 +1282,6 @@ public class HouseManageActivity2 extends HouseManagerBaseActivity implements Ht
         }
 //		mTagSortDialog.show();
 
-    }
-
-
-
-    public void onBack() {
-
-        finish();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     private void registerWeiXin() {

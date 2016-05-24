@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
+import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.model.KeyHouseItem;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.utils.MethodsDeliverData;
@@ -245,7 +245,7 @@ public class KeyHouseListAdapter extends BaseAdapter {
 //				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 				Intent intent=new Intent(mContext, HouseDetailActivity.class);
 				intent.putExtra(MyUtils.INTO_FROM_LIST,true);
-				((HouseManageActivity) mContext).startActivityForResult(intent, 10);
+				((KeyHouseManageActivity) mContext).startActivityForResult(intent, 10);
 			}
 		});
 		return convertView;

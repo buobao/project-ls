@@ -70,8 +70,7 @@ public class AddDemandActivity extends OtherBaseActivity {
     public void initView() {
         intent=getIntent();
         custCode = intent.getStringExtra("custCode");
-        MethodsExtra.findHeadTitle1(mContext, baseView,
-                R.string.my_potential_customer, null);
+        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_demand, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mBack.setOnClickListener(this);
         mSubmitView = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);

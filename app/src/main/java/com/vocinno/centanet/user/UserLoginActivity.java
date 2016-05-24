@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +51,8 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	public static UserLoginActivity ula;
 	private ImageView iv_splash;
 	private boolean isExit;
+	private ImageView mDelete;
+
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -95,9 +100,30 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		mEtUserAccount = (EditText) findViewById(R.id.et_userAccount_UserLoginActivity);
 		mEtUserpassword = (EditText) findViewById(R.id.et_userPassword_UserLoginActivity);
 		mBtnLogin = (Button) findViewById(R.id.btn_userLogin_UserLoginActivity);
+		mDelete = (ImageView)findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
+
 
 		mEtUserAccount.setText(SharedPreferencesUtils.getUsername(this));
+		mEtUserAccount.setSelection(mEtUserAccount.getText().length());
 		mEtUserpassword.setText(SharedPreferencesUtils.getUserpassword(this));
+		clearUserInfo();
+
+	}
+	/**************************用户名不为空时,点击按钮清除用户信息****************************/
+	private void clearUserInfo() {
+		if(!TextUtils.isEmpty(mEtUserAccount.getText())){   //不为空就点击删除
+			mDelete.setVisibility(View.VISIBLE);
+			mDelete.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mEtUserpassword.setText("");
+					mEtUserAccount.setText("");
+					mEtUserAccount.requestFocus();//用户名获得焦点
+				}
+			});
+		}else{
+			mDelete.setVisibility(View.INVISIBLE); 			//为空就隐藏删除按钮
+		}
 	}
 
 	/***
@@ -105,6 +131,23 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	 */
 	@Override
 	public void setListener() {
+		mEtUserAccount.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				clearUserInfo();
+			}
+		});
+
+
 		mBtnLogin.setOnClickListener(new NoDoubleClickListener() {
 			@Override
 			public void onNoDoubleClick(View v) {

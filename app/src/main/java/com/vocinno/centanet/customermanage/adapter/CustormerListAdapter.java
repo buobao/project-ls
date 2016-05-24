@@ -124,7 +124,7 @@ public class CustormerListAdapter extends BaseAdapter {
 //		}
 		// 区域
 		if(item.getArea().equals("0")){
-			holder.mTvDemandDetail.setText("所有");
+			holder.mTvDemandDetail.setText("全部");
 		}else{
 			holder.mTvDemandDetail.setText(item.getArea());
 		}

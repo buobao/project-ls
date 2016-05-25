@@ -855,22 +855,51 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
 
     }
     private void searchByTag(int tagIndex,String param) {
-        switch (viewPageIndex){
-            case 0:
-                nearSellFragment.searchForList(tagIndex, param);
-            break;
-            case 1:
-                nearRentFragment.searchForList(tagIndex, param);
-                break;
-            case 2:
-                yueKanFragment.searchForList(tagIndex, param);
-            break;
-            case 3:
-                mySellFragment.searchForList(tagIndex, param);
-            break;
-            case 4:
-                myRentFragment.searchForList(tagIndex, param);
-                break;
+        if(listType==MyConstant.houseList){
+            switch (menuType){
+                case 0:
+                    nearSellFragment.searchForList(tagIndex, param);
+                    break;
+                case 1:
+                    nearRentFragment.searchForList(tagIndex, param);
+                    break;
+                case 2:
+                    yueKanFragment.searchForList(tagIndex, param);
+                    break;
+                case 3:
+                    mySellFragment.searchForList(tagIndex, param);
+                    break;
+                case 4:
+                    myRentFragment.searchForList(tagIndex, param);
+                    break;
+            }
+        }else if(listType==MyConstant.myCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    myCollectionSFragment.searchForList(tagIndex, param);
+                    break;
+                case 1:
+                    myCollectionRFragment.searchForList(tagIndex, param);
+                    break;
+            }
+        }else if (listType == MyConstant.robGongHouseList){
+            switch (menuType){
+                case 0:
+                    robGongShouFragment.searchForList(tagIndex, param);
+                    break;
+                case 1:
+                    robGongZuFragment.searchForList(tagIndex, param);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    dianCollectionSFragment.searchForList(tagIndex, param);
+                    break;
+                case 1:
+                    dianCollectionRFragment.searchForList(tagIndex, param);
+                    break;
+            }
         }
     }
 

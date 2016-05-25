@@ -53,8 +53,8 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public String frame="不限-不限-不限-不限";
     public String tag="";
     public String usageType="";
-    public String sidx="";
-    public String sord="";
+    public String sidx="";          //排序字段
+    public String sord="";          //排序顺序
     public String searchId="";
     public String searchType="";
     /*************************************************/
@@ -198,6 +198,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
             }
         }
     }
+    /**************************设置排序字段和排序顺序****************************/
     public void searchByOrderForList(String param,String order){
         sidx = param;
         sord = order;

@@ -654,7 +654,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 //				addWXNumber();
 //				break;
             case R.id.btn_submit_modelOneWheelView:
-                if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {    //设置区域数据
+                if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {    //设置区域
                     mWheelViewChoosePianqu.setData(new ArrayList<String>());
                     listStr.clear();
                     if (mWheelViewChoosePlace.getSelected() == 0 ) {
@@ -680,9 +680,8 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                             .getSelectedText());
                     closePlaceContainer();
 
-                } else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {    //设置片区数据
-                    mTvCustormerPianqu.setText(mWheelViewChoosePianqu
-                            .getSelectedText());
+                } else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {    //设置片区
+                    mTvCustormerPianqu.setText(mWheelViewChoosePianqu.getSelectedText());
                     closePianquContainer();
                 }
                 checkIsFinish();

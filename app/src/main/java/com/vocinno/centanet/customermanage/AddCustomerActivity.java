@@ -602,15 +602,12 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
             case R.id.rlyt_pianquBanner_addCustomerActivity:
                 setScrollView();
                 setLoseFocus();
-                if (mRyltChoosePianquContainer.getVisibility() == View.GONE
-                        && mWheelViewChoosePianqu.getListSize() >= 1) {
+                if (mRyltChoosePianquContainer.getVisibility() == View.GONE){            //WheelView关闭则打开
                     mRyltChoosePianquContainer.setVisibility(View.VISIBLE);
                     mImgPianquRight
                             .setBackgroundResource(R.drawable.h_manage_icon_up);
                     checkOpenOrClose(mRyltChoosePianquContainer.getId());
-                } else if (mRyltChoosePianquContainer.getVisibility() == View.GONE) {
-                    MethodsExtra.toast(mContext, "所选区域无对应片区!");
-                } else {
+                }  else {                                                                //WheelView打开则关闭
                     closePianquContainer();
                 }
                 MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
@@ -654,35 +651,30 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 //				addWXNumber();
 //				break;
             case R.id.btn_submit_modelOneWheelView:
-                if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {    //设置区域数据
+                if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {    //设置区域
                     mWheelViewChoosePianqu.setData(new ArrayList<String>());
                     listStr.clear();
                     if (mWheelViewChoosePlace.getSelected() == 0 ) {
-                        // 选择所有   默认片区为所有
+                        // 选择所有   默认片区为全部
                         listStr.add("全部");
                         mWheelViewChoosePianqu.resetData(listStr,CustomUtils.getWindowWidth(AddCustomerActivity.this));
                         mWheelViewChoosePianqu.setSelectItem(0);
                         mTvCustormerPianqu.setText("全部");
-                    } else if(mWheelViewChoosePlace.getSelectedText().equals("虹口区")) {
-                        // 选择虹口区  默认片区为所有
-                        String strCode = CST_Wheel_Data.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
-                        getPianQu(strCode);
-                        listStr.add(0,"全部");
-                        mWheelViewChoosePianqu.resetData(listStr, CustomUtils.getWindowWidth(AddCustomerActivity.this));
-                        mTvCustormerPianqu.setText("全部");
                     }else{
-                        // 选择其他区域 默认片区为空
+                        // 选择其他区域 默认片区为全部
                         String strCode = CST_Wheel_Data.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
                         getPianQu(strCode); //获得片区数据
-                        mTvCustormerPianqu.setText("");
+                        listStr.add(0,"全部");
+                        mWheelViewChoosePianqu.resetData(listStr, CustomUtils.getWindowWidth(AddCustomerActivity.this));
+                        mWheelViewChoosePianqu.setSelectItem(0);
+                        mTvCustormerPianqu.setText("全部");
                     }
                     mTvCustormerPlace.setText(mWheelViewChoosePlace
                             .getSelectedText());
                     closePlaceContainer();
 
-                } else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {    //设置片区数据
-                    mTvCustormerPianqu.setText(mWheelViewChoosePianqu
-                            .getSelectedText());
+                } else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {    //设置片区
+                    mTvCustormerPianqu.setText(mWheelViewChoosePianqu.getSelectedText());
                     closePianquContainer();
                 }
                 checkIsFinish();

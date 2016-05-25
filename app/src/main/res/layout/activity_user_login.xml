@@ -48,8 +48,8 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:orientation="vertical"
-                android:paddingLeft="13.5dp"
-                android:paddingRight="13.5dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:paddingTop="8dp">
 
                 <LinearLayout
@@ -89,14 +89,15 @@
                             android:imeOptions="actionNext"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/gray_text_login_input"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
                             android:textColorHint="@color/gray_text_login_input"
                             android:textSize="14sp" />
 
                         <ImageView
                             android:visibility="visible"
                             android:id="@+id/iv_delete_userAccount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="15dp"
                             android:layout_marginRight="10dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
@@ -141,7 +142,8 @@
                             android:inputType="textPassword"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColor="@color/gray_text_login_input"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
                             android:textColorHint="@color/gray_text_login_input"
                             android:textSize="14sp" />
 
@@ -162,11 +164,11 @@
                     android:layout_weight="0.15"></RelativeLayout>
 
                 <Button
+                    android:background="@drawable/bg_login_button"
                     android:id="@+id/btn_userLogin_UserLoginActivity"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.4"
-                    android:background="#444444"
                     android:text="登录"
                     android:textColor="@color/white"
                     android:textSize="15sp" />

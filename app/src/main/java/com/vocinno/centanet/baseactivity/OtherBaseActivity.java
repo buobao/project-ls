@@ -258,7 +258,6 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
                 break;
         }
     }
-
     public void showDialog(){
         if(this.modelDialog==null){
             this.modelDialog=ModelDialog.getModelDialog(this);

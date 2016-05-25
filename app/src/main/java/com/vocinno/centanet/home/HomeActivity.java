@@ -167,6 +167,8 @@ public class HomeActivity extends HomeBaseActivity {
 				intent=new Intent(mContext, HouseManageActivity.class);
 				intent.putExtra(MyUtils.ROB_GONG_FANG,true);
 				intent.putExtra("viewPageIndex",0);
+				intent.putExtra(MyConstant.listType,MyConstant.robGongHouseList);
+				intent.putExtra(MyConstant.menuType,0);
 				//viewPageIndex =getIntent().getIntExtra("viewPageIndex", 0);
 				//isGongFang=getIntent().getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
 				startActivity(intent);

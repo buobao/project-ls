@@ -148,7 +148,7 @@ public class HomeActivity extends HomeBaseActivity {
 				intent.setClass(mContext, HouseManageActivity.class);
 				intent.putExtra(MyUtils.ROB_GONG_FANG, false);
 				intent.putExtra("viewPageIndex", 0);
-				intent.putExtra(MyConstant.listType, 0);
+				intent.putExtra(MyConstant.listType,MyConstant.houseList);
 				intent.putExtra(MyConstant.menuType, 0);
 				startActivity(intent);
 

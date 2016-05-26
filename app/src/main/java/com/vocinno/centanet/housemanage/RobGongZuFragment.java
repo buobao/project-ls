@@ -52,6 +52,7 @@ public class RobGongZuFragment extends HouseListBaseFragment implements HttpInte
         if(firstLoading){
             keyHouseListAdapter = new KeyHouseListAdapter(mContext, HouseType.CHU_SHOU);
             keyHouseListAdapter.setDataList(null);
+            keyHouseListAdapter.setGongFang(true);
             XHouseListView.setAdapter(keyHouseListAdapter);
             type = HouseType.CHU_SHOU;
             getData(1, false, true);

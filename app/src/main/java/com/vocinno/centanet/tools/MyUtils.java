@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.tools.constant.MyConstant;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -135,8 +137,8 @@ public  class MyUtils {
 
     public static void showDialog(final Intent intent,final Context ctx,final Class clazz){
         MyDialog.Builder builder=new MyDialog.Builder(ctx);
-        builder.setTitle("友情提示");
-        builder.setMessage("是否要退出当前账号");
+        builder.setTitle("提示");
+        builder.setMessage("确认退出该账户吗?");
         builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -147,7 +149,7 @@ public  class MyUtils {
                 ctx.startActivity(intent);
             }
         });
-        builder.setNegativeButton("点错了", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -164,4 +166,23 @@ public  class MyUtils {
         WindowManager wm = ((Activity)context).getWindowManager();
         return wm.getDefaultDisplay().getWidth();
     }
+    public static double division(double d1,
+                             double d2,int len) {// 进行除法运算
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.divide(b2, len, BigDecimal.
+                ROUND_HALF_UP).doubleValue();
+    }
+    public static double division(String d1,String d2,int len) {// 进行除法运算
+        double dl1=Double.parseDouble(d1);
+        double dl2=Double.parseDouble(d2);
+        return division(dl1, dl2, 2);
+    }
+    public static double division(String d1,String d2) {// 进行除法运算
+        return division(d1,d2,2);
+    }
+    public static void LogI(String d1,String d2) {
+        Log.i("log-key["+d1,"]########["+d2+"]");
+    }
+
 }

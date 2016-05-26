@@ -214,7 +214,7 @@ public class HouseListAdapter extends BaseAdapter {
 		} else {
 			holder.mTvTag1.setVisibility(View.INVISIBLE);
 		}*/
-		if (item.getImg() != null || item.getImg().size() != 0) {
+		if (item.getImg() != null && item.getImg().size() != 0) {
 			/*MethodsFile.downloadAsynicImageByUrl((Activity) mContext, item
 					.getImg().get(0).getUrl(), holder.mImgViewImage);*/
 			Glide.with(mContext).load(item

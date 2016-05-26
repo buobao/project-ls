@@ -121,6 +121,7 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 
 	@Override
 	public void initData() {
+		mHouseCode=getIntent().getStringExtra(MyConstant.houseCode);
 		methodsJni=new MethodsJni();
 		methodsJni.setMethodsJni((HttpInterface)this);
 		mHouseCode = MethodsDeliverData.string;

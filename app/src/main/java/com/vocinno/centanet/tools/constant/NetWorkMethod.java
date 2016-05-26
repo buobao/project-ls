@@ -27,7 +27,7 @@ public class NetWorkMethod {
     public static final String fromToRoom="fromToRoom";//房型
     public static final String other="other";
     /*****************钥匙房源列表********************/
-    public static final String houList="mobile/hou/houList";
+    public static final String houList="mobile/hou/houList/";
     public static final String houLookPlanListMobile="mobile/hou/houLookPlanListMobile";//约看
     public static final String type="type";
     public static final String listType="listType";
@@ -63,6 +63,19 @@ public class NetWorkMethod {
     public static final String origin = "origin";//来源
     public static final String rank = "rank";//等级
     /*****************客户详情-区域获取片区********************/
-    public static final String areas="mobile/hou/areas";
     public static final String districtCode="districtCode";
+    public static final String areas="mobile/hou/areas";
+    /*****************房源详情********************/
+    public static final String houInfo="mobile/hou/houInfo";
+    public static final String delCode="delCode";
+    /*****************房源详情联系人********************/
+    public static final String contactList="mobile/hou/contactList";
+    /*****************查看室号********************/
+    public static final String doRoomview="mobile/hou/doRoomview";
+    public static final String reason="reason";
+    public static final String houseId="houseId";
+    /*****************借用钥匙********************/
+    public static final String borrow="mobile/hou/key/borrow";
+    /*****************抢公房********************/
+    public static final String claim="mobile/hou/claim";
 }

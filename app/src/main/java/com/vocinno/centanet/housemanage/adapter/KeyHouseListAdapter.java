@@ -21,6 +21,7 @@ import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.model.KeyHouseItem;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ public class KeyHouseListAdapter extends BaseAdapter {
 	private List<KeyHouseItem> mListHouses;
 	private int mType = HouseType.NONE;
 	public static Map<Integer,String[]> tagMap;
-	public boolean isKey;
+	public boolean isKey,isGongFang;
 	public KeyHouseListAdapter(Context mContext, int type) {
 		this.mContext = mContext;
 		this.mType = type;
@@ -45,6 +46,9 @@ public class KeyHouseListAdapter extends BaseAdapter {
 		this.mType = type;
 		tagMap=new HashMap<>();
 		this.isKey=isKey;
+	}
+	public void setGongFang(boolean isGongFang) {
+		this.isGongFang=isGongFang;
 	}
 	public void setDataList(List<KeyHouseItem> listHouses) {
 		this.mListHouses=null;
@@ -168,8 +172,7 @@ public class KeyHouseListAdapter extends BaseAdapter {
 		}
 
 		if (KeyHouseItem.ZU.equalsIgnoreCase(delegationType)) {
-			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,
-					BigDecimal.ROUND_HALF_UP) + "万/㎡");
+//			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,BigDecimal.ROUND_HALF_UP) + "万/㎡");
 			try {
 				bPrice = new BigDecimal(item.getPrice());
 			} catch (Exception e) {
@@ -179,16 +182,15 @@ public class KeyHouseListAdapter extends BaseAdapter {
 					.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
 			holder.mTvUnit.setText("元");
 		} else {
-			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,
-					BigDecimal.ROUND_HALF_UP) + "万/㎡");// 单价
+//			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,BigDecimal.ROUND_HALF_UP) + "万/㎡");// 单价
+			holder.mTvUnitprice.setText(MyUtils.division(Double.parseDouble(item.getPrice())/10000+"",item.getSquare())+"万/㎡");
 			try {
 				bPrice = new BigDecimal(
 						Double.parseDouble(item.getPrice()) / 10000);
 			} catch (Exception e) {
 				bPrice = new BigDecimal("0.00");
 			}
-			holder.mTvPrice.setText(bPrice
-					.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
+			holder.mTvPrice.setText(bPrice.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
 			holder.mTvUnit.setText("万");
 		}
 		holder.mTvDateTime.setText(item.getActiveTime());
@@ -251,7 +253,10 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				}
 //				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 				Intent intent=new Intent(mContext, HouseDetailActivity.class);
+				intent.putExtra(MyConstant.houseCode,item.getDelCode());
 				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
+				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
+				intent.putExtra(MyConstant.isGongFang,isGongFang);
 				if(isKey){
 					((KeyHouseManageActivity) mContext).startActivityForResult(intent, 10);
 				}else{

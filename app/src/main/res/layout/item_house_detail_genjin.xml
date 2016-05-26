@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="时间:"
+    style="@style/house_detail_content_text"
+    />
+    <TextView
+        android:id="@+id/tv_genjin_time"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        tools:text="05/05 15:34"
+        style="@style/house_detail_content_text"
+        />
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跟进人:"
+            style="@style/house_detail_content_text"
+            />
+        <TextView
+            android:id="@+id/tv_genjin_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            tools:text="张三"
+            style="@style/house_detail_content_text"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="信息:"
+            style="@style/house_detail_content_text"
+            />
+        <TextView
+            android:id="@+id/tv_genjin_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxHeight="300dp"
+            android:layout_height="wrap_content"
+            tools:text="房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？房子怎么样？房子怎么样？样？房子怎么样？"
+            style="@style/house_detail_content_text"
+            android:singleLine="false"
+            />
+    </LinearLayout>
+</LinearLayout>

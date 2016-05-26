@@ -390,11 +390,12 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode){
             case MyConstant.REFRESH:
+                refreshList();
 //                getDataFromNetwork(mType, mPageIndexs[mCurrentPageIndex]);
                 break;
             case RESULT_OK:
                 if(requestCode==10){
-                    if(data!=null){
+                    /*if(data!=null){
                         isGongFang=data.getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
                         if(isGongFang){
                             setFragmentToPager(true);
@@ -404,9 +405,58 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                         vp_house_manager.setCurrentItem(data.getIntExtra(VPI,0));
                     }else{
                         vp_house_manager.setCurrentItem(0);
-                    }
+                    }*/
                 }
                 break;
+        }
+    }
+
+    private void refreshList() {
+        if(listType==MyConstant.houseList){
+            switch (menuType){
+                case 0:
+                    nearSellFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    nearRentFragment.getData(1, false,true);
+                    break;
+                case 2:
+                    yueKanFragment.getData(1, false,true);
+                    break;
+                case 3:
+                    mySellFragment.getData(1, false,true);
+                    break;
+                case 4:
+                    myRentFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.myCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    myCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    myCollectionRFragment.getData(1, false, true);
+                    break;
+            }
+        }else if(listType==MyConstant.robGongHouseList){
+            switch (menuType){
+                case 0:
+                    robGongShouFragment.getData(1, false,true);
+                    break;
+                case 1:
+                    robGongZuFragment.getData(1, false,true);
+                    break;
+            }
+        }else if(listType==MyConstant.dianzCollectionHouseList){
+            switch (menuType){
+                case 0:
+                    dianCollectionSFragment.getData(1, false, true);
+                    break;
+                case 1:
+                    dianCollectionRFragment.getData(1, false, true);
+                    break;
+            }
         }
     }
 

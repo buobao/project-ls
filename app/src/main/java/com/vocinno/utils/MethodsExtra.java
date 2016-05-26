@@ -1,32 +1,22 @@
 package com.vocinno.utils;
 
-import java.io.File;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.Typeface;
-import android.graphics.Bitmap.Config;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -50,12 +40,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -83,6 +73,16 @@ import com.vocinno.utils.media.sms.SmsManager.SmsTypeURI;
 import com.vocinno.utils.timer.TimerCallback;
 import com.vocinno.utils.timer.TimerManager;
 import com.vocinno.utils.view.span.MyClickableSpan;
+
+import java.io.File;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class MethodsExtra {
 
@@ -360,29 +360,29 @@ public final class MethodsExtra {
 	 */
 	public static void editTextFilterSpace(final EditText editText,
 			int maxLength) {
-		editText.setFilters(new InputFilter[] {
+		editText.setFilters(new InputFilter[]{
 				new InputFilter.LengthFilter(maxLength), new InputFilter() {
-					@Override
-					public CharSequence filter(CharSequence src, int start,
-							int end, Spanned dst, int dstart, int dend) {
-						if (src.length() < 1) {
-							return null;
+			@Override
+			public CharSequence filter(CharSequence src, int start,
+									   int end, Spanned dst, int dstart, int dend) {
+				if (src.length() < 1) {
+					return null;
+				} else {
+					char temp[] = (src.toString()).toCharArray();
+					char result[] = new char[temp.length];
+					for (int i = 0, j = 0; i < temp.length; i++) {
+						if (temp[i] == ' ') {
+							continue;
 						} else {
-							char temp[] = (src.toString()).toCharArray();
-							char result[] = new char[temp.length];
-							for (int i = 0, j = 0; i < temp.length; i++) {
-								if (temp[i] == ' ') {
-									continue;
-								} else {
-									result[j++] = temp[i];
-								}
-							}
-							return String.valueOf(result).trim();
+							result[j++] = temp[i];
 						}
-
 					}
+					return String.valueOf(result).trim();
+				}
 
-				} });
+			}
+
+		}});
 	}
 
 	/**
@@ -616,7 +616,9 @@ public final class MethodsExtra {
 		} else if (null == content) {
 			content = "sorry,网络掉了";
 		} else {
-			Toast.makeText(cxt, content, Toast.LENGTH_SHORT).show();
+			if(content.length()>0){
+				Toast.makeText(cxt, content, Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 

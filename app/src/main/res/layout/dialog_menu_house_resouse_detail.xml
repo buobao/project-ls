@@ -19,7 +19,7 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/llyt_borrowKey_HouseDetailActivity"
+            android:id="@+id/ll_house_detail_borrow_key"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal" >
@@ -55,7 +55,7 @@
             android:background="#F6F6F6" />
 
         <LinearLayout
-            android:id="@+id/llyt_connectOwner_HouseDetailActivity"
+            android:id="@+id/ll_house_detail_contact_yezhu"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal" >
@@ -91,7 +91,7 @@
             android:background="#F6F6F6" />
 
         <LinearLayout
-            android:id="@+id/llyt_shareHouse_HouseDetailActivity"
+            android:id="@+id/ll_house_detail_share_friend"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal" >
@@ -126,7 +126,7 @@
             android:background="#F6F6F6" />
         
          <LinearLayout
-            android:id="@+id/llyt_sharequan_HouseDetailActivity"
+            android:id="@+id/ll_house_detail_share_friend_circle"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal" >
@@ -161,7 +161,7 @@
             android:background="#F6F6F6" />
 
         <LinearLayout
-            android:id="@+id/llyt_addPic_HouseDetailActivity"
+            android:id="@+id/ll_house_detail_addimg"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal" >
@@ -196,7 +196,7 @@
             android:background="#F6F6F6" />
 
         <LinearLayout
-            android:id="@+id/llyt_seeFollowUp_HouseDetailActivity"
+            android:id="@+id/ll_house_detail_followsee"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:orientation="horizontal" >

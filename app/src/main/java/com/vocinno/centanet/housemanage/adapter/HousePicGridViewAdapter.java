@@ -1,14 +1,5 @@
 package com.vocinno.centanet.housemanage.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.nostra13.universalimageloader.core.download.ImageDownloader;
-import com.vocinno.centanet.R;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,12 +7,20 @@ import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.vocinno.centanet.R;
+import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.utils.MethodsExtra;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HousePicGridViewAdapter extends BaseAdapter {
@@ -107,9 +106,12 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 					this.mImageList.get(index), false, true));*/
 
 			String imagePath = this.mImageList.get(index);
-			String imageUrl = ImageDownloader.Scheme.FILE.wrap(imagePath);
-			MethodsFile.downloadImgByUrl(imageUrl, holder.mImgHousePic);
+//			String imageUrl = ImageDownloader.Scheme.FILE.wrap(imagePath);
+//			MethodsFile.downloadImgByUrl(imageUrl, holder.mImgHousePic);
 
+			Glide.with(mContext).load(imagePath).centerCrop()
+					.crossFade()
+					.into(holder.mImgHousePic);
 
 			holder.tv_img_path.setText(this.mImageList.get(index));
 			// 点击进行图片描述编辑

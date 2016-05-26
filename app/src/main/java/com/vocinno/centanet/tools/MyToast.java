@@ -26,7 +26,9 @@ public class MyToast {
     }
     public static void showToast(String str){
         if(context!=null){
-            Toast.makeText(context,str,Toast.LENGTH_SHORT).show();
+            if(str!=null&&str.length()>0){
+                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

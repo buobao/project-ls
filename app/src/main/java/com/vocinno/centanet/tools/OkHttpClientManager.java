@@ -324,6 +324,7 @@ public class OkHttpClientManager {
         for (Map.Entry<String, String> temp : params.entrySet()) {
             pair=new BasicNameValuePair(temp.getKey(), temp.getValue());
             NVPList.add(pair);
+            MyUtils.LogI(temp.getKey(),temp.getValue());
         }
         url=attachHttpGetParams(url,NVPList);
         getInstance().requestForGet(url, callback);

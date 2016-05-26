@@ -398,13 +398,6 @@ public class HouseDetailActivity extends OtherBaseActivity {
 			}
 //			MethodsExtra.startActivity(mContext,SeeFollowInDetailActivity.class);
 			break;
-		case R.id.rlyt_passKey_houseDetailActivity:
-			MethodsDeliverData.mKeyType = 3;
-			showBorrowKey();
-			break;
-		case R.id.rlyt_seize_houseDetailActivity:
-			showCallCosturmerDialog();
-			break;
 		default:
 			break;
 		}

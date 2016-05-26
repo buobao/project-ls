@@ -757,7 +757,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case R.id.tv_house_search:
                 dongHao = et_house_dong.getText().toString();
                 shiHao = et_house_shi.getText().toString();
-                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex]);
+                searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex],dongHao,shiHao);
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
@@ -844,60 +844,64 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         }
 
     }
-    private void searchByKeyWord(String searchId,String searchType) {
+    /*private void searchByKeyWord(String searchId,String searchType) {
+        searchByKeyWord(searchId,searchType,"","");
+
+    }*/
+    private void searchByKeyWord(String searchId,String searchType,String buildingName,String roomNo) {
         if(listType==MyConstant.houseList){
             switch (menuType){
                 case 0:
-                    nearSellFragment.searchByKeyWord(searchId, searchType);
+                    nearSellFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     nearSellFragment.getData(1, false,true);
                     break;
                 case 1:
-                    nearRentFragment.searchByKeyWord(searchId, searchType);
+                    nearRentFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     nearRentFragment.getData(1, false,true);
                     break;
                 case 2:
-                    yueKanFragment.searchByKeyWord(searchId, searchType);
+                    yueKanFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     yueKanFragment.getData(1, false,true);
                     break;
                 case 3:
-                    mySellFragment.searchByKeyWord(searchId, searchType);
+                    mySellFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     mySellFragment.getData(1, false,true);
                     break;
                 case 4:
-                    myRentFragment.searchByKeyWord(searchId, searchType);
+                    myRentFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     myRentFragment.getData(1, false,true);
                     break;
             }
         }else if(listType==MyConstant.myCollectionHouseList){
             switch (menuType){
                 case 0:
-                    myCollectionSFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionSFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     myCollectionSFragment.getData(1, false, true);
                     break;
                 case 1:
-                    myCollectionRFragment.searchByKeyWord(searchId, searchType);
+                    myCollectionRFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     myCollectionRFragment.getData(1, false, true);
                     break;
             }
         }else if(listType==MyConstant.robGongHouseList){
             switch (menuType){
                 case 0:
-                    robGongShouFragment.searchByKeyWord(searchId, searchType);
+                    robGongShouFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     robGongShouFragment.getData(1, false,true);
                     break;
                 case 1:
-                    robGongZuFragment.searchByKeyWord(searchId, searchType);
+                    robGongZuFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     robGongZuFragment.getData(1, false,true);
                     break;
             }
         }else if(listType==MyConstant.dianzCollectionHouseList){
             switch (menuType){
                 case 0:
-                    dianCollectionSFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionSFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     dianCollectionSFragment.getData(1, false, true);
                     break;
                 case 1:
-                    dianCollectionRFragment.searchByKeyWord(searchId, searchType);
+                    dianCollectionRFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                     dianCollectionRFragment.getData(1, false, true);
                     break;
             }

@@ -478,7 +478,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
             case R.id.tv_house_search:
                 dongHao = et_house_dong.getText().toString();
                 shiHao = et_house_shi.getText().toString();
-                searchByKeyWord(searchId[viewPageIndex], searchType[viewPageIndex]);
+                searchByKeyWord(searchId[viewPageIndex], searchType[viewPageIndex],dongHao,shiHao);
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
@@ -502,10 +502,10 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
         }
     }
 
-    private void searchByKeyWord(String searchId, String searchType) {
+    private void searchByKeyWord(String searchId, String searchType,String buildingName,String roomNo) {
         switch (0) {
             case 0:
-                keyHouseFragment.searchByKeyWord(searchId, searchType);
+                keyHouseFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
                 keyHouseFragment.getData(1, false,true);
                 break;
         }

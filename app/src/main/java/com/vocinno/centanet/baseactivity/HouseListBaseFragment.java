@@ -57,6 +57,8 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public String sord="";          //排序顺序
     public String searchId="";
     public String searchType="";
+    public String searchBuildingName="";
+    public String searchRoomNo="";
     /*************************************************/
     /*******************View***************************/
     public View baseView=null;
@@ -203,9 +205,15 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         sidx = param;
         sord = order;
     }
-    public void searchByKeyWord(String sId,String sType){
+    /*public void searchByKeyWord(String sId,String sType){
         searchId = sId;
         searchType = sType;
+    }*/
+    public void searchByKeyWord(String sId,String sType,String buildingName,String roomNo){
+        searchId = sId;
+        searchType = sType;
+        searchBuildingName=buildingName;
+        searchRoomNo=roomNo;
     }
     public void resetSearchOtherTag(int tagIndex){
         switch (tagIndex){

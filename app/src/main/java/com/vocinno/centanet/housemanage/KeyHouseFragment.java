@@ -100,6 +100,8 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         map.put(NetWorkMethod.sord,sord);
         map.put(NetWorkMethod.searchId,searchId);
         map.put(NetWorkMethod.searchType,searchType);
+        map.put(NetWorkMethod.buildingName,searchBuildingName);
+        map.put(NetWorkMethod.roomNo,searchRoomNo);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
@@ -158,6 +160,8 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         sord = "";
         searchId = "";
         searchType = "";
+        searchBuildingName="";
+        searchRoomNo="";
     };
     @Override
     public void onRefresh() {

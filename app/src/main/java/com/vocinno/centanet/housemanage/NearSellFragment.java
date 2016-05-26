@@ -87,20 +87,22 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         }
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();
-        map.put(NetWorkMethod.type,type+"");
+//        map.put(NetWorkMethod.type,type+"");
         map.put(NetWorkMethod.listType,NetWorkMethod.NEAR_BY);
         map.put(NetWorkMethod.delType,NetWorkMethod.s);
         map.put(NetWorkMethod.price,price);
         map.put(NetWorkMethod.square,square);
         map.put(NetWorkMethod.frame,frame);
         map.put(NetWorkMethod.tag,tag);
-        map.put(NetWorkMethod.usageType,usageType);
+        map.put(NetWorkMethod.type,usageType);
         map.put(NetWorkMethod.page,pageNo+"");
         map.put(NetWorkMethod.pageSize,pageSize+"");
         map.put(NetWorkMethod.sidx,sidx);
         map.put(NetWorkMethod.sord,sord);
         map.put(NetWorkMethod.searchId,searchId);
         map.put(NetWorkMethod.searchType,searchType);
+        map.put(NetWorkMethod.buildingName,searchBuildingName);
+        map.put(NetWorkMethod.roomNo,searchRoomNo);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
@@ -160,6 +162,8 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         sord = "";
         searchId = "";
         searchType = "";
+        searchBuildingName="";
+        searchRoomNo="";
     };
     @Override
     public void onRefresh() {

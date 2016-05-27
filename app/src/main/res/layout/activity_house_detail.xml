@@ -59,7 +59,7 @@
                     android:orientation="vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="20dp"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="1dp"
                     android:paddingTop="3dp"
                     android:gravity="center_vertical"
                     android:background="@color/transparent_half"
@@ -95,7 +95,7 @@
                             android:layout_height="wrap_content"
                             tools:text="250万"
                             android:textColor="@color/red"
-                            android:textSize="15sp"
+                            android:textSize="18sp"
                              />
 
                     </LinearLayout>

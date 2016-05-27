@@ -89,6 +89,8 @@ public class CustormerListAdapter extends BaseAdapter {
 					.findViewById(R.id.tv_demandType_customerManageListItem);
 			holder.mTvDemandDetail = (TextView) convertView
 					.findViewById(R.id.tv_houseDetail_customerManageListItem);
+			holder.tv_quyu_customerManageListItem = (TextView) convertView
+					.findViewById(R.id.tv_quyu_customerManageListItem);
 			holder.mTvDemandPrice = (TextView) convertView
 					.findViewById(R.id.tv_demandPrice_customerManageListItem);
 			holder.mTvDescription = (TextView) convertView
@@ -122,7 +124,14 @@ public class CustormerListAdapter extends BaseAdapter {
 				holder.mTvDemandType.setVisibility(View.GONE);
 			}
 //		}
+
 		// 区域
+		if(item.getDistrictCode().equals("0")){
+			holder.tv_quyu_customerManageListItem.setText("不限");
+		}else{
+			holder.tv_quyu_customerManageListItem.setText(item.getDistrictCode());
+		}
+		// 片区
 		if(item.getArea().equals("0")){
 			holder.mTvDemandDetail.setText("不限");
 		}else{
@@ -183,7 +192,7 @@ public class CustormerListAdapter extends BaseAdapter {
 		TextView mTvHuXing;
 		TextView mTvCustormerName;
 		TextView mTvDemandType;
-		TextView mTvDemandDetail;
+		TextView mTvDemandDetail,tv_quyu_customerManageListItem;
 		TextView mTvDemandPrice;
 		TextView mTvDescription;
 		TextView mTvTime;

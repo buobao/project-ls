@@ -51,7 +51,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
-	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
+	private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,tv_quyu_customerDetailActivity,
 			mTvPrice, mTvTenancyTime, mTvMoney/*, mTvPaymenttype*/;
 	private ListViewNeedResetHeight mLvTracks;
 //	private ImageView  mImgViewQQ, mImgWeixin;
@@ -93,6 +93,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 		mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_customerDetailActivity);
 		mTvCustomerName = (TextView) findViewById(R.id.tv_customername_customerDetailActivity);
 		mTvType = (TextView) findViewById(R.id.tv_type_customerDetailActivity);
+		tv_quyu_customerDetailActivity = (TextView) findViewById(R.id.tv_quyu_customerDetailActivity);
 		mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		mTvTenancyTime = (TextView) findViewById(R.id.tv_tenancytime_customerDetailActivity);
@@ -418,7 +419,8 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				if (listReqs != null && listReqs.size() >= 1) {
 					Requets req = listReqs.get(0);
 					mTvType.setText("类型：" + req.getReqType());// 类型
-					mTvAcreage.setText("区域：" + req.getAcreage());
+					tv_quyu_customerDetailActivity.setText("区域：" + req.getDistrictCode());
+					mTvAcreage.setText("片区：" + req.getAcreage());
 					mTvPrice.setText("租价：" + req.getPrice());// 价格
 					mTvTenancyTime.setText("租期：" + req.getTenancyTime());
 				}

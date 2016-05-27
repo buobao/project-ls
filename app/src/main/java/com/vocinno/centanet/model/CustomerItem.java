@@ -6,7 +6,8 @@ public class CustomerItem {
 	private String reqType = "";	 //需求类型
 	public static final String GOU="20037001";
 	public static final String ZU="20037002";
-	private String area = "";	 //区域
+	private String districtCode = "";	 //区域
+	private String area = "";	 //片区
 	private String acreage = "";	 //面积
 	private String price = "";	 //价格区间
 	private String other = "";	 //其他
@@ -25,6 +26,14 @@ public class CustomerItem {
 
 	public String getFromToRoom() {
 		return fromToRoom;
+	}
+
+	public String getDistrictCode() {
+		return districtCode;
+	}
+
+	public void setDistrictCode(String districtCode) {
+		this.districtCode = districtCode;
 	}
 
 	public void setFromToRoom(String fromToRoom) {

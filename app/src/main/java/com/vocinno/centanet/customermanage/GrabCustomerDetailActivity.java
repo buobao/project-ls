@@ -52,7 +52,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 	private String mCusterCode = null;
 	private View mBackView, mImgViewAddTrack,mSubmit;
 	private RelativeLayout mGrabCustomer;
-	private TextView mTvCustomerCode, mTvCustomerName, mTvType, tv_fangxing_grab, mTvAcreage,
+	private TextView mTvCustomerCode, mTvCustomerName, mTvType, tv_fangxing_grab, mTvAcreage,tv_quyu_customerDetailActivity,
 			mTvPrice, mTvMoney/*, mTvPaymenttype*/;
 	private ListViewNeedResetHeight mLvTracks;
 //	private ImageView  mImgViewQQ, mImgWeixin;
@@ -98,6 +98,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 		mTvCustomerName = (TextView) findViewById(R.id.tv_customername_customerDetailActivity);
 		mTvType = (TextView) findViewById(R.id.tv_type_customerDetailActivity);
 		tv_fangxing_grab = (TextView) findViewById(R.id.tv_fangxing_grab);
+		tv_quyu_customerDetailActivity = (TextView) findViewById(R.id.tv_quyu_customerDetailActivity);
 		mTvAcreage = (TextView) findViewById(R.id.tv_acreage_customerDetailActivity);
 		mTvPrice = (TextView) findViewById(R.id.tv_price_customerDetailActivity);
 		mTvMoney = (TextView) findViewById(R.id.tv_money_customerDetailActivity);
@@ -463,7 +464,8 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
             Requets req = listReqs.get(0);
             mTvType.setText("类型：" + req.getReqType());// 类型
             tv_fangxing_grab.setText("房型：" + req.getFromToRoom());// 类型
-            mTvAcreage.setText("区域：" + req.getArea());
+			tv_quyu_customerDetailActivity.setText("城区：" + req.getDistrictCode());
+            mTvAcreage.setText("片区：" + req.getArea());
             mTvPrice.setText("价格：" + req.getPrice());// 价格
             tv_area_gkdetail.setText("面积：" + req.getAcreage());
 			tv_xuqiuzishu_grab.setText(req.getSelfDescription());

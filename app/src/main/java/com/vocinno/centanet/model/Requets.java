@@ -2,6 +2,7 @@ package com.vocinno.centanet.model;
 
 public class Requets {
 	private String acreage = "";// 面积
+	private String districtCode = "";//区域
 	private String area = "";//片区
 	private String TenancyTime = "";// 租期
 	private String price = "";// 价格
@@ -65,5 +66,13 @@ public class Requets {
 
 	public void setFromToRoom(String fromToRoom) {
 		this.fromToRoom = fromToRoom;
+	}
+
+	public String getDistrictCode() {
+		return districtCode;
+	}
+
+	public void setDistrictCode(String districtCode) {
+		this.districtCode = districtCode;
 	}
 }

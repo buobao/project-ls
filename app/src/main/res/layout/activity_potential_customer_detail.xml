@@ -125,7 +125,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="162dp"
+                android:layout_height="194dp"
                 android:background="@color/white"
                 android:orientation="vertical" >
                 <LinearLayout
@@ -196,12 +196,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="片区:"
+                        android:text="城区:"
                         android:textColor="#9E9E9E"
                         android:textSize="13sp"
                         />
                 <TextView
-                    android:id="@+id/tv_acreage_qianke"
+                    android:id="@+id/tv_quyu_qianke"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:layout_alignParentBottom="true"
@@ -211,6 +211,35 @@
                     android:textColor="#9E9E9E"
                     android:textSize="13sp" />
 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="#D1D1D1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="18dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="片区:"
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp"
+                        />
+                    <TextView
+                        android:id="@+id/tv_acreage_qianke"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/white"
+                        android:gravity="center_vertical|left"
+                        android:text=""
+                        android:textColor="#9E9E9E"
+                        android:textSize="13sp" />
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

@@ -50,7 +50,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private View mBackView, mImgViewAddTrack,mSubmit;
     private RelativeLayout mGrabCustomer;
     private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
-            mTvPrice, tv_fangxing_potential,tv_area_potential, tv_xuqiu_qianke;
+            mTvPrice, tv_fangxing_potential,tv_area_potential, tv_xuqiu_qianke,tv_quyu_qianke;
     private ListViewNeedResetHeight mLvTracks;
     private CustomerDetail mDetail = null;
     private RelativeLayout mImgViewPhone;
@@ -81,6 +81,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         mTvAcreage = (TextView) findViewById(R.id.tv_acreage_qianke);
         mTvPrice = (TextView) findViewById(R.id.tv_price_qianke);
         tv_fangxing_potential = (TextView) findViewById(R.id.tv_fangxing_potential);
+        tv_quyu_qianke = (TextView) findViewById(R.id.tv_quyu_qianke);
         tv_area_potential = (TextView) findViewById(R.id.tv_area_potential);
         tv_xuqiu_qianke = (TextView) findViewById(R.id.tv_xuqiu_qianke);
         mLvTracks = (ListViewNeedResetHeight) findViewById(R.id.lv_track_qianke);
@@ -316,6 +317,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             tv_fangxing_potential.setText( req.getFromToRoom());// 类型
             mTvAcreage.setText(req.getArea());
             mTvPrice.setText( req.getPrice());// 价格
+            tv_quyu_qianke.setText( req.getDistrictCode());
             tv_area_potential.setText( req.getAcreage());
             tv_xuqiu_qianke.setText( req.getSelfDescription());
         }

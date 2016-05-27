@@ -20,6 +20,7 @@ import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
+import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
@@ -50,7 +51,7 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
     public boolean isMyCustomerType = true;// 是否是我的客源，如果不是就认为是公客
     public AppApplication myApp;
     public String URL;
-
+    public AgainLoading againLoading;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
     public abstract void initView();
@@ -80,8 +81,8 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         setContentView(baseView);
         drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
         leftMenuView=findViewById(R.id.left_base_menu);
-        initView();
         setProgressLayout();
+        initView();
         mHander = setHandler();
         setClickListener();
         initData();

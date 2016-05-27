@@ -42,6 +42,7 @@ import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.Image;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Track;
+import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -70,7 +71,7 @@ import java.util.Map;
  * @author Administrator
  * 
  */
-public class HouseDetailActivity extends OtherBaseActivity {
+public class HouseDetailActivity extends OtherBaseActivity implements AgainLoading{
 	private HouseDetail houseDetail = null;
 	private String shareImgUrl=null;
 	private int shareTag;
@@ -178,7 +179,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 			public void onPageScrollStateChanged(int state) {
 			}
 		});
-
+		pl_progress.setAgainLoading((AgainLoading)this);
 	}
 	private void setData() {
 //		showDialog();
@@ -695,5 +696,10 @@ public class HouseDetailActivity extends OtherBaseActivity {
 	@Override
 	public void onLoadMore() {
 
+	}
+
+	@Override
+	public void againLoading() {
+		setData();
 	}
 }

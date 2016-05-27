@@ -51,7 +51,7 @@ public class OkHttpClientManager {
     {
         TAG=this.getClass().getSimpleName();
         mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15, TimeUnit.SECONDS);
+        mOkHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
         //cookie enabled
 //        mOkHttpClient.setCookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
         mDelivery = new Handler(Looper.getMainLooper());
@@ -468,6 +468,9 @@ public class OkHttpClientManager {
             @Override
             public void onFailure(final Request request, final IOException e) {
                 sendFailedStringCallback(false, request, e, callback);
+                e.getMessage();
+                e.getCause();
+                e.getLocalizedMessage();
                 Log.i("e.getMessage()", "e.getMessage()==" + e.getMessage());
             }
 
@@ -503,11 +506,16 @@ public class OkHttpClientManager {
                     if (isException) {
                         MyToast.showToast("net work error");
                     } else {
-                        if(e.getMessage().indexOf("unreachable")>=0){
+                        if("timeout".equalsIgnoreCase(e.getMessage())){
+                            MyToast.showToast("请求超时,请稍后再试");
+                        }else{
                             MyToast.showToast("请检查网络之后再试");
+                        }
+                        /*if(e.getMessage().indexOf("unreachable")>=0){
+
                         }else{
                             MyToast.showToast("请求超时,请稍后再试");
-                        }
+                        }*/
                     }
                     callback.onError(request, e);
                 }

@@ -1196,7 +1196,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                         list.add(i * 100 + "");
                     }
                     WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelPriceWheelView);
-                    if (viewPageIndex == 1||viewPageIndex == 4) {
+                    if ((listType == MyConstant.houseList&&(menuType==1||menuType==4))||(listType != MyConstant.houseList&&menuType==1)) {
                         mWheelViewL
                                 .setData(CST_Wheel_Data
                                         .getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart),CustomUtils.getWindowWidth(this));
@@ -1224,7 +1224,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     }
                     mWheelViewL.setEnable(true);
                     WheelView mWheelViewT = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
-                    if (viewPageIndex ==NEAR_CHU_ZU||viewPageIndex == MY_CHU_ZU) {
+                    if ((listType == MyConstant.houseList&&(menuType==1||menuType==4))||(listType != MyConstant.houseList&&menuType==1)) {
                         mWheelViewT.setData(CST_Wheel_Data
                                 .getListDatas(CST_Wheel_Data.WheelType.priceChuzuEnd), CustomUtils.getWindowWidth(this));
                         // 初始化位置

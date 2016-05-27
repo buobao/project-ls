@@ -5,7 +5,7 @@
     android:layout_height="@dimen/scroll_tag_view_height"
     android:background="@color/white" >
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/btn_tag_tagViewRadio"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

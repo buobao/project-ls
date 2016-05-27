@@ -1,12 +1,12 @@
 package com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio;
 
-import com.vocinno.centanet.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RadioButton;
+import android.widget.CheckBox;
+
+import com.vocinno.centanet.R;
 
 public class ScrollTagViewAdapter extends SuperTagAdapter {
 	private Activity mActivity;
@@ -21,7 +21,7 @@ public class ScrollTagViewAdapter extends SuperTagAdapter {
 		LayoutInflater inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.scroll_tag_view_radio, null);
-		RadioButton button = (RadioButton) v
+		CheckBox button = (CheckBox) v
 				.findViewById(R.id.btn_tag_tagViewRadio);
 		button.setText(mListTabs.get(position));
 		return v;

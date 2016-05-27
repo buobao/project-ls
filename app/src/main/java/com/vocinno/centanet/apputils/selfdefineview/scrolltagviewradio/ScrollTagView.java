@@ -5,9 +5,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import com.vocinno.centanet.R;
@@ -69,7 +69,7 @@ public class ScrollTagView extends HorizontalScrollView {
 			final int position = i;
 			View view = mTagAdapter.getView(i);
 			mContainer.addView(view);
-			RadioButton btn = (RadioButton) view
+			CheckBox btn = (CheckBox) view
 					.findViewById(R.id.btn_tag_tagViewRadio);
 			RelativeLayout containerChild = (RelativeLayout) view
 					.findViewById(R.id.rlyt_tag_tagView);
@@ -104,16 +104,21 @@ public class ScrollTagView extends HorizontalScrollView {
 		}
 		for (int i = 0; i < mContainer.getChildCount(); i++) {
 			View view = mContainer.getChildAt(i);
-			RadioButton rbtn = (RadioButton) view
+			CheckBox rbtn = (CheckBox) view
 					.findViewById(R.id.btn_tag_tagViewRadio);
+			if(rbtn.isChecked()){
+				rbtn.setTextColor(getResources().getColor(R.color.red));
+			}else{
+				rbtn.setTextColor(getResources().getColor(R.color.black));
+			}
 			if (position == i) {
 				// 选中
-				rbtn.setChecked(true);
-				rbtn.setTextColor(getResources().getColor(R.color.red));
+//				rbtn.setChecked(true);
+//				rbtn.setTextColor(getResources().getColor(R.color.red));
 			} else {
 				// 不选中
-				rbtn.setChecked(false);
-				rbtn.setTextColor(getResources().getColor(R.color.black));
+//				rbtn.setChecked(false);
+//				rbtn.setTextColor(getResources().getColor(R.color.black));
 			}
 			if (tf) {
 				st += mContainer.getChildAt(i).getWidth();

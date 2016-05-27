@@ -3,5 +3,6 @@
 
     <item android:drawable="@drawable/h_manage_icon_down" android:state_checked="false"/>
     <item android:drawable="@drawable/h_manage_icon_up" android:state_checked="true"/>
+    <item android:drawable="@drawable/h_manage_icon_down" />
 
 </selector>

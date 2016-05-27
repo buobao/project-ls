@@ -91,10 +91,10 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                 case R.id.rlyt_my_house_main_page_slid_menus:
                     startIntentToHouseManager(3);
                     break;
-                //我的出租
+                /*//我的出租
                 case R.id.rlyt_my_house_main_page_slid_menus2:
                     startIntentToHouseManager(4);
-                    break;
+                    break;*/
                 //我的收藏
                 case R.id.rl_my_collection:
                     startIntentToHouseManager(MyConstant.myCollectionHouseList,0);
@@ -125,13 +125,13 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
                     startIntentToHouseManager(2,0);
                     break;
-                //抢公租
+                /*//抢公租
                 case R.id.rlyt_grab_house_main_page_slid_menus2:
-                    /*MethodsDeliverData.flag = 1;
+                    *//*MethodsDeliverData.flag = 1;
                     MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);*/
+                    MethodsExtra.startActivity(mContext, HouseManageActivity.class);*//*
                     startIntentToHouseManager(2, 1);
-                    break;
+                    break;*/
                 //抢公客
                 case R.id.rlyt_grab_customer_main_page_slid_menus:
                     MethodsDeliverData.keYuanOrGongKe=0;
@@ -180,8 +180,8 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         woDeChuShou = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus);
         woDeChuShou.setOnClickListener(this);
 
-        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
-        woDeChuZu.setOnClickListener(this);
+//        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
+//        woDeChuZu.setOnClickListener(this);
 
         yaoShiGuanLi = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
         yaoShiGuanLi.setOnClickListener(this);
@@ -196,8 +196,8 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);
 
-        qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
-        qiangGongZu.setOnClickListener(this);
+        /*qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
+        qiangGongZu.setOnClickListener(this);*/
 
         qiangGongKe = (RelativeLayout) findViewById(R.id.rlyt_grab_customer_main_page_slid_menus);
         qiangGongKe.setOnClickListener(this);

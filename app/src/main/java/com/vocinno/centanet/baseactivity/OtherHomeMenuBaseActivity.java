@@ -75,8 +75,8 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         woDeChuShou = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus);
         woDeChuShou.setOnClickListener(this);
 
-        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
-        woDeChuZu.setOnClickListener(this);
+//        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
+//        woDeChuZu.setOnClickListener(this);
 
         yaoShiGuanLi = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
         yaoShiGuanLi.setOnClickListener(this);
@@ -88,8 +88,8 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);
 
-        qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
-        qiangGongZu.setOnClickListener(this);
+        /*qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
+        qiangGongZu.setOnClickListener(this);*/
 
         qiangGongKe = (RelativeLayout) findViewById(R.id.rlyt_grab_customer_main_page_slid_menus);
         qiangGongKe.setOnClickListener(this);
@@ -123,10 +123,10 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
             case R.id.rlyt_my_house_main_page_slid_menus:
                 startIntent(3);
                 break;
-            //我的出租
+           /* //我的出租
             case R.id.rlyt_my_house_main_page_slid_menus2:
                 startIntent(4);
-                break;
+                break;*/
         }
     }
 

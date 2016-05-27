@@ -97,8 +97,8 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         woDeChuShou = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus);
         woDeChuShou.setOnClickListener(this);
 
-        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
-        woDeChuZu.setOnClickListener(this);
+//        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
+//        woDeChuZu.setOnClickListener(this);
 
         yaoShiGuanLi = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
         yaoShiGuanLi.setOnClickListener(this);
@@ -113,8 +113,8 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);
 
-        qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
-        qiangGongZu.setOnClickListener(this);
+        /*qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
+        qiangGongZu.setOnClickListener(this);*/
 
         qiangGongKe = (RelativeLayout) findViewById(R.id.rlyt_grab_customer_main_page_slid_menus);
         qiangGongKe.setOnClickListener(this);
@@ -151,10 +151,10 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
             case R.id.rlyt_my_house_main_page_slid_menus:
                 startIntentToHouseManager(3);
                 break;
-            //我的出租
+           /* //我的出租
             case R.id.rlyt_my_house_main_page_slid_menus2:
                 startIntentToHouseManager(4);
-                break;
+                break;*/
             //钥匙管理
             case R.id.rlyt_key_house_main_page_slid_menus:
                 MyUtils.removeActivityFromAllList();
@@ -194,10 +194,10 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
             case R.id.rlyt_grab_house_main_page_slid_menus:
                 startIntentToGongFangManager(0);
                 break;
-            //抢公租
+           /* //抢公租
             case R.id.rlyt_grab_house_main_page_slid_menus2:
                 startIntentToGongFangManager(1);
-                break;
+                break;*/
             //抢公客
             case R.id.rlyt_grab_customer_main_page_slid_menus:
                 if(this.getClass().getName().equals(CustomerManageActivity.class.getName())){

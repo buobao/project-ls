@@ -67,8 +67,8 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         woDeChuShou = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus);
         woDeChuShou.setOnClickListener(this);
 
-        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
-        woDeChuZu.setOnClickListener(this);
+//        woDeChuZu = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
+//        woDeChuZu.setOnClickListener(this);
 
         yaoShiGuanLi = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
         yaoShiGuanLi.setOnClickListener(this);
@@ -83,8 +83,8 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         qiangGongShou = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
         qiangGongShou.setOnClickListener(this);
 
-        qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
-        qiangGongZu.setOnClickListener(this);
+        /*qiangGongZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
+        qiangGongZu.setOnClickListener(this);*/
 
         qiangGongKe = (RelativeLayout) findViewById(R.id.rlyt_grab_customer_main_page_slid_menus);
         qiangGongKe.setOnClickListener(this);

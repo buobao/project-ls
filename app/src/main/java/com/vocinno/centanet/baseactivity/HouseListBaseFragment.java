@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ImageView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
@@ -43,6 +45,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public final int LIST_LOADMORE=1;
     public boolean firstLoading=true;
     public int viewPosition;
+    public ImageView iv_scroll_top;
     /******************数据查询条件************************/
     public int page=1;
     public int pageSize=20;
@@ -94,7 +97,45 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
             setUserVisibleHint(false);
         }
         initView();
+        listScrollTop();
         return baseView;
+    }
+
+    private void listScrollTop() {
+        if(baseView.findViewById(R.id.iv_scroll_top)!=null){
+            iv_scroll_top= (ImageView)baseView.findViewById(R.id.iv_scroll_top);
+            iv_scroll_top.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    XHouseListView.smoothScrollToPosition(0);
+                }
+            });
+            XHouseListView.setOnScrollListener(new XListView.OnXScrollListener() {
+                @Override
+                public void onXScrolling(View view) {
+
+                }
+
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    switch (scrollState) {
+                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                            if(XHouseListView.getFirstVisiblePosition() == 0){
+                                iv_scroll_top.setVisibility(View.GONE);
+                            }else{
+                                iv_scroll_top.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                }
+            }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                }
+            });
+        }
+
     }
 
     @Override

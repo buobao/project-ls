@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -91,6 +92,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     private View leftMenuView;
     private String dongHao;
     private String shiHao;
+    private ImageView iv_change_viewpager;
 
     private enum PaiXuType {
         None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
@@ -211,6 +213,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 R.string.house_chushou, null);
 //        MethodsExtra.findHeadTitle1(mContext, baseView,
 //                R.string.house_chushou, null);
+        iv_change_viewpager= (ImageView) findViewById(R.id.iv_change_viewpager);
+        iv_change_viewpager.setOnClickListener(this);
+
         ll_tag_contect= (LinearLayout) findViewById(R.id.ll_tag_contect);
         ib_tag_jiantou= (ImageButton) findViewById(R.id.ib_tag_jiantou);
         ib_tag_jiantou.setOnClickListener(this);
@@ -478,6 +483,13 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_change_viewpager:
+                int vpCount=vp_house_manager.getChildCount();
+                int selectIndext=vp_house_manager.getCurrentItem()+1;
+                if(selectIndext<=vpCount){
+                    vp_house_manager.setCurrentItem(selectIndext);
+                }
+                break;
             case R.id.ib_tag_jiantou:
                 slidingFlag=!slidingFlag;
                 if(slidingFlag){
@@ -689,10 +701,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case R.id.rlyt_my_house_main_page_slid_menus:
                 changeViewPager(MyConstant.houseList,3);
                 break;
-            //我的出租
+            /*//我的出租
             case R.id.rlyt_my_house_main_page_slid_menus2:
                 changeViewPager(MyConstant.houseList,4);
-                break;
+                break;*/
             //我的收藏
             case R.id.rl_my_collection:
                 changeViewPager(MyConstant.myCollectionHouseList,0);
@@ -725,10 +737,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case R.id.rlyt_grab_house_main_page_slid_menus:
                 changeViewPager(MyConstant.robGongHouseList,0);
                 break;
-            //抢公租
+            /*//抢公租
             case R.id.rlyt_grab_house_main_page_slid_menus2:
                 changeViewPager(MyConstant.robGongHouseList,1);
-                break;
+                break;*/
             //抢公客
             case R.id.rlyt_grab_customer_main_page_slid_menus:
                 finish();

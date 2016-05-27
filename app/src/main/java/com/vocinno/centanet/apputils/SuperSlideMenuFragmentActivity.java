@@ -64,11 +64,11 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 		mRyltRentHouse = (RelativeLayout) findViewById(R.id.rlyt_rent_house_main_page_slid_menus);
 		mRyltSeeHouse = (RelativeLayout) findViewById(R.id.rlyt_see_house_main_page_slid_menus);
 		mRyltMyHouse = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus);
-		mRyltMyHouse2 = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
+//		mRyltMyHouse2 = (RelativeLayout) findViewById(R.id.rlyt_my_house_main_page_slid_menus2);
 		mRyltKeyHouse = (RelativeLayout) findViewById(R.id.rlyt_key_house_main_page_slid_menus);
 		mRyltMyCustomer = (RelativeLayout) findViewById(R.id.rlyt_my_customer_main_page_slid_menus);
 		mRyltGrabHouse = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus);
-		mRyltGrabHouseZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
+//		mRyltGrabHouseZu = (RelativeLayout) findViewById(R.id.rlyt_grab_house_main_page_slid_menus2);
 		mRyltGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_grab_customer_main_page_slid_menus);
 		mRyltInputPassword = (RelativeLayout) findViewById(R.id.rlyt_password_main_page_slid_menus);
 		mRyltScan = (RelativeLayout) findViewById(R.id.rlyt_sacn_customer_main_page_slid_menus);
@@ -210,30 +210,7 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			}
 			sendMessageCloseMenu();
 			break;
-			case R.id.rlyt_my_house_main_page_slid_menus2://我的出租
-//				KeyHouseManageActivity.mArrayHouseItemList[4]=null;
-				CST_JS.setZOrS("r");
-//				KeyHouseManageActivity.zOrS=false;
-				if ((MethodsDeliverData.mIntHouseType == HouseType.CHU_SHOU
-						|| MethodsDeliverData.mIntHouseType == HouseType.CHU_ZU
-						|| MethodsDeliverData.mIntHouseType == HouseType.YUE_KAN || MethodsDeliverData.mIntHouseType == HouseType.WO_DE)
-						&& AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
-					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-//					AppInstance.mHouseManageActivity.switchHouseType(HouseType.WO_DEZU2);
-				} else if (AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
-					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-					AppInstance.mListActivitys.get(
-							AppInstance.mListActivitys.size() - 1).finish();
-					startActivity(new Intent(mContext, KeyHouseManageActivity.class));
-				} else {
-					MethodsDeliverData.mIntHouseType = HouseType.WO_DE;
-					MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
-					clearActivity();
-				}
-				sendMessageCloseMenu();
-				break;
+
 		case R.id.rlyt_key_house_main_page_slid_menus:
 			if (!(AppInstance.mListActivitys.get(AppInstance.mListActivitys
 					.size() - 1) instanceof KeyManageActivity)) {
@@ -279,25 +256,6 @@ public abstract class SuperSlideMenuFragmentActivity extends FragmentActivity
 			}
 			sendMessageCloseMenu();
 			break;
-			case R.id.rlyt_grab_house_main_page_slid_menus2:
-				if (MethodsDeliverData.mIntHouseType == HouseType.GONG_FANGZU
-						&& AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
-				} else if (AppInstance.mListActivitys
-						.get(AppInstance.mListActivitys.size() - 1) instanceof KeyHouseManageActivity) {
-					MethodsDeliverData.flag = 1;
-					MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-					AppInstance.mListActivitys.get(
-							AppInstance.mListActivitys.size() - 1).finish();
-					startActivity(new Intent(mContext, KeyHouseManageActivity.class));
-				} else {
-					MethodsDeliverData.flag = 1;
-					MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
-					MethodsExtra.startActivity(mContext, KeyHouseManageActivity.class);
-					clearActivity();
-				}
-				sendMessageCloseMenu();
-				break;
 			//抢公客
 		case R.id.rlyt_grab_customer_main_page_slid_menus:
 			MethodsDeliverData.isMyCustomer = false;

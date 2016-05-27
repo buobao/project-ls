@@ -26,6 +26,7 @@ import java.util.Map;
 public class MySellFragment extends HouseListBaseFragment implements HttpInterface {
     private List<HouseItem> listHouses;
     private boolean firstLoading=true;
+    //
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_near_sell;

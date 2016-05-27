@@ -119,7 +119,7 @@
     <RelativeLayout
         android:id="@+id/rylt_mid_1_sild_menu"
         android:layout_width="250dp"
-        android:layout_height="136dp"
+        android:layout_height="91dp"
         android:layout_below="@+id/rlyt_top_sild_menu"
         android:layout_marginTop="8dp"
         >
@@ -144,7 +144,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_my_house_main_page_slid_menus"
                 android:gravity="center_vertical|left"
-                android:text="我的出售"
+                android:text="@string/my_house"
                 android:textColor="#F4F5F6"
                 android:textSize="17dp"  />
         </RelativeLayout>
@@ -155,7 +155,7 @@
             android:layout_height="0.33dp"
             android:layout_marginLeft="33dp"
             android:background="#D1D1D1" />
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/rlyt_my_house_main_page_slid_menus2"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -186,11 +186,11 @@
             android:layout_width="match_parent"
             android:layout_height="0.33dp"
               android:layout_marginLeft="33dp"
-            android:background="#D1D1D1" />
+            android:background="#D1D1D1" />-->
 
         <RelativeLayout
             android:id="@+id/rlyt_key_house_main_page_slid_menus"
-            android:layout_below="@+id/view_line_3"
+            android:layout_below="@+id/view_line_32"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:paddingLeft="30dp"
@@ -382,7 +382,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_grab_house_main_page_slid_menus"
                 android:gravity="center_vertical|left"
-                android:text="抢公售"
+                android:text="@string/qiang_gongfang"
                  android:textColor="#F4F5F6"
                 android:textSize="17dp"  />
         </RelativeLayout>
@@ -394,7 +394,7 @@
             android:layout_height="0.33dp"
               android:layout_marginLeft="33dp"
             android:background="#D1D1D1"/>
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_below="@+id/view_line_5"
             android:id="@+id/rlyt_grab_house_main_page_slid_menus2"
             android:layout_width="match_parent"
@@ -426,10 +426,10 @@
             android:layout_width="match_parent"
             android:layout_height="0.33dp"
             android:layout_marginLeft="33dp"
-            android:background="#D1D1D1"/>
+            android:background="#D1D1D1"/>-->
         <RelativeLayout
             android:id="@+id/rlyt_grab_customer_main_page_slid_menus"
-            android:layout_below="@+id/view_line_52"
+            android:layout_below="@+id/view_line_5"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:paddingLeft="30dp"

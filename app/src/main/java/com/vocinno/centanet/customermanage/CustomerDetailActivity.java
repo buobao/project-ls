@@ -206,10 +206,10 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 			case R.id.rlyt_my_house_main_page_slid_menus:
 				startIntent(3);
 				break;
-			//我的出租
+			/*//我的出租
 			case R.id.rlyt_my_house_main_page_slid_menus2:
 				startIntent(4);
-				break;
+				break;*/
 			//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
 				MyUtils.removeActivityFromList();
@@ -230,13 +230,13 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANG;
 				startIntentToGongFangManager(0);
 				break;
-			//抢公租
+			/*//抢公租
 			case R.id.rlyt_grab_house_main_page_slid_menus2:
 				MyUtils.removeActivityFromList();
 				MethodsDeliverData.flag = 1;
 				MethodsDeliverData.mIntHouseType = HouseType.GONG_FANGZU;
 				startIntentToGongFangManager(1);
-				break;
+				break;*/
 			//抢公客
 			case R.id.rlyt_grab_customer_main_page_slid_menus:
 				MyUtils.removeActivityFromList();

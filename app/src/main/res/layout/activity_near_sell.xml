@@ -10,6 +10,6 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@null"
         android:scrollbars="none"
-        android:listSelector="@color/transparent" >
+        android:listSelector="@color/lightgrey" >
     </com.vocinno.utils.view.refreshablelistview.XListView>
 </RelativeLayout>

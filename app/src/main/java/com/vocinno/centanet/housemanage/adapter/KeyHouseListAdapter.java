@@ -230,13 +230,13 @@ public class KeyHouseListAdapter extends BaseAdapter {
 					.crossFade()
 					.into(holder.mImgViewImage);
 		}
-		if (position % 2 == 1) {
+		/*if (position % 2 == 1) {
 			convertView.setBackgroundColor(mContext.getResources().getColor(
 					R.color.white));
 		} else {
 			convertView.setBackgroundColor(mContext.getResources().getColor(
 					R.color.lightgray));
-		}
+		}*/
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

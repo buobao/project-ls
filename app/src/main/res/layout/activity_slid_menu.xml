@@ -291,7 +291,7 @@
     <RelativeLayout
         android:id="@+id/rylt_mid_2_sild_menu"
         android:layout_width="250dp"
-        android:layout_height="227dp"
+        android:layout_height="182dp"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/rylt_mid_1_sild_menu"
         >

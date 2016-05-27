@@ -181,7 +181,8 @@ public class HouseDetailActivity extends OtherBaseActivity {
 
 	}
 	private void setData() {
-		showDialog();
+//		showDialog();
+		pl_progress.showProgress();
 		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houInfo;
 		Map<String,String>map=new HashMap<String,String>();
 		map.put(NetWorkMethod.delCode, houseCode);
@@ -189,6 +190,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 			@Override
 			public void onError(Request request, Exception e) {
 				dismissDialog();
+				pl_progress.showErrorText();
 			}
 			@Override
 			public void onResponse(String response) {
@@ -215,7 +217,7 @@ public class HouseDetailActivity extends OtherBaseActivity {
 				} else {
 					setHouseInfo(jReturn);
 				}
-
+				pl_progress.showContent();
 			}
 		});
 	}
@@ -274,7 +276,8 @@ public class HouseDetailActivity extends OtherBaseActivity {
 		sv_housedetail.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				sv_housedetail.fullScroll(ScrollView.FOCUS_UP);
+//				sv_housedetail.fullScroll(ScrollView.FOCUS_UP);
+//				sv_housedetail.scrollTo(0,0);
 			}
 		}, 100);
 	}

@@ -21,6 +21,7 @@ import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener {
@@ -90,6 +91,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         int layoutId=setContentLayoutId();
         baseView=inflater.inflate(layoutId, null);
         setXListView();
+        Arrays.asList(R.id.scrollView1);
         mHander = setHandler();
         if(getUserVisibleHint()){
             setUserVisibleHint(true);

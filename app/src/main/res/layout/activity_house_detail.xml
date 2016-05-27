@@ -3,10 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
    <include
         android:id="@+id/il_house_detail_title"
         layout="@layout/header_title_model1"/>
+    <com.vocinno.centanet.tools.customview.ProgressLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pl_progress"
+        >
    <ScrollView
         android:id="@+id/sv_housedetail"
         android:layout_below="@+id/il_house_detail_title"
@@ -470,5 +476,7 @@
             android:textSize="16sp"
             />
     </LinearLayout>
+    </com.vocinno.centanet.tools.customview.ProgressLayout>
+
 </RelativeLayout>
 

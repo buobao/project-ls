@@ -23,6 +23,7 @@ import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.customview.ProgressLayout;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -34,6 +35,7 @@ import com.zbar.lib.CaptureActivity;
  * Created by Administrator on 2016/4/20.
  */
 public abstract class OtherBaseActivity extends FragmentActivity implements HttpInterface,XListView.IXListViewListener,View.OnClickListener{
+    public ProgressLayout pl_progress;
     public Intent intent;
     public DrawerLayout drawer_layout;
     public View leftMenuView;
@@ -79,10 +81,18 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
         leftMenuView=findViewById(R.id.left_base_menu);
         initView();
+        setProgressLayout();
         mHander = setHandler();
         setClickListener();
         initData();
     }
+
+    private void setProgressLayout() {
+        if(baseView.findViewById(R.id.pl_progress)!=null){
+            pl_progress= (ProgressLayout) baseView.findViewById(R.id.pl_progress);
+        }
+    }
+
     private void setClickListener() {
 
         fuJinChuShou=(RelativeLayout)findViewById(R.id.rlyt_sell_house_main_page_slid_menus);

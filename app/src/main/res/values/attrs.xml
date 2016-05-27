@@ -14,7 +14,10 @@
         <attr name="noEmpty" format="boolean" />
         <attr name="isEnable" format="boolean" />
     </declare-styleable>
-
+    <declare-styleable name="ProgressLayout">
+        <attr name="progressBackground" format="color"/>
+        <attr name="progress" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="SlidingMenu">
         <attr name="mode">
             <enum name="left" value="0" />

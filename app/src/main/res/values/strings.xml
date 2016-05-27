@@ -136,6 +136,7 @@
     <string name="xlistview_footer_hint_empty">暂无数据</string>
     <!-- 第三方登录 -->
     <string name="loginByQQ">QQ登录</string>
+    <string name="unknown_error">error</string>
     <!-- 扫描专用 -->
     <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
     <string name="title_activity_main_page">MainPageActivity</string>

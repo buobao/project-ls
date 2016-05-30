@@ -193,7 +193,7 @@ public class KeyHouseListAdapter extends BaseAdapter {
 			holder.mTvPrice.setText(bPrice.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
 			holder.mTvUnit.setText("万");
 		}
-		holder.mTvDateTime.setText(item.getActiveTime());
+		holder.mTvDateTime.setText(item.getDelDate());
 //		holder.mTvTag1.setText(item.getTag());
 
 		if(tagMap==null){

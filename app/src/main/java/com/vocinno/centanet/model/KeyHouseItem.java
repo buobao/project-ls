@@ -15,6 +15,7 @@ public class KeyHouseItem {
 	private String unitprice = "";// 单价
 	private String tag = "";// 标签
 	private String activeTime = "";// 最近活动时间
+	private String delDate = "";// 挂牌时间
 	private String lat = "";// 经度
 	private String att = "";// 纬度
 	private String keyStatus = "";// 钥匙在店状态
@@ -47,6 +48,14 @@ public class KeyHouseItem {
 
 	public int getIsHD() {
 		return isHD;
+	}
+
+	public String getDelDate() {
+		return delDate;
+	}
+
+	public void setDelDate(String delDate) {
+		this.delDate = delDate;
 	}
 
 	public void setIsHD(int isHD) {

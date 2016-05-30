@@ -214,7 +214,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				dismissDialog();
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(response,HouseDetail.class);
 				if (!jReturn.isSuccess()) {
-					MethodsExtra.toast(mContext, jReturn.getMsg());
+//					MethodsExtra.toast(mContext, jReturn.getMsg());
 					myDialog = new MyDialog.Builder(HouseDetailActivity.this);
 					myDialog.setMessage(jReturn.getMsg());
 					myDialog.setTitle("提示");

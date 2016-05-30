@@ -1,15 +1,5 @@
 package com.vocinno.centanet.keymanage.adapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.selfdefineview.TouchableImageView;
-import com.vocinno.centanet.keymanage.KeyManageActivity;
-import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
-import com.vocinno.centanet.model.KeyItem;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -21,9 +11,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.selfdefineview.TouchableImageView;
+import com.vocinno.centanet.keymanage.KeyManageActivity;
+import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
+import com.vocinno.centanet.model.KeyItem;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class KeyListAdapter extends BaseAdapter {
 
@@ -94,6 +95,8 @@ public class KeyListAdapter extends BaseAdapter {
 					null);
 			holder.mRlytContent = (RelativeLayout) convertView
 					.findViewById(R.id.rlyt_content_itemKeyManage);
+			holder.iv_house_img = (ImageView) convertView
+					.findViewById(R.id.iv_house_img);
 			holder.mImageViewGiveKey1 = (ImageView) convertView
 					.findViewById(R.id.imgView_giveKey1_itemKeyManageListView);
 			holder.mTouchableImgViewGiveKey0 = (TouchableImageView) convertView
@@ -204,6 +207,13 @@ public class KeyListAdapter extends BaseAdapter {
 
 				});
 		KeyItem keyItem = mListKeys.get(position);
+
+		if (keyItem.getImg()!=null&&keyItem.getImg().length()>0) {
+			Glide.with(mContext).load(keyItem.getImg()).centerCrop()
+					.crossFade()
+					.error(R.drawable.default_img)
+					.into(holder.iv_house_img);
+		}
 		holder.mStrKeyNum = keyItem.getKeyNum();
 		// 地址
 		holder.mHouseAddress.setText(keyItem.getAddr());

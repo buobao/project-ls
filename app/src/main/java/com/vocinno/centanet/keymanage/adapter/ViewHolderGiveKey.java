@@ -19,6 +19,7 @@ public class ViewHolderGiveKey {
 	public TextView mTvGiveKeyPassWord;
 	// 借钥匙需要放入借用者头像的控件
 	public ImageView mImageViewGiveKey1;
+	public ImageView iv_house_img;
 	public ImageView mImgViewGiveKey0Bg;
 	public ImageView mImgViewRtnKey;
 	TextView mBorrowState01, mBorrowState02, mHouseAddress, mKeyNumb;

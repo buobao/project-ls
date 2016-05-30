@@ -1,7 +1,5 @@
 package com.vocinno.centanet.model;
 
-import com.vocinno.utils.MethodsData;
-
 public class KeyItem {
 
 	private String keyNum = ""; // 钥匙编号
@@ -10,6 +8,7 @@ public class KeyItem {
 	private long borrowTime = 0;// 借用时间
 	private String store = ""; // 店面
 	private String houId = "";
+	private String img = "";
 	private String isWaitingConfirm = "";
 	
 
@@ -48,6 +47,14 @@ public class KeyItem {
 	public long getBorrowTime() {
 //		return MethodsData.getFriendDateTime(borrowTime);
 		return this.borrowTime;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	public void setBorrowTime(long borrowTime) {

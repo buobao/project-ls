@@ -1,5 +1,6 @@
 package com.vocinno.centanet.housemanage;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 
 import com.squareup.okhttp.Request;
@@ -20,7 +21,7 @@ import com.vocinno.utils.MethodsJson;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@SuppressLint("ValidFragment")
 public class DianCollectionRFragment extends HouseListBaseFragment implements HttpInterface {
     private List<HouseItem> listHouses;
     private boolean firstLoading=true;

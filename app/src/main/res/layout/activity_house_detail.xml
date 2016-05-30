@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pl_progress"
+        android:layout_below="@+id/il_house_detail_title"
         >
    <ScrollView
         android:id="@+id/sv_housedetail"

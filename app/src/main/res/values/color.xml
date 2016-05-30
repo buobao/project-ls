@@ -32,6 +32,9 @@
     <color name="red_main_red">#D03535</color>
     <color name="gray_text_color">#9E9E9E</color>
     <color name="bg_main">#1E1A1A</color>
+    <!--主题颜色-->
+    <color name="top_color">#fd4b4d</color>
+    <color name="image_checked_bg">#66000000</color>
     <!-- ************************* 不常用颜色 ************************* -->
     <!-- 白色 -->
     <color name="ivory">#fffff0</color>

@@ -45,7 +45,7 @@ import java.util.Calendar;
 public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	private Button mBtnLogin;
 	private EditText mEtUserpassword, mEtUserAccount;
-	private boolean mIsLoginedJustNow = false;
+	private boolean mIsLoginedJustNow = false,loginError = false;
 	private String mUserId = null;
 	private MethodsJni methodsJni=new MethodsJni();
 	public static UserLoginActivity ula;
@@ -73,7 +73,8 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 					finish();
 					break;
 				case R.id.doFail:
-					if (!mIsLoginedJustNow) {
+					if (!loginError) {
+						loginError=true;
 						MethodsExtra.toast(mContext, (String) msg.obj);
 					}
 					break;
@@ -185,9 +186,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 
 					}
 				}, urlMap);*/
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
-						CST_JS.JS_Function_Login_login,
-						CST_JS.getJsonStringForLogin(userAccount, userPassword));
+				MethodsJni.callProxyFun((HttpInterface)mContext,CST_JS.JS_ProxyName_Login,CST_JS.JS_Function_Login_login,CST_JS.getJsonStringForLogin(userAccount, userPassword));
 			}
 		});
 	}
@@ -211,7 +210,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 			if(MethodsData.isEmptyString(userAccount)){
 				iv_splash.setVisibility(View.VISIBLE);
 			}else{
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_Login,
+				MethodsJni.callProxyFun((HttpInterface)mContext,CST_JS.JS_ProxyName_Login,
 						CST_JS.JS_Function_Login_login,
 						CST_JS.getJsonStringForLogin(userAccount, userPassword));
 			}
@@ -255,7 +254,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	public void notifCallBack(String name, String className, Object data) {
 
 
-		methodsJni.setMethodsJni(null);
+		/*methodsJni.setMethodsJni(null);
 		JSReturn jReturn = MethodsJson.jsonToJsReturn((String) data,
 				HouseList.class);
 		Message msg = new Message();
@@ -272,7 +271,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 				msg.obj = jReturn.getMsg();
 			}
 		}
-		mHander.sendMessage(msg);
+		mHander.sendMessage(msg);*/
 	}
 
 	private void downloadApp(String msg) {

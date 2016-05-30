@@ -400,7 +400,7 @@ public final class MethodsExtra {
 
 			@Override
 			public void onTextChanged(CharSequence s, int arg1, int arg2,
-					int arg3) {
+									  int arg3) {
 				int inputMaxLength = 0;
 				for (int i = 0; i < s.length(); i++) {
 					if (s.subSequence(i, i + 1).charAt(0) >= 19968
@@ -436,7 +436,7 @@ public final class MethodsExtra {
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
+										  int arg2, int arg3) {
 			}
 
 			@Override
@@ -713,7 +713,24 @@ public final class MethodsExtra {
 		}
 		return bgImageView;		//不指定就返回默认图片
 	}
-
+	public static View findHeadRightView1(Activity activity, View view,
+										  String intString, int backgroudImgId) {
+		RelativeLayout mLayout = (RelativeLayout) view
+				.findViewById(R.id.rlyt_right_mhread1);
+		mLayout.setVisibility(View.VISIBLE);
+		ImageView bgImageView = (ImageView) view.findViewById(R.id.img_right_mhead1);
+		TextView tView = (TextView) mLayout.findViewById(R.id.tv_right_mhead1);
+		if (backgroudImgId != 0) {
+			bgImageView.setImageDrawable(activity.getResources().getDrawable(backgroudImgId));
+			tView.setVisibility(View.GONE);
+			return bgImageView;
+		}else if(intString != null) {
+			tView.setText(intString);
+			bgImageView.setVisibility(View.GONE);
+			return tView;
+		}
+		return bgImageView;		//不指定就返回默认图片
+	}
 	/**
 	 * 给标题框添加标题
 	 * 

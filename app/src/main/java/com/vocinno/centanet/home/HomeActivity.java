@@ -2,6 +2,8 @@ package com.vocinno.centanet.home;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -46,6 +48,7 @@ public class HomeActivity extends HomeBaseActivity {
     private LinearLayout ll_pinma, ll_saoyisao;
     // 背景图片
     private ImageView mImgViewBackground;
+    private String appVersion;
     private Bitmap mBitmap = null;
     // 屏幕宽度和高度
     private int[] mIntScreenWithHeight;
@@ -70,7 +73,14 @@ public class HomeActivity extends HomeBaseActivity {
     void setAlpha(View view, float alpha) {
         view.setAlpha(alpha);
     }
-
+    public String getVersion() throws Exception{
+            // 获取packagemanager的实例
+            PackageManager packageManager = getPackageManager();
+            // getPackageName()是你当前类的包名，0代表是获取版本信息
+            PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
+            String version = packInfo.versionName;
+            return version;
+    }
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_home_page;
@@ -78,6 +88,13 @@ public class HomeActivity extends HomeBaseActivity {
 
     @Override
     public void initView() {
+        try {
+            appVersion="v"+getVersion();
+            MethodsExtra.findHeadRightView1(mContext, baseView,appVersion,0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MethodsExtra.findHeadRightView1(mContext, baseView, R.string.version, 0);
+        }
         HA = this;
         setMenu();
         iv_fangyuan = (ImageView) findViewById(R.id.iv_fangyuan);
@@ -117,7 +134,7 @@ public class HomeActivity extends HomeBaseActivity {
         mIntScreenWithHeight = MethodsData.getScreenWidthHeight(mContext);
         Bitmap bp = MethodsFile
                 .getScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                        R.drawable.homeimg), mIntScreenWithHeight[0],
+                                R.drawable.homeimg), mIntScreenWithHeight[0],
                         (mIntScreenWithHeight[1] - MethodsData.dip2px(mContext,
                                 25)) / 2, 0, 0);
 

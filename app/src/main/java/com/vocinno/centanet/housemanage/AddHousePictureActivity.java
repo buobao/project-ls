@@ -27,12 +27,13 @@ import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.UploadImageResult;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.photo.PhotoWallActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.imageutils.selector.SelectorImageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -467,8 +468,8 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 	@Override
 	public void selectPhoto(String type) {
 		selectType=type;
-		Intent intent=new Intent(this, SelectorImageActivity.class);
-//		Intent intent=new Intent(this, PhotoWallActivity.class);
+//		Intent intent=new Intent(this, SelectorImageActivity.class);
+		Intent intent=new Intent(this, PhotoWallActivity.class);
 		startActivityForResult(intent, 301);//选择图片
 	}
 	@Override
@@ -676,7 +677,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			}
 		}else if(requestCode==301&&resultCode==RESULT_OK){
 			if(data!=null){
-				List<String> list=data.getStringArrayListExtra("pathList");
+				List<String> list=data.getStringArrayListExtra(MyConstant.pathList);
 				//ArrayList<String> paths = intent.getStringArrayListExtra("paths");
 				switch (selectType){
 					case "houseType":

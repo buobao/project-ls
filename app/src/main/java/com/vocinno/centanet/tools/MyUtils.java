@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -183,5 +184,11 @@ public  class MyUtils {
     public static void LogI(String d1,String d2) {
         Log.i("log-key["+d1,"]########["+d2+"]");
     }
-
+    public static void showToast(Context context,String msg){
+        if(context!=null){
+            if(msg!=null&&msg.length()>0){
+                Toast.makeText(context,msg, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }

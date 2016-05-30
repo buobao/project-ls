@@ -16,4 +16,5 @@ public class MyConstant {
     public final static int robGongHouseList =2;//抢公房
     /************************房源详情*****************************/
     public final static String houseCode="houseCode";
+    public final static String pathList="pathList";
 }

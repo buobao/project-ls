@@ -139,7 +139,9 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 		mMoreView.setOnClickListener(new NoDoubleClickListener() {
 			@Override
 			protected void onNoDoubleClick(View v) {
-				showMenuDialog();
+				if(houseDetail!=null&&houseDetail.getDelCode()!=null){
+					showMenuDialog();
+				}
 			}
 		});
 		mTitleView = MethodsExtra

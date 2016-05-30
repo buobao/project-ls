@@ -152,6 +152,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		mBtnLogin.setOnClickListener(new NoDoubleClickListener() {
 			@Override
 			public void onNoDoubleClick(View v) {
+				loginError=false;
 				String userAccount = mEtUserAccount.getText().toString().trim();
 				String userPassword = mEtUserpassword.getText().toString().trim();
 				if (MethodsData.isEmptyString(userAccount)) {

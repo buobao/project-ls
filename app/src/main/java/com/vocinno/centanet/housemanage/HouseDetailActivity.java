@@ -598,6 +598,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	}
 
 	private void showBorrowKey(boolean flag) {
+		ll_house_detail_qiang.setVisibility(View.GONE);
 		if(isGongFang){
 
 		}
@@ -608,6 +609,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 			ll_house_detail_borrow.setVisibility(View.GONE);
 			ll_house_detail_contact.setVisibility(View.VISIBLE);
 		}
+
 	}
 	// 展示钥匙相关按钮
 	private void showBorrowKey() {

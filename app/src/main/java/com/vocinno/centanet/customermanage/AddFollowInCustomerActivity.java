@@ -152,7 +152,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			}
 		};
 	}
-
+	private boolean doubleInit;
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -162,6 +162,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			if (content != null && MethodsData.isHaveEnoughNumber(content, 8)) {
 				MethodsExtra.toast(mContext, "不能输入连续的8个数字");
 			} else if (content != null && content.trim().length() >= 1) {
+				doubleInit=true;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_addTrackInfo, CST_JS
 								.getJsonStringForAddTrackInfo(mCustorCode,
@@ -206,7 +207,9 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 		dismissDialog();
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
-		if (jsReturn.isSuccess()) {
+		if(doubleInit){
+			doubleInit=false;
+			if (jsReturn.isSuccess()) {
 //			MethodsExtra.toast(mContext, jsReturn.getMsg());
 			/*String content = mEtContent.getText().toString();
 			String time = mTvDate.getText().toString();
@@ -216,11 +219,12 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 			setResult(10, intent);*/
 			/*setResult(ConstantResult.REFRESH);
 			finish();*/
-			MethodsExtra.toast(mContext, jsReturn.getMsg());
-			setResult(MyConstant.REFRESH);
-			finish();
-		}else{
-			MethodsExtra.toast(mContext, jsReturn.getMsg());
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+				setResult(MyConstant.REFRESH);
+				finish();
+			}else{
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+			}
 		}
 	}
 

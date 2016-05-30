@@ -260,7 +260,6 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				Intent intent=new Intent(mContext, HouseDetailActivity.class);
 				intent.putExtra(MyConstant.houseCode,item.getDelCode());
 				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
-				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
 				intent.putExtra(MyConstant.isGongFang,isGongFang);
 				if(isKey){
 					((KeyHouseManageActivity) mContext).startActivityForResult(intent, 10);

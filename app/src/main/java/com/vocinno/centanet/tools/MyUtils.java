@@ -170,8 +170,7 @@ public  class MyUtils {
                              double d2,int len) {// 进行除法运算
         BigDecimal b1 = new BigDecimal(d1);
         BigDecimal b2 = new BigDecimal(d2);
-        return b1.divide(b2, len, BigDecimal.
-                ROUND_HALF_UP).doubleValue();
+        return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
     public static double division(String d1,String d2,int len) {// 进行除法运算
         double dl1=Double.parseDouble(d1);

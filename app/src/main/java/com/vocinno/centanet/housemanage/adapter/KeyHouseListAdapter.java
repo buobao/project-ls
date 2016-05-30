@@ -183,7 +183,12 @@ public class KeyHouseListAdapter extends BaseAdapter {
 			holder.mTvUnit.setText("元");
 		} else {
 //			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,BigDecimal.ROUND_HALF_UP) + "万/㎡");// 单价
-			holder.mTvUnitprice.setText(MyUtils.division(Double.parseDouble(item.getPrice())/10000+"",item.getSquare())+"万/㎡");
+			double unitPrice=Double.parseDouble(item.getPrice());
+			if(item.getPrice()!=null&&unitPrice>0){
+				holder.mTvUnitprice.setText(MyUtils.division(Double.parseDouble(item.getPrice()) / 10000 + "", item.getSquare()) + "万/㎡");
+			}else{
+				holder.mTvUnitprice.setText(unitPrice+ "万/㎡");
+			}
 			try {
 				bPrice = new BigDecimal(
 						Double.parseDouble(item.getPrice()) / 10000);

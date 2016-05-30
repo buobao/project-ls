@@ -51,7 +51,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	public static UserLoginActivity ula;
 	private ImageView iv_splash;
 	private boolean isExit;
-	private ImageView mDelete;
+	private ImageView mDeleteUser,mDeletePwd;
 
 	@Override
 	public Handler setHandler() {
@@ -101,20 +101,23 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		mEtUserAccount = (EditText) findViewById(R.id.et_userAccount_UserLoginActivity);
 		mEtUserpassword = (EditText) findViewById(R.id.et_userPassword_UserLoginActivity);
 		mBtnLogin = (Button) findViewById(R.id.btn_userLogin_UserLoginActivity);
-		mDelete = (ImageView)findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
+		mDeleteUser = (ImageView)findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
+		mDeletePwd = (ImageView)findViewById(R.id.iv_delete_pwd);	//只清除密码
 
 
 		mEtUserAccount.setText(SharedPreferencesUtils.getUsername(this));
 		mEtUserAccount.setSelection(mEtUserAccount.getText().length());
 		mEtUserpassword.setText(SharedPreferencesUtils.getUserpassword(this));
+		mEtUserpassword.setSelection(mEtUserpassword.getText().length());
 		clearUserInfo();
+		clearPassWordInfo();
 
 	}
 	/**************************用户名不为空时,点击按钮清除用户信息****************************/
 	private void clearUserInfo() {
 		if(!TextUtils.isEmpty(mEtUserAccount.getText())){   //不为空就点击删除
-			mDelete.setVisibility(View.VISIBLE);
-			mDelete.setOnClickListener(new View.OnClickListener() {
+			mDeleteUser.setVisibility(View.VISIBLE);
+			mDeleteUser.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					mEtUserpassword.setText("");
@@ -123,7 +126,23 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 				}
 			});
 		}else{
-			mDelete.setVisibility(View.INVISIBLE); 			//为空就隐藏删除按钮
+			mDeleteUser.setVisibility(View.INVISIBLE); 			//为空就隐藏删除按钮
+		}
+	}
+
+	/**************************密码不为空时,点击按钮只清除密码信息****************************/
+	private void clearPassWordInfo() {
+		if(!TextUtils.isEmpty(mEtUserpassword.getText())){   //不为空就点击删除
+			mDeletePwd.setVisibility(View.VISIBLE);
+			mDeletePwd.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mEtUserpassword.setText("");
+					mEtUserpassword.requestFocus();//密码框获得焦点
+				}
+			});
+		}else{
+			mDeletePwd.setVisibility(View.INVISIBLE); 		//为空就隐藏删除按钮
 		}
 	}
 
@@ -147,6 +166,23 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 				clearUserInfo();
 			}
 		});
+
+		mEtUserpassword.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				clearPassWordInfo();
+			}
+		});
+
 
 
 		mBtnLogin.setOnClickListener(new NoDoubleClickListener() {
@@ -362,6 +398,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		SharedPreferences spf = getSharedPreferences(SharedPre.xml_token_name, this.MODE_PRIVATE);
 		return spf.getString(SharedPre.empId, null);
 	}
+
 	public abstract class NoDoubleClickListener implements View.OnClickListener {
 
 		public static final int MIN_CLICK_DELAY_TIME = 1000;

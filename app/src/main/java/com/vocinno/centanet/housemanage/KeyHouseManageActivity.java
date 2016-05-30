@@ -75,7 +75,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
     private LinearLayout ll_tag_contect;
     private ScrollTagViewAdapter mScrollTagViewAdapter;
     private Dialog mMenuDialog, mSearchDialog, mTagSortDialog;
-    private TextView mTvAreaSort, mTvPriceSort;
+    private TextView mTvAreaSort, mTvPriceSort,mTvTimeSort;
     private PaiXuType mPaiXuType = PaiXuType.None;
     private PopupWindow popu;
     private String dongHao;
@@ -91,7 +91,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
     }
 
     private enum PaiXuType {
-        None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown
+        None, mTvAreaSortUp, mTvAreaSortDown, mTvPriceSortUp, mTvPriceSortDown,mTvTimeSortUp,mTvTimeSortDown
     }
 
     private LinearLayout ll_house_list, ll_dialog_wheelview_two0, ll_dialog_wheelview_two1, ll_dialog_wheelview_two2, ll_dialog_wheelview_two3, ll_dialog_wheelview_two4;
@@ -143,9 +143,14 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
                 .findViewById(R.id.tv_sortArea_HouseManageActivity);
         mTvPriceSort = (TextView) mSearchDialog
                 .findViewById(R.id.tv_priceArea_HouseManageActivity);
+        mTvPriceSort = (TextView) mSearchDialog
+                .findViewById(R.id.tv_priceArea_HouseManageActivity);
+        mTvTimeSort = (TextView) mSearchDialog
+                .findViewById(R.id.tv_sortTime_HouseManageActivity);
 
         mTvAreaSort.setOnClickListener(this);
         mTvPriceSort.setOnClickListener(this);
+        mTvTimeSort.setOnClickListener(this);
         // 五个筛选条件的箭头指向
         if (mPaiXuType == PaiXuType.mTvAreaSortUp) {
             drawable = getResources().getDrawable(
@@ -329,6 +334,23 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
                 } else {
                     mPaiXuType = PaiXuType.mTvPriceSortUp;
                     searchByOrder("price", "asc");
+                }
+                mSearchDialog.dismiss();
+                break;
+            case R.id.tv_sortTime_HouseManageActivity:
+                //按照挂牌时间排序
+                if(mPaiXuType == PaiXuType.None){
+                    mPaiXuType = PaiXuType.mTvAreaSortUp;
+                    searchByOrder("deldate", "asc");
+                }else if(mPaiXuType == PaiXuType.mTvTimeSortUp){
+                    mPaiXuType = PaiXuType.mTvAreaSortDown;
+                    searchByOrder("deldate", "desc");
+                }else if(mPaiXuType == PaiXuType.mTvTimeSortDown){
+                    mPaiXuType = PaiXuType.mTvAreaSortUp;
+                    searchByOrder("deldate", "asc");
+                }else{
+                    mPaiXuType = PaiXuType.mTvAreaSortUp;
+                    searchByOrder("deldate", "asc");
                 }
                 mSearchDialog.dismiss();
                 break;

@@ -1,6 +1,7 @@
 package com.vocinno.centanet.housemanage;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -1094,6 +1096,14 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         win.setGravity(Gravity.TOP);
         mSearchDialog.setCanceledOnTouchOutside(true);
+        mSearchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+//                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
         ll_house_list = (LinearLayout) mSearchDialog.findViewById(R.id.ll_house_list);
         lv_house_list = (ListView) mSearchDialog.findViewById(R.id.lv_house_list);
         final SearchAdapter mSearch = new SearchAdapter(mContext,

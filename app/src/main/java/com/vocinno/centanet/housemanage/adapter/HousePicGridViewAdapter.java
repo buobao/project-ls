@@ -109,9 +109,7 @@ public class HousePicGridViewAdapter extends BaseAdapter {
 //			String imageUrl = ImageDownloader.Scheme.FILE.wrap(imagePath);
 //			MethodsFile.downloadImgByUrl(imageUrl, holder.mImgHousePic);
 
-			Glide.with(mContext).load(imagePath).centerCrop()
-					.crossFade()
-					.into(holder.mImgHousePic);
+			Glide.with(mContext).load(imagePath).centerCrop().crossFade().into(holder.mImgHousePic);
 
 			holder.tv_img_path.setText(this.mImageList.get(index));
 			// 点击进行图片描述编辑

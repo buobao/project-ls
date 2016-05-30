@@ -468,6 +468,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 	public void selectPhoto(String type) {
 		selectType=type;
 		Intent intent=new Intent(this, SelectorImageActivity.class);
+//		Intent intent=new Intent(this, PhotoWallActivity.class);
 		startActivityForResult(intent, 301);//选择图片
 	}
 	@Override
@@ -676,6 +677,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 		}else if(requestCode==301&&resultCode==RESULT_OK){
 			if(data!=null){
 				List<String> list=data.getStringArrayListExtra("pathList");
+				//ArrayList<String> paths = intent.getStringArrayListExtra("paths");
 				switch (selectType){
 					case "houseType":
 						addImgPath(mHouseTypeImgsList,list,"houseType",mTvHouseTypePicNumber,mGridViewHouseTypePic,houseTypeAdapter);

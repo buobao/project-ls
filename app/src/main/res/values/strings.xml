@@ -158,6 +158,11 @@
     <string name="title_activity_key_manage">KeyManageActivity</string>
     <string name="title_activity_key_manage_detail">KeyManageDetailActivity</string>
     <string name="title_activity_key_borrow_detail">KeyBorrowDetailActivity</string>
+    <string name="select_album">选择相册</string>
+    <string name="select_image">选择图片</string>
+    <string name="latest_image">最近照片</string>
+    <string name="photo_album">相册</string>
+
     <!-- 房源管理 -->
     <string name="house_manage">房源管理</string>
     <string name="house_chushou">附近出售</string>

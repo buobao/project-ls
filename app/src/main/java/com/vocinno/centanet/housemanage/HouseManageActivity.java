@@ -305,6 +305,11 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                if(position==vp_house_manager.getChildCount()-1){
+                    iv_change_viewpager.setVisibility(View.GONE);
+                }else{
+                    iv_change_viewpager.setVisibility(View.VISIBLE);
+                }
                 menuType=position;
                 gongFangOrHouseTitle(position);
                 setTagHidden(position);
@@ -771,6 +776,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case R.id.tv_house_search:
                 dongHao = et_house_dong.getText().toString();
                 shiHao = et_house_shi.getText().toString();
+                if(mEtSearch.getText()==null||mEtSearch.getText().toString().trim().length()<=0){
+                    searchId[viewPageIndex]="";
+                    searchType[viewPageIndex]="";
+                }
                 searchByKeyWord(searchId[viewPageIndex],searchType[viewPageIndex],dongHao,shiHao);
                 mSearchDialog.dismiss();
                 break;

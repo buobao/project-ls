@@ -200,7 +200,22 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     drawable.getMinimumHeight());
             mTvPriceSort.setCompoundDrawables(null, null, drawable, null);
             mTvPriceSort.setCompoundDrawablePadding(10);
-        } else {
+        } else if (mPaiXuType == PaiXuType.mTvTimeSortUp) {
+            drawable = getResources().getDrawable(
+                    R.drawable.h_manage_order_icon_up);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(),
+                    drawable.getMinimumHeight());
+            mTvTimeSort.setCompoundDrawables(null, null, drawable, null);
+            mTvTimeSort.setCompoundDrawablePadding(10);
+
+        } else if (mPaiXuType == PaiXuType.mTvTimeSortDown) {
+            drawable = getResources().getDrawable(
+                    R.drawable.h_manage_order_icon_down);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(),
+                    drawable.getMinimumHeight());
+            mTvTimeSort.setCompoundDrawables(null, null, drawable, null);
+            mTvTimeSort.setCompoundDrawablePadding(10);
+        }else {
             drawable = getResources().getDrawable(
                     R.drawable.h_manage_more_icon_order);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(),
@@ -209,6 +224,8 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             mTvAreaSort.setCompoundDrawablePadding(10);
             mTvPriceSort.setCompoundDrawables(null, null, drawable, null);
             mTvPriceSort.setCompoundDrawablePadding(10);
+            mTvTimeSort.setCompoundDrawables(null, null, drawable, null);
+            mTvTimeSort.setCompoundDrawablePadding(0);
         }
         mSearchDialog.show();
     }
@@ -552,16 +569,16 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case R.id.tv_sortTime_HouseManageActivity:
                 //按照挂牌时间排序
                 if(mPaiXuType == PaiXuType.None){
-                    mPaiXuType = PaiXuType.mTvAreaSortUp;
+                    mPaiXuType = PaiXuType.mTvTimeSortUp;
                     searchByOrder("deldate", "asc");
                 }else if(mPaiXuType == PaiXuType.mTvTimeSortUp){
-                    mPaiXuType = PaiXuType.mTvAreaSortDown;
+                    mPaiXuType = PaiXuType.mTvTimeSortDown;
                     searchByOrder("deldate", "desc");
                 }else if(mPaiXuType == PaiXuType.mTvTimeSortDown){
-                    mPaiXuType = PaiXuType.mTvAreaSortUp;
+                    mPaiXuType = PaiXuType.mTvTimeSortUp;
                     searchByOrder("deldate", "asc");
                 }else{
-                    mPaiXuType = PaiXuType.mTvAreaSortUp;
+                    mPaiXuType = PaiXuType.mTvTimeSortUp;
                     searchByOrder("deldate", "asc");
                 }
                 mSearchDialog.dismiss();

@@ -94,7 +94,23 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	@Override
 	@SuppressLint("HandlerLeak")
 	public Handler setHandler() {
-		return null;
+		return new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+					case R.id.doGetImg:
+						Bitmap bitmap=(Bitmap)msg.obj;
+						wechatShare(zoomImage(bitmap, 100,100));
+						break;
+					case R.id.doGetImgError:
+						Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+						wechatShare(map);
+						break;
+					default:
+						break;
+				}
+			}
+		};
 	}
 	@Override
 	public int setContentLayoutId() {

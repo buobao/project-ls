@@ -208,7 +208,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 			String userAccount = mEtUserAccount.getText().toString().trim();
 			String userPassword = mEtUserpassword.getText().toString().trim();
 			if(MethodsData.isEmptyString(userAccount)){
-				iv_splash.setVisibility(View.VISIBLE);
+				iv_splash.setVisibility(View.GONE);
 			}else{
 				MethodsJni.callProxyFun((HttpInterface)mContext,CST_JS.JS_ProxyName_Login,
 						CST_JS.JS_Function_Login_login,

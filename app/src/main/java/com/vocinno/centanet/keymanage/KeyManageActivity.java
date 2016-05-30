@@ -494,10 +494,10 @@ public class KeyManageActivity extends OtherBaseActivity implements
 	// listView item点击事件
 	private void onItemClickListener(int position) {
 		MethodsDeliverData.mKeyType = -1;
-		MethodsDeliverData.mDelCode = mKeyListData.get(position - 1)
-				.getDelCode();
+		MethodsDeliverData.mDelCode = mKeyListData.get(position - 1).getDelCode();
 		Intent intent=new Intent(this, HouseDetailActivity.class);
 		intent.putExtra("key",true);
+		intent.putExtra(MyConstant.houseCode,mKeyListData.get(position-1).getDelCode());
 		startActivity(intent);
 //		MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 	}

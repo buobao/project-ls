@@ -281,7 +281,9 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 					dismissDialog();
 					JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
 							CustomerDetail.class);
-					getCustInfo(jsReturn);
+					if(jsReturn.isSuccess()){
+						getCustInfo(jsReturn);
+					}
 				}
 			});
 		}

@@ -8,7 +8,7 @@
    <include
         android:id="@+id/il_house_detail_title"
         layout="@layout/header_title_model1"/>
-    <com.vocinno.centanet.tools.customview.ProgressLayout
+   <com.vocinno.centanet.tools.customview.ProgressLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pl_progress"
@@ -410,73 +410,79 @@
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/ll_house_detail_contact"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/red_main_red"
-        android:gravity="center"
-        android:visibility="visible"
-        >
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/h_detail_icon_contact"
-            android:drawablePadding="5dp"
-            android:text="联系业主"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            >
+            <LinearLayout
+                android:id="@+id/ll_house_detail_contact"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/red_main_red"
+                android:gravity="center"
+                android:visibility="visible"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/h_detail_icon_contact"
+                    android:drawablePadding="5dp"
+                    android:text="联系业主"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_house_detail_borrow"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/red_main_red"
-        android:gravity="center"
-        android:visibility="gone"
-        >
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/k_manage_icon_borrow"/>
+            <LinearLayout
+                android:id="@+id/ll_house_detail_borrow"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/red_main_red"
+                android:gravity="center"
+                android:visibility="gone"
+                >
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/k_manage_icon_borrow"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="借用"
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_house_detail_qiang"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/red_main_red"
-        android:gravity="center"
-        android:visibility="gone"
-        >
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/icon_grab"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="借用"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_house_detail_qiang"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/red_main_red"
+                android:gravity="center"
+                android:visibility="gone"
+                >
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/icon_grab"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="抢"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            />
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="抢"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
     </com.vocinno.centanet.tools.customview.ProgressLayout>
 
 </RelativeLayout>

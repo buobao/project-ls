@@ -150,6 +150,7 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		case R.id.img_right_mhead1:
 			String content = mEtContent.getText().toString();
 			if (content != null && content.trim().length() >= 1) {
+				doubleInit=true;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_addHouTrack, CST_JS
 								.getJsonStringForAddHouTrack(
@@ -167,18 +168,21 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 	public void notifCallBack(String name, String className, Object data) {
 
 	}
-
+	private boolean doubleInit;
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
 		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
 				Object.class);
-		if (jsReturn.isSuccess()) {
-			MethodsExtra.toast(mContext, jsReturn.getMsg());
-			isSucessSave=true;
-			setResult(MyConstant.REFRESH);
-			finish();
-		}else{
-			MethodsExtra.toast(mContext,jsReturn.getMsg());
+		if(doubleInit){
+			doubleInit=false;
+			if (jsReturn.isSuccess()) {
+				MethodsExtra.toast(mContext, jsReturn.getMsg());
+				isSucessSave=true;
+				setResult(MyConstant.REFRESH);
+				finish();
+			}else{
+				MethodsExtra.toast(mContext,jsReturn.getMsg());
+			}
 		}
 	}
 

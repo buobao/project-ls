@@ -109,7 +109,6 @@
         <activity
             android:name=".home.HomeActivity"
             android:configChanges="orientation|keyboard|screenSize"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
 

@@ -2,6 +2,8 @@ package com.vocinno.centanet.user;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.AppInit;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
@@ -40,18 +45,22 @@ import java.util.Calendar;
  * 用户登录
  *
  * @author Administrator
- *
  */
-public class UserLoginActivity extends SuperActivity implements HttpInterface {
+public class UserLoginActivity extends SuperActivity implements HttpInterface,View.OnFocusChangeListener {
 	private Button mBtnLogin;
 	private EditText mEtUserpassword, mEtUserAccount;
-	private boolean mIsLoginedJustNow = false,loginError = false;
+	private boolean mIsLoginedJustNow = false, loginError = false;
 	private String mUserId = null;
-	private MethodsJni methodsJni=new MethodsJni();
+	private MethodsJni methodsJni = new MethodsJni();
 	public static UserLoginActivity ula;
 	private ImageView iv_splash;
 	private boolean isExit;
-	private ImageView mDeleteUser,mDeletePwd;
+	private ImageView mDeleteUser, mDeletePwd;
+	/**
+	 * ATTENTION: This was auto-generated to implement the App Indexing API.
+	 * See https://g.co/AppIndexing/AndroidStudio for more information.
+	 */
+	private GoogleApiClient client;
 
 	@Override
 	public Handler setHandler() {
@@ -60,26 +69,26 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 			public void handleMessage(Message msg) {
 				dismissDialog();
 				switch (msg.what) {
-				case R.id.doSuccess:
-					if (!mIsLoginedJustNow) {
-						mIsLoginedJustNow = true;
-						SharedPreferencesUtils.setLoginIn(mContext,
-								mEtUserAccount.getText().toString(),
-								mEtUserpassword.getText().toString(), mUserId);
-						MethodsExtra.toast(mContext, (String) msg.obj);
-						MethodsExtra.startActivity(mContext, HomeActivity.class);
-					}
+					case R.id.doSuccess:
+						if (!mIsLoginedJustNow) {
+							mIsLoginedJustNow = true;
+							SharedPreferencesUtils.setLoginIn(mContext,
+									mEtUserAccount.getText().toString(),
+									mEtUserpassword.getText().toString(), mUserId);
+							MethodsExtra.toast(mContext, (String) msg.obj);
+							MethodsExtra.startActivity(mContext, HomeActivity.class);
+						}
 
-					finish();
-					break;
-				case R.id.doFail:
-					if (!loginError) {
-						loginError=true;
-						MethodsExtra.toast(mContext, (String) msg.obj);
-					}
-					break;
-				default:
-					break;
+						finish();
+						break;
+					case R.id.doFail:
+						if (!loginError) {
+							loginError = true;
+							MethodsExtra.toast(mContext, (String) msg.obj);
+						}
+						break;
+					default:
+						break;
 				}
 			}
 		};
@@ -95,54 +104,75 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	 */
 	@Override
 	public void initView() {
-		ula=this;
+		ula = this;
 		iv_splash = (ImageView) findViewById(R.id.iv_splash);
 		iv_splash.setOnClickListener(this);
 		mEtUserAccount = (EditText) findViewById(R.id.et_userAccount_UserLoginActivity);
 		mEtUserpassword = (EditText) findViewById(R.id.et_userPassword_UserLoginActivity);
 		mBtnLogin = (Button) findViewById(R.id.btn_userLogin_UserLoginActivity);
-		mDeleteUser = (ImageView)findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
-		mDeletePwd = (ImageView)findViewById(R.id.iv_delete_pwd);	//只清除密码
+		mDeleteUser = (ImageView) findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
+		mDeletePwd = (ImageView) findViewById(R.id.iv_delete_pwd);    //只清除密码
 
 
 		mEtUserAccount.setText(SharedPreferencesUtils.getUsername(this));
 		mEtUserAccount.setSelection(mEtUserAccount.getText().length());
+		mEtUserAccount.setOnFocusChangeListener(this);	//EidtText焦点监听
+
 		mEtUserpassword.setText(SharedPreferencesUtils.getUserpassword(this));
 		mEtUserpassword.setSelection(mEtUserpassword.getText().length());
-		clearUserInfo();
-		clearPassWordInfo();
+		mEtUserpassword.setOnFocusChangeListener(this);
+//		clearUserInfo();
+//		clearPassWordInfo();
 
 	}
-	/**************************用户名不为空时,点击按钮清除用户信息****************************/
-	private void clearUserInfo() {
-		if(!TextUtils.isEmpty(mEtUserAccount.getText())){   //不为空就点击删除
-			mDeleteUser.setVisibility(View.VISIBLE);
-			mDeleteUser.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					mEtUserpassword.setText("");
-					mEtUserAccount.setText("");
-					mEtUserAccount.requestFocus();//用户名获得焦点
-				}
-			});
-		}else{
-			mDeleteUser.setVisibility(View.INVISIBLE); 			//为空就隐藏删除按钮
-		}
-	}
 
-	/**************************密码不为空时,点击按钮只清除密码信息****************************/
-	private void clearPassWordInfo() {
-		if(!TextUtils.isEmpty(mEtUserpassword.getText())){   //不为空就点击删除
-			mDeletePwd.setVisibility(View.VISIBLE);
-			mDeletePwd.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					mEtUserpassword.setText("");
-					mEtUserpassword.requestFocus();//密码框获得焦点
+//	/**
+//	 * 用户名不为空时,点击按钮清除用户信息
+//	 */
+//	private void clearUserInfo() {
+//		if (!TextUtils.isEmpty(mEtUserAccount.getText()) && mEtUserAccount.isFocused()) {   //不为空且获得焦点就点击删除
+//			mDeleteUser.setVisibility(View.VISIBLE);
+//			mDeletePwd.setVisibility(View.INVISIBLE);
+//
+//		} else {
+//			mDeleteUser.setVisibility(View.INVISIBLE);
+//		}
+//	}
+//
+//	/**
+//	 * 密码不为空时,点击按钮只清除密码信息
+//	 */
+//	private void clearPassWordInfo() {
+//		if (!TextUtils.isEmpty(mEtUserpassword.getText()) && mEtUserpassword.isFocused()) {
+//			mDeletePwd.setVisibility(View.VISIBLE);
+//			mDeleteUser.setVisibility(View.INVISIBLE);
+//
+//		} else {
+//			mDeletePwd.setVisibility(View.INVISIBLE);
+//		}
+//	}
+
+	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
+		switch(v.getId()) {
+			case R.id.et_userAccount_UserLoginActivity:
+				if(hasFocus && !TextUtils.isEmpty(mEtUserAccount.getText())){
+					mDeleteUser.setVisibility(View.VISIBLE);
+					mDeletePwd.setVisibility(View.INVISIBLE);
+				}else{
+					mDeleteUser.setVisibility(View.INVISIBLE);
 				}
-			});
-		}else{
-			mDeletePwd.setVisibility(View.INVISIBLE); 		//为空就隐藏删除按钮
+				break;
+			case R.id.et_userPassword_UserLoginActivity:
+				if(hasFocus && !TextUtils.isEmpty(mEtUserpassword.getText())){
+					mDeletePwd.setVisibility(View.VISIBLE);
+					mDeleteUser.setVisibility(View.INVISIBLE);
+				}else{
+					mDeletePwd.setVisibility(View.INVISIBLE);
+				}
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -151,44 +181,60 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	 */
 	@Override
 	public void setListener() {
-		mEtUserAccount.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
 
+		mDeletePwd.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				clearUserInfo();
+			public void onClick(View v) {
+				mEtUserpassword.setText("");
 			}
 		});
 
-		mEtUserpassword.addTextChangedListener(new TextWatcher() {
+		mDeleteUser.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				clearPassWordInfo();
+			public void onClick(View v) {
+				mEtUserpassword.setText("");
+				mEtUserAccount.setText("");
 			}
 		});
-
+//
+//		//用户名EditText监听
+//		mEtUserAccount.addTextChangedListener(new TextWatcher() {
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//			}
+//
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//			}
+//
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				clearUserInfo();
+//			}
+//		});
+//		//密码EditText监听
+//		mEtUserpassword.addTextChangedListener(new TextWatcher() {
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//			}
+//
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//			}
+//
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				clearPassWordInfo();
+//			}
+//		});
 
 
 		mBtnLogin.setOnClickListener(new NoDoubleClickListener() {
 			@Override
 			public void onNoDoubleClick(View v) {
-				loginError=false;
+				loginError = false;
 				String userAccount = mEtUserAccount.getText().toString().trim();
 				String userPassword = mEtUserpassword.getText().toString().trim();
 				if (MethodsData.isEmptyString(userAccount)) {
@@ -223,7 +269,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 
 					}
 				}, urlMap);*/
-				MethodsJni.callProxyFun((HttpInterface)mContext,CST_JS.JS_ProxyName_Login,CST_JS.JS_Function_Login_login,CST_JS.getJsonStringForLogin(userAccount, userPassword));
+				MethodsJni.callProxyFun((HttpInterface) mContext, CST_JS.JS_ProxyName_Login, CST_JS.JS_Function_Login_login, CST_JS.getJsonStringForLogin(userAccount, userPassword));
 			}
 		});
 	}
@@ -238,16 +284,16 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		MethodsNetwork.refreshAPNTypeInMainThread(this);
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_LOGIN_RESULT,
 				TAG);
-		isExit=getIntent().getBooleanExtra(MyConstant.isExit,false);
-		if(isExit){
+		isExit = getIntent().getBooleanExtra(MyConstant.isExit, false);
+		if (isExit) {
 			iv_splash.setVisibility(View.GONE);
-		}else{
+		} else {
 			String userAccount = mEtUserAccount.getText().toString().trim();
 			String userPassword = mEtUserpassword.getText().toString().trim();
-			if(MethodsData.isEmptyString(userAccount)){
+			if (MethodsData.isEmptyString(userAccount)) {
 				iv_splash.setVisibility(View.GONE);
-			}else{
-				MethodsJni.callProxyFun((HttpInterface)mContext,CST_JS.JS_ProxyName_Login,
+			} else {
+				MethodsJni.callProxyFun((HttpInterface) mContext, CST_JS.JS_ProxyName_Login,
 						CST_JS.JS_Function_Login_login,
 						CST_JS.getJsonStringForLogin(userAccount, userPassword));
 			}
@@ -258,10 +304,10 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_userLogin_UserLoginActivity:
-			break;
-		default:
-			break;
+			case R.id.btn_userLogin_UserLoginActivity:
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -269,11 +315,12 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	 * 按返回键的时候的监听
 	 */
 	private long exitTime = 0;
+
 	@Override
 	public void onBack() {
-		if(iv_splash.getVisibility()==View.GONE){
+		if (iv_splash.getVisibility() == View.GONE) {
 //			MethodsExtra.backdailog(mContext);
-			if((System.currentTimeMillis()-exitTime) > 2000){
+			if ((System.currentTimeMillis() - exitTime) > 2000) {
 				Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
 				exitTime = System.currentTimeMillis();
 			} else {
@@ -281,7 +328,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 				MyUtils.removeActivityFromList();
 				MyUtils.removeActivityFromAllList();
 			}
-		}else{
+		} else {
 			finish();
 			System.exit(0);
 		}
@@ -312,13 +359,13 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 	}
 
 	private void downloadApp(String msg) {
-		MyDialog.Builder myDialog=new MyDialog.Builder(this);
+		MyDialog.Builder myDialog = new MyDialog.Builder(this);
 		myDialog.setTitle("提示");
 		myDialog.setMessage(msg);
 		myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				DownloadApp ad=new DownloadApp(UserLoginActivity.this);
+				DownloadApp ad = new DownloadApp(UserLoginActivity.this);
 				ad.setPath(Environment.getExternalStorageDirectory().getPath() + "/vocinno/appdownload");
 				ad.showDownloadDialog();
 				/*UpdateManager um=new UpdateManager(UserLoginActivity.this);
@@ -366,17 +413,18 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 			msg.obj = jReturn.getMsg();
 		} else {
 			iv_splash.setVisibility(View.GONE);
-			if("0".equals(jReturn.getCode())){
+			if ("0".equals(jReturn.getCode())) {
 				//MethodsExtra.toast(this,jReturn.getMsg());
 				downloadApp(jReturn.getMsg());
-			}else{
+			} else {
 				msg.what = R.id.doFail;
 				msg.obj = jReturn.getMsg();
 			}
 		}
 		mHander.sendMessage(msg);
 	}
-	private void saveXml(final String empId,final String token){
+
+	private void saveXml(final String empId, final String token) {
 		new Thread() {
 			@Override
 			public void run() {
@@ -384,21 +432,74 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 			}
 		}.start();
 	}
-	private void addToken(String empId,String token){
+
+	private void addToken(String empId, String token) {
 		SharedPreferences spf = getSharedPreferences(SharedPre.xml_token_name, this.MODE_PRIVATE);
 		SharedPreferences.Editor editor = spf.edit();
 		editor.putString(SharedPre.empId, empId);
 		editor.putString(SharedPre.token, token);
 		editor.commit();
 	}
-	private String getToken(){
+
+	private String getToken() {
 		SharedPreferences spf = getSharedPreferences(SharedPre.xml_token_name, this.MODE_PRIVATE);
-	    return spf.getString(SharedPre.token,null);
+		return spf.getString(SharedPre.token, null);
 	}
-	private String getEmpId(){
+
+	private String getEmpId() {
 		SharedPreferences spf = getSharedPreferences(SharedPre.xml_token_name, this.MODE_PRIVATE);
 		return spf.getString(SharedPre.empId, null);
 	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// ATTENTION: This was auto-generated to implement the App Indexing API.
+		// See https://g.co/AppIndexing/AndroidStudio for more information.
+		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		// ATTENTION: This was auto-generated to implement the App Indexing API.
+		// See https://g.co/AppIndexing/AndroidStudio for more information.
+		client.connect();
+		Action viewAction = Action.newAction(
+				Action.TYPE_VIEW, // TODO: choose an action type.
+				"UserLogin Page", // TODO: Define a title for the content shown.
+				// TODO: If you have web page content that matches this app activity's content,
+				// make sure this auto-generated web page URL is correct.
+				// Otherwise, set the URL to null.
+				Uri.parse("http://host/path"),
+				// TODO: Make sure this auto-generated app URL is correct.
+				Uri.parse("android-app://com.vocinno.centanet.user/http/host/path")
+		);
+		AppIndex.AppIndexApi.start(client, viewAction);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		// ATTENTION: This was auto-generated to implement the App Indexing API.
+		// See https://g.co/AppIndexing/AndroidStudio for more information.
+		Action viewAction = Action.newAction(
+				Action.TYPE_VIEW, // TODO: choose an action type.
+				"UserLogin Page", // TODO: Define a title for the content shown.
+				// TODO: If you have web page content that matches this app activity's content,
+				// make sure this auto-generated web page URL is correct.
+				// Otherwise, set the URL to null.
+				Uri.parse("http://host/path"),
+				// TODO: Make sure this auto-generated app URL is correct.
+				Uri.parse("android-app://com.vocinno.centanet.user/http/host/path")
+		);
+		AppIndex.AppIndexApi.end(client, viewAction);
+		client.disconnect();
+	}
+
 
 	public abstract class NoDoubleClickListener implements View.OnClickListener {
 

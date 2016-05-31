@@ -95,7 +95,7 @@
                             android:textSize="14sp" />
 
                         <ImageView
-                            android:visibility="visible"
+                            android:visibility="invisible"
                             android:id="@+id/iv_delete_userAccount"
                             android:layout_width="15dp"
                             android:layout_marginRight="10dp"
@@ -148,7 +148,7 @@
                             android:textSize="14sp" />
 
                         <ImageView
-                            android:visibility="visible"
+                            android:visibility="invisible"
                             android:id="@+id/iv_delete_pwd"
                             android:layout_width="15dp"
                             android:layout_marginRight="10dp"
@@ -188,7 +188,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/splash_img"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </FrameLayout>
 
 </LinearLayout>

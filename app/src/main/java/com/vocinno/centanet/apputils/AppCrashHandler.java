@@ -44,6 +44,7 @@ public class AppCrashHandler implements UncaughtExceptionHandler {
 
 	/**
 	 * 保证只有一个CrashHandler实例
+	 * debug test.
 	 */
 	private AppCrashHandler() {
 	}

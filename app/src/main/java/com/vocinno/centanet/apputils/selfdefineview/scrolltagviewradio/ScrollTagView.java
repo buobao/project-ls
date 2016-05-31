@@ -107,7 +107,11 @@ public class ScrollTagView extends HorizontalScrollView {
 			CheckBox rbtn = (CheckBox) view
 					.findViewById(R.id.btn_tag_tagViewRadio);
 			if(i==position){
-				rbtn.setChecked(!rbtn.isChecked());
+				if(isClicked){
+					rbtn.setChecked(rbtn.isChecked());
+				}else{
+					rbtn.setChecked(false);
+				}
 			}else{
 				rbtn.setChecked(false);
 			}

@@ -164,6 +164,13 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         mTvTimeSort = (TextView) mSearchDialog
                 .findViewById(R.id.tv_sortTime_HouseManageActivity);
 
+        mSearchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+//                tagSelectIndex
+                mScrollTagView.selectedTab1(tagSelectIndex, false, false);
+            }
+        });
         mTvAreaSort.setOnClickListener(this);
         mTvPriceSort.setOnClickListener(this);
         mTvTimeSort.setOnClickListener(this);
@@ -271,7 +278,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                         }
                     }
                 });
-
         fragmentList = new ArrayList<Fragment>();
         pagerAdapter = new MyFragmentAdapter(getSupportFragmentManager());
         vp_house_manager = (ViewPager) baseView.findViewById(R.id.vp_house_manager);
@@ -565,6 +571,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     searchByOrder("price", "asc");
                 }
                 mSearchDialog.dismiss();
+                mScrollTagView.selectedTab1(tagSelectIndex, false, false);
                 break;
             case R.id.tv_sortTime_HouseManageActivity:
                 //按照挂牌时间排序
@@ -602,6 +609,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
 //                showDialog();
                 break;
             case R.id.btn_submit_modelOneWheelView://类型--确定
+                cancelTagSelect();
                 // 类型筛选（没有接口）
                 WheelView mWheelViewOne = (WheelView)findViewById(R.id.wheelview_modelOneWheelView);
                 mUserType[viewPageIndex] = mWheelViewOne.getSelectedText()
@@ -611,6 +619,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 layoutIndex=-1;
                 break;
             case  R.id.btn_submit_modelPriceWheelView:
+                cancelTagSelect();
                 WheelView wheelStart0 = (WheelView) findViewById(R.id.wheelview_start_modelPriceWheelView);
                 WheelView wheelEnd0 = (WheelView)findViewById(R.id.wheelview_end_modelPriceWheelView);
                 String startString = wheelStart0.getSelectedText().split("万")[0];
@@ -642,6 +651,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 }
                 break;
             case R.id.btn_submit_modelTwoWheelView:
+                cancelTagSelect();
                 WheelView wheelStart = (WheelView) findViewById(R.id.wheelview_start_modelTwoWheelView);
                 WheelView wheelEnd = (WheelView)findViewById(R.id.wheelview_end_modelTwoWheelView);
 
@@ -665,6 +675,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
 
                 break;
             case R.id.btn_submit_modelFourWheelView://户型--确定
+                cancelTagSelect();
                 WheelView mWheelView1 = (WheelView) findViewById(R.id.wheelview_first_modelFourWheelView);
                 WheelView mWheelView2 = (WheelView) findViewById(R.id.wheelview_second_modelFourWheelView);
                 WheelView mWheelView3 = (WheelView)findViewById(R.id.wheelview_third_modelFourWheelView);
@@ -680,6 +691,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 layoutIndex=-1;
                 break;
             case R.id.btn_submit_dialogTagSelector://标签--确定
+                cancelTagSelect();
                 // 标签
                 mTags[viewPageIndex] = mHouseTagAdapter.getSelectedTags();
 
@@ -689,10 +701,12 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 layoutIndex=-1;
                 break;
             case R.id.backView_dialogOneWheelview://类型--取消
+                cancelTagSelect();
                 ll_dialog_wheelview_two4.setVisibility(View.GONE);
                 layoutIndex=-1;
                 break;
             case R.id.backView_dialogTwoWheelview:
+                cancelTagSelect();
                 View btnBack1 =findViewById(R.id.backView_dialogTwoWheelview);
                 LinearLayout ll1=(LinearLayout)btnBack1.getParent().getParent();
                 if(ll1.getVisibility()==View.VISIBLE){
@@ -701,6 +715,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 Log.i("LinearLayout=1=id=", ll1.getId() + "===");
                 break;
             case R.id.backView_dialogPriceWheelview:
+                cancelTagSelect();
                 View btnBack0 =findViewById(R.id.backView_dialogPriceWheelview);
                 LinearLayout ll0=(LinearLayout)btnBack0.getParent().getParent();
                 if(ll0.getVisibility()==View.VISIBLE){
@@ -709,6 +724,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 Log.i("LinearLayout=1=id=", ll0.getId() + "===");
                 break;
             case R.id.backView_dialogFourWheelView://户型--取消
+                cancelTagSelect();
                 View btnBack2 =findViewById(R.id.backView_dialogFourWheelView);
                 LinearLayout ll2=(LinearLayout)btnBack2.getParent().getParent();
                 if(ll2.getVisibility()==View.VISIBLE){
@@ -717,6 +733,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 Log.i("LinearLayout=2=id=", ll2.getId() + "===");
                 break;
             case R.id.backView_dialogTagSelector://标签--取消
+                cancelTagSelect();
                 ll_dialog_wheelview_two3.setVisibility(View.GONE);
                 layoutIndex=-1;
                 break;
@@ -830,6 +847,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             default:
                 break;
         }
+    }
+    private void cancelTagSelect() {
+        mScrollTagView.selectedTab1(tagSelectIndex, false, false);
     }
     private void changeViewPager(int type,int index) {
         drawer_layout.closeDrawer(leftMenuView);

@@ -468,11 +468,12 @@ public class OkHttpClientManager {
             @Override
             public void onFailure(final Request request, final IOException e) {
                 sendFailedStringCallback(false, request, e, callback);
-                e.getMessage();
+               /* e.getMessage();
                 e.getCause();
                 e.getLocalizedMessage();
-                Log.i("e.getMessage()", "e.getMessage()==" + e.getMessage());
-            }
+                Log.i("e.getMessage()", "e.getMessage()==" + e.getMessage()+
+                        "e.getStackTrace()==" + e.getStackTrace()+"e.getLocalizedMessage()==" + e.getLocalizedMessage()+"e.getCause()==" + e.getCause().getMessage());
+           */ }
 
             @Override
             public void onResponse(final Response response) {

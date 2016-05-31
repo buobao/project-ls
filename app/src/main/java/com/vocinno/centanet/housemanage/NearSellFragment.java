@@ -153,9 +153,12 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
         pageSize = 20;
         delType = "s";
         type = HouseType.CHU_SHOU;
-        price = "0-不限";
+        /*price = "0-不限";
         square = "0-不限";
-        frame = "不限-不限-不限-不限";
+        frame = "不限-不限-不限-不限";*/
+        price=getText(R.string.house_price).toString();
+        square=getText(R.string.house_square).toString();
+        frame=getText(R.string.house_frame).toString();
         tag = "";
         usageType = "";
         sidx = "";

@@ -52,9 +52,9 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
     public int pageSize=20;
     public String delType="s";
     public int type= HouseType.CHU_SHOU;
-    public String price="0-不限";
-    public String square="0-不限";
-    public String frame="不限-不限-不限-不限";
+    public String price="";
+    public String square="";
+    public String frame="";
     public String tag="";
     public String usageType="";
     public String sidx="";          //排序字段
@@ -84,6 +84,9 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         TAG=this.getClass().getName();
         methodsJni=new MethodsJni();
         addNotification();
+        price=getText(R.string.house_price).toString();
+        square=getText(R.string.house_square).toString();
+        frame=getText(R.string.house_frame).toString();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -262,37 +265,37 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         switch (tagIndex){
             case 0:
                 Log.i("price","=="+price);
-                square = "0-不限";
-                frame = "不限-不限-不限-不限";
+                square =getText(R.string.house_square).toString();
+                frame = getText(R.string.house_frame).toString();
                 tag = "";
                 usageType = "";
                 break;
             case 1:
                 Log.i("square","=="+square);
-                price = "0-不限";
-                frame = "不限-不限-不限-不限";
+                price = getText(R.string.house_price).toString();
+                frame =getText(R.string.house_frame).toString();
                 tag = "";
                 usageType = "";
                 break;
             case 2:
                 Log.i("frame","=="+frame);
-                price = "0-不限";
-                square = "0-不限";
+                price =getText(R.string.house_price).toString();
+                square = getText(R.string.house_square).toString();
                 tag = "";
                 usageType = "";
                 break;
             case 3:
                 Log.i("tag","=="+tag);
-                price = "0-不限";
-                square = "0-不限";
-                frame = "不限-不限-不限-不限";
+                price = getText(R.string.house_price).toString();
+                square =getText(R.string.house_square).toString();
+                frame = getText(R.string.house_frame).toString();
                 usageType = "";
                 break;
             case 4:
                 Log.i("usageType","=="+usageType);
-                price = "0-不限";
-                square = "0-不限";
-                frame = "不限-不限-不限-不限";
+                price =getText(R.string.house_price).toString();
+                square = getText(R.string.house_square).toString();
+                frame = getText(R.string.house_frame).toString();
                 tag = "";
                 break;
         }

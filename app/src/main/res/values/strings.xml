@@ -91,6 +91,11 @@
     <string name="followin_look">带看跟进</string>
     <string name="text_dialg">加载中,请稍候...</string>
 
+
+    <string name="house_price">""</string>
+    <string name="house_square">""</string>
+    <string name="house_frame">""</string>
+
     <!-- 客源管理 -->
     <string name="add_demand">添加需求</string>
     <string name="search_cust_hit">按姓名或手机号搜索</string>

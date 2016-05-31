@@ -969,6 +969,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
 
     }
     private void searchByTag(int tagIndex,String param) {
+        param=param.replace("不限"," ");
         if(listType==MyConstant.houseList){
             switch (menuType){
                 case 0:

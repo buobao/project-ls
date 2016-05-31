@@ -153,9 +153,12 @@ public class DianCollectionSFragment extends HouseListBaseFragment implements Ht
         pageSize = 20;
         delType = "s";
         type = HouseType.WO_DE;
-        price = "0-不限";
+        /*price = "0-不限";
         square = "0-不限";
-        frame = "不限-不限-不限-不限";
+        frame = "不限-不限-不限-不限";*/
+        price=getText(R.string.house_price).toString();
+        square=getText(R.string.house_square).toString();
+        frame=getText(R.string.house_frame).toString();
         tag = "";
         usageType = "";
         sidx = "";

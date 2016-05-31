@@ -49,6 +49,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 	private ImageView iv_splash;
 	private boolean isExit;
 	private ImageView mDeleteUser, mDeletePwd;
+	//
 	/**
 	 * ATTENTION: This was auto-generated to implement the App Indexing API.
 	 * See https://g.co/AppIndexing/AndroidStudio for more information.

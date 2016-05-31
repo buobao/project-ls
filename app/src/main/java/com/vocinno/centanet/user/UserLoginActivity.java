@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,7 +108,6 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 		mDeleteUser = (ImageView) findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
 		mDeletePwd = (ImageView) findViewById(R.id.iv_delete_pwd);    //只清除密码
 
-//
 		mEtUserAccount.setText(SharedPreferencesUtils.getUsername(this));
 		mEtUserAccount.setSelection(mEtUserAccount.getText().length());
 		mEtUserAccount.setOnFocusChangeListener(this);	//EidtText焦点监听
@@ -114,44 +115,18 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 		mEtUserpassword.setText(SharedPreferencesUtils.getUserpassword(this));
 		mEtUserpassword.setSelection(mEtUserpassword.getText().length());
 		mEtUserpassword.setOnFocusChangeListener(this);
-//		clearUserInfo();
-//		clearPassWordInfo();
-
 	}
 
-//	/**
-//	 * 用户名不为空时,点击按钮清除用户信息
-//	 */
-//	private void clearUserInfo() {
-//		if (!TextUtils.isEmpty(mEtUserAccount.getText()) && mEtUserAccount.isFocused()) {   //不为空且获得焦点就点击删除
-//			mDeleteUser.setVisibility(View.VISIBLE);
-//			mDeletePwd.setVisibility(View.INVISIBLE);
-//
-//		} else {
-//			mDeleteUser.setVisibility(View.INVISIBLE);
-//		}
-//	}
-//
-//	/**
-//	 * 密码不为空时,点击按钮只清除密码信息
-//	 */
-//	private void clearPassWordInfo() {
-//		if (!TextUtils.isEmpty(mEtUserpassword.getText()) && mEtUserpassword.isFocused()) {
-//			mDeletePwd.setVisibility(View.VISIBLE);
-//			mDeleteUser.setVisibility(View.INVISIBLE);
-//
-//		} else {
-//			mDeletePwd.setVisibility(View.INVISIBLE);
-//		}
-//	}
 
+	/**
+	 * 输入框焦点改变监听
+     */
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		switch(v.getId()) {
 			case R.id.et_userAccount_UserLoginActivity:
 				if(hasFocus && !TextUtils.isEmpty(mEtUserAccount.getText())){
 					mDeleteUser.setVisibility(View.VISIBLE);
-					mDeletePwd.setVisibility(View.INVISIBLE);
 				}else{
 					mDeleteUser.setVisibility(View.INVISIBLE);
 				}
@@ -159,7 +134,6 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 			case R.id.et_userPassword_UserLoginActivity:
 				if(hasFocus && !TextUtils.isEmpty(mEtUserpassword.getText())){
 					mDeletePwd.setVisibility(View.VISIBLE);
-					mDeleteUser.setVisibility(View.INVISIBLE);
 				}else{
 					mDeletePwd.setVisibility(View.INVISIBLE);
 				}
@@ -175,10 +149,55 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 	@Override
 	public void setListener() {
 
+		mEtUserAccount.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(mEtUserAccount.isFocused() && !TextUtils.isEmpty(mEtUserAccount.getText())){
+					mDeleteUser.setVisibility(View.VISIBLE);
+				}else{
+					mDeleteUser.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
+
+		mEtUserpassword.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(mEtUserpassword.isFocused() && !TextUtils.isEmpty(mEtUserpassword.getText())){
+					mDeletePwd.setVisibility(View.VISIBLE);
+				}else{
+					mDeletePwd.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
+
+
+
 		mDeletePwd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mEtUserpassword.setText("");
+				mDeletePwd.setVisibility(View.INVISIBLE);
 			}
 		});
 
@@ -187,41 +206,9 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 			public void onClick(View v) {
 				mEtUserpassword.setText("");
 				mEtUserAccount.setText("");
+				mDeleteUser.setVisibility(View.INVISIBLE);
 			}
 		});
-//
-//		//用户名EditText监听
-//		mEtUserAccount.addTextChangedListener(new TextWatcher() {
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//			}
-//
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//			}
-//
-//			@Override
-//			public void afterTextChanged(Editable s) {
-//				clearUserInfo();
-//			}
-//		});
-//		//密码EditText监听
-//		mEtUserpassword.addTextChangedListener(new TextWatcher() {
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//			}
-//
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//			}
-//
-//			@Override
-//			public void afterTextChanged(Editable s) {
-//				clearPassWordInfo();
-//			}
-//		});
 
 
 		mBtnLogin.setOnClickListener(new NoDoubleClickListener() {
@@ -443,10 +430,6 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 		SharedPreferences spf = getSharedPreferences(SharedPre.xml_token_name, this.MODE_PRIVATE);
 		return spf.getString(SharedPre.empId, null);
 	}
-
-
-
-
 
 	public abstract class NoDoubleClickListener implements View.OnClickListener {
 

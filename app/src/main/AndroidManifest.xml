@@ -92,10 +92,6 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
-        <activity
-            android:name="com.vocinno.utils.jni.JniShowActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"/>
 
         <!-- 用户模块 -->
         <activity
@@ -427,9 +423,6 @@
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="google_play_services_version"/>
 
         <!--
             <activity
@@ -438,24 +431,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         -->
-        <activity
-            android:name=".housemanage.NearSellFragment"
-            android:configChanges="orientation|keyboard|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-        </activity>
-        <activity
-            android:name=".housemanage.NearRentFragment"
-            android:configChanges="orientation|keyboard|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-        </activity>
-        <activity
-            android:name=".housemanage.YueKanActivity"
-            android:configChanges="orientation|keyboard|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-        </activity>
         <activity
             android:name=".customermanage.AddPotentialActivity"
             android:configChanges="orientation|keyboard|screenSize"
@@ -479,8 +454,6 @@
         <activity android:name=".customermanage.PotentialCustomerListActivity">
         </activity>
         <activity android:name=".customermanage.PotentialCustomerDetailActivity">
-        </activity>
-        <activity android:name=".housemanage.MyCollectionRFragment">
         </activity>
     </application>
 

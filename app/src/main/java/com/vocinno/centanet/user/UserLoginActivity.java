@@ -113,7 +113,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 		mDeleteUser = (ImageView) findViewById(R.id.iv_delete_userAccount);  //清空用户名和密码
 		mDeletePwd = (ImageView) findViewById(R.id.iv_delete_pwd);    //只清除密码
 
-
+//
 		mEtUserAccount.setText(SharedPreferencesUtils.getUsername(this));
 		mEtUserAccount.setSelection(mEtUserAccount.getText().length());
 		mEtUserAccount.setOnFocusChangeListener(this);	//EidtText焦点监听

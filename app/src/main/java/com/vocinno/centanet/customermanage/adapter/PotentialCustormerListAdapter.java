@@ -105,8 +105,16 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 		// 区域
 		holder.mTvDemandDetail.setText(item.getArea() );
 		holder.mTvHuXing.setText(item.getFrame());
-		// 户型+面积+价格
-		holder.mTvDemandPrice.setText( item.getAcreage()+" "+item.getPrice());
+		// 面积+价格
+		String itemAcreage=item.getAcreage();
+		String itemPrice=item.getPrice();
+		if("不限".equals(itemAcreage)){
+			itemAcreage="";
+		}
+		if("不限".equals(itemPrice)){
+			itemPrice="";
+		}
+		holder.mTvDemandPrice.setText(itemAcreage+" "+itemPrice);
 		// 说明
 		holder.mTvDescription.setText(item.getOther());
 		// 相对日期

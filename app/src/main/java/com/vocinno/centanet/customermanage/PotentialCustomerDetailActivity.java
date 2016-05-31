@@ -315,7 +315,11 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             Requets req = listReqs.get(0);
             mTvType.setText(req.getReqType());// 类型
             tv_fangxing_potential.setText( req.getFromToRoom());// 类型
-            mTvAcreage.setText(req.getArea());
+            String customArea=req.getArea();
+            if("0".equals(customArea)){
+                customArea="不限";
+            }
+            mTvAcreage.setText(customArea);
             mTvPrice.setText( req.getPrice());// 价格
             tv_quyu_qianke.setText( req.getDistrictCode());
             tv_area_potential.setText( req.getAcreage());

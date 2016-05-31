@@ -435,7 +435,11 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
             mTvType.setText("类型：" + req.getReqType());// 类型
             tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 类型
 			tv_quyu_customerDetailActivity.setText("城区：" + req.getDistrictCode());//区域
-            mTvAcreage.setText("片区：" + req.getArea());//片区
+			String customArea=req.getArea();
+			if("0".equals(customArea)){
+				customArea="不限";
+			}
+            mTvAcreage.setText("片区：" +customArea);//片区
             mTvPrice.setText("价格：" + req.getPrice());// 价格
 			tv_area_custdetail.setText("面积：" + req.getAcreage());// 面积
 //            mTvTenancyTime.setText("租期：" + req.getTenancyTime());

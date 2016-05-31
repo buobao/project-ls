@@ -62,6 +62,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 				switch (msg.what) {
 				case R.id.doSuccess:
 					if (!mIsLoginedJustNow) {
+//						setImgAnimation();
 						mIsLoginedJustNow = true;
 						SharedPreferencesUtils.setLoginIn(mContext,
 								mEtUserAccount.getText().toString(),
@@ -376,6 +377,7 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface {
 		}
 		mHander.sendMessage(msg);
 	}
+
 	private void saveXml(final String empId,final String token){
 		new Thread() {
 			@Override

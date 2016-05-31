@@ -465,7 +465,11 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
             mTvType.setText("类型：" + req.getReqType());// 类型
             tv_fangxing_grab.setText("房型：" + req.getFromToRoom());// 类型
 			tv_quyu_customerDetailActivity.setText("城区：" + req.getDistrictCode());
-            mTvAcreage.setText("片区：" + req.getArea());
+			String customArea=req.getArea();
+			if("0".equals(customArea)){
+				customArea="不限";
+			}
+            mTvAcreage.setText("片区：" +customArea);
             mTvPrice.setText("价格：" + req.getPrice());// 价格
             tv_area_gkdetail.setText("面积：" + req.getAcreage());
 			tv_xuqiuzishu_grab.setText(req.getSelfDescription());

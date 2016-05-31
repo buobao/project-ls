@@ -65,7 +65,7 @@ public class NetWorkMethod {
     public static final String origin = "origin";//来源
     public static final String rank = "rank";//等级
     /*****************客户详情-区域获取片区********************/
-    public static final String districtCode="districtCode";
+    public static final String districtCode="districtCode";//城区
     public static final String areas="mobile/hou/areas";
     /*****************房源详情********************/
     public static final String houInfo="mobile/hou/houInfo";

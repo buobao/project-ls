@@ -464,7 +464,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="@string/area"
+                    android:text="城区"
                     android:textSize="13sp" />
 
                 <TextView

@@ -140,7 +140,7 @@ public class CustormerListAdapter extends BaseAdapter {
 		// 户型+面积+价格
 		String fangXing=item.getFromToRoom();
 		String acreage=item.getAcreage();
-		String price=item.getAcreage();
+		String price=item.getPrice();
 		if("不限".equals(acreage)){
 			acreage="";
 		}

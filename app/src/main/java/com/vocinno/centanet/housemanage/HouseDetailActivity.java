@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		setView();
 		houseCode = getIntent().getStringExtra(MyConstant.houseCode);
 		isGongFang = getIntent().getBooleanExtra(MyConstant.isGongFang,false);

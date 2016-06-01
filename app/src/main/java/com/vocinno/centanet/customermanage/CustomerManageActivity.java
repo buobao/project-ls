@@ -114,10 +114,10 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		getCustomerData();
 	}
 	private void getCustomerData() {
-		getCustomerData(null,1, true);
+		getCustomerData(null, 1, true);
 	}
 	private void getCustomerData(int pageNo,boolean isRefresh) {
-		getCustomerData(null,pageNo, isRefresh);
+		getCustomerData(null, pageNo, isRefresh);
 	}
 	private void getCustomerData(String customCode,int pageNo,final boolean isRefresh) {
 		if(isReFreshOrLoadMore){
@@ -147,6 +147,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			public void onError(Request request, Exception e) {
 				stopRefreshOrLoadMore();
 			}
+
 			@Override
 			public void onResponse(String response) {
 				stopRefreshOrLoadMore();
@@ -203,6 +204,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			mEtSearch.setText("");
 			mSearch.setList(null);
 			mSearch.notifyDataSetChanged();
+			setListHeight(mSearch, searchListView);
 			break;
 		default:
 			break;
@@ -325,6 +327,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	private void searchKeYuan(String editString) {
 		mSearch.setList(null);
 		searchListView.setAdapter(mSearch);
+		setListHeight(mSearch, searchListView);
 		if(editString==null||editString.length()<=0){
 			mSearch.setList(null);
 			searchListView.setAdapter(mSearch);

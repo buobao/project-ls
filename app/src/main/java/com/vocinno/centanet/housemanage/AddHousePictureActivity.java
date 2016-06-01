@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -144,6 +145,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 
 	@Override
 	public void initView() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		myDialog=new MyDialog.Builder(this);
 		delCode=getIntent().getStringExtra("delCode");
 		explmsg=getIntent().getStringExtra("explmsg");

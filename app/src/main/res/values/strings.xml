@@ -5,7 +5,7 @@
 
     <!-- 公共 -->
     <string name="save">保存</string>
-    <string name="version">v2.0.0</string>
+    <string name="version">v2.0.1</string>
     <string name="exit_app">退出登录</string>
     <string name="weixin">微信</string>
     <string name="addphonenumber">请输入电话号码</string>

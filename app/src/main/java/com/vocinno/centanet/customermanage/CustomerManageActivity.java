@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
@@ -26,9 +27,13 @@ import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -37,7 +42,9 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客源管理
@@ -48,18 +55,18 @@ import java.util.List;
 public class CustomerManageActivity extends OtherBaseActivity implements
 		IXListViewListener {
 	private Dialog mMenuDialog,mSearchDialog;
-	private XListView mLvCustormers;
 	private View mBack, mSubmit;
 	private CustormerListAdapter mListAdapter;
 	private int mPageIndex = 1;
 	private List<CustomerItem> mListCustomers = new ArrayList<CustomerItem>();
 	private List<CustomerItem> mListCustomersLast = new ArrayList<CustomerItem>();
-	private boolean isReFreshOrLoadMore=false;
 //	private String sOrZ;//用来判断客源跟进跳转查询出售还是出租的客源列表
 	private String delegationType;//用来判断客源跟进跳转查询出售还是出租的客源列表
 	private Intent intent;
 	private List<EstateSearchItem> mSearchListData;
 	private String type;
+	private boolean isGongKe;
+
 	@Override
 	public Handler setHandler() {
 		return new Handler() {
@@ -70,19 +77,19 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				case R.id.FINISH_LOAD_ALL_DATA:
 					mListAdapter.setListDatas(mListCustomers);
 					if (mListCustomers == null || mListCustomers.size() == 0) {
-						mLvCustormers.setPullLoadEnable(false);
+						mListView.setPullLoadEnable(false);
 					} else {
-						mLvCustormers.setPullLoadEnable(true);
+						mListView.setPullLoadEnable(true);
 					}
 					break;
 				case R.id.FINISH_LOAD_MORE:
-					mLvCustormers.stopLoadMore();
+					mListView.stopLoadMore();
 					if (msg.arg1 == 0) {
-						mLvCustormers.setPullLoadEnable(false);
+						mListView.setPullLoadEnable(false);
 					}
 					break;
 				case R.id.FINISH_REFRESH:
-					mLvCustormers.stopRefresh();
+					mListView.stopRefresh();
 					break;
 				default:
 					break;
@@ -98,16 +105,10 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 
 	@Override
 	public void initView() {
+		intent=getIntent();
+		isGongKe = intent.getBooleanExtra("isGongKe", false);
 		isMyCustomerType = MethodsDeliverData.isMyCustomer;
-		if (isMyCustomerType) {
-			MethodsExtra.findHeadTitle1(mContext, baseView,
-					R.string.mycustomer, null);
-			// 添加通知
-			MethodsJni.addNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
-			MethodsJni.addNotificationObserver(
-					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
-		} else {
+		if (isGongKe) {
 			MethodsExtra.findHeadTitle1(mContext, baseView,
 					R.string.customertitle, null);
 			// 添加通知
@@ -115,28 +116,31 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG+"gk");
 			MethodsJni.addNotificationObserver(
 					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
+		} else {
+			MethodsExtra.findHeadTitle1(mContext, baseView,
+					R.string.mycustomer, null);
+			// 添加通知
+			MethodsJni.addNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_LIST_RESULT, TAG);
+			MethodsJni.addNotificationObserver(
+					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG);
 		}
 
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		/*mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
 				R.drawable.universal_button_add);*/
 		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0, 0);
-		mLvCustormers = (XListView) findViewById(R.id.lv_custormerInfoList_CustomerManageActivity);
-		mLvCustormers.setPullLoadEnable(false);
-		mLvCustormers.setPullRefreshEnable(true);
+		mListView = (XListView) findViewById(R.id.lv_custormerInfoList_CustomerManageActivity);
+		mListView.setPullLoadEnable(false);
+		mListView.setPullRefreshEnable(true);
 		mBack.setOnClickListener(this);
 		mSubmit.setOnClickListener(this);
-		mLvCustormers.setXListViewListener(this);
+		mListView.setXListViewListener(this);
 	}
 
 	@Override
 	public void initData() {
-		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
-		intent=getIntent();
-//		sOrZ=intent.getStringExtra("sOrZ");
 		delegationType=intent.getStringExtra("delegationType");
-		boolean isGongKe = intent.getBooleanExtra("isGongKe", false);
 		if(HouseItem.SHOU.equals(delegationType)||HouseItem.ZU.equals(delegationType)){
 			mListAdapter = new CustormerListAdapter(
 					(CustomerManageActivity) mContext, null,true);
@@ -145,10 +149,68 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					(CustomerManageActivity) mContext, null);
 		}
 		mListAdapter.setGongKe(isGongKe);
-		mLvCustormers.setAdapter(mListAdapter);
+		mListView.setAdapter(mListAdapter);
 		mSubmit.setVisibility(View.VISIBLE);
+		getCustomerData();
 		// 调用数据
-		getDataFromNetwork(mPageIndex);
+//		getDataFromNetwork(mPageIndex);
+	}
+	private void getCustomerData() {
+		getCustomerData(null,1, true);
+	}
+	private void getCustomerData(int pageNo,boolean isRefresh) {
+		getCustomerData(null,pageNo, isRefresh);
+	}
+	private void getCustomerData(String customCode,int pageNo,final boolean isRefresh) {
+		if(isReFreshOrLoadMore){
+			isReFreshOrLoadMore=false;
+		}else{
+			Loading.show(this);
+		}
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custlist;
+		Map<String,String>map=new HashMap<String,String>();
+		if(HouseItem.SHOU.equals(delegationType)){
+			map.put(NetWorkMethod.reqType,NetWorkMethod.S);
+		}else if(HouseItem.ZU.equals(delegationType)){
+			map.put(NetWorkMethod.reqType,NetWorkMethod.Z);
+		}
+		if(null!=customCode){
+			map.put(NetWorkMethod.custCode,customCode);
+		}
+		map.put(NetWorkMethod.page, pageNo + "");
+		map.put(NetWorkMethod.pageSize, MyConstant.pageSize+"");
+		String type=NetWorkMethod.my;
+		if(isGongKe){
+			type=NetWorkMethod.mpublic;
+		}
+		map.put(NetWorkMethod.type, type);
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				stopRefreshOrLoadMore();
+			}
+
+			@Override
+			public void onResponse(String response) {
+				stopRefreshOrLoadMore();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, CustomerList.class);
+				if (jsReturn.isSuccess()) {
+					if (jsReturn.getListDatas().size() < MyConstant.pageSize) {
+						mListView.setPullLoadEnable(false);
+					} else {
+						mListView.setPullLoadEnable(true);
+					}
+					if (isRefresh) {
+						mListAdapter.setListDatas(jsReturn.getListDatas());
+					} else {
+						page++;
+						mListAdapter.addListDatas(jsReturn.getListDatas());
+					}
+				} else {
+					MyToast.showToast(jsReturn.getMsg());
+				}
+			}
+		});
 	}
 
 	@Override
@@ -156,7 +218,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode){
 			case MyConstant.REFRESH:
-				getDataFromNetwork(mPageIndex);
+				getCustomerData();
 			break;
 		}
 	}
@@ -203,32 +265,6 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 					CST_JS.NOTIFY_NATIVE_SEARCH_ITEM_CUSTOMER_RESULT, TAG+"gk");
 		}
 	}
-	// 调用数据
-	private void getDataFromNetwork(int page) {
-		if(isReFreshOrLoadMore){
-			isReFreshOrLoadMore=false;
-		}else{
-			showDialog();
-		}
-		String strReq;	//请求网络返回的数据
-//		if("S".equalsIgnoreCase(sOrZ)){
-		if(HouseItem.SHOU.equals(delegationType)){
-			  strReq = CST_JS.getJsonStringForCustomerList(
-					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-							: CST_JS.JS_CustomerList_Type_Public), page, 8,"S");
-//		}else if("Z".equalsIgnoreCase(sOrZ)){
-		}else if(HouseItem.ZU.equals(delegationType)){
-			  strReq = CST_JS.getJsonStringForCustomerList(
-					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-							: CST_JS.JS_CustomerList_Type_Public), page, 8,"Z");
-		}else{
-			  strReq = CST_JS.getJsonStringForCustomerList(
-					(isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-							: CST_JS.JS_CustomerList_Type_Public), page, 8);
-		}
-		MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
-				CST_JS.JS_Function_CustomerList_getList, strReq);
-	}
 
 	@SuppressWarnings("unchecked")
 	public void notifCallBack(String name, String className, Object data) {
@@ -237,20 +273,20 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 
 	@Override
 	public void onRefresh() {
-		mPageIndex = 1;
 		isReFreshOrLoadMore=true;
-		getDataFromNetwork(mPageIndex);
+		page=2;
+		getCustomerData();
+//		getDataFromNetwork(mPageIndex);
 	}
 
 	private boolean isLoading = false;
 
 	@Override
 	public void onLoadMore() {
-		if (!isLoading) {
-			isLoading = true;
-			isReFreshOrLoadMore=true;
-			getDataFromNetwork(++mPageIndex);
-		}
+//		if (!isLoading) {
+		isReFreshOrLoadMore=true;
+		getCustomerData(page,false);
+//			getDataFromNetwork(++mPageIndex);
 	}
 
 	@Override
@@ -332,9 +368,9 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 						mSearchListData = jReturn.getListDatas();
 						mSearch.setList(mSearchListData);
 						mSearch.notifyDataSetChanged();
-						setListHeight(mSearch,mListView);
-						mListView.setVisibility(View.VISIBLE);
-//					mListView.setAdapter(mSearch);
+						setListHeight(mSearch, searchListView);
+						searchListView.setVisibility(View.VISIBLE);
+//					searchListView.setAdapter(mSearch);
 					}else{
 //					MethodsExtra.toast(mContext,"抱歉没有搜索到房源");
 						//抱歉没有搜索到该房源
@@ -374,14 +410,14 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		LinearLayout ll_add_customer = (LinearLayout) mMenuDialog
 				.findViewById(R.id.ll_add_customer);
 		ll_add_customer.setOnClickListener(this);
-		if(isMyCustomerType){
-			ll_add_customer.setVisibility(View.VISIBLE);
-		}else{
+		if(isGongKe){
 			ll_add_customer.setVisibility(View.GONE);
+		}else{
+			ll_add_customer.setVisibility(View.VISIBLE);
 		}
 	}
 
-	private ListView mListView;
+	private ListView searchListView;
 	public static EditText mEtSearch;
 	private List<String> mHistorySearch;
 	private SearchAdapter mSearch;
@@ -393,10 +429,10 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		win.setGravity(Gravity.TOP);
 		mSearchDialog.setCanceledOnTouchOutside(true);
-		mListView = (ListView) mSearchDialog.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
+		searchListView = (ListView) mSearchDialog.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
 		mSearch = new SearchAdapter(mContext,
 				new ArrayList<EstateSearchItem>());
-		mListView.setAdapter(mSearch);
+		searchListView.setAdapter(mSearch);
 
 		mEtSearch = (EditText) mSearchDialog
 				.findViewById(R.id.et_search_dialogSearchHouseManage);
@@ -427,42 +463,82 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			}
 		});
 
-		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 									long arg3) {
 				String custCode = mSearchListData.get(arg2).getCustCode();
-				String reqparm = CST_JS.getJsonStringForCustomerList((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-						: CST_JS.JS_CustomerList_Type_Public),custCode, 1, 20);
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-                        CST_JS.JS_Function_CustomerList_getList, reqparm);
 				mSearchDialog.dismiss();
-				showDialog();
+				getCustomerData(custCode,1,true);
+				/*String reqparm = CST_JS.getJsonStringForCustomerList((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
+						: CST_JS.JS_CustomerList_Type_Public), custCode, 1, 20);
+				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+						CST_JS.JS_Function_CustomerList_getList, reqparm);
+				showDialog();*/
 			}
 		});
 		mSearchDialog.show();
 	}
 
 	private void searchKeYuan(String editString) {
+		mSearch.setList(null);
+		searchListView.setAdapter(mSearch);
 		if(editString==null||editString.length()<=0){
-//			mSearch.setList(null);
-//			mListView.setAdapter(mSearch);
+			mSearch.setList(null);
+			searchListView.setAdapter(mSearch);
 		}else{
-			String paramType="text";
+			String paramType=NetWorkMethod.text;
 			if(MethodsExtra.isNumeric(editString.toString().trim())){
-				paramType="character";
 				if(!MethodsExtra.isMobileNO(editString.toString().trim())){
 					MethodsExtra.toast(mContext,"请输入正确的手机号码");
 					return;
 				}
+				paramType=NetWorkMethod.character;
 			}else{
 				mSearch.setColorText(editString.toString().trim());
-				paramType="text";
+				paramType=NetWorkMethod.text;
 			}
-			// 在打字期间添加搜索栏数据
+
+			Loading.show(this);
+			URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custListMobileSerarch;
+			Map<String,String>map=new HashMap<String,String>();
+			map.put(NetWorkMethod.page, 1+"");
+			map.put(NetWorkMethod.pageSize, MyConstant.pageSize+"");
+			String type=NetWorkMethod.my;
+			if(isGongKe){
+				type=NetWorkMethod.mpublic;
+			}
+			map.put(NetWorkMethod.type, type);
+			map.put(NetWorkMethod.name, editString);
+			map.put(NetWorkMethod.paramType, paramType);
+			OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+				@Override
+				public void onError(Request request, Exception e) {
+					stopRefreshOrLoadMore();
+				}
+
+				@Override
+				public void onResponse(String response) {
+					stopRefreshOrLoadMore();
+					JSReturn jReturn = MethodsJson.jsonToJsReturn(response, EstateSearchItem.class);
+					if (jReturn.isSuccess()) {
+						if (jReturn.getListDatas() != null && jReturn.getListDatas().size() > 0) {
+							mSearchListData = jReturn.getListDatas();
+							mSearch.setList(mSearchListData);
+							mSearch.notifyDataSetChanged();
+							setListHeight(mSearch, searchListView);
+							searchListView.setVisibility(View.VISIBLE);
+						}
+					} else {
+						MethodsExtra.toast(mContext, jReturn.getMsg());
+					}
+				}
+			});
+
+			/*// 在打字期间添加搜索栏数据
 			String reqparm = CST_JS.getJsonStringForKeYuanGuanJianZi((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My:CST_JS.JS_CustomerList_Type_Public),editString,paramType, 1, 20);
 			MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
-					CST_JS.JS_Function_CustListMobile_Serarch, reqparm);
+					CST_JS.JS_Function_CustListMobile_Serarch, reqparm);*/
 		}
 	}
 }

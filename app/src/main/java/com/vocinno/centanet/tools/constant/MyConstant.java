@@ -5,6 +5,7 @@ package com.vocinno.centanet.tools.constant;
  */
 public class MyConstant {
     public final static int REFRESH=99;
+    public final static int pageSize=20;
     public final static String isExit="isExit";
     public final static String isKeyHouse="isKeyHouse";
     public final static String isGongFang="isGongFang";
@@ -17,4 +18,7 @@ public class MyConstant {
     /************************房源详情*****************************/
     public final static String houseCode="houseCode";
     public final static String pathList="pathList";
+    /************************客源-公客*****************************/
+    public final static String isMyCustomer="isMyCustomer";
+    public final static String isGongKe="isGongKe";
 }

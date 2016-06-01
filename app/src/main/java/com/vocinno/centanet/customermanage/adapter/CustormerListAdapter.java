@@ -32,6 +32,14 @@ public class CustormerListAdapter extends BaseAdapter {
 		mListCustomers = listCustomers;
 		notifyDataSetChanged();
 	}
+	public void addListDatas(List<CustomerItem> listCustomers) {
+		if(this.mListCustomers==null||this.mListCustomers.size()<=0){
+			this.mListCustomers = listCustomers;
+		}else{
+			this.mListCustomers.addAll(listCustomers);
+		}
+		notifyDataSetChanged();
+	}
 	public void setGongKe(boolean flag){
 		isGongKe=flag;
 	}

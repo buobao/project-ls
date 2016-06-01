@@ -23,6 +23,7 @@ import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.customview.ProgressLayout;
 import com.vocinno.centanet.user.UserLoginActivity;
@@ -51,6 +52,9 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
     public boolean isMyCustomerType = true;// 是否是我的客源，如果不是就认为是公客
     public AppApplication myApp;
     public String URL;
+    public int page=2;
+    public int pageSize=20;
+    public boolean isReFreshOrLoadMore=false;
     public AgainLoading againLoading;
     /*******************抽象方法***************************/
     public abstract int setContentLayoutId();
@@ -329,6 +333,11 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         this.setResult(RESULT_OK, intent);
         finish();
     };
+    public void stopRefreshOrLoadMore(){
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
+        Loading.dismissLoading();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

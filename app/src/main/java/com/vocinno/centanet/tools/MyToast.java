@@ -31,4 +31,11 @@ public class MyToast {
             }
         }
     }
+    public static void showToast(Context ctx,String str){
+        if(ctx!=null){
+            if(str!=null&&str.length()>0){
+                Toast.makeText(ctx, str, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

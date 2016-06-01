@@ -36,6 +36,8 @@ public class NetWorkMethod {
     public static final String delType="delType";//出售or出租
     public static final String s="s";//出售
     public static final String r="r";//出租
+    public static final String S="S";//出售
+    public static final String Z="Z";//出租
     public static final String APPO_HOULIST="APPO_HOULIST";//3约看
     public static final String MY_HOULIST="MY_HOULIST";//4我的出售7我的出租
     public static final String POOL_HOULIST="POOL_HOULIST";//5公房售8公房租
@@ -78,6 +80,14 @@ public class NetWorkMethod {
     public static final String houseId="houseId";
     /*****************借用钥匙********************/
     public static final String borrow="mobile/hou/key/borrow";
+    /*****************客源列表********************/
+    public static final String custlist="mobile/cust/custlist";
+    public static final String custListMobileSerarch="mobile/cust/custListMobileSerarch";
+    public static final String mpublic="public";
+    public static final String my="my";
+    public static final String paramType="paramType";
+    public static final String character="character";
+    public static final String text="text";
     /*****************抢公房********************/
     public static final String claim="mobile/hou/claim";
 }

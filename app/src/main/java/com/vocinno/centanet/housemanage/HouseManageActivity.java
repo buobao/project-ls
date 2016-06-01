@@ -808,8 +808,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 MethodsDeliverData.keYuanOrGongKe=0;
                 MethodsDeliverData.flag = 1;
                 MethodsDeliverData.isMyCustomer = false;
-                MethodsExtra.startActivity(mContext,
-                        CustomerManageActivity.class);
+//                MethodsExtra.startActivity(mContext,CustomerManageActivity.class);
+                intent.setClass(mContext,CustomerManageActivity.class);
+                intent.putExtra(MyConstant.isGongKe, true);
+                startActivity(intent);
                 break;
             //pin码
             case R.id.rlyt_password_main_page_slid_menus:

@@ -48,6 +48,7 @@ public abstract class OtherHomeMenuBaseActivity extends Activity implements Http
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        intent=new Intent();
         hif=(HttpInterface)this;
         MyUtils.addActivityToAllList(this);
         TAG=this.getClass().getName();

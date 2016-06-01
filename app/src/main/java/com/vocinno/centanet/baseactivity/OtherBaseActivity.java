@@ -25,6 +25,7 @@ import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.customview.ProgressLayout;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
@@ -219,6 +220,7 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
                     if(isMyCustomerType){
                         MyUtils.removeActivityFromAllList();
                         intent.setClass(mContext, CustomerManageActivity.class);
+                        intent.putExtra(MyConstant.isGongKe, true);
                         MethodsDeliverData.keYuanOrGongKe=1;
                         MethodsDeliverData.isMyCustomer = false;
                         startActivity(intent);
@@ -231,6 +233,7 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
                     MethodsDeliverData.flag = 1;
                     MethodsDeliverData.isMyCustomer = false;
                     intent.setClass(mContext,CustomerManageActivity.class);
+                    intent.putExtra(MyConstant.isGongKe, true);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 }

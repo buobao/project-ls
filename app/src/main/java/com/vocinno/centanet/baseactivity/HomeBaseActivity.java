@@ -137,8 +137,10 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     MethodsDeliverData.keYuanOrGongKe=0;
                     MethodsDeliverData.flag = 1;
                     MethodsDeliverData.isMyCustomer = false;
-                    MethodsExtra.startActivity(mContext,
-                            CustomerManageActivity.class);
+//                    MethodsExtra.startActivity(mContext,CustomerManageActivity.class);
+                    this.intent.setClass(mContext, CustomerManageActivity.class);
+                    this.intent.putExtra(MyConstant.isGongKe, true);
+                    startActivity(this.intent);
                     break;
                 //pin码
                 case R.id.rlyt_password_main_page_slid_menus:

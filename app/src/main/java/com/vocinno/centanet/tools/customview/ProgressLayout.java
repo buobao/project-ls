@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -63,9 +62,11 @@ public class ProgressLayout extends RelativeLayout {
 
         // if progressBackground color == Color.TRANSPARENT just add progress bar
         if (backgroundColor == Color.TRANSPARENT) {
-            mProgressView = new ProgressBar(getContext());
+            mProgressView = new LinearLayout(getContext());
+            ((LinearLayout)mProgressView).addView(LayoutInflater.from(getContext()).inflate(R.layout.loading, null));
+            //mProgressView = new ProgressBar(getContext());
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ((ProgressBar)mProgressView).setIndeterminateDrawable(getResources().getDrawable(R.drawable.rotate_loading));
+            //((ProgressBar)mProgressView).setIndeterminateDrawable(getResources().getDrawable(R.drawable.rotate_loading));
             layoutParams.addRule(CENTER_IN_PARENT);
         } else { // else wrap progress bar in LinearLayout and set background color to LinearLayout
             LinearLayout linearLayout = new LinearLayout(getContext());
@@ -74,9 +75,10 @@ public class ProgressLayout extends RelativeLayout {
 
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-            ProgressBar progressBar = new ProgressBar(getContext());
-            progressBar.setIndeterminateDrawable(getResources().getDrawable(R.drawable.rotate_loading));
-            linearLayout.addView(progressBar);
+            /*ProgressBar progressBar = new ProgressBar(getContext());
+            progressBar.setIndeterminateDrawable(getResources().getDrawable(R.drawable.rotate_loading));*/
+
+            linearLayout.addView(LayoutInflater.from(getContext()).inflate(R.layout.loading,null));
 
             mProgressView = linearLayout;
         }

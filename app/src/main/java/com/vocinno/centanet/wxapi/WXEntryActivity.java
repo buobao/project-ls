@@ -4,7 +4,7 @@ import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.vocinno.centanet.apputils.AppInstance;
-import com.vocinno.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
 
 import android.app.Activity;
 import android.os.Bundle;

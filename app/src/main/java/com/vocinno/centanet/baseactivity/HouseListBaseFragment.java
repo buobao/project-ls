@@ -18,8 +18,8 @@ import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.view.refreshablelistview.XListView;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView;
 
 import java.util.Arrays;
 import java.util.List;

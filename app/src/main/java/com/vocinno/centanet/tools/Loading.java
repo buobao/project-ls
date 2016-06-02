@@ -15,7 +15,7 @@ public class Loading extends Dialog {
     public static int showTag = 0;
     private static Loading loading;
     private static Context context;
-
+    private static boolean isExit;
     public synchronized void setIsShow(int flag) {
         showTag = flag;
     }
@@ -42,13 +42,26 @@ public class Loading extends Dialog {
             }
         });
     }
-
+    private static void setLoadingForExit(Context ctx,boolean exit) {
+        isExit=exit;
+        context = ctx;
+        loading = new Loading(context, R.layout.loading, R.style.Theme_dialog);
+        loading.setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                loading.showTag = 0;
+            }
+        });
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(context!=null&&loading.isShowing()){
-            loading.dismiss();
-            ((Activity)context).finish();
-            return true;
+        if(isExit){
+            if(context!=null&&loading.isShowing()){
+                isExit=false;
+                loading.dismiss();
+                ((Activity)context).finish();
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }

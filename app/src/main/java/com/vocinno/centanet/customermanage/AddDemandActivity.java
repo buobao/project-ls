@@ -26,10 +26,10 @@ import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
-import com.vocinno.utils.CustomUtils;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.view.refreshablelistview.XListView;
+import com.vocinno.centanet.apputils.utils.CustomUtils;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

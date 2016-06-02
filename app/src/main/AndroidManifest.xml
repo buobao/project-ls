@@ -212,34 +212,34 @@
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <!-- *********************************************************  被封装的activity(无需改动，可以增加)  ********************************************************* -->
         <activity
-            android:name="com.vocinno.utils.media.camera.CameraActivity"
+            android:name=".apputils.utils.media.camera.CameraActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.media.camera.PreviewActivity"
+            android:name=".apputils.utils.media.camera.PreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.file.FileExplore"
+            android:name=".apputils.utils.file.FileExplore"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.web.webview.WebviewActivity"
+            android:name=".apputils.utils.web.webview.WebviewActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.media.video.VideoPlayerActivity"
+            android:name=".apputils.utils.media.video.VideoPlayerActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.imageutils.editor.ImageEditorActivity"
+            android:name=".apputils.utils.imageutils.editor.ImageEditorActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.imageutils.selector.SelectorImageActivity"
+            android:name=".apputils.utils.imageutils.selector.SelectorImageActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.vocinno.utils.imageutils.selector.photos.NewImageGridActivity"
+            android:name=".apputils.utils.imageutils.selector.photos.NewImageGridActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <!-- ************* 二维码扫描  ************* -->
         <activity

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
-import com.vocinno.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
 
 import java.io.File;
 import java.io.FileOutputStream;

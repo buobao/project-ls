@@ -7,10 +7,10 @@ import com.vocinno.centanet.home.HomeActivity;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.user.UserLoginActivity;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.MethodsNetwork;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.MethodsNetwork;
 
 import android.os.Handler;
 import android.os.Message;

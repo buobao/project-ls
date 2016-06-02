@@ -1,6 +1,6 @@
 package com.vocinno.centanet.apputils;
 
-import com.vocinno.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
 
 import cn.jpush.android.api.JPushInterface;
 import android.app.Activity;

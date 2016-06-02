@@ -8,7 +8,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.vocinno.centanet.tools.MyToast;
-import com.vocinno.utils.MethodsFile;
+import com.vocinno.centanet.apputils.utils.MethodsFile;
 
 import java.io.File;
 

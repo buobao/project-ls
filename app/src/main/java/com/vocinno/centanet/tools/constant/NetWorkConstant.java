@@ -1,7 +1,7 @@
 package com.vocinno.centanet.tools.constant;
 
 import com.vocinno.centanet.apputils.AppApplication;
-import com.vocinno.utils.LocationUtil;
+import com.vocinno.centanet.apputils.utils.LocationUtil;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -17,8 +17,8 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.model.MessageItem;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
 
 import java.util.List;
 

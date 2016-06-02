@@ -27,8 +27,8 @@ import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
 
 import java.util.ArrayList;
 import java.util.Collections;

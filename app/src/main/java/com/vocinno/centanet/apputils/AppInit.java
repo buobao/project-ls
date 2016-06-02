@@ -3,12 +3,10 @@ package com.vocinno.centanet.apputils;
 import cn.jpush.android.api.JPushInterface;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.vocinno.utils.LocationUtil;
-import com.vocinno.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.LocationUtil;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
 
 import android.content.Context;
-import android.os.Looper;
-import android.util.Log;
 
 public final class AppInit {
 

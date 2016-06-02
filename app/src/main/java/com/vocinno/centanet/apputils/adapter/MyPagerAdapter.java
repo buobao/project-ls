@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vocinno.centanet.R;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsFile;
+import com.vocinno.centanet.apputils.utils.MethodsData;
+import com.vocinno.centanet.apputils.utils.MethodsFile;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

@@ -28,11 +28,11 @@ import com.vocinno.centanet.tools.DownloadApp;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.SharedPre;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.MethodsNetwork;
+import com.vocinno.centanet.apputils.utils.MethodsData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.MethodsNetwork;
 
 import java.io.File;
 import java.util.Calendar;

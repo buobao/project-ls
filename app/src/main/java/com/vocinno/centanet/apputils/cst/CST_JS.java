@@ -2,7 +2,7 @@ package com.vocinno.centanet.apputils.cst;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.vocinno.utils.MethodsNetwork;
+import com.vocinno.centanet.apputils.utils.MethodsNetwork;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package com.vocinno.centanet.keymanage;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperSlideMenuActivity;
-import com.vocinno.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
 
 import android.os.Handler;
 import android.view.View;

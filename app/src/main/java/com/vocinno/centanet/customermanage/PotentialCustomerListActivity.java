@@ -28,10 +28,10 @@ import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.constant.MyConstant;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.view.refreshablelistview.XListView;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView;
 
 import java.util.ArrayList;
 import java.util.List;

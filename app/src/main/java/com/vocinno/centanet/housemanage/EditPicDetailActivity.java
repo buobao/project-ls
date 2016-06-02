@@ -17,7 +17,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
 
 /**
  * 点击单张图片进行编辑 包括修改文字描述 删除图片等功能

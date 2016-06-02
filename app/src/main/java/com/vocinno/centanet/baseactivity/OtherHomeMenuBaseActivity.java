@@ -15,8 +15,8 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.view.refreshablelistview.XListView;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView;
 
 /**
  * Created by Administrator on 2016/4/20.

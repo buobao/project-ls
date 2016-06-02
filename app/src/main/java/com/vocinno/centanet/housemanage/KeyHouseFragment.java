@@ -15,7 +15,7 @@ import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
-import com.vocinno.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
 
 import java.util.HashMap;
 import java.util.List;

@@ -675,11 +675,17 @@ public final class MethodsFile {
         String filePath=Environment.getExternalStorageDirectory().getPath() + "/vocinno/compression/";
         String imgName= Long.toString(System.nanoTime())+".png";
         try {
+            File hiddenDir = new File(filePath+".nomedia");
+            if (!hiddenDir.exists()) {
+                hiddenDir.mkdirs();
+            }
+
             File f = new File(filePath,imgName);
             File file = new File(filePath);
             if(!file.exists()) {
                 file.mkdirs();
             }
+
             FileOutputStream out = new FileOutputStream(f);
             bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();

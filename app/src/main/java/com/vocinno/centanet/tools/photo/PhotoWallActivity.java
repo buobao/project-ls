@@ -17,9 +17,11 @@ import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.AddHousePictureActivity;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.photo.adapter.PhotoWallAdapter;
 import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,14 +77,22 @@ public class PhotoWallActivity extends Activity implements View.OnClickListener{
             case R.id.tv_right_mhead1:
                 //选择图片完成,回到起始页面
                 ArrayList<String> paths = getSelectImagePaths();
+                ArrayList<String> newPath = new ArrayList<String>();
                 if(paths!=null&&paths.size()>0){
+                    Loading.show(this);
+                    for (int i = 0; i < paths.size(); i++) {
+                        newPath.add(MethodsFile.getSmallBitmap(paths.get(i)));
+                    }
+
                     if(PhotoAlbumActivity.paa!=null){
                         PhotoAlbumActivity.paa.finish();
                     }
                     Intent intent = new Intent(PhotoWallActivity.this, AddHousePictureActivity.class);
                     intent.putExtra("code", paths != null ? 100 : 101);
-                    intent.putStringArrayListExtra(MyConstant.pathList,paths);
+                    intent.putStringArrayListExtra(MyConstant.pathList,newPath);
+//                    intent.putStringArrayListExtra(MyConstant.pathList,paths);
                     setResult(RESULT_OK,intent);
+                    Loading.dismissLoading();
                     finish();
                 }else{
                     if(PhotoAlbumActivity.paa!=null){

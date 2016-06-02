@@ -1,6 +1,5 @@
 package com.vocinno.centanet.remind;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -37,8 +36,7 @@ public class MessageListActivity extends OtherBaseActivity implements
 	@Override
 	public void initView() {
 		mListView = (XListView) findViewById(R.id.lv_remindList_MessageListActivity);
-		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.remind_my,
-				null);
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.remind_my,null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 
 
@@ -82,7 +80,6 @@ public class MessageListActivity extends OtherBaseActivity implements
 
 	@Override
 	public void initData() {
-		intent=new Intent();
 		if(methodsJni==null){
 			methodsJni=new MethodsJni();
 			methodsJni.setMethodsJni((HttpInterface)this);
@@ -178,36 +175,6 @@ public class MessageListActivity extends OtherBaseActivity implements
 	}
 
 	public void notifCallBack(String name, String className, Object data) {
-		/*if(modelDialog!=null&&modelDialog.isShowing()){
-			modelDialog.dismiss();
-		}
-		String strJson = (String) data;
-		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
-				MessageItem.class);
-		if (jsReturn.isSuccess()) {
-			if (jsReturn.getParams().getIsAppend()) {
-				mListMessages.addAll(jsReturn.getListDatas());
-			} else {
-				mListMessages = jsReturn.getListDatas();
-			}
-			mHander.sendEmptyMessage(R.id.FINISH_LOAD_ALL_DATA);
-			if (mPageIndex == 1) {
-				// 刷新
-				mHander.sendEmptyMessageDelayed(R.id.FINISH_REFRESH, 500);
-			} else {
-				// 加载更多
-				mHander.sendEmptyMessageDelayed(R.id.FINISH_LOAD_MORE, 500);
-			}
-		} else {
-			if (mPageIndex == 1) {
-				// 刷新失败
-				mHander.sendEmptyMessage(R.id.FINISH_REFRESH);
-			} else {
-				// 加载更多失败
-				mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
-				mPageIndex--;
-			}
-		}*/
 	}
 
 	@Override

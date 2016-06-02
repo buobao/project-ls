@@ -34,6 +34,7 @@ import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.MethodsNetwork;
 
+import java.io.File;
 import java.util.Calendar;
 
 /**
@@ -346,7 +347,12 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				DownloadApp ad = new DownloadApp(UserLoginActivity.this);
-				ad.setPath(Environment.getExternalStorageDirectory().getPath() + "/vocinno/appdownload");
+				String filePath=Environment.getExternalStorageDirectory().getPath() + "/vocinno/appdownload";
+				File file = new File(filePath);
+				if(!file.exists()) {
+					file.mkdirs();
+				}
+				ad.setPath(filePath);
 				ad.showDownloadDialog();
 				/*UpdateManager um=new UpdateManager(UserLoginActivity.this);
 				um.showDownloadDialog();*/

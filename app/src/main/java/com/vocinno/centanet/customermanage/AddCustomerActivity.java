@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -599,21 +600,24 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                 MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
                 checkIsFinish();
                 break;
-            case R.id.rlyt_pianquBanner_addCustomerActivity:
+            case R.id.rlyt_pianquBanner_addCustomerActivity:    //点击展开片区WheelView
                 setScrollView();
                 setLoseFocus();
-                if (mRyltChoosePianquContainer.getVisibility() == View.GONE){            //WheelView关闭则打开
-                    mRyltChoosePianquContainer.setVisibility(View.VISIBLE);
-                    mImgPianquRight
-                            .setBackgroundResource(R.drawable.h_manage_icon_up);
+                if (mRyltChoosePianquContainer.getVisibility() == View.GONE){
+                    if(!TextUtils.isEmpty(mTvCustormerPlace.getText().toString())){
+                        mRyltChoosePianquContainer.setVisibility(View.VISIBLE);
+                        mImgPianquRight.setBackgroundResource(R.drawable.h_manage_icon_up);
+                    }else{
+                        MethodsExtra.toast(mContext,"请先选择城区!");
+                    }
                     checkOpenOrClose(mRyltChoosePianquContainer.getId());
-                }  else {                                                                //WheelView打开则关闭
+                }  else {
                     closePianquContainer();
                 }
                 MethodsExtra.hideSoftInput1(mContext, mEtCustormerName);
                 checkIsFinish();
                 break;
-            case R.id.rlyt_areaBanner_addCustomerActivity:
+            case R.id.rlyt_areaBanner_addCustomerActivity:      //点击展开区域WheelView
                 setScrollView();
                 setLoseFocus();
                 if (mRyltChooseAreaContainer.getVisibility() == View.GONE) {
@@ -651,7 +655,8 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 //				addWXNumber();
 //				break;
             case R.id.btn_submit_modelOneWheelView:
-                if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {    //设置区域
+                /**************************区域WheelView选择****************************/
+                if (mRyltChoosePlaceContainer.getVisibility() == View.VISIBLE) {
                     mWheelViewChoosePianqu.setData(new ArrayList<String>());
                     listStr.clear();
                     if (mWheelViewChoosePlace.getSelected() == 0 ) {
@@ -672,7 +677,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                     mTvCustormerPlace.setText(mWheelViewChoosePlace
                             .getSelectedText());
                     closePlaceContainer();
-
+                /**************************片区WheelView选择****************************/
                 } else if (mRyltChoosePianquContainer.getVisibility() == View.VISIBLE) {    //设置片区
                     mTvCustormerPianqu.setText(mWheelViewChoosePianqu.getSelectedText());
                     closePianquContainer();

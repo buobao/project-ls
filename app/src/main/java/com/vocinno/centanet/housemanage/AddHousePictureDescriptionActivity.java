@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
@@ -78,7 +79,7 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
     }
     public void setImg(String path,ImageView imageView) {
         newPath=MethodsFile.getSmallBitmap(path);
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        /*BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;        // 获取这个图片的宽和高
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 //	此时返回bm为空
@@ -92,7 +93,8 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
         int h = bitmap.getHeight();
         System.out.println(w + "   " + h);
         ImageView iv = new ImageView(this);
-        imageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(bitmap);*/
+        Glide.with(this).load(path).centerCrop().crossFade().into(imageView);
     }
 
     @Override

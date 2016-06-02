@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
@@ -66,7 +67,8 @@ public class EditPicDetailActivity extends OtherBaseActivity {
 		mImgHouseDetail = (ImageView) findViewById(R.id.img_houseDetail_EditPicDetailActivity);
 
 //		mImgHouseDetail.setImageBitmap(ImageUtil.File2Bitmap(imgPath));
-		setImg(imgPath, mImgHouseDetail);
+//		setImg(imgPath, mImgHouseDetail);
+		Glide.with(this).load(imgPath).centerCrop().crossFade().into(mImgHouseDetail);
 		setListener();
 	}
 

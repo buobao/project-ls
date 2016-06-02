@@ -23,9 +23,9 @@ import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
 import com.zbar.lib.CaptureActivity;
 
 import cn.jpush.android.api.JPushInterface;

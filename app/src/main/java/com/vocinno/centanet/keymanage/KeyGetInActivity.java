@@ -2,7 +2,6 @@ package com.vocinno.centanet.keymanage;
 
 import java.util.ArrayList;
 
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.View;
 
@@ -12,14 +11,13 @@ import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyList;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.input.keyboard.KeyboardUtil;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.input.keyboard.KeyboardUtil;
+
 import android.os.Message;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.widget.EditText;
 

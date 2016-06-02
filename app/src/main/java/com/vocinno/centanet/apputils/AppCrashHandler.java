@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
+import com.vocinno.centanet.apputils.utils.MethodsFile;
 
 import android.app.Activity;
 import android.content.Context;

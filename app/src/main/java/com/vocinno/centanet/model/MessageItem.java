@@ -1,6 +1,6 @@
 package com.vocinno.centanet.model;
 
-import com.vocinno.utils.MethodsData;
+import com.vocinno.centanet.apputils.utils.MethodsData;
 
 public class MessageItem {
 	

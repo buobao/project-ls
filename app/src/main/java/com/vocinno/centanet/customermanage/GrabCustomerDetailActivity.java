@@ -35,10 +35,10 @@ import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,7 +125,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 	public void initData() {
 //		TAG = this.getClass().getName();
 		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
+		methodsJni.setMethodsJni((HttpInterface) this);
 		// 添加通知
 		MethodsJni.addNotificationObserver(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
 		MethodsJni.addNotificationObserver(

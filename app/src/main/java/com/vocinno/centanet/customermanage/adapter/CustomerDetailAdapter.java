@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.model.Track;
-import com.vocinno.utils.MethodsData;
+import com.vocinno.centanet.apputils.utils.MethodsData;
 
 import android.content.Context;
 import android.view.LayoutInflater;

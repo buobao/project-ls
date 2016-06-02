@@ -39,10 +39,10 @@ import com.vocinno.centanet.model.HouseInMap;
 import com.vocinno.centanet.model.HouseMapList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
 
 import java.util.ArrayList;
 

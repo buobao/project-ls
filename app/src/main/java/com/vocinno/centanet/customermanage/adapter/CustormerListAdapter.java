@@ -14,7 +14,7 @@ import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.GrabCustomerDetailActivity;
 import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.model.CustomerItem;
-import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
 
 import java.util.List;
 

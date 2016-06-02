@@ -28,10 +28,10 @@ import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
+import com.vocinno.centanet.apputils.utils.MethodsData;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsFile;
 import com.zbar.lib.CaptureActivity;
 
 /**

@@ -11,11 +11,11 @@ import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.MessageItem;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.view.refreshablelistview.XListView;
-import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView.IXListViewListener;
 
 import java.util.ArrayList;
 import java.util.List;

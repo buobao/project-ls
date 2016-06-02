@@ -20,8 +20,8 @@ import com.vocinno.centanet.housemanage.AddHousePictureActivity;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.photo.adapter.PhotoWallAdapter;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class PhotoWallActivity extends Activity implements View.OnClickListener{
                     }
                     Intent intent = new Intent(PhotoWallActivity.this, AddHousePictureActivity.class);
                     intent.putExtra("code", paths != null ? 100 : 101);
-                    intent.putStringArrayListExtra(MyConstant.pathList,newPath);
+                    intent.putStringArrayListExtra(MyConstant.pathList, newPath);
 //                    intent.putStringArrayListExtra(MyConstant.pathList,paths);
                     setResult(RESULT_OK,intent);
                     Loading.dismissLoading();

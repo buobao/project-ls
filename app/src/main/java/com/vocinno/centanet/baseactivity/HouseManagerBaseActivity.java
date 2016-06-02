@@ -124,6 +124,8 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
         if(drawer_layout.isDrawerOpen(leftMenuView)){
             drawer_layout.closeDrawer(leftMenuView);
             return true;
+        }else{
+            finish();
         }
         return super.onKeyDown(keyCode, event);
     }

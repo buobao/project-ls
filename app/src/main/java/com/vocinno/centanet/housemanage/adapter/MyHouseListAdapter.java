@@ -20,7 +20,7 @@ import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.model.HouseItem;
-import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

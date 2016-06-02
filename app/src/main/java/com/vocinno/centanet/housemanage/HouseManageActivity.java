@@ -57,12 +57,12 @@ import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.centanet.user.UserLoginActivity;
-import com.vocinno.utils.CustomUtils;
-import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
+import com.vocinno.centanet.apputils.utils.CustomUtils;
+import com.vocinno.centanet.apputils.utils.MethodsData;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJson;
 import com.zbar.lib.CaptureActivity;
 
 import java.util.ArrayList;
@@ -808,10 +808,8 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 MethodsDeliverData.keYuanOrGongKe=0;
                 MethodsDeliverData.flag = 1;
                 MethodsDeliverData.isMyCustomer = false;
-//                MethodsExtra.startActivity(mContext,CustomerManageActivity.class);
-                intent.setClass(mContext,CustomerManageActivity.class);
-                intent.putExtra(MyConstant.isGongKe, true);
-                startActivity(intent);
+                MethodsExtra.startActivity(mContext,
+                        CustomerManageActivity.class);
                 break;
             //pin码
             case R.id.rlyt_password_main_page_slid_menus:

@@ -2,7 +2,7 @@ package com.vocinno.centanet.apputils;
 
 import cn.jpush.android.api.JPushInterface;
 
-import com.vocinno.utils.MethodsNetwork;
+import com.vocinno.centanet.apputils.utils.MethodsNetwork;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

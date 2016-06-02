@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsFile;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsFile;
 
 public class AddHousePictureDescriptionActivity extends SuperActivity {
     private View mViewBack;

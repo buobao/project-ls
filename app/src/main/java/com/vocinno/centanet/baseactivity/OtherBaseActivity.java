@@ -28,10 +28,10 @@ import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.customview.ProgressLayout;
 import com.vocinno.centanet.user.UserLoginActivity;
-import com.vocinno.utils.MethodsDeliverData;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.view.refreshablelistview.XListView;
+import com.vocinno.centanet.apputils.utils.MethodsDeliverData;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView;
 import com.zbar.lib.CaptureActivity;
 
 /**

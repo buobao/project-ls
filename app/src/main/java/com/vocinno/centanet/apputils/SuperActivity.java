@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
-import com.vocinno.utils.MethodsJni;
+import com.vocinno.centanet.apputils.utils.MethodsJni;
 
 import cn.jpush.android.api.JPushInterface;
 

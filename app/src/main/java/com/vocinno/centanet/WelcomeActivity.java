@@ -2,13 +2,12 @@ package com.vocinno.centanet;
 
 import java.util.ArrayList;
 
-import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SharedPreferencesUtils;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter;
 import com.vocinno.centanet.apputils.adapter.MyPagerAdapter.MType;
 import com.vocinno.centanet.user.UserLoginActivity;
-import com.vocinno.utils.MethodsExtra;
+import com.vocinno.centanet.apputils.utils.MethodsExtra;
 
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;

@@ -151,6 +151,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 		explmsg=getIntent().getStringExtra("explmsg");
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
+		mSubmit.setVisibility(View.GONE);
 		mTitle = MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.add_camara_pic, null);
 

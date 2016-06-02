@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -40,6 +41,16 @@ public class Loading extends Dialog {
                 loading.showTag = 0;
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(context!=null&&loading.isShowing()){
+            loading.dismiss();
+            ((Activity)context).finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public  static void show(Context ctx) {

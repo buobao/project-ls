@@ -8,7 +8,7 @@
 
     <include layout="@layout/header_title_model1" />
 
-    <com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView
+    <com.vocinno.utils.view.refreshablelistview.XListView
         android:id="@+id/lv_custormerInfoList_CustomerManageActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,6 +16,6 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@drawable/bg_custormer_info_list_divider_custormer_manage"
         android:listSelector="@color/transparent" >
-    </com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView>
+    </com.vocinno.utils.view.refreshablelistview.XListView>
 
 </LinearLayout>

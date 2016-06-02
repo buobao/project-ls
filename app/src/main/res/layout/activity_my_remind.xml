@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical" >
     <include layout="@layout/header_title_model1" />
-    <com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView
+    <com.vocinno.utils.view.refreshablelistview.XListView
         android:id="@+id/lv_remindList_MessageListActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,5 +15,5 @@
         android:divider="@drawable/bg_custormer_info_list_divider_custormer_manage"
         android:dividerHeight="1px"
         android:listSelector="@color/transparent" >
-    </com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView>
+    </com.vocinno.utils.view.refreshablelistview.XListView>
 </LinearLayout>

@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
     android:background="@color/white"
     >
-    <com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView
+    <com.vocinno.utils.view.refreshablelistview.XListView
         android:id="@+id/xlistview_sell_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,7 @@
         android:scrollbars="none"
         android:visibility="gone"
         >
-    </com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView>
+    </com.vocinno.utils.view.refreshablelistview.XListView>
     <TextView
         android:id="@+id/tv_empty_listview"
         android:layout_marginTop="10dp"

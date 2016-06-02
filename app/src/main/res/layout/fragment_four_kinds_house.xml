@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView
+    <com.vocinno.utils.view.refreshablelistview.XListView
         android:id="@+id/xlistview_house_desc_houst_manage_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,7 +12,7 @@
         android:divider="@null"
         android:scrollbars="none"
         android:listSelector="@color/transparent" >
-    </com.vocinno.centanet.apputils.utils.view.refreshablelistview.XListView>
+    </com.vocinno.utils.view.refreshablelistview.XListView>
     <TextView
         android:id="@+id/tv_isemptydata"
         android:layout_marginTop="10dp"

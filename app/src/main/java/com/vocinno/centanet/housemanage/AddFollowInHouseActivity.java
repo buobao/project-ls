@@ -9,15 +9,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -27,8 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddFollowInHouseActivity extends OtherBaseActivity {
-	private View mBackView;
-	private ImageView mSubmitView;
+	private View mBackView,mSubmitView;
 	private String mHouseCode = null;
 	private TextView mTvDate;
 	private EditText mEtContent;
@@ -44,8 +42,9 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.followinhouse, null);
 		mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-		mSubmitView = (ImageView) MethodsExtra.findHeadRightView1(mContext,
-				baseView, 0, R.drawable.universal_button_undone);
+		mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
+		mSubmitView.setEnabled(false);
+		mSubmitView.setClickable(false);
 		mTvDate = (TextView) findViewById(R.id.tv_date_addFollowInCustomerActivity);
 		mEtContent = (EditText) findViewById(R.id.et_content_addFollowInCustomerActivity);
 
@@ -62,13 +61,13 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 						.getText());
 				String string = mEtContent.getText().toString();
 				if (string == null || string.trim().length() == 0) {
-					mSubmitView.setImageDrawable(getResources().getDrawable(
-							R.drawable.universal_button_undone));
+					mSubmitView.setEnabled(false);
 					mSubmitView.setClickable(false);
+//					mSubmitView.setImageDrawable(getResources().getDrawable(R.drawable.universal_button_undone));
 				} else {
 					if (string.trim().length() >= 10) {
-						mSubmitView.setImageDrawable(getResources().getDrawable(
-								R.drawable.universal_button_done));
+//						mSubmitView.setImageDrawable(getResources().getDrawable(R.drawable.universal_button_done));
+						mSubmitView.setEnabled(true);
 						mSubmitView.setClickable(true);
 						if (string.trim().length() > 500) {
 							if (strBeforeText != null) {
@@ -86,8 +85,8 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 							MethodsExtra.toast(mContext, "描述不能超过500字");
 						}
 					} else {
-						mSubmitView.setImageDrawable(getResources().getDrawable(
-								R.drawable.universal_button_undone));
+//						mSubmitView.setImageDrawable(getResources().getDrawable(R.drawable.universal_button_undone));
+						mSubmitView.setEnabled(false);
 						mSubmitView.setClickable(false);
 					}
 				}
@@ -147,7 +146,7 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
-		case R.id.img_right_mhead1:
+		case R.id.tv_right_mhead1:
 			String content = mEtContent.getText().toString();
 			if (content != null && content.trim().length() >= 1) {
 				doubleInit=true;

@@ -85,7 +85,8 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 				R.string.followin_look, null);
 		mViewBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		rootView=baseView;
-		mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, 0,R.drawable.universal_button_undone);
+//		mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, 0,R.drawable.universal_button_undone);
+		mSubmitView = MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
 		mHouseCode = (TextView) findViewById(R.id.tv_housecode_SeeFollowInDetailActivity);
 		mCustCode = (TextView) findViewById(R.id.tv_custcode_SeeFollowInDetailActivity);
 		mCustCode.setOnClickListener(this);
@@ -115,7 +116,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		mSubmitView.setOnClickListener(this);
 
 		mSubmitView.setClickable(false);
-
+		mSubmitView.setEnabled(false);
 
 		mLookCode.addTextChangedListener(new TextWatcher() {
 
@@ -394,10 +395,13 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		}*/
 		if (isFinish) {
 			Log.i("isFinish======","isFinish=="+isFinish);
-			mSubmitView = MethodsExtra.findHeadRightView1(mContext, rootView, 0, R.drawable.universal_button_done);
+//			mSubmitView = MethodsExtra.findHeadRightView1(mContext, rootView, 0, R.drawable.universal_button_done);
+			mSubmitView.setEnabled(true);
 			mSubmitView.setClickable(true);
 		} else {
-			mSubmitView = MethodsExtra.findHeadRightView1(mContext, rootView,0, R.drawable.universal_button_undone);
+//			mSubmitView = MethodsExtra.findHeadRightView1(mContext, rootView,0, R.drawable.universal_button_undone);
+			mSubmitView.setEnabled(false);
+			mSubmitView.setClickable(false);
 		}
 	}
 
@@ -468,7 +472,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		case R.id.img_left_mhead1:
 			finish();
 			break;
-		case R.id.img_right_mhead1:
+		case R.id.tv_right_mhead1:
 			if(isContinuousNumer(mRemark.getText().toString().trim())){
 				MethodsExtra.toast(mContext,"不能连续输入7个以上数字");
 				return;

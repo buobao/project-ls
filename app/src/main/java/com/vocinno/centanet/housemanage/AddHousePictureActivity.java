@@ -150,8 +150,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 		delCode=getIntent().getStringExtra("delCode");
 		explmsg=getIntent().getStringExtra("explmsg");
 		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,
-				R.drawable.universal_button_done);
+		mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
 		mTitle = MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.add_camara_pic, null);
 
@@ -349,7 +348,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			}
 			break;
 		// 提交照片
-		case R.id.img_right_mhead1:
+		case R.id.tv_right_mhead1:
 			uploadImg();
 			break;
 		// 提交照片

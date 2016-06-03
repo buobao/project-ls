@@ -174,6 +174,7 @@ public class HomeActivity extends HomeBaseActivity {
             case R.id.iv_keyuan:
                 MethodsDeliverData.isMyCustomer = true;
                 MethodsDeliverData.keYuanOrGongKe = 1;
+                this.intent.putExtra("isGongKe", false);
                 this.intent.setClass(mContext, CustomerManageActivity.class);
                 startActivity(this.intent);
                 break;

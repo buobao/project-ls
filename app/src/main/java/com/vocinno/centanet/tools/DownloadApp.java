@@ -152,6 +152,8 @@ public class DownloadApp {
                 HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection();
                 conn.setConnectTimeout(8000);
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Connection", "Keep-Alive"); // 设置为持久连接
 //                conn.setReadTimeout(8000);
                 conn.connect();
                 int responseCode = conn.getResponseCode();

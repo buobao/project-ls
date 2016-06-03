@@ -135,13 +135,13 @@ public class CustormerListAdapter extends BaseAdapter {
 
 		// 区域
 		if(item.getDistrictCode().equals("0")){
-			holder.tv_quyu_customerManageListItem.setText("不限");
+			holder.tv_quyu_customerManageListItem.setText("");
 		}else{
 			holder.tv_quyu_customerManageListItem.setText(item.getDistrictCode());
 		}
 		// 片区
-		if(item.getArea().equals("0")){
-			holder.mTvDemandDetail.setText("不限");
+		if("0".equals(item.getArea())){
+			holder.mTvDemandDetail.setText("");
 		}else{
 			holder.mTvDemandDetail.setText(item.getArea());
 		}
@@ -195,7 +195,7 @@ public class CustormerListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public class ViewHolder {
+	public static class ViewHolder {
 		TextView mTvCustormerId;
 		TextView mTvHuXing;
 		TextView mTvCustormerName;

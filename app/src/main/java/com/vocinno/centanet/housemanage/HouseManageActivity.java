@@ -1453,7 +1453,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                             listTags.add(strTags[i]);
                         }
                     }*/
-                    if(listType==MyConstant.houseList&&(menuType==1||menuType==4)){
+                    if((listType==MyConstant.houseList||listType==MyConstant.robGongHouseList)&&(menuType==1||menuType==4)){
                         mHouseTagAdapter = new GridViewAdapter(mContext,
                                 CST_Wheel_Data
                                         .getListDatas(CST_Wheel_Data.WheelType.biaoQian2),

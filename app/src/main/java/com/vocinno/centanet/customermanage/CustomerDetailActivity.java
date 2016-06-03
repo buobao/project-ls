@@ -420,7 +420,7 @@ public class CustomerDetailActivity extends OtherHomeMenuBaseActivity {
 				List<Requets> listReqs = mDetail.getRequets();
 				if (listReqs != null && listReqs.size() >= 1) {
 					Requets req = listReqs.get(0);
-					mTvType.setText("类型：" + req.getReqType());// 类型
+					mTvType.setText("交易：" + req.getReqType());// 交易类型
 					tv_quyu_customerDetailActivity.setText("区域：" + req.getDistrictCode());
 					mTvAcreage.setText("片区：" + req.getAcreage());
 					mTvPrice.setText("租价：" + req.getPrice());// 价格

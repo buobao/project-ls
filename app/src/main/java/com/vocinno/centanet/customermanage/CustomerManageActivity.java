@@ -63,7 +63,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 	private List<EstateSearchItem> mSearchListData;
 	private String type;
 	private boolean isGongKe;
-
+	//
 	@Override
 	public Handler setHandler() {
 		return  null;

@@ -322,6 +322,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             ((HouseListBaseFragment)fragmentList.get(i)).setFirstLoading();
         }
         pagerAdapter.setFragmentList(fragmentList);
+        //设置适配器
         vp_house_manager.setAdapter(pagerAdapter);
         vp_house_manager.setOffscreenPageLimit(fragmentList.size() - 1);
         vp_house_manager.postDelayed(new Runnable() {
@@ -1057,7 +1058,8 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                         lv_house_list.setAdapter(mSearch);
                         if(jsReturn.getListDatas().size()==1&&isHiddenList){
                             ll_house_list.setVisibility(View.GONE);
-                            mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
+                            mEtSearch.setBackgroundResource(
+                                    R.drawable.dialog_search_edit_bg_house_manage);
                             isHiddenList=false;
                         }else{
                             ll_house_list.setVisibility(View.VISIBLE);

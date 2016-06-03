@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -102,7 +103,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 	private EditText et_miaoshu;
 	private CheckBox cb_ishd;
 	private String explmsg;
-	private TextView tv_addpic_explmsg;
+	private TextView tv_addpic_explmsg,tv_commit;
 	@Override
 	public Handler setHandler() {
 
@@ -155,12 +156,16 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 		mTitle = MethodsExtra.findHeadTitle1(mContext, baseView,
 				R.string.add_camara_pic, null);
 
+		tv_commit= (TextView) findViewById(R.id.tv_commit);
+		TextPaint tp = tv_commit.getPaint();
+		tp.setFakeBoldText(true);
 		tv_addpic_explmsg= (TextView) findViewById(R.id.tv_addpic_explmsg);
 		tv_addpic_explmsg.setText(explmsg);
 		// 房型图 获取到数据之后填充入的tv
 		mTvHouseTypePicNumber = (TextView) findViewById(R.id.tv_fangXingTu_AddHousePicDetailActivity);
 		// 房型图 点击需要被更换图片的控件
 		mImgHouseTypeRightPic = (ImageView) findViewById(R.id.imgView_addHousePic_AddHousePicDetailActivity);
+		mImgHouseTypeRightPic.setBackgroundResource(R.drawable.h_manage_icon_up);
 		// 房型图 根据点击判断是否显示的rylt
 		mRyltShowGridviewHouseType = (RelativeLayout) findViewById(R.id.rylt_showGridviewHouse_AddHousePicDetailActivity);
 		mRyltShowGridviewHouseType.setVisibility(View.VISIBLE);

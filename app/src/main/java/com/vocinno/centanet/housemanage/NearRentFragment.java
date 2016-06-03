@@ -84,7 +84,8 @@ public class NearRentFragment extends HouseListBaseFragment implements HttpInter
     }
     public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
         if(!isXListViewLoad){
-            Loading.show(getActivity());
+//            Loading.show(getActivity());
+            Loading.showForExit(getActivity(),true);
         }
 //        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType);
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;

@@ -123,7 +123,8 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		if(isReFreshOrLoadMore){
 			isReFreshOrLoadMore=false;
 		}else{
-			Loading.show(this);
+//			Loading.show(this);
+			Loading.showForExit(this,true);
 		}
 		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custlist;
 		Map<String,String>map=new HashMap<String,String>();

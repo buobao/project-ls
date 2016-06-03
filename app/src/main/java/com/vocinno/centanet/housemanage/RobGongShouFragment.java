@@ -84,7 +84,8 @@ public class RobGongShouFragment extends HouseListBaseFragment implements HttpIn
     }
     public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
         if(!isXListViewLoad){
-            Loading.show(getActivity());
+//            Loading.show(getActivity());
+            Loading.showForExit(getActivity(),true);
         }
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();

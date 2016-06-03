@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -14,8 +15,7 @@ public class Loading extends Dialog {
     public static int showTag = 0;
     private static Loading loading;
     private static Context context;
-    private String s = "2";
-
+    private static boolean isExit;
     public synchronized void setIsShow(int flag) {
         showTag = flag;
     }
@@ -39,10 +39,25 @@ public class Loading extends Dialog {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 loading.showTag = 0;
+                isExit = false;
             }
         });
     }
-
+    public  static void showForExit(Context ctx,boolean exit) {
+        if(loading==null||!loading.isShowing()){
+            isExit=exit;
+            setLoading(ctx);
+        }
+        if (Loading.showTag == 0 && loading != null) {
+            Activity activity = (Activity) ctx;
+            if (activity != null && !activity.isFinishing()) {
+                Loading.showTag = 1;
+                loading.show();
+            } else {
+                loading.showTag = 0;
+            }
+        }
+    }
     public  static void show(Context ctx) {
         if(loading==null||!loading.isShowing()){
             setLoading(ctx);
@@ -63,5 +78,14 @@ public class Loading extends Dialog {
             loading.dismiss();
         }
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(isExit&&context!=null&&loading.isShowing()){
+            isExit=false;
+            loading.dismiss();
+            ((Activity)context).finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

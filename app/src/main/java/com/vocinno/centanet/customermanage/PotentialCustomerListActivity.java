@@ -113,7 +113,7 @@ public class PotentialCustomerListActivity extends OtherBaseActivity implements 
                 showSearchDialog();
                 mMenuDialog.dismiss();
                 break;
-            case R.id.ll_add_customer:     //添加客户
+            case R.id.ll_add_customer:     //跳转到"添加潜客"
                 MethodsExtra.startActivity(mContext, AddPotentialActivity.class);
                 mMenuDialog.dismiss();
                 break;

@@ -1,4 +1,3 @@
-package com.vocinno.centanet.customermanage;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;

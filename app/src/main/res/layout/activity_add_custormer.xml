@@ -60,6 +60,7 @@
                     android:ems="10"
                     android:gravity="left|center_vertical"
                     android:hint="@string/input_name"
+                    android:textColorHint="@color/slightGray"
                     android:textSize="13sp" >
 
                     <requestFocus />
@@ -106,6 +107,7 @@
                     android:singleLine="true"
                     android:textSize="13sp"
                     android:inputType="number"
+                    android:textColorHint="@color/slightGray"
                     android:maxLength="11"
                     />
 
@@ -147,6 +149,7 @@
                     android:layout_toRightOf="@+id/tv_type1_addCustomerActivity"
                     android:background="@null"
                     android:ems="10"
+                    android:textColorHint="@color/slightGray"
                     android:gravity="left|center_vertical"
                     android:hint="@string/source_addcustomer"
                     android:textSize="13sp" >
@@ -205,6 +208,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_level_addCustomer"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -280,6 +284,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_type_addCustomerActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -400,6 +405,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_fangxing_addCust"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -468,6 +474,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_changePlace_addCustomerActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -525,6 +532,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_changePianqu_addCustomerActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -582,6 +590,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_changeArea_addCustomerActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -639,6 +648,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_changePrice_addCustomerActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -697,6 +707,7 @@
                 android:background="@color/white" >
 
                 <EditText
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/et_otherInfo_addCustomerActivity"
                     android:layout_width="match_parent"
                     android:minHeight="40dp"

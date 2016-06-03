@@ -1,8 +1,7 @@
 package com.zbar.lib;
 
-import java.io.IOException;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
 import android.media.AudioManager;
@@ -22,14 +21,15 @@ import android.widget.RelativeLayout;
 
 import com.umeng.socialize.utils.Log;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.zbar.lib.camera.CameraManager;
 import com.zbar.lib.decode.CaptureActivityHandler;
 import com.zbar.lib.decode.InactivityTimer;
+
+import java.io.IOException;
 
 public class CaptureActivity extends Activity implements Callback {
 
@@ -165,7 +165,7 @@ public class CaptureActivity extends Activity implements Callback {
 		inactivityTimer.shutdown();
 		super.onDestroy();
 	}
-
+	private String code;
 	public void handleDecode(String result) {
 		inactivityTimer.onActivity();
 		playBeepSoundAndVibrate();
@@ -179,15 +179,21 @@ public class CaptureActivity extends Activity implements Callback {
 		for (int i = 0; i < strs.length; i++) {
 			if (strs[i].equals("houShare") && (i + 1) < strs.length) {
 				MethodsDeliverData.mDelCode = strs[i + 1];
+				code= strs[i + 1];
 				break;
 			}
 		}
 		// MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 		// CST_JS.JS_Function_HouseResource_getHouseInfoByQRCode,
 		// CST_JS.getJsonStringForGetHouseInfoByQRCode(result));
-
 		// 扫描完成后进行跳转操作（需要传递url给js result种包含url）
-		MethodsExtra.startActivity(this, HouseDetailActivity.class);
+
+
+		Intent intent=new Intent();
+		intent.putExtra(MyConstant.houseCode,code);
+		intent.setClass(this, HouseDetailActivity.class);
+		startActivity(intent);
+//		MethodsExtra.startActivity(this, HouseDetailActivity.class);
 		// 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
 		// handler.sendEmptyMessage(R.id.restart_preview);
 		finish();

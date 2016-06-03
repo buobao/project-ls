@@ -14,7 +14,7 @@ public class Loading extends Dialog {
     public static int showTag = 0;
     private static Loading loading;
     private static Context context;
-
+    public String a="1";
     public synchronized void setIsShow(int flag) {
         showTag = flag;
     }

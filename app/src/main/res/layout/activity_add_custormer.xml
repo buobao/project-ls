@@ -280,7 +280,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="类型"
+                    android:text="交易"
                     android:textSize="13sp" />
 
                 <TextView

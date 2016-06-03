@@ -83,7 +83,7 @@ public class NearSellFragment extends HouseListBaseFragment implements HttpInter
     }
     public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
         if(!isXListViewLoad){
-            Loading.show(getActivity());
+            Loading.showForExit(getActivity(),true);
         }
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();

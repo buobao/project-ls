@@ -1455,11 +1455,19 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                             listTags.add(strTags[i]);
                         }
                     }*/
-                    mHouseTagAdapter = new GridViewAdapter(mContext,
-                            CST_Wheel_Data
-                                    .getListDatas(CST_Wheel_Data.WheelType.biaoQian),
-                            listTags);
+                    if((listType==MyConstant.houseList||listType==MyConstant.robGongHouseList)&&(menuType==1||menuType==4)){
+                        mHouseTagAdapter = new GridViewAdapter(mContext,
+                                CST_Wheel_Data
+                                        .getListDatas(CST_Wheel_Data.WheelType.biaoQian2),
+                                listTags);
+                    }else{
+                        mHouseTagAdapter = new GridViewAdapter(mContext,
+                                CST_Wheel_Data
+                                        .getListDatas(CST_Wheel_Data.WheelType.biaoQian),
+                                listTags);
+                    }
                     gridView.setAdapter(mHouseTagAdapter);
+
                     btnSubmit.setOnClickListener(this);
                     win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                             android.view.ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -12,7 +12,7 @@ public class CST_Wheel_Data {
 		squareStart, squareEnd, priceChuzuStart,
 		priceChuzuEnd, priceChushouStart,
 		priceChushouEnd, huXing, louXing,
-		biaoQian, area,source,level,fangxing,maxfangxing
+		biaoQian,biaoQian2, area,source,level,fangxing,maxfangxing
 	};
 
 	private static ArrayList<String> mListStrs = new ArrayList<String>();	//区域的集合
@@ -171,6 +171,12 @@ public class CST_Wheel_Data {
 			mListStrs.add("签赔");
 			mListStrs.add("租售");
 			mListStrs.add("独家");
+			break;
+		case biaoQian2:
+			mListStrs.add("地铁房");
+			mListStrs.add("学区房");
+			mListStrs.add("钥匙");
+			mListStrs.add("租售");
 			break;
 		case area: //区域
 			mListStrs.add(0,"全部");

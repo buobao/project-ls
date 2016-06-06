@@ -114,7 +114,9 @@ public class PotentialCustomerListActivity extends OtherBaseActivity implements 
                 mMenuDialog.dismiss();
                 break;
             case R.id.ll_add_customer:     //跳转到"添加潜客"
-                MethodsExtra.startActivity(mContext, AddPotentialActivity.class);
+                intent=new Intent();
+                intent.setClass(mContext, AddPotentialActivity.class);
+                startActivityForResult(intent,10);
                 mMenuDialog.dismiss();
                 break;
             case R.id.img_left_mhead1:     //标题左侧箭头

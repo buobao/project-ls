@@ -1,7 +1,6 @@
 package com.vocinno.centanet.customermanage;
 
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.Selection;
@@ -13,27 +12,28 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsData;
-import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class AddFollowInCustomerActivity extends OtherBaseActivity {
 	private View mBackView;
 	private ImageView mSubmitView;
-	private String mCustorCode = null;
 	private TextView mTvDate;
 	private EditText mEtContent;
 	private String custCode;
@@ -132,25 +132,15 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 
 	@Override
 	public void initData() {
-		custCode=getIntent().getStringExtra("custCode");
-		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
+		custCode=getIntent().getStringExtra(MyConstant.custCode);
 		TAG = this.getClass().getName();
-		modelDialog= ModelDialog.getModelDialog(this);
-		mCustorCode = MethodsDeliverData.string;
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
 		mTvDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 				.format(new Date()));
 	}
 
 	@Override
 	public Handler setHandler() {
-		return new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-			}
-		};
+		return null;
 	}
 	private boolean doubleInit;
 	@Override
@@ -163,12 +153,34 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 				MethodsExtra.toast(mContext, "不能输入连续的8个数字");
 			} else if (content != null && content.trim().length() >= 1) {
 				doubleInit=true;
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
+				Loading.show(this);
+				URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addTrack;
+				Map<String,String>map=new HashMap<String,String>();
+				map.put(NetWorkMethod.custCode,custCode);
+				map.put(NetWorkMethod.remark,content);
+				OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+					@Override
+					public void onError(Request request, Exception e) {
+						Loading.dismissLoading();
+					}
+					@Override
+					public void onResponse(String response) {
+						Loading.dismissLoading();
+						JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) response,Object.class);
+						if (jsReturn.isSuccess()) {
+							MethodsExtra.toast(mContext, jsReturn.getMsg());
+							setResult(MyConstant.REFRESH);
+							finish();
+						}else{
+							MethodsExtra.toast(mContext, jsReturn.getMsg());
+						}
+					}
+				});
+				/*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_addTrackInfo, CST_JS
 								.getJsonStringForAddTrackInfo(mCustorCode,
-										content));
+										content));*/
 			}
-			showDialog();
 			mSubmitView.setImageDrawable(getResources().getDrawable(
 					R.drawable.universal_button_undone));
 			mSubmitView.setClickable(false);
@@ -192,40 +204,7 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
-	}
-
-	public void notifCallBack(String name, String className, Object data) {
-
-	}
-
-	@Override
 	public void netWorkResult(String name, String className, Object data) {
-		dismissDialog();
-		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-				Object.class);
-		if(doubleInit){
-			doubleInit=false;
-			if (jsReturn.isSuccess()) {
-//			MethodsExtra.toast(mContext, jsReturn.getMsg());
-			/*String content = mEtContent.getText().toString();
-			String time = mTvDate.getText().toString();
-			Intent intent = new Intent();
-			intent.putExtra("content", content);
-			intent.putExtra("time", time);
-			setResult(10, intent);*/
-			/*setResult(ConstantResult.REFRESH);
-			finish();*/
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				setResult(MyConstant.REFRESH);
-				finish();
-			}else{
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-			}
-		}
 	}
 
 	@Override

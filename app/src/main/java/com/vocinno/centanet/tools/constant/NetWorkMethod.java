@@ -92,4 +92,8 @@ public class NetWorkMethod {
     public static final String msgList="mobile/msg/list";
     /*****************抢公房********************/
     public static final String claim="mobile/hou/claim";
+    /*****************跟进描述********************/
+    public static final String addTrack="mobile/cust/track/add";
+    public static final String remark="remark";
+
 }

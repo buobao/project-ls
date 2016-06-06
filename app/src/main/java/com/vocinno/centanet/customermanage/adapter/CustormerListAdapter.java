@@ -14,6 +14,7 @@ import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.GrabCustomerDetailActivity;
 import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.model.CustomerItem;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 
 import java.util.List;
@@ -169,7 +170,7 @@ public class CustormerListAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				if(selectSOrZ){
 					Intent intent=new Intent();
-					intent.putExtra("custCode",item.getCustCode());
+					intent.putExtra(MyConstant.custCode,item.getCustCode());
 					mContext.setResult(101,intent);
 					mContext.finish();
 				}else{
@@ -182,7 +183,7 @@ public class CustormerListAdapter extends BaseAdapter {
 					}else{
 						intent=new Intent(mContext, GrabCustomerDetailActivity.class);
 					}
-					intent.putExtra("custCode",item.getCustCode());
+					intent.putExtra(MyConstant.custCode,item.getCustCode());
 					mContext.startActivityForResult(intent,10);
 					if (mContext.isMyCustomerType) {
 						MethodsDeliverData.flag1 = -1;

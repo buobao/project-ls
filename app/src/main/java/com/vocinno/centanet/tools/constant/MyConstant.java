@@ -21,4 +21,5 @@ public class MyConstant {
     /************************客源-公客*****************************/
     public final static String isMyCustomer="isMyCustomer";
     public final static String isGongKe="isGongKe";
+    public final static String custCode="custCode";
 }

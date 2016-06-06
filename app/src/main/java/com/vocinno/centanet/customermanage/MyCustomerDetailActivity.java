@@ -139,7 +139,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT, TAG);
 //		mCusterCode = MethodsDeliverData.string;
-		mCusterCode=getIntent().getStringExtra("custCode");
+		mCusterCode=getIntent().getStringExtra(MyConstant.custCode);
 		showDialog();
 
 		methodsJni=new MethodsJni();
@@ -165,7 +165,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		switch (v.getId()) {
 			case R.id.iv_add_demand_detail:
 				intent=new Intent(this, AddDemandActivity.class);
-				intent.putExtra("custCode", mCusterCode);
+				intent.putExtra(MyConstant.custCode, mCusterCode);
 				startActivityForResult(intent,101);
 				break;
 			case R.id.img_right_mhead1:
@@ -187,7 +187,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 				MethodsDeliverData.string = mCusterCode;
 				// listTracks
 				intent.setClass(mContext, AddFollowInCustomerActivity.class);
-				intent.putExtra("custCode", mCusterCode);
+				intent.putExtra(MyConstant.custCode, mCusterCode);
 				startActivityForResult(intent, 101);
 //				MethodsExtra.startActivityForResult(mContext,10,intent);
 				break;

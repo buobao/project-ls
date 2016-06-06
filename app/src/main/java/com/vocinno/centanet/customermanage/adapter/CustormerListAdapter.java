@@ -183,13 +183,9 @@ public class CustormerListAdapter extends BaseAdapter {
 					}else{
 						intent=new Intent(mContext, GrabCustomerDetailActivity.class);
 					}
-					intent.putExtra(MyConstant.custCode,item.getCustCode());
+					intent.putExtra(MyConstant.custCode, item.getCustCode());
+					intent.putExtra(MyConstant.isGongKe,isGongKe);
 					mContext.startActivityForResult(intent,10);
-					if (mContext.isMyCustomerType) {
-						MethodsDeliverData.flag1 = -1;
-					} else {
-						MethodsDeliverData.flag1 = 1;
-					}
 				}
 			}
 		});

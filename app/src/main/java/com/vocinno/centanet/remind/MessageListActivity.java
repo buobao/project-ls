@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.MessageItem;
@@ -16,7 +15,6 @@ import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
@@ -175,20 +173,8 @@ public class MessageListActivity extends OtherBaseActivity implements
 			case R.id.rlyt_remind_customer_main_page_slid_menus:
 				drawer_layout.closeDrawer(leftMenuView);
 				break;*/
+		}
 	}
-}
-
-	// 调用数据
-	private void getDataFromNetwork(boolean isRefresh, int page) {
-		MethodsJni
-				.callProxyFun(CST_JS.JS_ProxyName_Message,
-						CST_JS.JS_Function_MessageProxy_getMessageList, CST_JS
-								.getJsonStringForGetMessageList(
-										(isRefresh ? CST_JS.JS_Message_Type_new
-												: CST_JS.JS_Message_Type_old),
-										page, 0));
-	}
-
 	public void notifCallBack(String name, String className, Object data) {
 	}
 

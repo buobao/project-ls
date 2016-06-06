@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -192,15 +191,6 @@ public class AddFollowInCustomerActivity extends OtherBaseActivity {
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(this.modelDialog.isShowing()){
-			dismissDialog();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override

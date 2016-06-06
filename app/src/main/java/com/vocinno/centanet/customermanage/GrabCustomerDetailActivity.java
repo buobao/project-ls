@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -70,18 +69,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
 
     @Override
     public Handler setHandler() {
-        return new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case RESET_LISTVIEW_TRACK:
-                        MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
+        return null;
     }
 
     @Override
@@ -418,7 +406,7 @@ public class GrabCustomerDetailActivity extends OtherBaseActivity {
         if (listTracks != null && listTracks.size() >= 1) {
             adapter = new CustomerDetailAdapter(mContext, listTracks);
             mLvTracks.setAdapter(adapter);
-            mHander.sendEmptyMessageDelayed(RESET_LISTVIEW_TRACK, 50);
+            MethodsExtra.resetListHeightBasedOnChildren(mLvTracks);
         }
         // 填充需求信息
         List<Requets> listReqs = mDetail.getRequets();

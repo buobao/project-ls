@@ -1,16 +1,20 @@
 package com.vocinno.centanet.remind;
 
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.MessageItem;
-import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
@@ -18,7 +22,9 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 我的提醒
@@ -47,29 +53,7 @@ public class MessageListActivity extends OtherBaseActivity implements
 
 	@Override
 	public Handler setHandler() {
-		return new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case R.id.FINISH_LOAD_ALL_DATA:
-					mListAdapter.setListDatas(mListMessages);
-					if (mListMessages == null || mListMessages.size() == 0) {
-						mListView.setPullLoadEnable(false);
-					} else {
-						mListView.setPullLoadEnable(true);
-					}
-					break;
-				case R.id.FINISH_LOAD_MORE:
-					mListView.stopLoadMore();
-					break;
-				case R.id.FINISH_REFRESH:
-					mListView.stopRefresh();
-					break;
-				default:
-					break;
-				}
-			}
-		};
+		return null;
 	}
 
 	@Override
@@ -80,25 +64,56 @@ public class MessageListActivity extends OtherBaseActivity implements
 
 	@Override
 	public void initData() {
-		if(methodsJni==null){
-			methodsJni=new MethodsJni();
-			methodsJni.setMethodsJni((HttpInterface)this);
-		}
-		if(modelDialog==null){
-			modelDialog= ModelDialog.getModelDialog(this);
-		}
-		modelDialog.show();
 		mListAdapter = new MessageListAdapter(mContext);
 		mListView.setAdapter(mListAdapter);
+		getMsgData();
 		// 添加通知
-		MethodsJni.addNotificationObserver(
+		/*MethodsJni.addNotificationObserver(
 				CST_JS.NOTIFY_NATIVE_MESSAGE_LIST_RESULT, TAG);
-		getDataFromNetwork(true, mPageIndex);
+		getDataFromNetwork(true, mPageIndex);*/
 	}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MethodsJni.removeNotificationObserver(CST_JS.NOTIFY_NATIVE_MESSAGE_LIST_RESULT, TAG);
+
+	private void getMsgData() {
+		getMsgData("new", true, true);
+	}
+	private void getLoadMsgData() {
+		getMsgData("old", false, false);
+	}
+	private void getMsgData(String type,boolean isFirstViewLoad,final boolean isRefresh) {
+		if(isFirstViewLoad){
+			Loading.showForExit(this, true);
+		}
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.msgList;
+		Map<String,String>map=new HashMap<String,String>();
+		map.put(NetWorkMethod.type,type);
+		map.put(NetWorkMethod.page,page+"");
+		map.put(NetWorkMethod.pageSize, MyConstant.pageSize + "");
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				stopRefreshOrLoadMore();
+			}
+			@Override
+			public void onResponse(String response) {
+				stopRefreshOrLoadMore();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, MessageItem.class);
+				if (jsReturn.isSuccess()) {
+					if (jsReturn.getListDatas().size() < MyConstant.pageSize) {
+						mListView.setPullLoadEnable(false);
+					} else {
+						mListView.setPullLoadEnable(true);
+					}
+					if (isRefresh) {
+						mListAdapter.setListDatas(jsReturn.getListDatas());
+					} else {
+						page++;
+						mListAdapter.addListDatas(jsReturn.getListDatas());
+					}
+				} else {
+					MyToast.showToast(jsReturn.getMsg());
+				}
+			}
+		});
 	}
 
 	@Override
@@ -179,46 +194,17 @@ public class MessageListActivity extends OtherBaseActivity implements
 
 	@Override
 	public void onRefresh() {
-		mPageIndex = 1;
-		getDataFromNetwork(true, mPageIndex);
+		page = 2;
+		getMsgData("new", false, true);
 	}
 
 	@Override
 	public void onLoadMore() {
-		getDataFromNetwork(false, ++mPageIndex);
+		getLoadMsgData();
 	}
 
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
-		if(modelDialog!=null&&modelDialog.isShowing()){
-			modelDialog.dismiss();
-		}
-		String strJson = (String) data;
-		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
-				MessageItem.class);
-		if (jsReturn.isSuccess()) {
-			if (jsReturn.getParams().getIsAppend()) {
-				mListMessages.addAll(jsReturn.getListDatas());
-			} else {
-				mListMessages = jsReturn.getListDatas();
-			}
-			mHander.sendEmptyMessage(R.id.FINISH_LOAD_ALL_DATA);
-			if (mPageIndex == 1) {
-				// 刷新
-				mHander.sendEmptyMessageDelayed(R.id.FINISH_REFRESH, 500);
-			} else {
-				// 加载更多
-				mHander.sendEmptyMessageDelayed(R.id.FINISH_LOAD_MORE, 500);
-			}
-		} else {
-			if (mPageIndex == 1) {
-				// 刷新失败
-				mHander.sendEmptyMessage(R.id.FINISH_REFRESH);
-			} else {
-				// 加载更多失败
-				mHander.sendEmptyMessage(R.id.FINISH_LOAD_MORE);
-				mPageIndex--;
-			}
-		}
+
 	}
 }

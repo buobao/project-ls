@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
@@ -87,48 +86,64 @@ public class CustormerListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(
-					R.layout.item_custormer_manage, null);
-			holder.tv_name_code = (TextView) convertView
-					.findViewById(R.id.tv_name_code);
-			holder.iv_zu_gou = (ImageView) convertView
-					.findViewById(R.id.iv_zu_gou);
-			holder.tv_area_price = (TextView) convertView
-					.findViewById(R.id.tv_area_price);
-			holder.tv_custom_quyu = (TextView) convertView
-					.findViewById(R.id.tv_custom_quyu);
-			holder.tv_custom_pianqu = (TextView) convertView
-					.findViewById(R.id.tv_custom_pianqu);
-			holder.tv_custom_huxing = (TextView) convertView
-					.findViewById(R.id.tv_custom_huxing);
-			holder.tv_custom_time = (TextView) convertView
-					.findViewById(R.id.tv_custom_time);
+					R.layout.item_custormer_manage_listview, null);
+			holder.mTvCustormerId = (TextView) convertView
+					.findViewById(R.id.tv_custormerId_customerManageListItem);
+			holder.mTvHuXing = (TextView) convertView
+					.findViewById(R.id.tv_houseDetail_huxing);
+			holder.mTvCustormerName = (TextView) convertView
+					.findViewById(R.id.tv_custormerName_customerManageListItem);
+			holder.mTvDemandType = (TextView) convertView
+					.findViewById(R.id.tv_demandType_customerManageListItem);
+			holder.mTvDemandDetail = (TextView) convertView
+					.findViewById(R.id.tv_houseDetail_customerManageListItem);
+			holder.tv_quyu_customerManageListItem = (TextView) convertView
+					.findViewById(R.id.tv_quyu_customerManageListItem);
+			holder.mTvDemandPrice = (TextView) convertView
+					.findViewById(R.id.tv_demandPrice_customerManageListItem);
+			holder.mTvDescription = (TextView) convertView
+					.findViewById(R.id.tv_description_customerManageListItem);
+			holder.mTvTime = (TextView) convertView
+					.findViewById(R.id.tv_time_customerManageListItem);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final CustomerItem item = mListCustomers.get(position);		//从集合取对应position的值
-		// 姓名/客源编号
-		holder.tv_name_code.setText(item.getName() + "/" + item.getCustCode());
-		if(CustomerItem.ZU.equals(item.getReqType())){
-			holder.iv_zu_gou.setVisibility(View.VISIBLE);
-			holder.iv_zu_gou.setImageResource(R.drawable.qiuzu);
-		} else if(CustomerItem.GOU.equals(item.getReqType())){
-			holder.iv_zu_gou.setVisibility(View.VISIBLE);
-			holder.iv_zu_gou.setImageResource(R.drawable.qiugou);
-		}else{
-			holder.iv_zu_gou.setVisibility(View.GONE);
-		}
+		// 客源编号
+		holder.mTvCustormerId.setText(item.getCustCode());
+		// 姓名
+		holder.mTvCustormerName.setText(item.getName());
+		// 需求类型
+	/*	if(isGongKe){
+			holder.mTvDemandType.setVisibility(View.GONE);
+		}else{*/
+			holder.mTvDemandType.setVisibility(View.VISIBLE);
+			if(CustomerItem.ZU.equals(item.getReqType())){
+				holder.mTvDemandType.setText("求租");
+				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_zu));
+				holder.mTvDemandType.setVisibility(View.VISIBLE);
+			} else if(CustomerItem.GOU.equals(item.getReqType())){
+				holder.mTvDemandType.setText("求购");
+				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(R.drawable.shape_qiu_gou));
+				holder.mTvDemandType.setVisibility(View.VISIBLE);
+			}else{
+				holder.mTvDemandType.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
+				holder.mTvDemandType.setVisibility(View.GONE);
+			}
+//		}
+
 		// 区域
 		if(item.getDistrictCode().equals("0")){
-			holder.tv_custom_quyu.setText("");
+			holder.tv_quyu_customerManageListItem.setText("");
 		}else{
-			holder.tv_custom_quyu.setText(item.getDistrictCode());
+			holder.tv_quyu_customerManageListItem.setText(item.getDistrictCode());
 		}
 		// 片区
 		if("0".equals(item.getArea())){
-			holder.tv_custom_pianqu.setText("");
+			holder.mTvDemandDetail.setText("");
 		}else{
-			holder.tv_custom_pianqu.setText(item.getArea());
+			holder.mTvDemandDetail.setText(item.getArea());
 		}
 		// 户型+面积+价格
 		String fangXing=item.getFromToRoom();
@@ -143,11 +158,12 @@ public class CustormerListAdapter extends BaseAdapter {
 		if("不限".equals(fangXing)){
 			fangXing="";
 		}
-		holder.tv_custom_huxing.setText(fangXing);
-		holder.tv_area_price.setText( acreage+" "+price);
+		holder.mTvHuXing.setText(fangXing);
+		holder.mTvDemandPrice.setText( acreage+" "+price);
 		// 说明
+		holder.mTvDescription.setText(item.getOther());
 		// 相对日期
-		holder.tv_custom_time.setText(item.getRelativeDate());
+		holder.mTvTime.setText(item.getRelativeDate());
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -180,11 +196,13 @@ public class CustormerListAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		TextView tv_name_code;
-		ImageView iv_zu_gou;
-		TextView tv_area_price;
-		TextView tv_custom_quyu;
-		TextView tv_custom_pianqu;
-		TextView tv_custom_huxing,tv_custom_time;
+		TextView mTvCustormerId;
+		TextView mTvHuXing;
+		TextView mTvCustormerName;
+		TextView mTvDemandType;
+		TextView mTvDemandDetail,tv_quyu_customerManageListItem;
+		TextView mTvDemandPrice;
+		TextView mTvDescription;
+		TextView mTvTime;
 	}
 }

@@ -38,6 +38,14 @@ public class MessageListAdapter extends BaseAdapter {
 		this.mListMessages = listItems;
 		notifyDataSetChanged();
 	}
+	public void addListDatas(List<MessageItem> listItems) {
+		if(mListMessages!=null){
+			this.mListMessages.addAll(listItems);
+		}else{
+			this.mListMessages = listItems;
+		}
+		notifyDataSetChanged();
+	}
 
 	public MessageItem getItemData(int position) {
 		return mListMessages.get(position);

@@ -95,7 +95,9 @@ public class NetWorkMethod {
     /*****************抢公房********************/
     public static final String claim="mobile/hou/claim";
     /*****************跟进描述********************/
-    public static final String addTrack="mobile/cust/track/add";
     public static final String remark="remark";//需求自述
-
+    public static final String addTrack="mobile/cust/track/add";
+    /*****************客源详情-获取联系人********************/
+    public static final String custContactList="mobile/cust/contactList";//需求自述
+    public static final String claimCust="mobile/cust/claim";//客户详情抢公客
 }

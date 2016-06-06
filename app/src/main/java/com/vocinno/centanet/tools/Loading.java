@@ -43,6 +43,9 @@ public class Loading extends Dialog {
             }
         });
     }
+    public  static void showForExit(Context ctx) {
+        showForExit(ctx,true);
+    }
     public  static void showForExit(Context ctx,boolean exit) {
         if(loading==null||!loading.isShowing()){
             isExit=exit;

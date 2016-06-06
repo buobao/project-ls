@@ -31,6 +31,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -193,11 +194,12 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 				break;
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;
-				showDialog();
+				getCustContactList();
+				/*showDialog();
 				// 调用联系人列表数据
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_CustContactList,
-						CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
+						CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));*/
 				break;
 			case R.id.rlyt_seize_customerDetailActivity:
 				mGrabCustomer.setClickable(false);
@@ -262,6 +264,35 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			default:
 				break;
 		}
+	}
+	private void getCustContactList() {
+		Loading.showForExit(this);
+		URL = NetWorkConstant.PORT_URL + NetWorkMethod.custContactList;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(NetWorkMethod.custCode, mCusterCode);
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				Loading.dismissLoading();
+			}
+
+			@Override
+			public void onResponse(String response) {
+				Loading.dismissLoading();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, CustomerDetail.class);
+				if (jsReturn.isSuccess()) {
+					CustomerDetail contentList = getContent(response);
+					if (contentList != null) {
+						List<CustomerDetail.Content> list = contentList.getContent();
+						showCallCosturmerDialog(list);
+					} else {
+						MethodsExtra.toast(mContext, jsReturn.getMsg());
+					}
+				} else {
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
+				}
+			}
+		});
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

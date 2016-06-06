@@ -59,6 +59,8 @@ public class NetWorkMethod {
     public static final String estateName="mobile/hou/estateName";
     /*****************客户详情********************/
     public static final String custInfo="mobile/cust/custInfo";
+    /*****************添加潜客********************/
+    public static final String addPotential = "mobile/cust/add";//添加潜客
     /*****************添加客户********************/
     public static final String addCust = "mobile/cust/add";//查重复手机号码
     public static final String checkMpNo = "mobile/cust/checkMpNo";//查重复手机号码
@@ -94,6 +96,6 @@ public class NetWorkMethod {
     public static final String claim="mobile/hou/claim";
     /*****************跟进描述********************/
     public static final String addTrack="mobile/cust/track/add";
-    public static final String remark="remark";
+    public static final String remark="remark";//需求自述
 
 }

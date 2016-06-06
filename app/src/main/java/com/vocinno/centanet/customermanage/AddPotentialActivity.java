@@ -14,12 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -216,12 +222,42 @@ public class AddPotentialActivity extends OtherBaseActivity {
 					MethodsExtra.toast(mContext,"手机号码格式不正确");
 					return;
 				}
-				showDialog();
 				// 上传数据
-				String strJson = CST_JS.getJsonStringForAddCustomer(et_name_addqianke.getText().toString().toString(),
+				Loading.show(this);
+				URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addPotential;
+				Map<String,String>map=new HashMap<String,String>();
+				String name=et_name_addqianke.getText().toString();
+				String phone=tv_tel_addqianke.getText().toString();
+				String source=tv_source_addpotential.getText().toString();
+				String origin = CST_Wheel_Data.sourceMap.get(source);
+				String level = tv_level_addpotential.getText().toString();
+				map.put(NetWorkMethod.name,name);
+				map.put(NetWorkMethod.phone,phone);
+				map.put(NetWorkMethod.origin,origin);
+				map.put(NetWorkMethod.rank, level);
+				OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+					@Override
+					public void onError(Request request, Exception e) {
+						Loading.dismissLoading();
+					}
+					@Override
+					public void onResponse(String response) {
+						Loading.dismissLoading();
+						JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
+						if (jsReturn.isSuccess()) {
+							MethodsExtra.toast(mContext, jsReturn.getMsg());
+							setResult(MyConstant.REFRESH);
+							finish();
+						} else {
+							MethodsExtra.toast(mContext, jsReturn.getMsg());
+						}
+					}
+				});
+
+				/*String strJson = CST_JS.getJsonStringForAddCustomer(et_name_addqianke.getText().toString().toString(),
 						tv_tel_addqianke.getText().toString());
 				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
-						CST_JS.JS_Function_CustomerList_addCustomer, strJson);
+						CST_JS.JS_Function_CustomerList_addCustomer, strJson);*/
 				break;
 			case R.id.ll_source_addpotential:
 				cb_source_addpotential.setChecked(!cb_source_addpotential.isChecked());

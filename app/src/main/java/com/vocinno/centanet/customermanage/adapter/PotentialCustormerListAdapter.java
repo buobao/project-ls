@@ -13,6 +13,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerDetailActivity;
 import com.vocinno.centanet.model.CustomerItem;
+import com.vocinno.centanet.tools.constant.MyConstant;
 
 import java.util.List;
 
@@ -123,7 +124,7 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Intent intent=new Intent(mContext,PotentialCustomerDetailActivity.class);
-				intent.putExtra("custCode",item.getCustCode());
+				intent.putExtra(MyConstant.custCode,item.getCustCode());
 				mContext.startActivityForResult(intent,10);
 			}
 		});

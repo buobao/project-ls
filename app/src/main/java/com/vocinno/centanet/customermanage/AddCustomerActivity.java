@@ -115,7 +115,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 //		mEtConnectionNumber = (EditText) findViewById(R.id.et_connectionNumber_addCustomerActivity);
         scrollView = (ScrollViewCanStop) findViewById(R.id.scrollView1);
         tv_addcust_time = (TextView) findViewById(R.id.tv_addcust_time);
-        tv_addcust_time.setText(MyUtils.getFormatDate(new Date()));
+        tv_addcust_time.setText("委托日期"+MyUtils.getFormatDate(new Date()));
         mEtCustormerName = (EditText) findViewById(R.id.et_name_addCustomerActivity);
         // 需要添加点击事件的RelativeLayout
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);

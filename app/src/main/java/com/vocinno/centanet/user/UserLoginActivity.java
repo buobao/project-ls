@@ -1,17 +1,29 @@
 package com.vocinno.centanet.user;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vocinno.centanet.R;
@@ -25,6 +37,7 @@ import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.DownloadApp;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.SharedPre;
@@ -36,6 +49,9 @@ import com.vocinno.utils.MethodsNetwork;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户登录
@@ -92,6 +108,10 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 
 	@Override
 	public int setContentLayoutId() {
+		mbr=new MyBroadcastReceiver();
+		IntentFilter iFilter=new IntentFilter();
+		iFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+		registerReceiver(mbr, iFilter);
 		return R.layout.activity_user_login;
 	}
 
@@ -352,26 +372,9 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 				if(!file.exists()) {
 					file.mkdirs();
 				}
-				ad.setPath(filePath);
-				ad.showDownloadDialog();
-				/*UpdateManager um=new UpdateManager(UserLoginActivity.this);
-				um.showDownloadDialog();*/
-				/*OkHttpClientManager.downloadApp("http://a.sh.centanet.com/app/centanet_Release.apk", Environment.getExternalStorageDirectory().getPath() + "/vocinno", new Callback() {
-					@Override
-					public void onFailure(Request request, IOException e) {
-						Log.i("onFailure=====","onFailure");
-					}
-
-					@Override
-					public void onResponse(Response response) throws IOException {
-						Headers responseHeaders = response.headers();
-						for (int i = 0; i < responseHeaders.size(); i++) {
-							Log.i("responseHeaders=====", responseHeaders.name(i) + ": " + responseHeaders.value(i));
-						}
-					}
-				});*/
-				/*UpdateManager um=new UpdateManager(mContext);
-				um.showDownloadDialog();*/
+				/*ad.setPath(filePath);
+				ad.showDownloadDialog();*/
+				showDownloadDialog();
 				dialog.dismiss();
 				/*final Uri uri = Uri.parse(getString(R.string.download_url));
 				final Intent it = new Intent(Intent.ACTION_VIEW, uri);
@@ -453,6 +456,143 @@ public class UserLoginActivity extends SuperActivity implements HttpInterface,Vi
 
 		protected abstract void onNoDoubleClick(View v);
 	}
+	private class MyBroadcastReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)){
+				long dId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+				if(!isRemove&&downId==dId&&downId>0){
+					ses.shutdown();
+					File apkfile =getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS+"/"+getText(R.string.apk_name).toString());
+					if (!apkfile.exists()) {
+						return;
+					}else{
+						mProgress.setProgress(100);
+						tv_progress.setText("100");
+					}
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					i.setDataAndType(Uri.parse("file://" + apkfile.toString()),
+							"application/vnd.android.package-archive");
+					context.startActivity(i);
+//				Toast.makeText(UserLoginActivity.this, "下载完成！", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(mbr!=null){
+			unregisterReceiver(mbr);
+		}
+	}
+
+	private ProgressBar mProgress;
+	private TextView tv_progress;
+	private MyBroadcastReceiver  mbr;
+	private long downId;
+	private boolean isRemove;
+	private DownloadManager dm;
+	private DownloadManager.Request request;
+	private ScheduledExecutorService ses;
+	private MyDialog alterDialog;
+	private int  downLoadFileSize=0;
+	private int  sizeTotal,progress;
+	public void showDownloadDialog() {
+		if(isNetworkConnected(this)){
+			File file =getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS+"/"+getText(R.string.apk_name).toString());
+			if (file.exists()) {
+				file.delete();
+			}
+			dm= (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+			request = new DownloadManager.Request(Uri.parse(getText(R.string.download_url).toString()));
+			request.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS,getText(R.string.apk_name).toString());
+			request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+			final LayoutInflater inflater = LayoutInflater.from(this);
+			View v = inflater.inflate(R.layout.progress_update_client, null);
+			mProgress = (ProgressBar) v.findViewById(R.id.progress);
+			tv_progress = (TextView) v.findViewById(R.id.tv_progress);
+			tv_progress.setText("0");
+			/*****************************************/
+			MyDialog.Builder myDialog=new MyDialog.Builder(this);
+			myDialog.setTitle("软件版本更新");
+			myDialog.setMessage(null);
+			myDialog.setContentView(v);
+			myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			myDialog.setDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					ses.shutdown();
+					isRemove=true;
+					dm.remove(downId);
+				}
+			});
+			alterDialog = myDialog.create();
+			alterDialog.show();
+			downloadApk();
+		}else{
+			MyToast.showToast(this, "当前无网络连接,请稍后再试");
+			return;
+		}
+
+	}
+
+	private void downloadApk() {
+		try {
+			isRemove=false;
+			downId=dm.enqueue(request);
+		}catch (Exception e){
+			MyToast.showToast(this,"下载管理器被停用,请开启之后再试");
+			return;
+		}
+		 ses = Executors.newSingleThreadScheduledExecutor();
+		ses.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				DownloadManager.Query query=new DownloadManager.Query();
+				query.setFilterById(downId);
+				Cursor cursor=dm.query(query);
+				if(cursor.moveToNext()){
+					downLoadFileSize=cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+					sizeTotal=cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+				}
+				cursor.close();
+				if(sizeTotal>0&&downLoadFileSize>0){
+					progress=(int) (((float)downLoadFileSize / sizeTotal) * 100);
+					mProgress.setProgress(progress);
+					tv_progress.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							tv_progress.setText(progress + "");
+						}
+					},100);
+				}
+			}
+		},0,500, TimeUnit.MILLISECONDS);
+	}
+
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager connectivity = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo info = connectivity.getActiveNetworkInfo();
+			if (info != null && info.isConnected())
+			{
+				if (info.getState() == NetworkInfo.State.CONNECTED) {
+					return info.isAvailable();
+				}
+			}
+		}
+		return false;
+	}
+
 	/*public void onNoDoubleClick(View v){
 		String userAccount = mEtUserAccount.getText().toString().trim();
 		String userPassword = mEtUserpassword.getText().toString().trim();

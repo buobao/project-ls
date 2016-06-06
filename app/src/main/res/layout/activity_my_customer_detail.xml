@@ -455,24 +455,4 @@
             android:textColor="@color/white"
             android:textSize="15sp" />
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/rlyt_seize_customerDetailActivity"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:background="@color/red_main_red"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/tv_seize_customerDetailActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/icon_grab"
-            android:drawablePadding="5dp"
-            android:text="抢！"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
-    </RelativeLayout>
-
 </LinearLayout>

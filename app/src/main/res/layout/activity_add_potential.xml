@@ -201,6 +201,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:textColorHint="@color/slightGray"
                     android:id="@+id/tv_level_addpotential"
                     android:layout_width="0dp"
                     android:layout_weight="1"

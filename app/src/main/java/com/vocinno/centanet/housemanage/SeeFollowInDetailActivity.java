@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
@@ -26,6 +27,12 @@ import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.SeeFollowIn;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.CustomUtils;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -37,6 +44,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,7 +64,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 	private boolean isStartTime=false;
 	private Long startTime,endTime;
 	private CheckBox cb_huixie;
-	private String mDelCode;
+	private String mDelCode,houseCode;
 	private View rootView;
 	private String delegationType;
 	@Override
@@ -359,7 +368,8 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		methodsJni=new MethodsJni();
 		methodsJni.setMethodsJni((HttpInterface)this);
 		delegationType=getIntent().getStringExtra("delegationType");
-		mHouseCode.setText(MethodsDeliverData.mDelCode);
+		houseCode=getIntent().getStringExtra(MyConstant.houseCode);
+		mHouseCode.setText(houseCode);
 		mDelCode=MethodsDeliverData.mDelCode.substring(4,5);
 		// 注册通知
 		MethodsJni.addNotificationObserver(
@@ -477,7 +487,6 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 				MethodsExtra.toast(mContext,"不能连续输入7个以上数字");
 				return;
 			}
-			showDialog();
 			String isBack="0";
 			if(cb_huixie.isChecked()){
 				isBack="1";
@@ -486,9 +495,11 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 					MethodsDeliverData.mDelCode,
 					mCustCode.getText().toString(), mLookCode.getText()
 							.toString(), mRemark.getText().toString(),startTime,endTime,isBack);
-			MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
+			/*MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_HouseResource,
 					CST_JS.JS_Function_HouseResource_addHouCustomerTrack,
-					string);
+					string);*/
+			saveLook(mCustCode.getText().toString(),mLookCode.getText()
+					.toString(), mRemark.getText().toString(),startTime,endTime,isBack);
 			Log.d(TAG, "AddHouCustomerTrack:" + string);
 			break;
 
@@ -497,6 +508,37 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		}
 //		checkIsFinish();
 	}
+
+	private void saveLook(String cCode,String mLookCode, String mRemark, Long startTime, Long endTime, String isBack) {
+		Loading.show(this);
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addLook;
+		Map<String,String> map=new HashMap<String,String>();
+		map.put(NetWorkMethod.custCode, cCode);
+		map.put(NetWorkMethod.delCode,houseCode);
+		map.put(NetWorkMethod.lookCode, mLookCode);
+		map.put(NetWorkMethod.remark,mRemark);
+		map.put(NetWorkMethod.startTime,startTime+"");
+		map.put(NetWorkMethod.endTime,endTime+"");
+		map.put(NetWorkMethod.isBackWrite,isBack);
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				Loading.dismissLoading();
+			}
+			@Override
+			public void onResponse(String response) {
+				Loading.dismissLoading();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,SeeFollowIn.class);
+				if (jsReturn.isSuccess()) {
+					MyToast.showToast(jsReturn.getMsg());
+					finish();
+				} else {
+					MyToast.showToast(jsReturn.getMsg());
+				}
+			}
+		});
+	}
+
 	private boolean isNumeric(String str) {
 		String reg = "^[0-9]$";
 		Pattern pattern = Pattern.compile(reg);
@@ -593,16 +635,6 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
-		dismissDialog();
-		String strJson = (String) data;
-		JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
-				SeeFollowIn.class);
-		if (jsReturn.isSuccess()) {
-			MethodsExtra.toast(mContext,jsReturn.getMsg());
-			finish();
-		} else {
-			MethodsExtra.toast(mContext, jsReturn.getMsg());
-		}
 	}
 
 	@Override

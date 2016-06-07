@@ -537,10 +537,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 break;
             case R.id.tv_searchinmap_HouseManageActivity:
                 mMenuDialog.dismiss();
-                if (viewPageIndex==0) {
+                if (menuType==0) {
                     // 出售
                     MapActivity.mDelType = "s";
-                } else if (viewPageIndex==1) {
+                } else if (menuType==1) {
                     // 出租
                     MapActivity.mDelType = "r";
                 }

@@ -91,10 +91,11 @@ public class NetWorkMethod {
     public static final String desc="desc";
     public static final String isHD="isHD";
     public static final String pics="pics";
-    /*****************查看室号********************/
+    /*****************查看室号理由********************/
     public static final String doRoomview="mobile/hou/doRoomview";
     public static final String reason="reason";
     public static final String houseId="houseId";
+
     /*****************借用钥匙********************/
     public static final String borrow="mobile/hou/key/borrow";
     /*****************客源列表********************/
@@ -116,4 +117,14 @@ public class NetWorkMethod {
     /*****************客源详情-获取联系人********************/
     public static final String custContactList="mobile/cust/contactList";//需求自述
     public static final String claimCust="mobile/cust/claim";//客户详情抢公客
+    /*****************输入pin码********************/
+    public static final String receivePin="mobile/hou/key/receive";
+    public static final String pinCode="pinCode";
+    /*****************地图房源********************/
+    public static final String houInMap="mobile/hou/houInMap";
+    public static final String latMin="latMin";
+    public static final String latMax="latMax";
+    public static final String attMin="attMin";
+    public static final String attMax="attMax";
+
 }

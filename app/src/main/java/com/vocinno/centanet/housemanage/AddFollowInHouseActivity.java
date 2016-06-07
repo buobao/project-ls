@@ -138,6 +138,7 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		super.onClick(v);
 		switch (v.getId()) {
 		case R.id.tv_right_mhead1:
+			mSubmitView.setClickable(false);
 			String content = mEtContent.getText().toString();
 			if (content != null && content.trim().length() >= 1) {
 				/*doubleInit=true;
@@ -165,10 +166,12 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
 			@Override
 			public void onError(Request request, Exception e) {
+				mSubmitView.setClickable(true);
 				Loading.dismissLoading();
 			}
 			@Override
 			public void onResponse(String response) {
+				mSubmitView.setClickable(true);
 				Loading.dismissLoading();
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(response, HouseDetail.class);
 				if (jReturn.isSuccess()) {

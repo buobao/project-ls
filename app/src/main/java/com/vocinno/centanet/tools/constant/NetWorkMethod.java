@@ -73,12 +73,19 @@ public class NetWorkMethod {
     public static final String areas="mobile/hou/areas";
     /*****************房源详情********************/
     public static final String houInfo="mobile/hou/houInfo";
+    public static final String houseCode="houseCode";
     public static final String delCode="delCode";
     /*****************房源描述跟进********************/
     public static final String addGenJin="mobile/hou/track/add";
     public static final String content="content";
     /*****************房源详情联系人********************/
     public static final String contactList="mobile/hou/contactList";
+    /*****************房源详情带看跟进********************/
+    public static final String addLook="mobile/cust/look/add";
+    public static final String lookCode="lookCode";
+    public static final String startTime="startTime";
+    public static final String endTime="endTime";
+    public static final String isBackWrite="isBackWrite";
     /*****************房源详情增加实勘********************/
     public static final String addImg="mobile/hou/explore/add";
     public static final String desc="desc";

@@ -451,6 +451,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				MethodsDeliverData.mDelCode = houseDetail.getDelCode();
 				Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
 				it.putExtra("delegationType", houseDetail.getDelegationType());
+				it.putExtra(MyConstant.houseCode, houseDetail.getDelCode());
 				startActivity(it);
 			} else {
 				MethodsExtra.toast(mContext, "houseDetail不能为空");

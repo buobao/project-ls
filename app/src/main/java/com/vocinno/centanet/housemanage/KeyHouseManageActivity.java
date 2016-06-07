@@ -253,7 +253,7 @@ public class KeyHouseManageActivity extends OtherBaseActivity implements HttpInt
 
     @Override
     public void initData() {
-        keyHouseFragment = new KeyHouseFragment((GetDataInterface)this,0);
+        keyHouseFragment = new KeyHouseFragment(0);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fl_key_houselist, keyHouseFragment).commit();
         mIntScreenWidthHeight = MethodsData.getScreenWidthHeight(mContext);

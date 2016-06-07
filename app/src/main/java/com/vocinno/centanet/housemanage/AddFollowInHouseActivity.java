@@ -1,7 +1,6 @@
 package com.vocinno.centanet.housemanage;
 
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.Selection;
@@ -11,26 +10,30 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
-import com.vocinno.utils.MethodsDeliverData;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddFollowInHouseActivity extends OtherBaseActivity {
 	private View mBackView,mSubmitView;
 	private String mHouseCode = null;
 	private TextView mTvDate;
 	private EditText mEtContent;
-	public static boolean isSucessSave=false;
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_follow_in_customer;
@@ -121,25 +124,13 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 	@Override
 	public void initData() {
 		mHouseCode=getIntent().getStringExtra(MyConstant.houseCode);
-		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
-		mHouseCode = MethodsDeliverData.string;
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
-		mHouseCode = MethodsDeliverData.string;
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_HOU_ADD_TRACK_RESULT, TAG);
 		mTvDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 				.format(new Date()));
 	}
 
 	@Override
 	public Handler setHandler() {
-		return new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-			}
-		};
+		return null;
 	}
 
 	@Override
@@ -149,11 +140,12 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		case R.id.tv_right_mhead1:
 			String content = mEtContent.getText().toString();
 			if (content != null && content.trim().length() >= 1) {
-				doubleInit=true;
+				/*doubleInit=true;
 				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 						CST_JS.JS_Function_HouseResource_addHouTrack, CST_JS
 								.getJsonStringForAddHouTrack(
-										MethodsDeliverData.mDelCode, content));
+										mHouseCode, content));*/
+				saveContent(content);
 			}
 			break;
 		case R.id.img_left_mhead1:
@@ -164,35 +156,35 @@ public class AddFollowInHouseActivity extends OtherBaseActivity {
 		}
 	}
 
-	public void notifCallBack(String name, String className, Object data) {
-
+	private void saveContent(String content) {
+		Loading.show(this);
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addGenJin;
+		Map<String,String> map=new HashMap<String,String>();
+		map.put(NetWorkMethod.delCode, mHouseCode);
+		map.put(NetWorkMethod.content, content);
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				Loading.dismissLoading();
+			}
+			@Override
+			public void onResponse(String response) {
+				Loading.dismissLoading();
+				JSReturn jReturn = MethodsJson.jsonToJsReturn(response, HouseDetail.class);
+				if (jReturn.isSuccess()) {
+					MyToast.showToast(jReturn.getMsg());
+					setResult(MyConstant.REFRESH);
+					finish();
+				}else{
+					MyToast.showToast(jReturn.getMsg());
+				}
+			}
+		});
 	}
-	private boolean doubleInit;
 	@Override
 	public void netWorkResult(String name, String className, Object data) {
-		JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-				Object.class);
-		if(doubleInit){
-			doubleInit=false;
-			if (jsReturn.isSuccess()) {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-				isSucessSave=true;
-				setResult(MyConstant.REFRESH);
-				finish();
-			}else{
-				MethodsExtra.toast(mContext,jsReturn.getMsg());
-			}
-		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CUST_TRACK_RESULT, TAG);
-		MethodsJni.removeNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_HOU_ADD_TRACK_RESULT, TAG);
-	}
 	@Override
 	public void onRefresh() {
 

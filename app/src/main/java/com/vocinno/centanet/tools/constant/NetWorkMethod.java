@@ -74,6 +74,9 @@ public class NetWorkMethod {
     /*****************房源详情********************/
     public static final String houInfo="mobile/hou/houInfo";
     public static final String delCode="delCode";
+    /*****************房源描述跟进********************/
+    public static final String addGenJin="mobile/hou/track/add";
+    public static final String content="content";
     /*****************房源详情联系人********************/
     public static final String contactList="mobile/hou/contactList";
     /*****************查看室号********************/

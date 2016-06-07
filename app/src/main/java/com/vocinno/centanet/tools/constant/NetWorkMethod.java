@@ -120,5 +120,11 @@ public class NetWorkMethod {
     /*****************输入pin码********************/
     public static final String receivePin="mobile/hou/key/receive";
     public static final String pinCode="pinCode";
+    /*****************地图房源********************/
+    public static final String houInMap="mobile/hou/houInMap";
+    public static final String latMin="latMin";
+    public static final String latMax="latMax";
+    public static final String attMin="attMin";
+    public static final String attMax="attMax";
 
 }

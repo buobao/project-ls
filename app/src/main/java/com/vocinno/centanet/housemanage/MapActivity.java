@@ -32,19 +32,24 @@ import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.HouseInMap;
 import com.vocinno.centanet.model.HouseMapList;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 地图详情
@@ -53,7 +58,7 @@ import java.util.ArrayList;
  * 
  */
 public class MapActivity extends OtherBaseActivity {
-	public static String mDelType = "";
+	public static String mDelType = "";//在房源列表更改参数
 
 	private LatLng mLatLngMax;
 	private LatLng mLatLngMin;
@@ -117,8 +122,6 @@ public class MapActivity extends OtherBaseActivity {
 		mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
 				LocationMode.NORMAL, true, null));
 		mLocClient.registerLocationListener(mMyListener);
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_HOU_LIST_INMAP_RESULT, TAG);
 		mBaiduMap.setOnMapLoadedCallback(new OnMapLoadedCallback() {
 			@Override
 			public void onMapLoaded() {
@@ -129,8 +132,7 @@ public class MapActivity extends OtherBaseActivity {
 
 	@Override
 	public void initData() {
-		methodsJni=new MethodsJni();
-		methodsJni.setMethodsJni((HttpInterface)this);
+
 		isGetPosition = false;
 		// 开启定位图层
 		mBaiduMap.setMyLocationEnabled(true);
@@ -224,12 +226,41 @@ public class MapActivity extends OtherBaseActivity {
 		}
 		mLatLngMax = maxPoint;
 		mLatLngMin = minPoint;
+		
+		getHouseData(mDelType,
+				mLatLngMin.latitude, mLatLngMax.latitude,
+				mLatLngMin.longitude, mLatLngMax.longitude);
 		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 				CST_JS.JS_Function_HouseResource_getHouseInMap, CST_JS
 						.getJsonStringForHouseListGetHouseInMap(mDelType,
 								mLatLngMin.latitude, mLatLngMax.latitude,
 								mLatLngMin.longitude, mLatLngMax.longitude));
 		isGetPosition = true;
+	}
+
+	private void getHouseData(String mDelType, double minLatitude, double maxLatitude, double minLongitude, double maxLongitude) {
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houInMap;
+		Map<String, String> map=new HashMap<String,String>();
+		map.put(NetWorkMethod.delType, mDelType);
+		map.put(NetWorkMethod.latMin, minLatitude+"");
+		map.put(NetWorkMethod.latMax, maxLatitude+"");
+		map.put(NetWorkMethod.attMin, minLongitude+"");
+		map.put(NetWorkMethod.attMax, maxLongitude+"");
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+			}
+			@Override
+			public void onResponse(String response) {
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,HouseMapList.class);
+				if(jsReturn.isSuccess()){
+					if (jsReturn.getObject() != null) {
+						ArrayList<HouseInMap> mapPoint = ((HouseMapList) jsReturn.getObject()).getMapPoint();
+						refreshOverlays(mapPoint != null ? mapPoint: null);
+					}
+				}
+			}
+		});
 	}
 
 	@Override

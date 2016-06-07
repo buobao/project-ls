@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.selfdefineview.ListViewNeedResetHeight;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ContentAdapter;
@@ -35,7 +34,6 @@ import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import org.json.JSONException;
@@ -98,11 +96,6 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         intent=new Intent();
         mCusterCode=getIntent().getStringExtra(MyConstant.custCode);
         getData();
-        /*showDialog();
-        // 调用数据
-        MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
-                CST_JS.JS_Function_CustomerList_getCustomerInfo,
-                CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));*/
     }
     private void getData() {
         Loading.show(this);
@@ -114,7 +107,6 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             public void onError(Request request, Exception e) {
                 Loading.dismissLoading();
             }
-
             @Override
             public void onResponse(String response) {
                 Loading.dismissLoading();
@@ -190,13 +182,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                         AddFollowInCustomerActivity.class);
                 MethodsExtra.startActivityForResult(mContext,10,intent);
                 break;
-            case R.id.imgView_phone_customerDetailActivity:
-                showDialog();
-                // 调用联系人列表数据
-                MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
-                        CST_JS.JS_Function_CustomerList_CustContactList,
-                        CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-                break;
+
             default:
                 break;
         }

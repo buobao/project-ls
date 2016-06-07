@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.util.mylibrary.photos.PhotoReadyHandler;
 import com.util.mylibrary.photos.SelectPhotoManager;
 import com.vocinno.centanet.R;
@@ -29,7 +30,11 @@ import com.vocinno.centanet.model.BorrowKey;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.UploadImageResult;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.centanet.tools.photo.PhotoWallActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
@@ -38,7 +43,9 @@ import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 增加实勘
@@ -121,10 +128,11 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 						isHD=1;
 					}
 					String teString = CST_JS.getJsonStringForUploadImages(delCode, mUploadImages,miaoShu,isHD);
-					Log.d("wan", "wanggsx uploadsuccess string:" + teString);
+					addImg(delCode, mUploadImages,miaoShu,isHD);
+					/*Log.d("wan", "wanggsx uploadsuccess string:" + teString);
 					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 							CST_JS.JS_Function_HouseResource_uploadImages,
-							teString);
+							teString);*/
 						break;
 				case UPLOAD_PIC_FAIL:
 					dismissDialog();
@@ -137,6 +145,50 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 				}
 			}
 		};
+	}
+
+	private void addImg(String delCode, ArrayList<ImageForJsParams> mUploadImages, String miaoShu, int isHD) {
+		Loading.show(this);
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addImg;
+		Map<String,String> map=new HashMap<String,String>();
+		map.put(NetWorkMethod.delCode, delCode);
+		map.put(NetWorkMethod.desc, miaoShu);
+		map.put(NetWorkMethod.isHD, isHD+"");
+		for (int i = 0; i <mUploadImages.size() ; i++) {
+			map.put("pics["+i+"].type",mUploadImages.get(i).getType());
+			map.put("pics["+i+"].pic",mUploadImages.get(i).getPic());
+		}
+		/*map.put(NetWorkMethod.pics, new Gson().toJson(mUploadImages) );
+		*//*params += "&pics[" + i + "].type=" + pics[i].type;
+            params += "&";
+            params += "pics[" + i + "].pic=" + pics[i].pic;*/
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				Loading.dismissLoading();
+			}
+			@Override
+			public void onResponse(String response) {
+				Loading.dismissLoading();
+				JSReturn jReturn = MethodsJson.jsonToJsReturn(response,
+						BorrowKey.class);
+				MyDialog.Builder myDialog=new MyDialog.Builder(AddHousePictureActivity.this);
+				myDialog.setTitle("提示");
+				if (jReturn.isSuccess()) {
+					myDialog.setMessage(jReturn.getMsg());
+					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							finish();
+						}
+					});
+					myDialog.create().show();
+				}else{
+					MethodsExtra.toast(mContext,jReturn.getMsg());
+				}
+			}
+		});
 	}
 
 	@Override
@@ -405,7 +457,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 		myDialog.create().show();
 	}
 	private void uploadAndConnectJs() {
-		showDialog();
+		Loading.show(this);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

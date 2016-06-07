@@ -79,6 +79,11 @@ public class NetWorkMethod {
     public static final String content="content";
     /*****************房源详情联系人********************/
     public static final String contactList="mobile/hou/contactList";
+    /*****************房源详情增加实勘********************/
+    public static final String addImg="mobile/hou/explore/add";
+    public static final String desc="desc";
+    public static final String isHD="isHD";
+    public static final String pics="pics";
     /*****************查看室号********************/
     public static final String doRoomview="mobile/hou/doRoomview";
     public static final String reason="reason";

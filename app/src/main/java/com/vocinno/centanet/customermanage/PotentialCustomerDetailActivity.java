@@ -28,6 +28,7 @@ import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Requets;
 import com.vocinno.centanet.model.Track;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -48,7 +49,6 @@ import java.util.Map;
 public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private String mCusterCode = null;
     private View mBackView, mImgViewAddTrack,mSubmit;
-    private RelativeLayout mGrabCustomer;
     private TextView mTvCustomerCode, mTvCustomerName, mTvType, mTvAcreage,
             mTvPrice, tv_fangxing_potential,tv_area_potential, tv_xuqiu_qianke,tv_quyu_qianke;
     private ListViewNeedResetHeight mLvTracks;
@@ -74,7 +74,6 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.customernews,
                 null);
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-        mGrabCustomer = (RelativeLayout) findViewById(R.id.rlyt_seize_qianke);
         mTvCustomerCode = (TextView) findViewById(R.id.tv_customercode_qianke);
         mTvCustomerName = (TextView) findViewById(R.id.tv_customername_qianke);
         mTvType = (TextView) findViewById(R.id.tv_type_qianke);
@@ -90,7 +89,6 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
         iv_add_demand_potential = (ImageView) findViewById(R.id.iv_add_demand_potential);
         iv_add_demand_potential.setOnClickListener(this);
         mBackView.setOnClickListener(this);
-        mGrabCustomer.setOnClickListener(this);
         mImgViewAddTrack.setOnClickListener(this);
         mImgViewPhone.setOnClickListener(this);
     }
@@ -98,34 +96,74 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     @Override
     public void initData() {
         intent=new Intent();
-        TAG = this.getClass().getName();
-        // 添加通知
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
-        MethodsJni.addNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT, TAG);
-        mCusterCode=getIntent().getStringExtra("custCode");
-        showDialog();
+        mCusterCode=getIntent().getStringExtra(MyConstant.custCode);
+        getData();
+        /*showDialog();
         // 调用数据
         MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
                 CST_JS.JS_Function_CustomerList_getCustomerInfo,
-                CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-        if (MethodsDeliverData.flag1 == 1) {
-            mGrabCustomer.setVisibility(View.VISIBLE);
-            mSubmit = MethodsExtra.findHeadRightView1(mContext, baseView, 0,R.drawable.phone_img);
-            mSubmit.setOnClickListener(this);
-            mImgViewPhone.setVisibility(View.GONE);
-        }else{
-            mImgViewPhone.setVisibility(View.VISIBLE);
-        }
+                CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));*/
     }
+    private void getData() {
+        Loading.show(this);
+        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
+        Map<String,String> map=new HashMap<String,String>();
+        map.put(NetWorkMethod.custCode, mCusterCode);
+        OkHttpClientManager.postAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                Loading.dismissLoading();
+            }
 
+            @Override
+            public void onResponse(String response) {
+                Loading.dismissLoading();
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
+                        CustomerDetail.class);
+                if (jsReturn.isSuccess()) {
+                    getPotentialInfo(jsReturn);
+                } else {
+                    MethodsExtra.toast(mContext, jsReturn.getMsg());
+                }
+            }
+        });
+    }
+    private void getCustContactList() {
+        Loading.showForExit(this);
+        URL = NetWorkConstant.PORT_URL + NetWorkMethod.custContactList;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(NetWorkMethod.custCode, mCusterCode);
+        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                Loading.dismissLoading();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Loading.dismissLoading();
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, CustomerDetail.class);
+                if (jsReturn.isSuccess()) {
+                    CustomerDetail contentList = getContent(response);
+                    if (contentList != null) {
+                        List<CustomerDetail.Content> list = contentList.getContent();
+                        showCallCosturmerDialog(list);
+                    } else {
+                        MethodsExtra.toast(mContext, jsReturn.getMsg());
+                    }
+                } else {
+                    MethodsExtra.toast(mContext, jsReturn.getMsg());
+                }
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.imgView_phone_qianke:
+                getCustContactList();
+                break;
             case R.id.iv_add_demand_potential:
                 intent=new Intent(this, AddDemandActivity.class);
                 intent.putExtra("custCode", mCusterCode);
@@ -155,16 +193,9 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             case R.id.imgView_phone_customerDetailActivity:
                 showDialog();
                 // 调用联系人列表数据
-                MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
+                MethodsJni.callProxyFun(hif, CST_JS.JS_ProxyName_CustomerList,
                         CST_JS.JS_Function_CustomerList_CustContactList,
                         CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-                break;
-            case R.id.rlyt_seize_customerDetailActivity:
-                mGrabCustomer.setClickable(false);
-                showDialog();
-                // 抢
-                MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,CST_JS.JS_Function_CustomerList_claimCustomer,CST_JS.getJsonStringForGetCustomerInfo(mCusterCode));
-                mGrabCustomer.setClickable(true);
                 break;
             default:
                 break;
@@ -177,16 +208,16 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
             Map<String,String> map=new HashMap<String,String>();
             map.put(NetWorkMethod.custCode,mCusterCode);
-            showDialog();
+            Loading.show(this);
             OkHttpClientManager.postAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
                 @Override
                 public void onError(Request request, Exception e) {
-                    dismissDialog();
+                    Loading.dismissLoading();
                 }
 
                 @Override
                 public void onResponse(String response) {
-                    dismissDialog();
+                    Loading.dismissLoading();
                     JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
                             CustomerDetail.class);
                     if(jsReturn.isSuccess()){
@@ -249,53 +280,12 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             return null;
         }
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT, TAG);
-        MethodsJni.removeNotificationObserver(
-                CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT, TAG);
-    }
 
     private CustomerDetailAdapter adapter;
     private List<Track> listTracks;
 
-    public TextView getmTvCustomerCode() {
-        return mTvCustomerCode;
-    }
-
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        dismissDialog();
-        String strJson = (String) data;
-        JSReturn jsReturn = MethodsJson.jsonToJsReturn(strJson,
-                CustomerDetail.class);
-        if(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_CONTACT_RESULT.equals(name)){
-                CustomerDetail contentList=getContent(strJson);
-                if(contentList!=null){
-                    List<CustomerDetail.Content> list=contentList.getContent();
-                    showCallCosturmerDialog(list);
-                }else{
-                    MethodsExtra.toast(mContext,jsReturn.getMsg());
-                }
-        }else if(name.equals(CST_JS.NOTIFY_NATIVE_GET_CUSTOMER_DETAIL_RESULT)){
-            if(jsReturn.isSuccess()){
-                getPotentialInfo(jsReturn);
-            }else{
-                MethodsExtra.toast(mContext,jsReturn.getMsg());
-            }
-        }else if (name.equals(CST_JS.NOTIFY_NATIVE_CLAIM_CUSTOMER_RESULT)) {
-            if (jsReturn.isSuccess()) {
-                MethodsExtra.toast(mContext, jsReturn.getMsg());
-                setResult(MyConstant.REFRESH);
-                finish();
-            } else {
-                if (!jsReturn.isSuccess() || jsReturn.getObject() == null) {
-                    MethodsExtra.toast(mContext,jsReturn.getMsg());
-                }
-            }
-        }
     }
 
     private void getPotentialInfo(JSReturn jsReturn) {

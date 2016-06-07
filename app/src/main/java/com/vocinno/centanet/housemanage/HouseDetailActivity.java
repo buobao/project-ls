@@ -24,6 +24,9 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.okhttp.Request;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
@@ -45,6 +48,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -104,14 +108,34 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 						wechatShare(zoomImage(bitmap, 100,100));
 						break;
 					case R.id.doGetImgError:
-						Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
-						wechatShare(map);
+						loadImageSimpleTargetApplicationContext();
 						break;
 					default:
 						break;
 				}
 			}
 		};
+	}
+	private SimpleTarget target = new SimpleTarget<Bitmap>( 96, 96 ) {
+		@Override
+		public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+//			imageView2.setImageBitmap( bitmap );
+//			Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+			if(bitmap!=null){
+				wechatShare(bitmap);
+			}else{
+				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+				wechatShare(map);
+			}
+
+		}
+	};
+
+	private void loadImageSimpleTargetApplicationContext() {
+		Glide.with(this.getApplicationContext()) // safer!
+				.load(imageUrl.get(0).getUrl())
+				.asBitmap()
+				.into( target );
 	}
 	@Override
 	public int setContentLayoutId() {
@@ -380,16 +404,30 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 			mMenuDialog.dismiss();
 			shareTag=0;
 //			wechatShare(0);
-			showDialog();
-			returnBitmap(shareImgUrl);
+			Loading.show(this);
+//			returnBitmap(imageUrl.get(0).getUrl());
+			String imgUrl=imageUrl.get(0).getUrl();
+			if(imgUrl!=null){
+				loadImageSimpleTargetApplicationContext();
+			}else{
+				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+				wechatShare(map);
+			}
+
 			break;
 		case R.id.ll_house_detail_share_friend_circle:
 			// 这里是友盟分享的dialog
 			mMenuDialog.dismiss();
 			shareTag=1;
-			showDialog();
-			returnBitmap(shareImgUrl);
-//			wechatShare(1);
+			Loading.show(this);
+//			returnBitmap(imageUrl.get(0).getUrl());
+			String imgUrl2=imageUrl.get(0).getUrl();
+			if(imgUrl2!=null){
+				loadImageSimpleTargetApplicationContext();
+			}else{
+				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+				wechatShare(map);
+			}
 			break;
 		case R.id.ll_house_detail_addimg:
 			mMenuDialog.dismiss();
@@ -623,6 +661,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	 * 微信分享 0：分享到微信好友 1：分享到微信朋友圈
 	 **/
 	private void wechatShare(Bitmap bitmap) {
+		Loading.dismissLoading();
 		/*WXTextObject textObj = new WXTextObject();
 		WXWebpageObject textObj=new WXWebpageObject();
 //		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"

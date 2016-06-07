@@ -42,7 +42,6 @@ public class MyHouseListAdapter extends BaseAdapter {
 	public void setDataList(List<HouseItem> listHouses) {
 		this.mListHouses=null;
 		this.mListHouses = listHouses;
-//		notifyDataSetChanged();
 	}
 	public void addDataList(List<HouseItem> listHouses) {
 		if(this.mListHouses==null||this.mListHouses.size()<=0){
@@ -50,7 +49,6 @@ public class MyHouseListAdapter extends BaseAdapter {
 		}else{
 			this.mListHouses.addAll(listHouses);
 		}
-//		notifyDataSetChanged();
 	}
 	@Override
 	public int getCount() {

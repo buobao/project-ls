@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -30,7 +29,7 @@ import java.util.Date;
 
 public class HouseReasonActivity extends OtherBaseActivity {
     private View mBackView, mTitleView;
-    private ImageView mSubmit;
+    private TextView mSubmit;
     private TextView mTvDate;
     private EditText et_content;
     private String mCustorCode = null;
@@ -47,8 +46,9 @@ public class HouseReasonActivity extends OtherBaseActivity {
         drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         intent=getIntent();
         mBackView = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-        mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0, R.drawable.universal_button_undone);
+        mSubmit = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
         mSubmit.setClickable(false);
+        mSubmit.setEnabled(false);
         mTitleView = MethodsExtra
                 .findHeadTitle1(mContext, baseView, 0, getResources().getString(R.string.lookhousereason));
         mTvDate = (TextView) findViewById(R.id.tv_date_houseReasonActivity);
@@ -80,8 +80,11 @@ public class HouseReasonActivity extends OtherBaseActivity {
             public void afterTextChanged(Editable s) {
                 content = et_content.getText().toString();
                 if (content.trim().length() >= 10) {
-                    mSubmit = (ImageView) MethodsExtra.findHeadRightView1(mContext, baseView, 0, R.drawable.universal_button_done);
                     mSubmit.setClickable(true);
+                    mSubmit.setEnabled(true);
+                }else{
+                    mSubmit.setClickable(false);
+                    mSubmit.setEnabled(false);
                 }
             }
         });
@@ -106,7 +109,7 @@ public class HouseReasonActivity extends OtherBaseActivity {
             case R.id.img_left_mhead1:
                 finish();
                 break;
-            case R.id.img_right_mhead1:
+            case R.id.tv_right_mhead1:
                 if(modelDialog==null){
                     modelDialog=new ModelDialog(this,R.layout.loading,R.style.Theme_dialog);
                 }

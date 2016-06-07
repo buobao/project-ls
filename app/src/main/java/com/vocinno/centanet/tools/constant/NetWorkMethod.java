@@ -126,5 +126,7 @@ public class NetWorkMethod {
     public static final String latMax="latMax";
     public static final String attMin="attMin";
     public static final String attMax="attMax";
+    /*****************钥匙管理********************/
+    public static final String mtnList="mobile/hou/key/mtn";
 
 }

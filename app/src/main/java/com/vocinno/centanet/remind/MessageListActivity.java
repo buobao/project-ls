@@ -96,7 +96,7 @@ public class MessageListActivity extends OtherBaseActivity implements
 				stopRefreshOrLoadMore();
 				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, MessageItem.class);
 				if (jsReturn.isSuccess()) {
-					if (jsReturn.getListDatas().size() < MyConstant.pageSize) {
+					if (jsReturn.getListDatas()!=null&&jsReturn.getListDatas().size() < MyConstant.pageSize) {
 						mListView.setPullLoadEnable(false);
 					} else {
 						mListView.setPullLoadEnable(true);

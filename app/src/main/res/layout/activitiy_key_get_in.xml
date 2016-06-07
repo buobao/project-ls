@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgray"
-    android:orientation="vertical" >
+    android:background="@color/lightgray">
 
-    <include layout="@layout/header_title_model1" />
+    <include
+        android:id="@+id/il_key_title"
+        layout="@layout/header_title_model1" />
 
     <TextView
         android:id="@+id/tv_tiShi_keyGetInActivity"
@@ -15,14 +16,18 @@
         android:gravity="center_horizontal|bottom"
         android:text="@string/key_getin_pwd"
         android:textColor="@color/red"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_below="@+id/il_key_title"
+        />
 
     <LinearLayout
+        android:id="@+id/ll_key_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_tiShi_keyGetInActivity"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -103,6 +108,8 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:keyBackground="@color/white"
-        android:keyTextColor="@color/black" />
+        android:keyTextColor="@color/black"
+        android:layout_alignParentBottom="true"
+        />
 
-</LinearLayout>
+</RelativeLayout>

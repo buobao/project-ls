@@ -116,4 +116,7 @@ public class NetWorkMethod {
     /*****************客源详情-获取联系人********************/
     public static final String custContactList="mobile/cust/contactList";//需求自述
     public static final String claimCust="mobile/cust/claim";//客户详情抢公客
+    /*****************输入pin码********************/
+    public static final String receivePin="mobile/hou/key/receive";
+    public static final String pinCode="pinCode";
 }

@@ -1,29 +1,32 @@
 package com.vocinno.centanet.keymanage;
 
-import java.util.ArrayList;
-
-import android.content.DialogInterface;
 import android.os.Handler;
-import android.view.View;
-
-import com.vocinno.centanet.R;
-import com.vocinno.centanet.apputils.SuperActivity;
-import com.vocinno.centanet.apputils.cst.CST_JS;
-import com.vocinno.centanet.apputils.dialog.MyDialog;
-import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.model.KeyList;
-import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
-import com.vocinno.utils.MethodsJson;
-import com.vocinno.utils.input.keyboard.KeyboardUtil;
-import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import android.os.Message;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
-public class KeyGetInActivity extends SuperActivity {
+import com.squareup.okhttp.Request;
+import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.dialog.MyDialog;
+import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.KeyList;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
+import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsJson;
+import com.vocinno.utils.input.keyboard.KeyboardUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class KeyGetInActivity extends OtherBaseActivity {
 	private View mBack;
 	private EditText mEtPwdOne, mEtPwdTwo, mEtPwdThree, mEtPwdFour, mEtPwdText;
 	private KeyboardUtil mKbUtil;
@@ -33,7 +36,7 @@ public class KeyGetInActivity extends SuperActivity {
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
 		case R.id.img_left_mhead1:
-			onBack();
+			finish();
 			break;
 		default:
 			break;
@@ -42,24 +45,7 @@ public class KeyGetInActivity extends SuperActivity {
 
 	@Override
 	public Handler setHandler() {
-		return new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case R.id.doSuccess:
-					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_KeyProxy,
-							CST_JS.JS_Function_KeyProxy_confirmPincode, CST_JS
-									.getJsonStringForConfirmPincode(mEtPwdText
-											.getText().toString()));
-					MethodsExtra.startActivity(KeyGetInActivity.this,
-							KeyManageActivity.class);
-					finish();
-					break;
-				default:
-					break;
-				}
-			}
-		};
+		return null;
 	}
 
 	@Override
@@ -69,51 +55,72 @@ public class KeyGetInActivity extends SuperActivity {
 
 	@Override
 	public void initView() {
-		MethodsExtra.findHeadTitle1(mContext, mRootView, R.string.accept_key,
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		MethodsExtra.findHeadTitle1(mContext, baseView, R.string.accept_key,
 				null);
-		mBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
+		mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
 		mEtPwdOne = (EditText) findViewById(R.id.et_pwdOne_keyGetInActivity);
 		mEtPwdTwo = (EditText) findViewById(R.id.et_pwdTwo_keyGetInActivity);
 		mEtPwdThree = (EditText) findViewById(R.id.et_pwdThree_keyGetInActivity);
 		mEtPwdFour = (EditText) findViewById(R.id.et_pwdFour_keyGetInActivity);
 		mEtPwdText = (EditText) findViewById(R.id.et_pwdText_keyGetInActivity);
-	}
 
-	@Override
-	public void setListener() {
-		MethodsJni.addNotificationObserver(
-				CST_JS.NOTIFY_NATIVE_CONFIRM_PINCODE, TAG);
 		mBack.setOnClickListener(this);
 		mEtPwdText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
+									  int arg3) {
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
+										  int arg2, int arg3) {
 			}
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
 				if (mEtPwdText.getText() != null
 						&& mEtPwdText.getText().toString().length() == 4) {
-					showDialog();
-					MethodsJni.callProxyFun(CST_JS.JS_ProxyName_KeyProxy,
+					receivePin(mEtPwdText.getText().toString());
+					/*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_KeyProxy,
 							CST_JS.JS_Function_KeyProxy_confirmPincode, CST_JS
-									.getJsonStringForConfirmPincode(mEtPwdText
-											.getText().toString()));
+									.getJsonStringForConfirmPincode(mEtPwdText.getText().toString()));*/
 				}
 			}
 		});
+	}
 
+	private void receivePin(String pin) {
+		Loading.show(this);
+		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.receivePin;
+		Map<String, String> map=new HashMap<String,String>();
+		map.put(NetWorkMethod.pinCode, pin);
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				Loading.dismissLoading();
+			}
+
+			@Override
+			public void onResponse(String response) {
+				Loading.dismissLoading();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyList.class);
+				if (jsReturn.isSuccess()) {
+					MyToast.showToast(jsReturn.getMsg());
+					intent.setClass(KeyGetInActivity.this,KeyManageActivity.class);
+					startActivity(intent);
+					finish();
+				} else {
+					MyToast.showToast(jsReturn.getMsg());
+				}
+			}
+		});
 	}
 
 	@Override
 	public void initData() {
 		myDialog=new MyDialog.Builder(this);
-		mKbUtil = new KeyboardUtil(mContext, mRootView);
+		mKbUtil = new KeyboardUtil(mContext, baseView);
 		ArrayList<EditText> list = new ArrayList<EditText>();
 		list.add(mEtPwdOne);
 		list.add(mEtPwdTwo);
@@ -129,37 +136,17 @@ public class KeyGetInActivity extends SuperActivity {
 	}
 
 	@Override
-	public void onBack() {
-		finish();
+	public void netWorkResult(String name, String className, Object data) {
+
 	}
 
 	@Override
-	public void notifCallBack(String name, String className, Object data) {
-		dismissDialog();
-		if (name.equals(CST_JS.NOTIFY_NATIVE_CONFIRM_PINCODE)) {
-			JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) data,
-					KeyList.class);
-			if (jsReturn.isSuccess()) {
-				if (!isFinishStartKeyListActivity) {
-					MethodsExtra.toast(mContext, jsReturn.getMsg());
-					mHander.sendEmptyMessageDelayed(R.id.doSuccess, 50);
-					isFinishStartKeyListActivity = true;
-					/*myDialog.setMessage(jsReturn.getMsg());
-					myDialog.setTitle("提示");
-					myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-							mHander.sendEmptyMessageDelayed(R.id.doSuccess, 50);
-							isFinishStartKeyListActivity = true;
-						}
-					});
-					myDialog.create().show();*/
-				}
-			} else {
-				MethodsExtra.toast(mContext, jsReturn.getMsg());
-			}
-		}
+	public void onRefresh() {
+
 	}
 
+	@Override
+	public void onLoadMore() {
+
+	}
 }

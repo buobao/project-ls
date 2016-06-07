@@ -467,18 +467,18 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	}
 
 	private void qiangGangFang() {
-		showDialog();
+		Loading.show(this);
 		URL=NetWorkConstant.PORT_URL+NetWorkMethod.claim;
 		Map<String, String> map=new HashMap<String,String>();
 		map.put(NetWorkMethod.delCode,houseDetail.getDelCode());
 		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
 			@Override
 			public void onError(Request request, Exception e) {
-				dismissDialog();
+				Loading.dismissLoading();
 			}
 			@Override
 			public void onResponse(String response) {
-				dismissDialog();
+				Loading.dismissLoading();
 				JSReturn jsReturn = MethodsJson.jsonToJsReturn((String) response,Object.class);
 				if (jsReturn.isSuccess()) {
 					MethodsExtra.toast(mContext, jsReturn.getMsg());

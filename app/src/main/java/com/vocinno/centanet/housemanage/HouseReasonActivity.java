@@ -2,7 +2,6 @@ package com.vocinno.centanet.housemanage;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.umeng.socialize.utils.Log;
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_JS;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
@@ -19,6 +18,12 @@ import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsJni;
@@ -26,6 +31,8 @@ import com.vocinno.utils.MethodsJson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HouseReasonActivity extends OtherBaseActivity {
     private View mBackView, mTitleView;
@@ -82,7 +89,7 @@ public class HouseReasonActivity extends OtherBaseActivity {
                 if (content.trim().length() >= 10) {
                     mSubmit.setClickable(true);
                     mSubmit.setEnabled(true);
-                }else{
+                } else {
                     mSubmit.setClickable(false);
                     mSubmit.setEnabled(false);
                 }
@@ -110,10 +117,6 @@ public class HouseReasonActivity extends OtherBaseActivity {
                 finish();
                 break;
             case R.id.tv_right_mhead1:
-                if(modelDialog==null){
-                    modelDialog=new ModelDialog(this,R.layout.loading,R.style.Theme_dialog);
-                }
-                modelDialog.show();
                 String delCode = intent.getStringExtra("delCode");
                 String houseId = intent.getStringExtra("houseId");
                 String checkContent;
@@ -126,48 +129,54 @@ public class HouseReasonActivity extends OtherBaseActivity {
                 }else{
                     checkContent="10080004";
                 }
-                MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+                saveReason(content,delCode, houseId, checkContent);
+                /*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
                         CST_JS.JS_Function_HouseResource_getShiHao, CST_JS
-                                .getJsonStringForLookShiHao(content,delCode, houseId, checkContent));
+                                .getJsonStringForLookShiHao(content,delCode, houseId, checkContent));*/
                 break;
             default:
                 break;
         }
     }
 
+    private void saveReason(String content, String delCode, String houseId, String checkContent) {
+        Loading.show(this);
+        URL= NetWorkConstant.PORT_URL+ NetWorkMethod.doRoomview;
+        Map<String, String> map=new HashMap<String,String>();
+        map.put(NetWorkMethod.reason, content);
+        map.put(NetWorkMethod.delCode, delCode);
+        map.put(NetWorkMethod.houseId, houseId);
+        map.put(NetWorkMethod.type, checkContent);
+        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                Loading.dismissLoading();
+            }
+            @Override
+            public void onResponse(String response) {
+                Loading.dismissLoading();
+                JSReturn jReturnHouseDetail = MethodsJson.jsonToJsReturn(response,HouseDetail.class);
+                HouseDetail mHouseDetail = (HouseDetail) jReturnHouseDetail.getObject();
+                if(jReturnHouseDetail.isSuccess()){
+                    intent.putExtra(MyConstant.roomNo, mHouseDetail.getRoomNO());
+                    intent.putExtra(MyConstant.buiding, mHouseDetail.getBuiding());
+                    setResult(101, intent);
+                    finish();
+                }else{
+                    MyToast.showToast(jReturnHouseDetail.getMsg());
+                }
+            }
+        });
+    }
+
     @Override
     public Handler setHandler() {
-        return new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-            }
-        };
+        return null;
     }
 
-
-    public void notifCallBack(String name, String className, Object data) {
-        
-    }
 
     @Override
     public void netWorkResult(String name, String className, Object data) {
-        modelDialog.dismiss();
-        Log.i("data==",data+"=="+className+"==");
-        //看房理由
-        if (name.equals(CST_JS.NOTIFY_NATIVE_DOROOMVIEW_RESULT)) {
-            String strJson = (String) data;
-            JSReturn jReturnHouseDetail = MethodsJson.jsonToJsReturn(strJson,
-                    HouseDetail.class);
-            HouseDetail mHouseDetail = (HouseDetail) jReturnHouseDetail.getObject();
-            if(jReturnHouseDetail.isSuccess()){
-                intent.putExtra("roomNo", mHouseDetail.getRoomNO());
-                intent.putExtra("buiding", mHouseDetail.getBuiding());
-                setResult(101, intent);
-                finish();
-            }else{
-                MethodsExtra.toast(mContext, jReturnHouseDetail.getMsg());
-            }
-        }
     }
 
     @Override

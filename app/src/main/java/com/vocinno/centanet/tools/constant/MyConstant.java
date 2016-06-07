@@ -22,4 +22,7 @@ public class MyConstant {
     public final static String isMyCustomer="isMyCustomer";
     public final static String isGongKe="isGongKe";
     public final static String custCode="custCode";
+    /************************查看室号*****************************/
+    public final static String roomNo="roomNo";
+    public final static String buiding="buiding";
 }

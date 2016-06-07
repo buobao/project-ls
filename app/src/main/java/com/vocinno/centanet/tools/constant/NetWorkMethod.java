@@ -91,10 +91,11 @@ public class NetWorkMethod {
     public static final String desc="desc";
     public static final String isHD="isHD";
     public static final String pics="pics";
-    /*****************查看室号********************/
+    /*****************查看室号理由********************/
     public static final String doRoomview="mobile/hou/doRoomview";
     public static final String reason="reason";
     public static final String houseId="houseId";
+
     /*****************借用钥匙********************/
     public static final String borrow="mobile/hou/key/borrow";
     /*****************客源列表********************/
@@ -119,4 +120,5 @@ public class NetWorkMethod {
     /*****************输入pin码********************/
     public static final String receivePin="mobile/hou/key/receive";
     public static final String pinCode="pinCode";
+
 }

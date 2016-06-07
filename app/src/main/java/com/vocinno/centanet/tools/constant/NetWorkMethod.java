@@ -87,6 +87,7 @@ public class NetWorkMethod {
     public static final String custListMobileSerarch="mobile/cust/custListMobileSerarch";
     public static final String mpublic="public";
     public static final String my="my";
+    public static final String mypotien="mypotien";
     public static final String paramType="paramType";
     public static final String character="character";
     public static final String text="text";

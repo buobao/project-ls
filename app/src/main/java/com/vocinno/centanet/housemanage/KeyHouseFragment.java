@@ -10,7 +10,6 @@ import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
-import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -30,8 +29,7 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
         return R.layout.activity_near_sell;
     }
 
-    public KeyHouseFragment(GetDataInterface getData, int position) {
-        getDataInterface=getData;
+    public KeyHouseFragment( int position) {
         this.viewPosition=position;
     }
     public KeyHouseFragment() {

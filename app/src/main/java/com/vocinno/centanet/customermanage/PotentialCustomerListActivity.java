@@ -214,7 +214,7 @@ public class PotentialCustomerListActivity extends OtherBaseActivity implements 
                 stopRefreshOrLoadMore();
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, CustomerList.class);
                 if (jsReturn.isSuccess()) {
-                    if (jsReturn.getListDatas().size() < MyConstant.pageSize) {
+                    if (jsReturn.getListDatas()!=null&&jsReturn.getListDatas().size() < MyConstant.pageSize) {
                         mListView.setPullLoadEnable(false);
                     } else {
                         mListView.setPullLoadEnable(true);

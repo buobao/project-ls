@@ -21,7 +21,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.selfdefineview.MyHorizontalScrollView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
-import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.adapter.KeyListAdapter;
 import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey;
 import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
@@ -30,6 +30,7 @@ import com.vocinno.centanet.model.KeyItem;
 import com.vocinno.centanet.model.KeyList;
 import com.vocinno.centanet.model.KeyReceiverInfo;
 import com.vocinno.centanet.myinterface.HttpInterface;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
@@ -459,9 +460,18 @@ public class KeyManageActivity extends OtherBaseActivity implements
 			finish();
 			break;
 		case R.id.img_right_mhead1:
-			Intent intent=new Intent(mContext,KeyHouseManageActivity.class);
+			/*Intent intent=new Intent(mContext,KeyHouseManageActivity.class);
 			intent.putExtra(MyConstant.isKeyHouse,true);
 			startActivity(intent);
+*/
+			Intent intent = new Intent();
+			intent.setClass(mContext, HouseManageActivity.class);
+			intent.putExtra(MyUtils.ROB_GONG_FANG, false);
+			intent.putExtra("viewPageIndex", 0);
+			intent.putExtra(MyConstant.listType, MyConstant.keyHouseList);
+			intent.putExtra(MyConstant.menuType, 0);
+			startActivity(intent);
+
 			break;
 		default:
 			break;

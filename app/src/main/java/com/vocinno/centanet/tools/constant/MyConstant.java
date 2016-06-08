@@ -15,6 +15,7 @@ public class MyConstant {
     public final static int myCollectionHouseList =1;//我的收藏
     public final static int dianzCollectionHouseList =3;//店组收藏
     public final static int robGongHouseList =2;//抢公房
+    public final static int keyHouseList =4;//钥匙房源列表
     /************************房源详情*****************************/
     public final static String houseCode="houseCode";
     public final static String pathList="pathList";

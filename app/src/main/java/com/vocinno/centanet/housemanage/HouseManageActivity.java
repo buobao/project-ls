@@ -127,6 +127,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     private DianCollectionRFragment dianCollectionRFragment;
     private RobGongShouFragment robGongShouFragment;
     private RobGongZuFragment robGongZuFragment;
+    private KeyHouseFragment keyHouseFragment;
     private List<EstateSearchItem> mSearchListData;
     private boolean  isGongFang;
     private EditText et_house_dong, et_house_shi;
@@ -288,9 +289,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         setViewPager(listType);
     }
 
-    private void setTagHidden(int viewPageIndex) {
-        if(listType==0){
-            if(viewPageIndex==2){
+    private void setTagHidden(int index) {
+        if(listType==MyConstant.houseList){
+            if(index==2){
                 ll_tag_contect.setVisibility(View.GONE);
                 mViewMore.setVisibility(View.INVISIBLE);
             }else{
@@ -317,6 +318,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case MyConstant.robGongHouseList:
                 setQiangGongFangFragment();
                 break;
+            case MyConstant.keyHouseList:
+                setKeyHouseFragment();
+                break;
         }
         for (int i = 0; i <fragmentList.size() ; i++) {
             ((HouseListBaseFragment)fragmentList.get(i)).setFirstLoading();
@@ -329,6 +333,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             @Override
             public void run() {
                 vp_house_manager.setCurrentItem(menuType);
+                if(vp_house_manager.getChildCount()==1){
+                    iv_change_viewpager.setVisibility(View.GONE);
+                }
             }
         }, 200);
         vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -364,6 +371,15 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         if(fragmentList.size()<=0){
             fragmentList.add(robGongShouFragment);
             fragmentList.add(robGongZuFragment);
+        }
+    }
+    private void setKeyHouseFragment() {
+        fragmentList.clear();
+        if(keyHouseFragment==null){
+            keyHouseFragment = new KeyHouseFragment(viewPageIndex);
+        }
+        if(fragmentList.size()<=0){
+            fragmentList.add(keyHouseFragment);
         }
     }
 
@@ -496,6 +512,12 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     break;
                 case 1:
                     dianCollectionRFragment.getData(1, false, true);
+                    break;
+            }
+        }else if(listType==MyConstant.keyHouseList){
+            switch (menuType){
+                case 0:
+                    keyHouseFragment.getData(1, false, true);
                     break;
             }
         }
@@ -924,6 +946,13 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     dianCollectionRFragment.getData(1, false, true);
                     break;
             }
+        }else if(listType==MyConstant.keyHouseList){
+            switch (menuType){
+                case 0:
+                    keyHouseFragment.searchByOrderForList(param, order);
+                    keyHouseFragment.getData(1, false, true);
+                    break;
+            }
         }
 
     }
@@ -988,6 +1017,13 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     dianCollectionRFragment.getData(1, false, true);
                     break;
             }
+        }else if(listType==MyConstant.keyHouseList){
+            switch (menuType){
+                case 0:
+                    keyHouseFragment.searchByKeyWord(searchId, searchType,buildingName,roomNo);
+                    keyHouseFragment.getData(1, false, true);
+                    break;
+            }
         }
 
     }
@@ -1036,6 +1072,12 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     break;
                 case 1:
                     dianCollectionRFragment.searchForList(tagIndex, param);
+                    break;
+            }
+        }else if(listType==MyConstant.keyHouseList){
+            switch (menuType){
+                case 0:
+                    keyHouseFragment.searchForList(tagIndex, param);
                     break;
             }
         }
@@ -1150,10 +1192,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         mTvSearchByKey.setOnClickListener(this);
         mTvSort.setOnClickListener(this);
 
-        if (viewPageIndex != 0 && viewPageIndex != 1) {
-            mTvSearchInMap.setVisibility(View.GONE);
-        } else {
+        if (listType==MyConstant.houseList&&(menuType== 0|| menuType == 1)) {
             mTvSearchInMap.setVisibility(View.VISIBLE);
+        } else {
+            mTvSearchInMap.setVisibility(View.GONE);
         }
     }
     public static EditText mEtSearch;
@@ -1582,6 +1624,12 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     break;
                 case 1:
                     MethodsExtra.findHeadTitle1(mContext, baseView, R.string.house_dian_collection_r, null);
+                    break;
+            }
+        }else if(listType==MyConstant.keyHouseList){
+            switch (position) {
+                case 0:
+                    MethodsExtra.findHeadTitle1(mContext, baseView, R.string.keyhouselist, null);
                     break;
             }
         }

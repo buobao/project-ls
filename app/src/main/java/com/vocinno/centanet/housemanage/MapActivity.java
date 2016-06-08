@@ -44,7 +44,6 @@ import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
 import java.util.ArrayList;
@@ -230,11 +229,11 @@ public class MapActivity extends OtherBaseActivity {
 		getHouseData(mDelType,
 				mLatLngMin.latitude, mLatLngMax.latitude,
 				mLatLngMin.longitude, mLatLngMax.longitude);
-		MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
+		/*MethodsJni.callProxyFun(CST_JS.JS_ProxyName_HouseResource,
 				CST_JS.JS_Function_HouseResource_getHouseInMap, CST_JS
 						.getJsonStringForHouseListGetHouseInMap(mDelType,
 								mLatLngMin.latitude, mLatLngMax.latitude,
-								mLatLngMin.longitude, mLatLngMax.longitude));
+								mLatLngMin.longitude, mLatLngMax.longitude));*/
 		isGetPosition = true;
 	}
 

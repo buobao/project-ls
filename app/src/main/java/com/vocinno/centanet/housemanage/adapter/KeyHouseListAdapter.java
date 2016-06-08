@@ -231,7 +231,9 @@ public class KeyHouseListAdapter extends BaseAdapter {
 		if (item.getImg()!=null&&item.getImg().length()>0) {
 			/*MethodsFile.downloadAsynicImageByUrl((Activity) mContext, item
 					.getImg().get(0).getUrl(), holder.mImgViewImage);*/
-			Glide.with(mContext).load(item.getImg()).centerCrop()
+			String url=item.getImg();
+			String sUrl = MyUtils.replaceImgUrl(url);		//压缩原图到300*400
+			Glide.with(mContext).load(sUrl).centerCrop()
 					.crossFade()
 					.into(holder.mImgViewImage);
 		}

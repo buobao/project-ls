@@ -515,10 +515,10 @@ public class OkHttpClientManager {
                         }else if(e instanceof ConnectException){
                             MyToast.showToast("请检查网络之后再试");
                         }else if(e instanceof SocketTimeoutException){
-                            if("after".equalsIgnoreCase(e.getMessage())){
-                                MyToast.showToast("请求超时,请稍后再试");
-                            }else{
+                            if(e.getMessage()!=null&&e.getMessage().indexOf("after")>=0){
                                 MyToast.showToast("请检查网络之后再试");
+                            }else{
+                                MyToast.showToast("请求超时,请稍后再试");
                             }
                         }else{
                             MyToast.showToast("请检查网络之后再试");

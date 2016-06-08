@@ -192,10 +192,13 @@ public  class MyUtils {
         }
     };
     public static String newImgUrl(String imgUrl){
+        return newImgUrl(imgUrl,300,400);
+    };
+    public static String newImgUrl(String imgUrl,int width,int height){
         String newUrl;
         if(imgUrl!=null&&imgUrl.trim().length()>0){
             if(imgUrl.indexOf(".jpg")>=0){
-                imgUrl=imgUrl.replace(".jpg","/400_300_f.jpg");
+                imgUrl=imgUrl.replace(".jpg","/"+width+"_"+height+"_f.jpg");
                 return imgUrl;
             }else{
                 return imgUrl;

@@ -201,10 +201,11 @@ public  class MyUtils {
             }
         }
     };
-    public static String newImgUrl(String imgUrl){
-        return newImgUrl(imgUrl,300,400);
+    /************************** 压缩图片到300*400 ****************************/
+    public static String replaceImgUrl(String imgUrl){
+        return replaceImgUrl(imgUrl,300,400);
     };
-    public static String newImgUrl(String imgUrl,int width,int height){
+    public static String replaceImgUrl(String imgUrl,int width,int height){
         String newUrl;
         if(imgUrl!=null&&imgUrl.trim().length()>0){
             if(imgUrl.indexOf(".jpg")>=0){

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.model.Image;
+import com.vocinno.centanet.tools.MyUtils;
 
 import java.util.List;
 
@@ -50,8 +51,10 @@ public class HousePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
         String url=imageUrlList.get(position).getUrl();
+        String sUrl = MyUtils.replaceImgUrl(url);     //切割原图尺寸300*400
+
         if (url!= null&&url.length()!= 0) {
-            Glide.with(context).load(url).centerCrop()
+            Glide.with(context).load(sUrl).centerCrop()
                     .crossFade()
                     .error(R.drawable.default_img)
                     .into(imageList.get(position));

@@ -194,10 +194,9 @@ public  class MyUtils {
     public static String newImgUrl(String imgUrl){
         String newUrl;
         if(imgUrl!=null&&imgUrl.trim().length()>0){
-            if(imgUrl.indexOf(".")>=0){
-                String[]splitString=imgUrl.split(".");
-                newUrl=splitString[0]+"/400_300_f"+"."+splitString[1];
-                return newUrl;
+            if(imgUrl.indexOf(".jpg")>=0){
+                imgUrl=imgUrl.replace(".jpg","/400_300_f.jpg");
+                return imgUrl;
             }else{
                 return imgUrl;
             }

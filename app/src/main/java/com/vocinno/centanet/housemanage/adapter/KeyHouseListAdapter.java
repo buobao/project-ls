@@ -222,6 +222,8 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				tv.setBackgroundResource(R.drawable.bg_house_tag_blue_house_manage);
 				holder.ll_tag_view.addView(tv);
 			}
+		}else{
+			holder.ll_tag_view.removeAllViews();
 		}
 		/*if (!item.getTag().equals("")) {
 			holder.mTvTag1.setVisibility(View.VISIBLE);

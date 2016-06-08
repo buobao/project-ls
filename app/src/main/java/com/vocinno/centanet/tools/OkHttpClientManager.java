@@ -28,7 +28,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
 import java.net.FileNameMap;
+import java.net.SocketTimeoutException;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -473,13 +475,14 @@ public class OkHttpClientManager {
                 e.getLocalizedMessage();
                 Log.i("e.getMessage()", "e.getMessage()==" + e.getMessage()+
                         "e.getStackTrace()==" + e.getStackTrace()+"e.getLocalizedMessage()==" + e.getLocalizedMessage()+"e.getCause()==" + e.getCause().getMessage());
-           */ }
+           */
+            }
 
             @Override
             public void onResponse(final Response response) {
                 try {
                     final String string = response.body().string();
-                    Log.i("onResponse", "return==" + string);
+                    Log.i("response", "return==" + string);
                     if (callback.mType == String.class) {
                         sendSuccessResultCallback(string, callback);
                     } else {
@@ -509,6 +512,14 @@ public class OkHttpClientManager {
                     } else {
                         if("timeout".equalsIgnoreCase(e.getMessage())){
                             MyToast.showToast("请求超时,请稍后再试");
+                        }else if(e instanceof ConnectException){
+                            MyToast.showToast("请检查网络之后再试");
+                        }else if(e instanceof SocketTimeoutException){
+                            if("after".equalsIgnoreCase(e.getMessage())){
+                                MyToast.showToast("请求超时,请稍后再试");
+                            }else{
+                                MyToast.showToast("请检查网络之后再试");
+                            }
                         }else{
                             MyToast.showToast("请检查网络之后再试");
                         }

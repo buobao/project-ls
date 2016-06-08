@@ -182,7 +182,7 @@ public  class MyUtils {
         return division(d1,d2,2);
     }
     public static void LogI(String d1,String d2) {
-        Log.i("log-key["+d1,"]########["+d2+"]");
+        Log.i("request==log-key["+d1,"]########["+d2+"]");
     }
     public static void showToast(Context context,String msg){
         if(context!=null){
@@ -190,5 +190,17 @@ public  class MyUtils {
                 Toast.makeText(context,msg, Toast.LENGTH_SHORT).show();
             }
         }
+    };
+    public static String newImgUrl(String imgUrl){
+        String newUrl;
+        if(imgUrl!=null&&imgUrl.trim().length()>0){
+            if(imgUrl.indexOf(".")>=0){
+                String[]splitString=imgUrl.split(".");
+                newUrl=splitString[0]+"/400_300_f"+"."+splitString[1];
+            }else{
+                return imgUrl;
+            }
+        }
+        return imgUrl;
     };
 }

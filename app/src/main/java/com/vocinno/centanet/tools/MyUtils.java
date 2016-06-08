@@ -135,7 +135,17 @@ public  class MyUtils {
             return "";
         }
     }
-
+    public static String getFormatDate(long lDate){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");
+        Date date=new Date(lDate);
+        try {
+            String format=sdf.format(date);
+            return format;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
     public static void showDialog(final Intent intent,final Context ctx,final Class clazz){
         MyDialog.Builder builder=new MyDialog.Builder(ctx);
         builder.setTitle("提示");

@@ -197,6 +197,7 @@ public  class MyUtils {
             if(imgUrl.indexOf(".")>=0){
                 String[]splitString=imgUrl.split(".");
                 newUrl=splitString[0]+"/400_300_f"+"."+splitString[1];
+                return newUrl;
             }else{
                 return imgUrl;
             }

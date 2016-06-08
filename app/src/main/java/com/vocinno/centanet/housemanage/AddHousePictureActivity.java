@@ -135,7 +135,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 							teString);*/
 						break;
 				case UPLOAD_PIC_FAIL:
-					dismissDialog();
+					Loading.dismissLoading();
 					if (!mHasUploadSuccess) {
 						MethodsExtra.toast(mContext, "文件上传失败");
 					}
@@ -180,6 +180,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
+							setResult(MyConstant.REFRESH);
 							finish();
 						}
 					});

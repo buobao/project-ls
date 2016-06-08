@@ -186,7 +186,11 @@ public class OkHttpClientManager {
         Request request = buildMultipartFormRequest(url, files, fileKeys, params);
         deliveryResult(callback, request);
     }
-
+    private void _uploadImg(String url, File[] files, ResultCallback callback) throws IOException
+    {
+        Request request = buildMultipartFormRequest(url, files);
+        deliveryResult(callback, request);
+    }
     /**
      * 异步基于post的文件上传，单文件不带参数上传
      *
@@ -234,7 +238,7 @@ public class OkHttpClientManager {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(final Request request, final IOException e) {
-                sendFailedStringCallback(false,request, e, callback);
+                sendFailedStringCallback(false, request, e, callback);
             }
 
             @Override
@@ -254,7 +258,7 @@ public class OkHttpClientManager {
                     //如果下载文件成功，第一个参数为文件的绝对路径
                     sendSuccessResultCallback(file.getAbsolutePath(), callback);
                 } catch (IOException e) {
-                    sendFailedStringCallback(true,response.request(), e, callback);
+                    sendFailedStringCallback(true, response.request(), e, callback);
                 } finally {
                     try {
                         if (is != null) is.close();
@@ -351,7 +355,10 @@ public class OkHttpClientManager {
     {
         getInstance()._postAsyn(url, callback, files, fileKeys, params);
     }
-
+    public static void uploadImg(String url, File[] files,ResultCallback callback) throws IOException
+    {
+        getInstance()._uploadImg(url,files,callback);
+    }
 
     public static void postAsyn(String url, ResultCallback callback, File file, String fileKey) throws IOException
     {
@@ -411,7 +418,31 @@ public class OkHttpClientManager {
                 .post(requestBody)
                 .build();
     }
+    private Request buildMultipartFormRequest(String url, File[] files)
+    {
 
+        MultipartBuilder builder = new MultipartBuilder()
+                .type(MultipartBuilder.FORM);
+
+        if (files != null)
+        {
+            RequestBody fileBody = null;
+            for (int i = 0; i < files.length; i++)
+            {
+                File file = files[i];
+                String fileName = file.getName();
+                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+                builder.addPart(Headers.of("Content-Disposition",
+                                "form-data; name=\"file1\"; filename=\"" + fileName + "\""),
+                        fileBody);
+            }
+        }
+        RequestBody requestBody = builder.build();
+        return new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+    }
     private String guessMimeType(String path)
     {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();

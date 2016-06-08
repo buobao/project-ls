@@ -20,6 +20,7 @@ import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.model.KeyHouseItem;
+import com.vocinno.centanet.tools.DivideUtils;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
@@ -170,43 +171,47 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				bUnitPrice = new BigDecimal("0.00");// 保留两位小数
 			}
 		}
-
+		
+		/**************************租房子****************************/
 		if (KeyHouseItem.ZU.equalsIgnoreCase(delegationType)) {
-//			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,BigDecimal.ROUND_HALF_UP) + "万/㎡");
 			try {
 				bPrice = new BigDecimal(item.getPrice());
 			} catch (Exception e) {
 				bPrice = new BigDecimal("0.00");
 			}
-			holder.mTvPrice.setText(bPrice
-					.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
+			holder.mTvPrice.setText(bPrice.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
 			holder.mTvUnit.setText("元");
 		} else {
-//			holder.mTvUnitprice.setText(bUnitPrice.setScale(2,BigDecimal.ROUND_HALF_UP) + "万/㎡");// 单价
+		/**************************售房子****************************/
 			double unitPrice=Double.parseDouble(item.getPrice());
 			if(item.getPrice()!=null&&unitPrice>0){
 				holder.mTvUnitprice.setText(MyUtils.division(Double.parseDouble(item.getPrice()) / 10000 + "", item.getSquare()) + "万/㎡");
 			}else{
 				holder.mTvUnitprice.setText(unitPrice+ "万/㎡");
 			}
+			//设置房价
 			try {
-				bPrice = new BigDecimal(
-						Double.parseDouble(item.getPrice()) / 10000);
+				bPrice = new BigDecimal(Double.parseDouble(item.getPrice()));
+				bPrice = DivideUtils.divide(bPrice,2);
+				holder.mTvPrice.setText(bPrice.toString());
 			} catch (Exception e) {
 				bPrice = new BigDecimal("0.00");
 			}
-			holder.mTvPrice.setText(bPrice.setScale(0, BigDecimal.ROUND_HALF_UP) + "");
-			holder.mTvUnit.setText("万");
+			//设置房价单位
+			if(DivideUtils.isWan){
+				holder.mTvUnit.setText("万");
+			}else{
+				holder.mTvUnit.setText("亿");
+			}
 		}
+		//设置时间
 		holder.mTvDateTime.setText(item.getDelDate());
-//		holder.mTvTag1.setText(item.getTag());
 
 		if(tagMap==null){
 			tagMap=new HashMap<>();
 		}
 		if(!(item.getTag()==null||item.getTag().trim().length()<=0)){
 			tagMap.put(position,getTag(item.getTag()));
-//			String[] itemTag = getTag(item.getTag());
 			int dip = MyUtils.px2dip(mContext, (float)7);
 			LinearLayout.LayoutParams LayoutParams=new LinearLayout.LayoutParams(-2,-2);
 			LayoutParams.setMargins(MyUtils.px2dip(mContext, (float)12),0,0,0);
@@ -223,27 +228,13 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				holder.ll_tag_view.addView(tv);
 			}
 		}
-		/*if (!item.getTag().equals("")) {
-			holder.mTvTag1.setVisibility(View.VISIBLE);
-		} else {
-			holder.mTvTag1.setVisibility(View.INVISIBLE);
-		}*/
 		if (item.getImg()!=null&&item.getImg().length()>0) {
-			/*MethodsFile.downloadAsynicImageByUrl((Activity) mContext, item
-					.getImg().get(0).getUrl(), holder.mImgViewImage);*/
 			String url=item.getImg();
 			String sUrl = MyUtils.replaceImgUrl(url);		//压缩原图到300*400
 			Glide.with(mContext).load(sUrl).centerCrop()
 					.crossFade()
 					.into(holder.mImgViewImage);
 		}
-		/*if (position % 2 == 1) {
-			convertView.setBackgroundColor(mContext.getResources().getColor(
-					R.color.white));
-		} else {
-			convertView.setBackgroundColor(mContext.getResources().getColor(
-					R.color.lightgray));
-		}*/
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -258,7 +249,6 @@ public class KeyHouseListAdapter extends BaseAdapter {
 					MethodsDeliverData.flag = -1;
 					MethodsDeliverData.mKeyType = -1;
 				}
-//				MethodsExtra.startActivity(mContext, HouseDetailActivity.class);
 				Intent intent=new Intent(mContext, HouseDetailActivity.class);
 				intent.putExtra(MyConstant.houseCode,item.getDelCode());
 				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
@@ -284,7 +274,6 @@ public class KeyHouseListAdapter extends BaseAdapter {
 		TextView mTvAddr;
 		TextView mTvDetail;
 		TextView mTvUnitprice;
-//		TextView mTvTag1, mTvTag2, mTvTag3;
 		TextView mTvPrice;
 		TextView mTvDateTime;
 		TextView mTvKeyState;

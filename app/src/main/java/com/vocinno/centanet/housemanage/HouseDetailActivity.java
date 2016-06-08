@@ -48,6 +48,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.Track;
 import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
+import com.vocinno.centanet.tools.DivideUtils;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -96,6 +97,9 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	private ScrollView sv_housedetail;
 	private LinearLayout ll_house_detail_addgenjin,ll_house_detail_qiang;
 	private boolean isGongFang;
+
+	private String houseDetailPrice;	//房源详情 价格
+
 	@Override
 	@SuppressLint("HandlerLeak")
 	public Handler setHandler() {
@@ -294,7 +298,8 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 		tv_house_detail_date.setText(houseDetail.getDelDate());
 		tv_house_detail_pianqu.setText(houseDetail.getArea());
 		BigDecimal bPrice;
-		if (HouseItem.ZU.equals(houseDetail.getDelegationType())) {//Z
+		if (HouseItem.ZU.equals(houseDetail.getDelegationType())) {
+			/**************************租房****************************/
 			try {
 				bPrice = new BigDecimal(houseDetail.getPrice());
 			} catch (Exception e) {
@@ -303,15 +308,24 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 			tv_house_detail_total_price.setText(bPrice.setScale(0,BigDecimal.ROUND_HALF_UP) +"元");
 			tv_house_detail_unit_price.setText("");
 		} else {
+			/**************************售房****************************/
 			try {
-				bPrice = new BigDecimal(Double.parseDouble(houseDetail.getPrice()) / 10000);
+				bPrice = new BigDecimal(Double.parseDouble(houseDetail.getPrice()));
+				bPrice = DivideUtils.divide(bPrice,2);
 			} catch (Exception e) {
 				bPrice = new BigDecimal("0.00");
 			}
+
+			if(DivideUtils.isWan){
+				houseDetailPrice = bPrice +"万";
+			}else{
+				houseDetailPrice = bPrice +"亿";
+			}
+
 			double square=Double.parseDouble(houseDetail.getSquare());
 			double price=Double.parseDouble(houseDetail.getPrice()) / 10000;
 			double unitPrice=MyUtils.division(price,square,2);
-			tv_house_detail_total_price.setText(bPrice.setScale(0,BigDecimal.ROUND_HALF_UP) +"万");
+			tv_house_detail_total_price.setText(houseDetailPrice);
 			tv_house_detail_unit_price.setText(unitPrice+ "万/㎡ ");
 		}
 		List<Track> trackList = houseDetail.getTrack();

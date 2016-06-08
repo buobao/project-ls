@@ -118,4 +118,12 @@
     <style name="house_detail_content_top" >
         <item name="android:layout_marginTop">4dp</item>
     </style>
+
+    <style name="key_item_text">
+        <item name="android:textColor">#adadad</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="key_item_text2">
+        <item name="android:textColor">#333333</item>
+    </style>
 </resources>

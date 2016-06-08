@@ -6,6 +6,7 @@ public class KeyItem {
 	private String addr = ""; // 地址
 	private String delCode = ""; // 房源编号
 	private long borrowTime = 0;// 借用时间
+	private String borrowBy;
 	private String store = ""; // 店面
 	private String houId = "";
 	private String img = "";
@@ -38,6 +39,14 @@ public class KeyItem {
 
 	public String getStore() {
 		return store;
+	}
+
+	public String getBorrowBy() {
+		return borrowBy;
+	}
+
+	public void setBorrowBy(String borrowBy) {
+		this.borrowBy = borrowBy;
 	}
 
 	public void setStore(String store) {

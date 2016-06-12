@@ -243,8 +243,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         isGongFang=getIntent().getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
         MethodsExtra.findHeadTitle1(mContext, baseView,
                 R.string.house_chushou, null);
-//        MethodsExtra.findHeadTitle1(mContext, baseView,
-//                R.string.house_chushou, null);
         iv_change_viewpager= (ImageView) findViewById(R.id.iv_change_viewpager);
         iv_change_viewpager.setOnClickListener(this);
 
@@ -301,9 +299,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         }
     }
 
-    private void setFragmentToPager(boolean p) {
-
-    }
     private void setViewPager(int listTypeTag) {
         switch (listTypeTag){
             case MyConstant.houseList:
@@ -338,10 +333,11 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 }
             }
         }, 200);
+
+        //最后一页不显示箭头翻页图标
         vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                //最后一页不显示箭头翻页图标
                 if(position==vp_house_manager.getChildCount()-1){
                     iv_change_viewpager.setVisibility(View.GONE);
                 }else{
@@ -786,10 +782,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
             case R.id.rlyt_my_house_main_page_slid_menus:
                 changeViewPager(MyConstant.houseList,3);
                 break;
-            /*//我的出租
-            case R.id.rlyt_my_house_main_page_slid_menus2:
-                changeViewPager(MyConstant.houseList,4);
-                break;*/
             //我的收藏
             case R.id.rl_my_collection:
                 changeViewPager(MyConstant.myCollectionHouseList,0);
@@ -832,7 +824,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 MethodsDeliverData.keYuanOrGongKe=0;
                 MethodsDeliverData.flag = 1;
                 MethodsDeliverData.isMyCustomer = false;
-//                MethodsExtra.startActivity(mContext,CustomerManageActivity.class);
                 intent.setClass(mContext,CustomerManageActivity.class);
                 intent.putExtra(MyConstant.isGongKe, true);
                 startActivity(intent);
@@ -864,10 +855,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 mSearchDialog.dismiss();
                 break;
             case R.id.ry_exit:
-                /*intent.setClass(this, UserLoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(MyConstant.isExit, true);
-                startActivity(intent);*/
                 MyUtils.showDialog(intent,this, UserLoginActivity.class);
                 break;
             default:
@@ -957,10 +944,6 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         }
 
     }
-    /*private void searchByKeyWord(String searchId,String searchType) {
-        searchByKeyWord(searchId,searchType,"","");
-
-    }*/
     private void searchByKeyWord(String searchId,String searchType,String buildingName,String roomNo) {
         if(listType==MyConstant.houseList){
             switch (menuType){
@@ -1455,17 +1438,10 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                     mWheelView4.setData(CST_Wheel_Data
                             .getListDatas(CST_Wheel_Data.WheelType.huXing),CustomUtils.getWindowWidth(this)/9);
                     mWheelView4.setEnable(true);
-                    /*if (isNeedRecoverFromLast) {
-                        mWheelView1.setSelectText(strs[0], 0);
-                        mWheelView2.setSelectText(strs[1], 0);
-                        mWheelView3.setSelectText(strs[2], 0);
-                        mWheelView4.setSelectText(strs[3], 0);
-                    } else {*/
                         mWheelView1.setSelectItem(0);
                         mWheelView2.setSelectItem(0);
                         mWheelView3.setSelectItem(0);
                         mWheelView4.setSelectItem(0);
-//                    }
                     win.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                             android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 

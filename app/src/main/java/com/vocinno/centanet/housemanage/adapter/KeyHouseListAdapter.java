@@ -18,7 +18,6 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
-import com.vocinno.centanet.housemanage.KeyHouseManageActivity;
 import com.vocinno.centanet.model.KeyHouseItem;
 import com.vocinno.centanet.tools.DivideUtils;
 import com.vocinno.centanet.tools.MyUtils;
@@ -255,11 +254,7 @@ public class KeyHouseListAdapter extends BaseAdapter {
 				intent.putExtra(MyConstant.houseCode,item.getDelCode());
 				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
 				intent.putExtra(MyConstant.isGongFang,isGongFang);
-				if(isKey){
-					((KeyHouseManageActivity) mContext).startActivityForResult(intent, 10);
-				}else{
 					((HouseManageActivity) mContext).startActivityForResult(intent, 10);
-				}
 			}
 		});
 		return convertView;

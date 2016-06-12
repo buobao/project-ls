@@ -24,7 +24,7 @@ import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
-import com.vocinno.centanet.keymanage.KeyManageActivity;
+import com.vocinno.centanet.keymanage.KeyManageActivity2;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -179,7 +179,7 @@ public class HomeActivity extends HomeBaseActivity {
                 startActivity(this.intent);
                 break;
             case R.id.iv_yaoshi:
-                MethodsExtra.startActivity(mContext, KeyManageActivity.class);
+                MethodsExtra.startActivity(mContext, KeyManageActivity2.class);
                 break;
             case R.id.iv_qianggongfang:
                 MethodsDeliverData.flag = 1;

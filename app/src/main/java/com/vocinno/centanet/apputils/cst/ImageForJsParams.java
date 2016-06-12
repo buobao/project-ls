@@ -1,12 +1,14 @@
 package com.vocinno.centanet.apputils.cst;
 
 public class ImageForJsParams {
-	public static String PIC_TYPE_HOUSE = "100531001";
-	public static String PIC_TYPE_ROOM = "100531002";
-	public static String PIC_TYPE_LIVINGROOMT = "100531003";
-	public static String PIC_TYPE_KITCHEN = "100531005";
-	public static String PIC_TYPE_TOILET = "100531006";
-	public static String PIC_TYPE_OTHER = "100531008";
+	public static String PIC_TYPE_HOUSE = "100531001";//户型图
+	public static String PIC_TYPE_ROOM = "100531002";//室
+	public static String PIC_TYPE_OFFICE = "100531003";//厅
+	public static String PIC_TYPE_KITCHEN = "100531004";//厨
+	public static String PIC_TYPE_TOILET = "100531005";//卫
+	public static String PIC_TYPE_YANGTAI = "100531006";//阳台
+	public static String PIC_TYPE_WAIJING = "100531007";//外景图
+	public static String PIC_TYPE_OTHER = "100531008";//其它
 
 	private String pic = "";
 	private String type = "";

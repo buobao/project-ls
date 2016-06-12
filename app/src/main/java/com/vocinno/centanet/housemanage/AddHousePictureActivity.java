@@ -31,6 +31,7 @@ import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.UploadImageResult;
 import com.vocinno.centanet.myinterface.HttpInterface;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -42,6 +43,12 @@ import com.vocinno.utils.MethodsFile;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.MethodsJson;
 
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
+import net.tsz.afinal.http.AjaxParams;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +118,8 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 	private CheckBox cb_ishd;
 	private String explmsg;
 	private TextView tv_addpic_explmsg,tv_commit;
+	private FinalHttp fh;
+
 	@Override
 	public Handler setHandler() {
 
@@ -431,22 +440,15 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			MethodsExtra.toast(mContext, "当前没有可上传的图片");
 			return;
 		}
-
 		myDialog.setTitle("提示");
 		myDialog.setMessage("是否上传图片?");
 		myDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				Loading.show(AddHousePictureActivity.this);
 				uploadAndConnectJs();
-				/*mUploadTotalImage=1;
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						uploadImage(ImageForJsParams.PIC_TYPE_HOUSE,
-								mHouseTypeImgsList, mHouseTypeImgsDescripList);
-					}
-				}).start();*/
+
 			}
 		});
 		myDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -457,12 +459,52 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 		});
 		myDialog.create().show();
 	}
-	private void uploadAndConnectJs() {
-		Loading.show(this);
-		new Thread(new Runnable() {
+	private void uploadHouseImg(final String imgType,String path){
+		AjaxParams params = new AjaxParams();
+		fh=new FinalHttp();
+		try {
+			params.put("file1", new File(path));// 上传文件
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Loading.dismissLoading();
+			MyToast.showToast("图片没找到,请确认之后再试");
+			return;
+		}
+		fh.post(getText(R.string.serverurl).toString(), params, new AjaxCallBack<String>() {
 			@Override
-			public void run() {
-				uploadImage(ImageForJsParams.PIC_TYPE_HOUSE,
+			public void onLoading(long count, long current) {
+			}
+			@Override
+			public void onSuccess(String result) {
+				try {
+					JSReturn jsReturn = MethodsJson.jsonToJsReturn(result,UploadImageResult.class);
+					List<UploadImageResult> imageResult = jsReturn.getListDatas();
+					ImageForJsParams tempData = new ImageForJsParams();
+					tempData.setType(imgType);
+					tempData.setPic(imageResult.get(0).getFileId());
+					mUploadImages.add(tempData);
+					Log.i("onSuccess","onSuccess"+result);
+					if(mUploadTotalImage==mUploadImages.size()){
+						String miaoShu=et_miaoshu.getText().toString();//描述
+						int isHD=0;
+						if(cb_ishd.isChecked()){
+							isHD=1;
+						}
+						String teString = CST_JS.getJsonStringForUploadImages(delCode, mUploadImages,miaoShu,isHD);
+						addImg(delCode, mUploadImages,miaoShu,isHD);
+					}
+					fh=null;
+				}catch (Exception e){
+					fh=null;
+					MyToast.showToast("上传失败,请重新再试");
+					Loading.dismissLoading();
+					return;
+				}
+			}
+		});
+	}
+	private void uploadAndConnectJs() {
+		/*uploadImage(ImageForJsParams.PIC_TYPE_HOUSE,
 						mHouseTypeImgsList, mHouseTypeImgsDescripList);
 				uploadImage(ImageForJsParams.PIC_TYPE_LIVINGROOMT,
 						mRoomTypeImgsList, mRoomTypeImgsDescripList);
@@ -473,9 +515,72 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 				uploadImage(ImageForJsParams.PIC_TYPE_TOILET,
 						mToiletTypeImgsList, mToiletTypeImgsDescripList);
 				uploadImage(ImageForJsParams.PIC_TYPE_KITCHEN,
+						mKitchenTypeImgsList, mKitchenTypeImgsDescripList);*/
+		if(mHouseTypeImgsList!=null&&mHouseTypeImgsList.size()>0){
+			for (int i = 0; i <mHouseTypeImgsList.size() ; i++) {
+				uploadHouseImg(ImageForJsParams.PIC_TYPE_HOUSE,mHouseTypeImgsList.get(i));
+			}
+		}
+		if(mRoomTypeImgsList!=null&&mRoomTypeImgsList.size()>0){
+			for (int i = 0; i <mRoomTypeImgsList.size() ; i++) {
+				uploadHouseImg(ImageForJsParams.PIC_TYPE_ROOM,mRoomTypeImgsList.get(i));
+			}
+		}
+		if(mOfficeTypeImgsList!=null&&mOfficeTypeImgsList.size()>0){
+			for (int i = 0; i <mOfficeTypeImgsList.size() ; i++) {
+				uploadHouseImg(ImageForJsParams.PIC_TYPE_OFFICE,mOfficeTypeImgsList.get(i));
+			}
+		}
+		if(mKitchenTypeImgsList!=null&&mKitchenTypeImgsList.size()>0){
+			for (int i = 0; i <mKitchenTypeImgsList.size() ; i++) {
+				uploadHouseImg(ImageForJsParams.PIC_TYPE_KITCHEN,mKitchenTypeImgsList.get(i));
+			}
+		}
+		if(mToiletTypeImgsList!=null&&mToiletTypeImgsList.size()>0){
+			for (int i = 0; i <mToiletTypeImgsList.size() ; i++) {
+				uploadHouseImg(ImageForJsParams.PIC_TYPE_TOILET,mToiletTypeImgsList.get(i));
+			}
+		}
+		if(mOtherTypeImgsList!=null&&mOtherTypeImgsList.size()>0){
+			for (int i = 0; i <mOtherTypeImgsList.size() ; i++) {
+				uploadHouseImg(ImageForJsParams.PIC_TYPE_OTHER,mOtherTypeImgsList.get(i));
+			}
+		}
+//		Loading.show(this);
+		/*AjaxParams params = new AjaxParams();
+		try {
+			params.put("file1", new File(mHouseTypeImgsList.get(0)));// 上传文件
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		FinalHttp fh = new FinalHttp();
+		fh.post("http://a.sh.centanet.com/aist-filesvr-web/servlet/fileUpload", params, new AjaxCallBack<String>(){
+			@Override
+			public void onLoading(long count, long current) {
+				Log.i("count===",count+"===="+current);
+			}
+			@Override
+			public void onSuccess(String result) {
+
+			}
+		});
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				uploadImage(ImageForJsParams.PIC_TYPE_HOUSE,
+						mHouseTypeImgsList, mHouseTypeImgsDescripList);
+				uploadImage(ImageForJsParams.PIC_TYPE_ROOM,
+						mRoomTypeImgsList, mRoomTypeImgsDescripList);
+				uploadImage(ImageForJsParams.PIC_TYPE_OFFICE,
+						mOfficeTypeImgsList, mOfficeTypeImgsDescripList);
+				uploadImage(ImageForJsParams.PIC_TYPE_OTHER,
+						mOtherTypeImgsList, mOtherTypeImgsDescripList);
+				uploadImage(ImageForJsParams.PIC_TYPE_TOILET,
+						mToiletTypeImgsList, mToiletTypeImgsDescripList);
+				uploadImage(ImageForJsParams.PIC_TYPE_KITCHEN,
 						mKitchenTypeImgsList, mKitchenTypeImgsDescripList);
 			}
-		}).start();
+		}).start();*/
 	}
 
 	private void uploadImage(final String type, final List<String> list,

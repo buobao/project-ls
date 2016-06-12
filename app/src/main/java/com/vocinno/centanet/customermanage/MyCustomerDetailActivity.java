@@ -350,8 +350,8 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		List<Requets> listReqs = mDetail.getRequets();
 		if (listReqs != null && listReqs.size() >= 1) {
             Requets req = listReqs.get(0);
-            mTvType.setText("类型：" + req.getReqType());// 类型
-            tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 类型
+            mTvType.setText("交易：" + req.getReqType());// 交易类型
+            tv_fangxing_cust.setText("房型：" + req.getFromToRoom());// 房型
 			tv_quyu_customerDetailActivity.setText("城区：" + req.getDistrictCode());//区域
 
 			String customArea=req.getArea();

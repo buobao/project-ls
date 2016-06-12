@@ -346,6 +346,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 		setData();
 	}
 
+	/**************************增加实勘页面 完成后回调****************************/
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -677,26 +678,6 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	 **/
 	private void wechatShare(Bitmap bitmap) {
 		Loading.dismissLoading();
-		/*WXTextObject textObj = new WXTextObject();
-		WXWebpageObject textObj=new WXWebpageObject();
-//		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
-		if(shareImgUrl!=null&&shareImgUrl.length()>0){
-			textObj.webpageUrl=shareImgUrl;
-		}
-		textObj.text = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
-				+ houseDetail.getDelCode() + "/"
-				+ SharedPreferencesUtils.getUserId(mContext);
-		WXMediaMessage msg = new WXMediaMessage();
-		msg.mediaObject = textObj;
-		msg.title = "中原地产";
-		msg.description = "中原地产房源分享";
-
-		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = String.valueOf(System.currentTimeMillis());
-		req.message = msg;
-		req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession
-				: SendMessageToWX.Req.WXSceneTimeline;
-		*/
 		WXWebpageObject webpage = new WXWebpageObject();
 		webpage.webpageUrl = "http://a.sh.centanet.com/sales-web/mobile/houShare/"
 				+ houseDetail.getDelCode() + "/"

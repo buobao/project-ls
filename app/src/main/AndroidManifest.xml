@@ -163,11 +163,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name=".customermanage.CustomerDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-        </activity>
-        <activity
             android:name=".customermanage.GrabCustomerDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">

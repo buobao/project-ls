@@ -61,11 +61,12 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
     private int isSameTel = 0;
     private ArrayList<String> listStr = new ArrayList<>();  //片区数据集合
 
+    String reqType = null;  //求租求购类型
+
     private static enum ConnectionType {
         none, connTel, connQQ, connWeixin
     }
 
-    ;
     private View mBackView, mSubmitView;
     private RelativeLayout /*mRyltConnectionBanner, */mRyltTypeBanner,
             mRyltPlaceBanner, mRyltAreaBanner, mRyltPriceBanner,
@@ -107,7 +108,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
     public int setContentLayoutId() {
         return R.layout.activity_add_custormer;
     }
-
     @Override
     public void initView() {
         drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -488,8 +488,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                     return;
                 }
                 showDialog();
-                // 上传数据
-                String reqType = null;
+
                 if (mTvCustormerType.getText().toString().equals("求租")) {
                     reqType = "rent";
                 } else {
@@ -634,10 +633,14 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
             case R.id.rlyt_priceBanner_addCustomerActivity:
                 setScrollView();
                 setLoseFocus();
-                if (mRyltChoosePriceContaner.getVisibility() == View.GONE) {
+                if (mRyltChoosePriceContaner.getVisibility() == View.GONE ) {
+                //选择价格前 必须先选择类型
+                    if(TextUtils.isEmpty(mTvCustormerType.getText())){
+                        MethodsExtra.toast(this,"请先选择交易类型!");
+                        return;
+                    }
                     mRyltChoosePriceContaner.setVisibility(View.VISIBLE);
-                    mImgPriceRight
-                            .setBackgroundResource(R.drawable.h_manage_icon_up);
+                    mImgPriceRight.setBackgroundResource(R.drawable.h_manage_icon_up);
                     checkOpenOrClose(mRyltChoosePriceContaner.getId());
                 } else {
                     closePriceContainer();

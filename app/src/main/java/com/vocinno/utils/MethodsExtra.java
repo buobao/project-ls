@@ -39,7 +39,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -633,6 +632,12 @@ public final class MethodsExtra {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
+	/**
+	 * 隐藏软键盘
+	 *
+	 * @param activity
+	 * @param view 控件
+	 */
 	public static void hideSoftInput1(Activity activity, View view) {
 		InputMethodManager imm = (InputMethodManager) activity
 				.getSystemService(Context.INPUT_METHOD_SERVICE);

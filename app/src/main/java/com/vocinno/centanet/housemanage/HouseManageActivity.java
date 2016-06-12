@@ -1332,7 +1332,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                         list.add(i * 100 + "");
                     }
                     WheelView mWheelViewL = (WheelView)findViewById(R.id.wheelview_start_modelPriceWheelView);
-                    if ((listType == MyConstant.houseList&&(menuType==1||menuType==4))||(listType != MyConstant.houseList&&menuType==1)) {
+                    if ((listType == MyConstant.houseList&&(menuType==1||menuType==4))||((listType == MyConstant.myCollectionHouseList||listType == MyConstant.dianzCollectionHouseList)&&menuType==1)) {
                         mWheelViewL
                                 .setData(CST_Wheel_Data
                                         .getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart),CustomUtils.getWindowWidth(this));

@@ -212,7 +212,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 		lv_house_detail_list= (CustomListView) findViewById(R.id.lv_house_detail_list);
 
 		vp_house_detail_img= (ViewPager) findViewById(R.id.vp_house_detail_img);
-
+		vp_house_detail_img.setOffscreenPageLimit(1);
 		vp_house_detail_img.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
@@ -420,8 +420,8 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 //			wechatShare(0);
 			Loading.show(this);
 //			returnBitmap(imageUrl.get(0).getUrl());
-			String imgUrl=imageUrl.get(0).getUrl();
-			if(imgUrl!=null){
+//			String imgUrl=imageUrl.get(0).getUrl();
+			if(imageUrl!=null&&imageUrl.size()>0){
 				loadImageSimpleTargetApplicationContext();
 			}else{
 				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
@@ -435,8 +435,8 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 			shareTag=1;
 			Loading.show(this);
 //			returnBitmap(imageUrl.get(0).getUrl());
-			String imgUrl2=imageUrl.get(0).getUrl();
-			if(imgUrl2!=null){
+//			String imgUrl2=imageUrl.get(0).getUrl();
+			if(imageUrl!=null&&imageUrl.size()>0){
 				loadImageSimpleTargetApplicationContext();
 			}else{
 				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
@@ -454,7 +454,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				Intent addHousePictureIntent=new Intent(this,AddHousePictureActivity.class);
 				addHousePictureIntent.putExtra("delCode", houseDetail.getDelCode());
 				addHousePictureIntent.putExtra("explmsg", houseDetail.getExplmsg());
-				this.startActivity(addHousePictureIntent);
+				this.startActivityForResult(addHousePictureIntent, MyConstant.addPic);
 			}else{
 				MethodsExtra.toast(this,"房源编号为空无法增加实勘");
 			}

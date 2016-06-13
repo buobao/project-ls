@@ -1,6 +1,8 @@
 package com.vocinno.centanet.model;
 
-public class KeyItem {
+import java.io.Serializable;
+
+public class KeyItem implements Serializable{
 
 	private String keyNum = ""; // 钥匙编号
 	private String addr = ""; // 地址
@@ -13,7 +15,7 @@ public class KeyItem {
 	private String store = ""; // 店面
 	private String houId = "";
 	private String img = "";
-	private String isWaitingConfirm = "";
+	private String returnComfirm;
 
 	public String getKeyNum() {
 		return keyNum;
@@ -104,12 +106,11 @@ public class KeyItem {
 		this.houId = houId;
 	}
 
-	public String getIsWaitingConfirm() {
-		return isWaitingConfirm;
+	public String getReturnComfirm() {
+		return returnComfirm;
 	}
 
-	public void setIsWaitingConfirm(String isWaitingConfirm) {
-		this.isWaitingConfirm = isWaitingConfirm;
+	public void setReturnComfirm(String returnComfirm) {
+		this.returnComfirm = returnComfirm;
 	}
-
 }

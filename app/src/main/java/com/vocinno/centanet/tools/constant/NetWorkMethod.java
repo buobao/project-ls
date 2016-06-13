@@ -128,5 +128,8 @@ public class NetWorkMethod {
     public static final String attMax="attMax";
     /*****************钥匙管理********************/
     public static final String mtnList="mobile/hou/key/mtn";
+    /*****************pin管理********************/
+    public static final String getPin="mobile/hou/key/pass";
+    public static final String keyNum="keyNum";
 
 }

@@ -194,11 +194,16 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
+            android:name=".keymanage.KeyManageActivity2"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"/>
+        <activity
             android:name=".keymanage.KeyBorrowDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name=".keymanage.KeyManageDetailActivity"
+            android:name=".keymanage.KeyPinDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity

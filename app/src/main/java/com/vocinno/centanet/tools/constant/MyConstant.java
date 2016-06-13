@@ -4,6 +4,7 @@ package com.vocinno.centanet.tools.constant;
  * Created by Administrator on 2016/4/5.
  */
 public class MyConstant {
+    public final static int START_REQUEST=100;
     public final static int REFRESH=99;
     public final static int pageSize=20;
     public final static String isExit="isExit";
@@ -27,4 +28,6 @@ public class MyConstant {
     public final static int addPic=200;
     public final static String roomNo="roomNo";
     public final static String buiding="buiding";
+    /************************钥匙--pin*****************************/
+    public final static String keyObj="keyObj";
 }

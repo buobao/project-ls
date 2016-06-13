@@ -49,5 +49,4 @@ public class SwipeMenu {
 	public void setViewType(int viewType) {
 		this.mViewType = viewType;
 	}
-
 }

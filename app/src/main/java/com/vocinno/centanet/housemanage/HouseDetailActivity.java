@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -610,6 +611,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		getContactList();
+
 	}
 
 	private void getContactList() {
@@ -625,6 +627,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 
 			@Override
 			public void onResponse(String response) {
+				Log.d("houseDetail",Thread.currentThread().getName());
 				dismissDialog();
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(response,ContactDetail.class);
 				ListView mListViewCustormer = (ListView) mCallCustormerDialog.findViewById(R.id.lv_custormerPhone_HouseDetailActivity);

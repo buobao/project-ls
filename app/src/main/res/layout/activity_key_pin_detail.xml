@@ -47,15 +47,17 @@
             <TextView
                 android:id="@+id/tv_key_pin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="1234"
+                android:layout_height="55dp"
+                android:text="正在获取PIN码"
                 android:layout_marginTop="10dp"
-                android:textSize="50sp"
+                android:textSize="25sp"
+                android:gravity="center"
                 />
             <ProgressBar
                 android:id="@+id/pb_key_time"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
+                android:layout_marginTop="10dp"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:max="1000"
                 />
@@ -63,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请及时输入,请勿告知他人"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:textSize="15sp"
                 android:textColor="#adadad"
                 />

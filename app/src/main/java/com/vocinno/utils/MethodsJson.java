@@ -20,6 +20,7 @@ import com.vocinno.centanet.model.KeyReceiverInfo;
 import com.vocinno.centanet.model.MessageItem;
 import com.vocinno.centanet.model.Params;
 import com.vocinno.centanet.model.PianQu;
+import com.vocinno.centanet.model.PinItem;
 import com.vocinno.centanet.model.UploadImageResult;
 
 import org.json.JSONArray;
@@ -137,6 +138,10 @@ public final class MethodsJson {
 				ContactDetail contactDetail = new Gson().fromJson(jsonObject
 						.get("content").toString(), ContactDetail.class);
 				jsReturn.setObject(contactDetail);
+			}else if (clazz == PinItem.class) {
+				PinItem pinItem = new Gson().fromJson(jsonObject
+						.get("content").toString(), PinItem.class);
+				jsReturn.setObject(pinItem);
 			} else if (clazz == EstateSearchItem.class) {
 				List<EstateSearchItem> listSearchItems = new ArrayList<EstateSearchItem>();
 				List<Map<String, String>> listMaps = new Gson().fromJson(

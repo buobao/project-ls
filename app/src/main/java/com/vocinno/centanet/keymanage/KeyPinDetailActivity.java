@@ -11,6 +11,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyItem;
+import com.vocinno.centanet.model.PinItem;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -61,12 +62,11 @@ public class KeyPinDetailActivity extends OtherBaseActivity implements View.OnCl
 	public void initData() {
 		keyItem= (KeyItem) getIntent().getSerializableExtra(MyConstant.keyObj);
 		getPin();
-		countdown(10);
 	}
 
 	private void getPin() {
 		double random = Math.random()*10000000+1000;
-		String pinCode = (random+"".toString()).substring(0, 4);
+		final String pinCode = (random+"".toString()).substring(0, 4);
 		URL= NetWorkConstant.PORT_URL+ NetWorkMethod.getPin;
 		Map<String,String>map=new HashMap<>();
 		map.put(NetWorkMethod.keyNum,keyItem.getKeyNum());
@@ -74,14 +74,28 @@ public class KeyPinDetailActivity extends OtherBaseActivity implements View.OnCl
 		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
 			@Override
 			public void onError(Request request, Exception e) {
-
+				tv_key_pin.setText("点击重新获取");
+				tv_key_pin.setTextSize(25);
+				tv_key_pin.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						getPin();
+					}
+				});
 			}
 			@Override
 			public void onResponse(String response) {
-				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, null);
+				tv_key_pin.setOnClickListener(null);
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PinItem.class);
 				if (jsReturn.isSuccess()) {
-					String pinCode=jsReturn.getParams().getData();
-					tv_key_pin.setText(pinCode);
+					PinItem pinItem = (PinItem)jsReturn.getObject();
+					if(pinItem.isSuccess()){
+						tv_key_pin.setText(pinCode);
+						tv_key_pin.setTextSize(50);
+						countdown(10);
+					}else{
+						MyToast.showToast(pinItem.getMsg());
+					}
 				}else{
 					MyToast.showToast(jsReturn.getMsg());
 				}
@@ -101,6 +115,14 @@ public class KeyPinDetailActivity extends OtherBaseActivity implements View.OnCl
 					progress=0;
 					pb_key_time.setProgress(progress);
 					ses.shutdownNow();
+					tv_key_pin.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							tv_key_pin.setText("正在获取PIN码");
+							tv_key_pin.setTextSize(25);
+						}
+					},100);
+					getPin();
 				}
 				progress+=fixedProgress;
 			}

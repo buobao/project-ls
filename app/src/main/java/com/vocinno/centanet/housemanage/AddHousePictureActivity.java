@@ -458,6 +458,7 @@ public class AddHousePictureActivity extends OtherBaseActivity implements MyInte
 			}
 		});
 		myDialog.create().show();
+
 	}
 	private void uploadHouseImg(final String imgType,String path){
 		AjaxParams params = new AjaxParams();

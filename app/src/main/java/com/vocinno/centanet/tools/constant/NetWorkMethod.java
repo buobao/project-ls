@@ -62,7 +62,7 @@ public class NetWorkMethod {
     /*****************添加潜客********************/
     public static final String addPotential = "mobile/cust/add";//添加潜客
     /*****************添加客户********************/
-    public static final String addCust = "mobile/cust/add";//查重复手机号码
+    public static final String addCust = "mobile/cust/add";//添加客户
     public static final String checkMpNo = "mobile/cust/checkMpNo";//查重复手机号码
     public static final String name = "name";
     public static final String phone = "phone";

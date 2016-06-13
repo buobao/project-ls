@@ -20,6 +20,8 @@ public class MyConstant {
     /************************房源详情*****************************/
     public final static String houseCode="houseCode";
     public final static String pathList="pathList";
+    public final static String isIntoHouseDetail="isIntoHouseDetail";
+
     /************************客源-公客*****************************/
     public final static String isMyCustomer="isMyCustomer";
     public final static String isGongKe="isGongKe";

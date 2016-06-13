@@ -134,6 +134,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     private ImageButton ib_tag_jiantou;
     private int listType =0;//0 房源列表，1收藏，2抢公房
     private int menuType;
+    public static int isIntoHouseDetail;//0:进入房源详情,1回传
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -241,6 +242,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
     @Override
     public void initView() {
         isGongFang=getIntent().getBooleanExtra(MyUtils.ROB_GONG_FANG,false);
+        isIntoHouseDetail=getIntent().getIntExtra(MyConstant.isIntoHouseDetail,0);
         MethodsExtra.findHeadTitle1(mContext, baseView,
                 R.string.house_chushou, null);
         iv_change_viewpager= (ImageView) findViewById(R.id.iv_change_viewpager);

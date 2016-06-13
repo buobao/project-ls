@@ -158,7 +158,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
             public void afterTextChanged(Editable s) {
                 String tel = mEtCustormerNumber.getText().toString().trim();
                 if (tel.length() >= 11) {
-                    showDialog();
                     checkPhoneNum(tel);
                 }
             }
@@ -459,11 +458,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                     checkOpenOrClose(ll_level_addCustomer.getId());
                 }
                 checkIsFinish();
-                break;
-            case R.id.tv_connect_addCustomerActivity:
-				/*mEtCustormerNumber.setFocusable(true);
-				mEtCustormerNumber.setFocusableInTouchMode(true);
-				checkIsFinish();*/
                 break;
             case R.id.img_left_mhead1:  //标题栏左侧箭头
                 finish();
@@ -807,11 +801,13 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
             }
         });
     }
-
+    
+    /**************************判断号码是否重复后  隐藏dialog框****************************/
     private void checkPhoneNum(String tel) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(NetWorkMethod.phone, tel);
         URL = NetWorkConstant.PORT_URL + NetWorkMethod.checkMpNo;
+        //显示dialog
         showDialog();
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
@@ -825,7 +821,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, JSONObject.class);
                 if (jsReturn.isSuccess()) {
                     isSameTel = 1;
-                    closeConnectionTypeContainer();
                 } else {
                     isSameTel = 2;
                     MethodsExtra.toast(mContext, jsReturn.getMsg());
@@ -955,11 +950,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
     private void closeAreaContainer() {
         mRyltChooseAreaContainer.setVisibility(View.GONE);
         mImgAreaRight.setBackgroundResource(R.drawable.h_manage_icon_down);
-    }
-
-    private void closeConnectionTypeContainer() {
-//		mLlytConntectTypeContainer.setVisibility(View.GONE);
-//		mImgConnectionRight.setBackgroundResource(R.drawable.h_manage_icon_down);
     }
 
     private void closeTypeContainer() {

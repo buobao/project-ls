@@ -250,11 +250,17 @@ public class KeyHouseListAdapter extends BaseAdapter {
 					MethodsDeliverData.flag = -1;
 					MethodsDeliverData.mKeyType = -1;
 				}
-				Intent intent=new Intent(mContext, HouseDetailActivity.class);
-				intent.putExtra(MyConstant.houseCode,item.getDelCode());
-				intent.putExtra(MyUtils.INTO_FROM_LIST, true);
-				intent.putExtra(MyConstant.isGongFang,isGongFang);
+				if(HouseManageActivity.isIntoHouseDetail==0){
+					Intent intent=new Intent(mContext, HouseDetailActivity.class);
+					intent.putExtra(MyConstant.houseCode,item.getDelCode());
+					intent.putExtra(MyUtils.INTO_FROM_LIST, true);
+					intent.putExtra(MyConstant.isGongFang,isGongFang);
 					((HouseManageActivity) mContext).startActivityForResult(intent, 10);
+				}else if(HouseManageActivity.isIntoHouseDetail==1){
+					//((HouseManageActivity) mContext).setResult(111,null); //TODO:
+					((HouseManageActivity) mContext).finish();
+				}
+
 			}
 		});
 		return convertView;

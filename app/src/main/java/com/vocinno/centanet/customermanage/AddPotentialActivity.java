@@ -52,7 +52,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	};
 	private View mBackView;
 	private TextView mSubmitView;		//标题栏右侧
-	private EditText et_name_addqianke,tv_tel_addqianke;
+	private EditText et_name_addqianke,et_tel_addqianke;
 	private EditText /*mEtConnectionNumber, */mEtCustormerName;
 	private LinearLayout ll_source_addpotential,ll_level_addpotential;
 	private ConnectionType mCurrConnType = ConnectionType.none;
@@ -62,6 +62,8 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	private WheelView wv_source_addpotential, wv_level_addpotential;
 	private Button bt_source_addpotential, bt_level_addpotential;
 	private TextView tv_source_addpotential,tv_level_addpotential;
+
+	private int isSameTel = 0;	//是否是同一个号码
 	@Override
 	public int setContentLayoutId() {
 		return R.layout.activity_add_potential;
@@ -77,7 +79,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				null);
 
 		et_name_addqianke = (EditText) findViewById(R.id.et_name_addqianke);
-		tv_tel_addqianke = (EditText) findViewById(R.id.tv_tel_addqianke);
+		et_tel_addqianke = (EditText) findViewById(R.id.et_tel_addqianke);
 
 		tv_source_addpotential= (TextView) findViewById(R.id.tv_source_addpotential);
 		tv_level_addpotential= (TextView) findViewById(R.id.tv_level_addpotential);
@@ -146,20 +148,6 @@ public class AddPotentialActivity extends OtherBaseActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				checkIsFinish();
-				/*String tel = tv_tel_addqianke.getText().toString().trim();
-				if(tel.length()<=0||s.toString().trim().length()<=0){
-					mSubmitView.setImageResource(R.drawable.universal_button_undone);
-					mSubmitView.setClickable(false);
-					mSubmitView.setEnabled(false);
-				}else{
-					if(tel.toString().trim().length()==11){
-						mSubmitView.setImageResource(R.drawable.universal_button_done);
-						mSubmitView.setClickable(true);
-						mSubmitView.setEnabled(true);
-					}else{
-						mSubmitView.setImageResource(R.drawable.universal_button_undone);
-					}
-				}*/
 			}
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -169,24 +157,15 @@ public class AddPotentialActivity extends OtherBaseActivity {
 			}
 
 		});
-		tv_tel_addqianke.addTextChangedListener(new TextWatcher() {
+		et_tel_addqianke.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
 				checkIsFinish();
-				/*String name = et_name_addqianke.getText().toString().trim();
-				if (name.length() <= 0 || s.toString().trim().length() <= 0) {
-					mSubmitView.setImageResource(R.drawable.universal_button_undone);
-					mSubmitView.setClickable(false);
-					mSubmitView.setEnabled(false);
-				} else {
-					if (s.toString().trim().length() == 11) {
-						mSubmitView.setImageResource(R.drawable.universal_button_done);
-						mSubmitView.setClickable(true);
-						mSubmitView.setEnabled(true);
-					} else {
-						mSubmitView.setImageResource(R.drawable.universal_button_undone);
-					}
-				}*/
+				//检测电话号码是否重复
+				String tel = et_tel_addqianke.getText().toString().trim();
+				if (tel.length() >= 11) {
+					checkPhoneNum(tel);
+				}
 			}
 
 			@Override
@@ -218,7 +197,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				finish();
 				break;
 			case R.id.tv_right_mhead1:		//标题栏右侧文字
-				if(!isMobileNO(tv_tel_addqianke.getText().toString().trim())){
+				if(!isMobileNO(et_tel_addqianke.getText().toString().trim())){
 					MethodsExtra.toast(mContext,"手机号码格式不正确");
 					return;
 				}
@@ -227,7 +206,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addPotential;
 				Map<String,String>map=new HashMap<String,String>();
 				String name=et_name_addqianke.getText().toString();
-				String phone=tv_tel_addqianke.getText().toString();
+				String phone=et_tel_addqianke.getText().toString();
 				String source=tv_source_addpotential.getText().toString();
 				String origin = CST_Wheel_Data.sourceMap.get(source);
 				String level = tv_level_addpotential.getText().toString();
@@ -255,7 +234,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 				});
 
 				/*String strJson = CST_JS.getJsonStringForAddCustomer(et_name_addqianke.getText().toString().toString(),
-						tv_tel_addqianke.getText().toString());
+						et_tel_addqianke.getText().toString());
 				MethodsJni.callProxyFun(hif,CST_JS.JS_ProxyName_CustomerList,
 						CST_JS.JS_Function_CustomerList_addCustomer, strJson);*/
 				break;
@@ -327,10 +306,11 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	public void onLoadMore() {
 
 	}
+	/**************************检测是否信息都录入完整****************************/
 	private void checkIsFinish() {
 		boolean isFinish = true;
 		String name = et_name_addqianke.getText().toString().trim();
-		String tel = tv_tel_addqianke.getText().toString().trim();
+		String tel = et_tel_addqianke.getText().toString().trim();
 		if (name.length() <= 0 || tel.length() <= 0) {
 			isFinish=false;
 		} else if(tel.toString().trim().length() != 11||!isMobileNO(tel)) {
@@ -363,13 +343,41 @@ public class AddPotentialActivity extends OtherBaseActivity {
 	}
 	public void setLoseFocus(){
 		if(isMobileNO("") && !TextUtils.isEmpty("")){
-			if(tv_tel_addqianke.isFocusable()){
-				tv_tel_addqianke.setFocusable(false);
+			if(et_tel_addqianke.isFocusable()){
+				et_tel_addqianke.setFocusable(false);
 			}
 		}else{
 			MethodsExtra.toast(mContext, "手机号码有误，请重新输入！");
-			tv_tel_addqianke.setFocusable(true);
-			tv_tel_addqianke.setFocusableInTouchMode(true);
+			et_tel_addqianke.setFocusable(true);
+			et_tel_addqianke.setFocusableInTouchMode(true);
 		}
 	}
+
+	/**************************判断号码是否重复后  隐藏dialog框****************************/
+	private void checkPhoneNum(String tel) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(NetWorkMethod.phone, tel);
+		URL = NetWorkConstant.PORT_URL + NetWorkMethod.checkMpNo;
+		//显示dialog
+		showDialog();
+		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+			@Override
+			public void onError(Request request, Exception e) {
+				dismissDialog();
+			}
+
+			@Override
+			public void onResponse(String response) {
+				dismissDialog();
+				JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, JSONObject.class);
+				if (jsReturn.isSuccess()) {
+					isSameTel = 1;
+				} else {
+					isSameTel = 2;
+					MethodsExtra.toast(mContext, jsReturn.getMsg());
+				}
+			}
+		});
+	}
+
 }

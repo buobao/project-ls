@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingRight="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_key_img"
+            android:layout_width="100dp"
+            android:layout_height="75dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/default_img"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical|bottom"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_key_housename"
+                        style="@style/key_item_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxWidth="150dp"
+                        android:singleLine="true"
+                        android:textSize="15sp"
+                        tools:text="暗夜公寓暗夜公寓暗夜公寓暗夜公寓暗夜公寓暗夜公寓暗夜公寓暗夜公寓"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_key_gaoceng"
+                        android:minWidth="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/key_gaoceng"
+                        />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_key_isborrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/key_jieyong"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_key_id"
+                        style="@style/key_item_text2"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        tools:text="K222222222"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_key_status"
+                        android:minWidth="45dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/red"
+                        tools:text="待确定"
+                        android:textSize="13sp"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_key_borrowto"
+                    style="@style/key_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    tools:text="借:张三/2016.01.12"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+                <!--<LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    >-->
+                <TextView
+                    style="@style/key_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxWidth="60dp"
+                    android:singleLine="true"
+                    android:text="收:"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_key_backtime"
+                    style="@style/key_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    tools:text="2016-06-06"/>
+
+                <TextView
+                    android:id="@+id/tv_key_fenhang"
+                    style="@style/key_item_text2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    tools:text="长阳三店长宁区分行"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/lightgrey"
+        />
+</LinearLayout>

@@ -26,9 +26,11 @@ public class PotentialCustormerListAdapter extends BaseAdapter {
 	private boolean isGongKe=false;
 	public void setListDatas(List<CustomerItem> listCustomers) {
 		mListCustomers = listCustomers;
+		notifyDataSetChanged();
 	}
 	public void addListDatas(List<CustomerItem> listCustomers) {
 		mListCustomers.addAll(listCustomers);
+		notifyDataSetChanged();
 	}
 	public PotentialCustormerListAdapter(PotentialCustomerListActivity mContext) {
 		this.mContext = mContext;

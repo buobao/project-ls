@@ -31,6 +31,35 @@ public class HouseDetail {
 	private String year = "";
 	private String delegationType;//10015001  售  10015002  租
 	private String explmsg;
+
+	private String disturb; //免扰
+	private String isfgint; //房管
+	private String isqpct ; //签赔
+
+	public String getDisturb() {
+		return disturb;
+	}
+
+	public void setDisturb(String disturb) {
+		this.disturb = disturb;
+	}
+
+	public String getIsfgint() {
+		return isfgint;
+	}
+
+	public void setIsfgint(String isfgint) {
+		this.isfgint = isfgint;
+	}
+
+	public String getIsqpct() {
+		return isqpct;
+	}
+
+	public void setIsqpct(String isqpct) {
+		this.isqpct = isqpct;
+	}
+
 	public String getRoomNO() {
 		return roomNO;
 	}

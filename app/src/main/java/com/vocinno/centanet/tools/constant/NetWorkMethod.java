@@ -75,6 +75,10 @@ public class NetWorkMethod {
     public static final String houInfo="mobile/hou/houInfo";
     public static final String houseCode="houseCode";
     public static final String delCode="delCode";
+    public static final String delegationType ="delegationType";
+    public static final String disturb ="disturb";
+    public static final String isfgint ="isfgint";
+    public static final String isqpct  ="isqpct";
     /*****************房源描述跟进********************/
     public static final String addGenJin="mobile/hou/track/add";
     public static final String content="content";

@@ -12,13 +12,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,6 +49,7 @@ import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.DivideUtils;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -611,49 +610,67 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		getContactList();
-
 	}
 
 	private void getContactList() {
-		showDialog();
+		Loading.show(this);
 		URL=NetWorkConstant.PORT_URL+NetWorkMethod.contactList;
 		Map<String, String> map=new HashMap<String,String>();
 		map.put(NetWorkMethod.delCode,houseDetail.getDelCode());
+		map.put(NetWorkMethod.delegationType,houseDetail.getDelegationType());
+		map.put(NetWorkMethod.disturb,houseDetail.getDisturb());
+		map.put(NetWorkMethod.isfgint,houseDetail.getIsfgint());
+		map.put(NetWorkMethod.isqpct,houseDetail.getIsqpct());
+		map.put(NetWorkMethod.houseId,houseDetail.getHouseId());
+		/*delegationType ="delegationType ";
+    public static final String disturb ="disturb";
+    public static final String isfgint ="isfgint";
+    public static final String isqpct  ="isqpct";*/
 		OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
 			@Override
 			public void onError(Request request, Exception e) {
-				dismissDialog();
+				Loading.dismissLoading();
 			}
 
 			@Override
 			public void onResponse(String response) {
-				Log.d("houseDetail",Thread.currentThread().getName());
-				dismissDialog();
+				Loading.dismissLoading();
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(response,ContactDetail.class);
-				ListView mListViewCustormer = (ListView) mCallCustormerDialog.findViewById(R.id.lv_custormerPhone_HouseDetailActivity);
-				ContactDetail contactData = (ContactDetail) jReturn.getObject();
-				List<ContactItem> testData = contactData.getContactList(); // new
-				if (testData == null || testData.size() == 0) {
-					MethodsExtra.toast(mContext, "此房源未录入电话");
-				}
-				CustormerPhoneAdapter phoneAdapter = new CustormerPhoneAdapter(
-						mContext, testData);
-				mListViewCustormer.setAdapter(phoneAdapter);
-				mListViewCustormer
-						.setOnItemClickListener(new OnItemClickListener() {
-							@Override
-							public void onItemClick(AdapterView<?> arg0, View arg1,
-													int arg2, long arg3) {
-								TextView tvTel = (TextView) arg1
-										.findViewById(R.id.tv_custNothing_CustormerPhoneAdapter);
+				if(jReturn.isSuccess()){
+					ContactDetail cDetail = (ContactDetail)jReturn.getObject();
+					if(cDetail.isSuccess()){
+						ListView mListViewCustormer = (ListView) mCallCustormerDialog.findViewById(R.id.lv_custormerPhone_HouseDetailActivity);
+						ContactDetail contactData = (ContactDetail) jReturn.getObject();
+						List<ContactItem> testData = contactData.getContactList(); // new
+						if (testData == null || testData.size() == 0) {
+							MethodsExtra.toast(mContext, "此房源未录入电话");
+							return;
+						}
+						CustormerPhoneAdapter phoneAdapter = new CustormerPhoneAdapter(
+								mContext, testData);
+						mListViewCustormer.setAdapter(phoneAdapter);
+						mListViewCustormer
+								.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+									@Override
+									public void onItemClick(AdapterView<?> arg0, View arg1,
+															int arg2, long arg3) {
+										TextView tvTel = (TextView) arg1
+												.findViewById(R.id.tv_custNothing_CustormerPhoneAdapter);
 
-								Intent intent = new Intent(Intent.ACTION_CALL, Uri
-										.parse("tel:" + tvTel.getText().toString().trim()));
-								mContext.startActivity(intent);
-								mCallCustormerDialog.dismiss();
-							}
-						});
-				mCallCustormerDialog.show();
+										Intent intent = new Intent(Intent.ACTION_CALL, Uri
+												.parse("tel:" + tvTel.getText().toString().trim()));
+										mContext.startActivity(intent);
+										mCallCustormerDialog.dismiss();
+									}
+								});
+						mCallCustormerDialog.show();
+					}else{
+						MyToast.showToast(cDetail.getMsg());
+					}
+				}else{
+					MyToast.showToast(jReturn.getMsg());
+				}
+
 			}
 		});
 	}

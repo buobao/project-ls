@@ -34,7 +34,7 @@ public class KeyListAdapter extends BaseAdapter {
 
 	public void setListDatas(List<KeyItem> listDatas) {
 		mListKeys = listDatas;
-		notifyDataSetChanged();
+//		notifyDataSetChanged();
 	}
 
 	public KeyListAdapter(KeyManageActivity mContext) {
@@ -226,14 +226,14 @@ public class KeyListAdapter extends BaseAdapter {
 		holder.mBorrowState01.setText(dateString[0]);
 		holder.tv_time.setText(dateString[1]+"借用");
 
-		/*if (keyItem.getIsWaitingConfirm().equals("true")) {
+		if (keyItem.getIsWaitingConfirm().equals("true")) {
 			holder.mBorrowState01.setVisibility(View.GONE);
 			holder.mBorrowState02.setVisibility(View.VISIBLE);
 			mContext.mStrtrKeyNo = keyItem.getKeyNum();
 		} else {
 			holder.mBorrowState01.setVisibility(View.VISIBLE);
 			holder.mBorrowState02.setVisibility(View.GONE);
-		}*/
+		}
 		return convertView;
 	}
 

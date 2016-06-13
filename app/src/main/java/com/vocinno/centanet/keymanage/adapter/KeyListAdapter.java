@@ -34,7 +34,7 @@ public class KeyListAdapter extends BaseAdapter {
 
 	public void setListDatas(List<KeyItem> listDatas) {
 		mListKeys = listDatas;
-//		notifyDataSetChanged();
+		notifyDataSetChanged();
 	}
 
 	public KeyListAdapter(KeyManageActivity mContext) {

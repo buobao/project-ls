@@ -14,9 +14,7 @@ gradlew
 gradlew.bat
 import-summary.txt
 local.properties
-settings.gradle
 build/
 *.iml
 app/app.iml
 *.apk
-build.gradle

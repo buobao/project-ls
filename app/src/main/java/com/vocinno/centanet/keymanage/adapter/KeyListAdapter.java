@@ -21,8 +21,6 @@ import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.keymanage.adapter.ViewHolderGiveKey.KeyItemState;
 import com.vocinno.centanet.model.KeyItem;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class KeyListAdapter extends BaseAdapter {
@@ -220,13 +218,14 @@ public class KeyListAdapter extends BaseAdapter {
 		holder.mKeyNumb.setText(keyItem.getKeyNum());
 		holder.tv_fenhang.setText(keyItem.getStore());
 		// 借用时间
-		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd=HH:mm:ss");
+		/*SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd=HH:mm:ss");
 		Date date= new Date(keyItem.getBorrowTime());
-		String[] dateString=sdf.format(date).split("=");
-		holder.mBorrowState01.setText(dateString[0]);
-		holder.tv_time.setText(dateString[1]+"借用");
+		String[] dateString=sdf.format(date).split("=");*/
+		holder.mBorrowState01.setText(keyItem.getBorrowTime());
+//		holder.tv_time.setText(dateString[1]+"借用");
+		holder.tv_time.setText(keyItem.getBorrowTime()+"借用");
 
-		if (keyItem.getIsWaitingConfirm().equals("true")) {
+		if ("true".equals(keyItem.getIsWaitingConfirm())) {
 			holder.mBorrowState01.setVisibility(View.GONE);
 			holder.mBorrowState02.setVisibility(View.VISIBLE);
 			mContext.mStrtrKeyNo = keyItem.getKeyNum();

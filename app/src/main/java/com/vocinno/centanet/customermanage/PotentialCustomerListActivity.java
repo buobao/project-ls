@@ -225,17 +225,6 @@ public class PotentialCustomerListActivity extends OtherBaseActivity implements 
                         page++;
                         mListAdapter.addListDatas(jsReturn.getListDatas());
                     }
-
-                   /* if(jsReturn.getListDatas()!=null){
-                        if(jsReturn.getListDatas().size()>0){
-                            mSearchListData = jsReturn.getListDatas();
-                            mSearch.setList(mSearchListData);
-                            mSearch.notifyDataSetChanged();
-                            setListHeight(mSearch, listView);
-                            listView.setVisibility(View.VISIBLE);
-                        }
-                    }*/
-
                 } else {
                     MyToast.showToast(jsReturn.getMsg());
                 }

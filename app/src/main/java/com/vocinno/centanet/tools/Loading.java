@@ -11,6 +11,9 @@ import android.view.WindowManager;
 
 import com.vocinno.centanet.R;
 
+/**
+ *  进入页面加载的Dialog
+ */
 public class Loading extends Dialog {
     public static int showTag = 0;
     private static Loading loading;

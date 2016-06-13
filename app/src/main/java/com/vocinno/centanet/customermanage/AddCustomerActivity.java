@@ -750,7 +750,6 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
                         mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
                         listStr.add(pq.getAreaName());
                     }
-//					mWheelViewChoosePianqu.setData(listStr);
                     mWheelViewChoosePianqu.resetData(listStr, CustomUtils.getWindowWidth(AddCustomerActivity.this));
                     mWheelViewChoosePianqu.setSelectItem(0);
                 }
@@ -843,6 +842,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
 
     }
 
+    /**************************检测信息是否录入完整****************************/
     private void checkIsFinish() {
         boolean isFinish = true;
         if (mEtCustormerName.getText() == null || mEtCustormerName.getText().toString().length() == 0) {

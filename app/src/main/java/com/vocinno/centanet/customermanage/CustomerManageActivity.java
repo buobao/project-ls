@@ -211,6 +211,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 			break;
 		}
 	}
+	/**************************下拉刷新****************************/
 	@Override
 	public void onRefresh() {
 		isReFreshOrLoadMore=true;
@@ -218,6 +219,7 @@ public class CustomerManageActivity extends OtherBaseActivity implements
 		getCustomerData();
 	}
 
+	/**************************加载更多****************************/
 	@Override
 	public void onLoadMore() {
 		isReFreshOrLoadMore=true;

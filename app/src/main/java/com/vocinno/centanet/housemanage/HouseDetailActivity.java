@@ -637,30 +637,36 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				Loading.dismissLoading();
 				JSReturn jReturn = MethodsJson.jsonToJsReturn(response,ContactDetail.class);
 				if(jReturn.isSuccess()){
-					ListView mListViewCustormer = (ListView) mCallCustormerDialog.findViewById(R.id.lv_custormerPhone_HouseDetailActivity);
-					ContactDetail contactData = (ContactDetail) jReturn.getObject();
-					List<ContactItem> testData = contactData.getContactList(); // new
-					if (testData == null || testData.size() == 0) {
-						MethodsExtra.toast(mContext, "此房源未录入电话");
-					}
-					CustormerPhoneAdapter phoneAdapter = new CustormerPhoneAdapter(
-							mContext, testData);
-					mListViewCustormer.setAdapter(phoneAdapter);
-					mListViewCustormer
-							.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-								@Override
-								public void onItemClick(AdapterView<?> arg0, View arg1,
-														int arg2, long arg3) {
-									TextView tvTel = (TextView) arg1
-											.findViewById(R.id.tv_custNothing_CustormerPhoneAdapter);
+					ContactDetail cDetail = (ContactDetail)jReturn.getObject();
+					if(cDetail.isSuccess()){
+						ListView mListViewCustormer = (ListView) mCallCustormerDialog.findViewById(R.id.lv_custormerPhone_HouseDetailActivity);
+						ContactDetail contactData = (ContactDetail) jReturn.getObject();
+						List<ContactItem> testData = contactData.getContactList(); // new
+						if (testData == null || testData.size() == 0) {
+							MethodsExtra.toast(mContext, "此房源未录入电话");
+							return;
+						}
+						CustormerPhoneAdapter phoneAdapter = new CustormerPhoneAdapter(
+								mContext, testData);
+						mListViewCustormer.setAdapter(phoneAdapter);
+						mListViewCustormer
+								.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+									@Override
+									public void onItemClick(AdapterView<?> arg0, View arg1,
+															int arg2, long arg3) {
+										TextView tvTel = (TextView) arg1
+												.findViewById(R.id.tv_custNothing_CustormerPhoneAdapter);
 
-									Intent intent = new Intent(Intent.ACTION_CALL, Uri
-											.parse("tel:" + tvTel.getText().toString().trim()));
-									mContext.startActivity(intent);
-									mCallCustormerDialog.dismiss();
-								}
-							});
-					mCallCustormerDialog.show();
+										Intent intent = new Intent(Intent.ACTION_CALL, Uri
+												.parse("tel:" + tvTel.getText().toString().trim()));
+										mContext.startActivity(intent);
+										mCallCustormerDialog.dismiss();
+									}
+								});
+						mCallCustormerDialog.show();
+					}else{
+						MyToast.showToast(cDetail.getMsg());
+					}
 				}else{
 					MyToast.showToast(jReturn.getMsg());
 				}

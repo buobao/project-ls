@@ -16,6 +16,15 @@ public class KeyItem implements Serializable{
 	private String houId = "";
 	private String img = "";
 	private String returnComfirm;
+	private String isWaitingConfirm;
+
+	public String getIsWaitingConfirm() {
+		return isWaitingConfirm;
+	}
+
+	public void setIsWaitingConfirm(String isWaitingConfirm) {
+		this.isWaitingConfirm = isWaitingConfirm;
+	}
 
 	public String getKeyNum() {
 		return keyNum;

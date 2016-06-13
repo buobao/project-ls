@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ContactDetail {
 	private String delCode = "";
+	private boolean isSuccess;
+	private String msg;
 	private List<ContactItem> contactList = new ArrayList<ContactItem>();
 
 	public String getDelCode() {
@@ -23,4 +25,19 @@ public class ContactDetail {
 		this.contactList = contactList;
 	}
 
+	public boolean isSuccess() {
+		return isSuccess;
+	}
+
+	public void setIsSuccess(boolean isSuccess) {
+		this.isSuccess = isSuccess;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 }

@@ -71,7 +71,7 @@ public class AddDemandActivity extends OtherBaseActivity {
     public void initView() {
         drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         intent=getIntent();
-        custCode = intent.getStringExtra("custCode");
+        custCode = intent.getStringExtra(MyConstant.custCode);
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_demand, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mBack.setOnClickListener(this);

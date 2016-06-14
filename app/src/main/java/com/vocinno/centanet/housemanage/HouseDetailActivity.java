@@ -73,9 +73,9 @@ import java.util.Map;
 
 /**
  * 房源详情
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 public class HouseDetailActivity extends OtherBaseActivity implements AgainLoading{
 	private HouseDetail houseDetail = null;
@@ -369,115 +369,115 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ll_house_detail_qiang:
-			qiangGangFang();
-			break;
-		case R.id.ll_house_detail_borrow:
-			borrowKey();
-			break;
-		case R.id.ll_house_detail_contact:
-			showCallCosturmerDialog();
-			break;
-		case R.id.tv_house_detail_lookshihao:
-			if(!houseDetail.isRequireReason()){//false不需要原因，true需要
-				lookShiHao();
-			}else{
-				String delCode=houseDetail.getDelCode();
-				String houseId=houseDetail.getHouseId();
-				Intent intent = new Intent(mContext,
-						HouseReasonActivity.class);
-				intent.putExtra("delCode",delCode);
-				intent.putExtra("houseId",houseId);
-				MethodsExtra.startActivityForResult(mContext, 100, intent);
-			}
-			break;
-		case R.id.ll_house_detail_addgenjin:
-			if (houseDetail != null && houseDetail.getDelCode() != null) {
-				MethodsDeliverData.mDelCode = houseDetail.getDelCode();
-			} else {
-				MethodsExtra.toast(mContext, "房源编号不能为空");
-			}
-			intent.setClass(mContext, AddFollowInHouseActivity.class);
-			intent.putExtra(MyConstant.houseCode,houseDetail.getDelCode());
-			startActivityForResult(intent, 10);
-			break;
-		case R.id.img_left_mhead1:
-			finish();
-			break;
-		case R.id.ll_house_detail_borrow_key:
-			mMenuDialog.dismiss();
-			MethodsDeliverData.mKeyType = 1;
-			showBorrowKey();
-			break;
-		case R.id.ll_house_detail_contact_yezhu:
-			mMenuDialog.dismiss();
-			showBorrowKey(false);
-			showCallCosturmerDialog();
-			break;
-		case R.id.ll_house_detail_share_friend:
-			// 这里是友盟分享的dialog
-			mMenuDialog.dismiss();
-			shareTag=0;
+			case R.id.ll_house_detail_qiang:
+				qiangGangFang();
+				break;
+			case R.id.ll_house_detail_borrow:
+				borrowKey();
+				break;
+			case R.id.ll_house_detail_contact:
+				showCallCosturmerDialog();
+				break;
+			case R.id.tv_house_detail_lookshihao:
+				if(!houseDetail.isRequireReason()){//false不需要原因，true需要
+					lookShiHao();
+				}else{
+					String delCode=houseDetail.getDelCode();
+					String houseId=houseDetail.getHouseId();
+					Intent intent = new Intent(mContext,
+							HouseReasonActivity.class);
+					intent.putExtra("delCode",delCode);
+					intent.putExtra("houseId",houseId);
+					MethodsExtra.startActivityForResult(mContext, 100, intent);
+				}
+				break;
+			case R.id.ll_house_detail_addgenjin:
+				if (houseDetail != null && houseDetail.getDelCode() != null) {
+					MethodsDeliverData.mDelCode = houseDetail.getDelCode();
+				} else {
+					MethodsExtra.toast(mContext, "房源编号不能为空");
+				}
+				intent.setClass(mContext, AddFollowInHouseActivity.class);
+				intent.putExtra(MyConstant.houseCode,houseDetail.getDelCode());
+				startActivityForResult(intent, 10);
+				break;
+			case R.id.img_left_mhead1:
+				finish();
+				break;
+			case R.id.ll_house_detail_borrow_key:
+				mMenuDialog.dismiss();
+				MethodsDeliverData.mKeyType = 1;
+				showBorrowKey();
+				break;
+			case R.id.ll_house_detail_contact_yezhu:
+				mMenuDialog.dismiss();
+				showBorrowKey(false);
+				showCallCosturmerDialog();
+				break;
+			case R.id.ll_house_detail_share_friend:
+				// 这里是友盟分享的dialog
+				mMenuDialog.dismiss();
+				shareTag=0;
 //			wechatShare(0);
-			Loading.show(this);
+				Loading.show(this);
 //			returnBitmap(imageUrl.get(0).getUrl());
 //			String imgUrl=imageUrl.get(0).getUrl();
-			if(imageUrl!=null&&imageUrl.size()>0){
-				loadImageSimpleTargetApplicationContext();
-			}else{
-				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
-				wechatShare(map);
-			}
+				if(imageUrl!=null&&imageUrl.size()>0){
+					loadImageSimpleTargetApplicationContext();
+				}else{
+					Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+					wechatShare(map);
+				}
 
-			break;
-		case R.id.ll_house_detail_share_friend_circle:
-			// 这里是友盟分享的dialog
-			mMenuDialog.dismiss();
-			shareTag=1;
-			Loading.show(this);
+				break;
+			case R.id.ll_house_detail_share_friend_circle:
+				// 这里是友盟分享的dialog
+				mMenuDialog.dismiss();
+				shareTag=1;
+				Loading.show(this);
 //			returnBitmap(imageUrl.get(0).getUrl());
 //			String imgUrl2=imageUrl.get(0).getUrl();
-			if(imageUrl!=null&&imageUrl.size()>0){
-				loadImageSimpleTargetApplicationContext();
-			}else{
-				Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
-				wechatShare(map);
-			}
-			break;
-		case R.id.ll_house_detail_addimg:
-			mMenuDialog.dismiss();
-			if (houseDetail != null && houseDetail.getDelCode() != null) {
-				MethodsDeliverData.mDelCode = houseDetail.getDelCode();
-			} else {
-				MethodsExtra.toast(mContext, "houseDetail不能为空");
-			}
-			if(houseDetail !=null&& houseDetail.getDelCode()!=null){
-				Intent addHousePictureIntent=new Intent(this,AddHousePictureActivity.class);
-				addHousePictureIntent.putExtra("delCode", houseDetail.getDelCode());
-				addHousePictureIntent.putExtra("explmsg", houseDetail.getExplmsg());
-				this.startActivityForResult(addHousePictureIntent, MyConstant.addPic);
-			}else{
-				MethodsExtra.toast(this,"房源编号为空无法增加实勘");
-			}
-			break;
-		case R.id.ll_house_detail_followsee:
-			mMenuDialog.dismiss();
-			if (houseDetail != null && houseDetail.getDelCode() != null) {
-				MethodsDeliverData.mDelCode = houseDetail.getDelCode();
-				Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
-				it.putExtra("delegationType", houseDetail.getDelegationType());
-				it.putExtra(MyConstant.houseCode, houseDetail.getDelCode());
-				startActivity(it);
-			} else {
-				MethodsExtra.toast(mContext, "houseDetail不能为空");
-				Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
-				it.putExtra("delegationType","");
-				startActivityForResult(it,100);
-			}
+				if(imageUrl!=null&&imageUrl.size()>0){
+					loadImageSimpleTargetApplicationContext();
+				}else{
+					Bitmap map=BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+					wechatShare(map);
+				}
+				break;
+			case R.id.ll_house_detail_addimg:
+				mMenuDialog.dismiss();
+				if (houseDetail != null && houseDetail.getDelCode() != null) {
+					MethodsDeliverData.mDelCode = houseDetail.getDelCode();
+				} else {
+					MethodsExtra.toast(mContext, "houseDetail不能为空");
+				}
+				if(houseDetail !=null&& houseDetail.getDelCode()!=null){
+					Intent addHousePictureIntent=new Intent(this,AddHousePictureActivity.class);
+					addHousePictureIntent.putExtra("delCode", houseDetail.getDelCode());
+					addHousePictureIntent.putExtra("explmsg", houseDetail.getExplmsg());
+					this.startActivityForResult(addHousePictureIntent, MyConstant.addPic);
+				}else{
+					MethodsExtra.toast(this,"房源编号为空无法增加实勘");
+				}
+				break;
+			case R.id.ll_house_detail_followsee:
+				mMenuDialog.dismiss();
+				if (houseDetail != null && houseDetail.getDelCode() != null) {
+					MethodsDeliverData.mDelCode = houseDetail.getDelCode();
+					Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
+					it.putExtra("delegationType", houseDetail.getDelegationType());
+					it.putExtra(MyConstant.houseCode, houseDetail.getDelCode());
+					startActivity(it);
+				} else {
+					MethodsExtra.toast(mContext, "houseDetail不能为空");
+					Intent it=new Intent(mContext,SeeFollowInDetailActivity.class);
+					it.putExtra("delegationType","");
+					startActivityForResult(it,100);
+				}
 //			MethodsExtra.startActivity(mContext,SeeFollowInDetailActivity.class);
-			break;
-		default:
-			break;
+				break;
+			default:
+				break;
 		}
 	}
 

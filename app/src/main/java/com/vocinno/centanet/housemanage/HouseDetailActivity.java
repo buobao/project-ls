@@ -354,9 +354,10 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 			case 101:
 				String  roomNo=data.getStringExtra("roomNo");
 				String  buiding=data.getStringExtra("buiding");
+				String  floor=data.getStringExtra(MyConstant.floor);
 				tv_house_detail_shihao.setText(roomNo);
 				tv_house_detail_shihao.setVisibility(View.VISIBLE);
-				tv_house_detail_louceng.setText(buiding);
+				tv_house_detail_louceng.setText(floor);
 				tv_house_detail_lookshihao.setVisibility(View.GONE);
 				tv_house_detail_name.setText(houseDetail.getAddr() + " " + buiding);
 				break;

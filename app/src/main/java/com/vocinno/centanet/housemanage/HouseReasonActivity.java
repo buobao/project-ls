@@ -160,6 +160,7 @@ public class HouseReasonActivity extends OtherBaseActivity {
                 if(jReturnHouseDetail.isSuccess()){
                     intent.putExtra(MyConstant.roomNo, mHouseDetail.getRoomNO());
                     intent.putExtra(MyConstant.buiding, mHouseDetail.getBuiding());
+                    intent.putExtra(MyConstant.floor, mHouseDetail.getFloor());
                     setResult(101, intent);
                     finish();
                 }else{

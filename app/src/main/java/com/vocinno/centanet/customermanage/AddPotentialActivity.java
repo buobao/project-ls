@@ -201,6 +201,14 @@ public class AddPotentialActivity extends OtherBaseActivity {
 					MethodsExtra.toast(mContext,"手机号码格式不正确");
 					return;
 				}
+
+				if (isSameTel == 0) {
+					MethodsExtra.toast(mContext, "手机号码请查重");
+					return;
+				} else if (isSameTel == 2) {
+					MethodsExtra.toast(mContext, "手机号码重复");
+					return;
+				}
 				// 上传数据
 				Loading.show(this);
 				URL= NetWorkConstant.PORT_URL+ NetWorkMethod.addPotential;
@@ -353,7 +361,7 @@ public class AddPotentialActivity extends OtherBaseActivity {
 		}
 	}
 
-	/**************************判断号码是否重复后  隐藏dialog框****************************/
+	/**************************判断号码是否重复  隐藏dialog框****************************/
 	private void checkPhoneNum(String tel) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(NetWorkMethod.phone, tel);

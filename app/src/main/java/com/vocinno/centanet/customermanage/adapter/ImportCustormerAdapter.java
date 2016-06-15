@@ -14,8 +14,9 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
-import com.vocinno.centanet.model.CustomerItem;
+import com.vocinno.centanet.model.ImportCustomer;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,13 +26,13 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 
 	private ImportCustomerListActivity context;
 	private LayoutInflater mInflater;
-	private List<CustomerItem> customerList;
+	private List<ImportCustomer> customerList;
 	private boolean isCanClick=true;
-	public void setListData(List<CustomerItem> listCustomers) {
+	public void setListData(List<ImportCustomer> listCustomers) {
 		customerList = listCustomers;
 		notifyDataSetChanged();
 	}
-	public void addListData(List<CustomerItem> listCustomers) {
+	public void addListData(List<ImportCustomer> listCustomers) {
 		if(this.customerList==null||this.customerList.size()<=0){
 			this.customerList = listCustomers;
 		}else{
@@ -49,7 +50,7 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 	}
 
 	@Override
-	public CustomerItem getItem(int position) {
+	public ImportCustomer getItem(int position) {
 		return customerList.get(position);
 	}
 
@@ -73,8 +74,6 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 					R.layout.item_import_custormer, null);
 			holder.ll_import_view = (LinearLayout) convertView
 					.findViewById(R.id.ll_import_view);
-			holder.lllll = (LinearLayout) convertView
-					.findViewById(R.id.lllll);
 			holder.iv_import_jiantou = (ImageView) convertView
 					.findViewById(R.id.iv_import_jiantou);
 			holder.tv_import_time = (TextView) convertView
@@ -82,9 +81,9 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 			holder.tv_import_tel = (TextView) convertView
 					.findViewById(R.id.tv_import_tel);
 			holder.tv_import_date = (TextView) convertView
-					.findViewById(R.id.tv_import_tel);
+					.findViewById(R.id.tv_import_date);
 			holder.tv_import_source = (TextView) convertView
-					.findViewById(R.id.tv_import_tel);
+					.findViewById(R.id.tv_import_source);
 			holder.iv_import_wixiao = (ImageView) convertView
 					.findViewById(R.id.iv_import_wixiao);
 			holder.iv_import_jieshou = (ImageView) convertView
@@ -105,7 +104,12 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 			holder.tv_import_time.setText("今天2");
 			holder.ll_import_view.setVisibility(View.GONE);
 		}
-		final CustomerItem item = customerList.get(position);
+		ImportCustomer item = customerList.get(position);
+		holder.tv_import_tel.setText(item.getPhone());
+		holder.tv_import_source.setText(item.getImportSrc());
+		holder.tv_import_time.setText(new Date(item.getImportTime())+"");
+		holder.tv_import_date.setText(new Date(item.getImportTime())+"");
+		
 		return convertView;
 	}
 

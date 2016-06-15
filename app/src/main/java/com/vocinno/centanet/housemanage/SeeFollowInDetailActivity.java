@@ -203,6 +203,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 		Calendar c = Calendar.getInstance();//首先要获取日历对象
 		int mYear = c.get(Calendar.YEAR); // 获取当前年份
 		ArrayList<String> list=new ArrayList<String>();
+		list.add(mYear+1+"");
 		list.add(mYear+"");
 		list.add(mYear-1+"");
 		list.add(mYear - 2 + "");

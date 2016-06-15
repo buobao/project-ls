@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
@@ -42,7 +43,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeQianKe,woDeKeYuan, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit,rl_my_collection,rl_dian_collection;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit,rl_my_collection,rl_dian_collection,rl_my_daoruke;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,11 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     MethodsExtra.startActivity(mContext,
                             PotentialCustomerListActivity.class);
                     break;
+               //我的导入客
+               case R.id.rl_my_daoruke:
+                intent.setClass(mContext, ImportCustomerListActivity.class);
+                startActivity(intent);
+                break;
                 //抢公售
                 case R.id.rlyt_grab_house_main_page_slid_menus:
                     /*MethodsDeliverData.flag = 1;
@@ -221,6 +227,9 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
 
         rl_dian_collection = (RelativeLayout)findViewById(R.id.rl_dian_collection);
         rl_dian_collection.setOnClickListener(this);
+
+        rl_my_daoruke = (RelativeLayout)findViewById(R.id.rl_my_daoruke);
+        rl_my_daoruke.setOnClickListener(this);
     }
 
     public void showDialog(){

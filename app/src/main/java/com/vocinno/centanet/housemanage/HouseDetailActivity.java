@@ -297,6 +297,14 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 		tv_house_detail_niandai.setText(houseDetail.getYear());
 		tv_house_detail_date.setText(houseDetail.getDelDate());
 		tv_house_detail_pianqu.setText(houseDetail.getArea());
+		if(!houseDetail.isShowroomBtn()){
+			tv_house_detail_shihao.setText(houseDetail.getRoomNo());
+			tv_house_detail_shihao.setVisibility(View.VISIBLE);
+			tv_house_detail_louceng.setText(houseDetail.getFloor());
+			tv_house_detail_lookshihao.setVisibility(View.GONE);
+			tv_house_detail_name.setText(houseDetail.getAddr() + " " + houseDetail.getBuildingname());
+
+		}
 		BigDecimal bPrice;
 		if (HouseItem.ZU.equals(houseDetail.getDelegationType())) {
 			/**************************租房****************************/
@@ -559,7 +567,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 				JSReturn jReturnHouseDetail = MethodsJson.jsonToJsReturn(response,HouseDetail.class);
 				HouseDetail hDetail = (HouseDetail) jReturnHouseDetail.getObject();
 				if(jReturnHouseDetail.isSuccess()){
-					String roomNo= hDetail.getRoomNO();
+					String roomNo= hDetail.getRoomNo();
 					tv_house_detail_name.setText(houseDetail.getAddr() + " " + hDetail.getBuiding());
 					tv_house_detail_lookshihao.setVisibility(View.GONE);
 					tv_house_detail_louceng.setText(hDetail.getFloor());

@@ -20,7 +20,6 @@ public class HouseDetail {
 	private String tag = "";// 标签
 	private String activeTime = "";// 最近活动时间
 	private boolean showroom =false;// 是否显示楼层号
-	private String roomNO = "";// 楼层号
 	public String roomNo = "";// 楼层号
 	private String lat = "";// 经度
 	private String att = "";// 纬度
@@ -60,9 +59,6 @@ public class HouseDetail {
 		this.isqpct = isqpct;
 	}
 
-	public String getRoomNO() {
-		return roomNO;
-	}
 
 	public String getExplmsg() {
 		return explmsg;
@@ -80,8 +76,12 @@ public class HouseDetail {
 		this.delegationType = delegationType;
 	}
 
-	public void setRoomNO(String roomNO) {
-		this.roomNO = roomNO;
+	public String getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
 	}
 
 	public boolean getShowroom() {

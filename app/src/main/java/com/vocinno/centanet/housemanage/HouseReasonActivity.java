@@ -158,7 +158,7 @@ public class HouseReasonActivity extends OtherBaseActivity {
                 JSReturn jReturnHouseDetail = MethodsJson.jsonToJsReturn(response,HouseDetail.class);
                 HouseDetail mHouseDetail = (HouseDetail) jReturnHouseDetail.getObject();
                 if(jReturnHouseDetail.isSuccess()){
-                    intent.putExtra(MyConstant.roomNo, mHouseDetail.getRoomNO());
+                    intent.putExtra(MyConstant.roomNo, mHouseDetail.getRoomNo());
                     intent.putExtra(MyConstant.buiding, mHouseDetail.getBuiding());
                     intent.putExtra(MyConstant.floor, mHouseDetail.getFloor());
                     setResult(101, intent);

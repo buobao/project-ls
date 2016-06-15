@@ -1476,7 +1476,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                             listTags.add(strTags[i]);
                         }
                     }*/
-                    if ((listType == MyConstant.houseList&&(menuType==1||menuType==4))||((listType == MyConstant.myCollectionHouseList||listType == MyConstant.dianzCollectionHouseList)&&menuType==1)) {
+                    if ((listType == MyConstant.houseList&&(menuType==1||menuType==4))||((listType == MyConstant.myCollectionHouseList||listType == MyConstant.robGongHouseList||listType == MyConstant.dianzCollectionHouseList)&&menuType==1)) {
                         mHouseTagAdapter = new GridViewAdapter(mContext,
                                 CST_Wheel_Data
                                         .getListDatas(CST_Wheel_Data.WheelType.biaoQian2),

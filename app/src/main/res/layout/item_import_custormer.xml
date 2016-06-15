@@ -78,6 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="10:34"
+                    android:textColor="#848484"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,6 +97,7 @@
                         android:singleLine="true"
                         android:textSize="16sp"
                         android:text="13838455438"
+                        android:textColor="#3c3c3c"
                         />
 
                     <View
@@ -103,7 +105,7 @@
                         android:layout_height="20dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/bg_border"
+                        android:background="@color/house_tag_text_color"
                         />
 
                     <TextView
@@ -114,6 +116,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         tools:text="安居客"
+                        android:textColor="@color/darkgray2"
                         />
 
                     <ImageView

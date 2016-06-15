@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.vocinno.centanet.apputils.dialog.MyDialog;
@@ -217,4 +221,15 @@ public  class MyUtils {
         }
         return imgUrl;
     };
+    public static void setListHeight(Adapter mSearch, ListView mListView) {
+        int totalHeight = 0;
+        for (int i = 0, len = mSearch.getCount(); i < len; i++) {
+            View listItem = mSearch.getView(i, null, mListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = mListView.getLayoutParams();
+        params.height = totalHeight + (mListView.getDividerHeight() * (mSearch.getCount() - 1));
+        mListView.setLayoutParams(params);
+    }
 }

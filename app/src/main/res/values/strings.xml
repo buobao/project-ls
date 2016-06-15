@@ -108,6 +108,7 @@
     <string name="my_potential_customer">我的潜客</string>
     <string name="customertitle">抢公客</string>
     <string name="customer_daoruke">我的导入客</string>
+    <string name="choose_people">选择陪看人</string>
     <string name="lnvalid_reason">无效原因</string>
     <string name="input_name">输入客户姓名</string>
     <string name="contact_way">联系方式</string>

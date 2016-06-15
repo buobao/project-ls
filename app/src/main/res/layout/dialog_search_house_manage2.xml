@@ -73,7 +73,6 @@
                             android:hint="栋"
                             android:singleLine="true"
                             android:maxLength="5"
-                            android:inputType="number"
                             android:gravity="center"
                             android:background="@drawable/dialog_search_edit_bg_house_manage"
                             android:textColorHint="#D1D1D1"

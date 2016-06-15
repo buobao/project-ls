@@ -233,7 +233,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 			if((y % 4 == 0 && y % 100!=0)||y%400==0){
 				list.add("29");
 			}
-		}else if(m==4||m==6||m==9||m==12){
+		}else if(m==4||m==6||m==9||m==11){
 			list.add("29");
 			list.add("30");
 		}else{
@@ -268,7 +268,7 @@ public class SeeFollowInDetailActivity extends OtherBaseActivity {
 
 		wv_year.setWvWidth(wvWidth);
 		wv_year.setData(getYear(), (CustomUtils.getWindowWidth(this) - 150) / 5);
-		wv_year.setSelectItem(0);
+		wv_year.setSelectItem(1);
 
 		wv_month.setWvWidth(wvWidth2);
 		wv_month.setData(getMonth(), (CustomUtils.getWindowWidth(this) - 150) / 5);

@@ -12,6 +12,7 @@ import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.HouseMapList;
+import com.vocinno.centanet.model.ImportCustomer;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.model.KeyItem;
@@ -138,6 +139,21 @@ public final class MethodsJson {
 				ContactDetail contactDetail = new Gson().fromJson(jsonObject
 						.get("content").toString(), ContactDetail.class);
 				jsReturn.setObject(contactDetail);
+			} else if (clazz == ImportCustomer.class) {
+				List<Object> listTmp;
+				List<ImportCustomer> list;
+				listTmp = new Gson().fromJson(jsonObject.get("content")
+						.toString(), List.class);
+				list = new ArrayList<ImportCustomer>();
+				for (int i = 0; i < listTmp.size(); i++) {
+					LinkedTreeMap<String, ?> map = (LinkedTreeMap<String, ?>) listTmp
+							.get(i);
+					JSONObject jObject = new JSONObject(map);
+					ImportCustomer item = new Gson().fromJson(jObject.toString(),
+							ImportCustomer.class);
+					list.add(item);
+				}
+				jsReturn.setListDatas(list);
 			}else if (clazz == PinItem.class) {
 				PinItem pinItem = new Gson().fromJson(jsonObject
 						.get("content").toString(), PinItem.class);

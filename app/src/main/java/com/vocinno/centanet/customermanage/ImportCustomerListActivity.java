@@ -21,7 +21,6 @@ import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ImportCustormerAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.CustomerItem;
-import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
@@ -52,6 +51,8 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     private View mBack, mSubmit;
     private ImportCustormerAdapter mListAdapter;
     private List<EstateSearchItem> mSearchListData;
+    private List<CustomerItem> customerList;
+
     @Override
     public Handler setHandler() {
         return null;
@@ -80,16 +81,10 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     @Override
     public void initData() {
         mListAdapter = new ImportCustormerAdapter((ImportCustomerListActivity) mContext);
-        List<CustomerItem> customerList=new ArrayList<CustomerItem>();
-        CustomerItem aa=new CustomerItem();
-        aa.setName("name");
-        customerList.add(aa);
-        customerList.add(aa);
-        customerList.add(aa);
-        customerList.add(aa);
+        customerList = new ArrayList<CustomerItem>();
         mListAdapter.setListData(customerList);
         mListView.setAdapter(mListAdapter);
-//        getCustomerData();
+        getCustomerData();
     }
 
     private void getCustomerData() {
@@ -100,34 +95,28 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         getCustomerData(null, pageNo, isRefresh);
     }
 
-    private void getCustomerData(String customCode, int pageNo, final boolean isRefresh) {
+    private void getCustomerData(String phone, int pageNo, final boolean isRefresh) {
         if (isReFreshOrLoadMore) {
             isReFreshOrLoadMore = false;
         } else {
             Loading.showForExit(this, true);
         }
-        URL = NetWorkConstant.PORT_URL + NetWorkMethod.custlist;
+        URL = NetWorkConstant.PORT_URL + NetWorkMethod.importCustList;
         Map<String, String> map = new HashMap<String, String>();
-        if (null != customCode) {
-            map.put(NetWorkMethod.custCode, customCode);
+        if (null != phone) {
+            map.put(NetWorkMethod.importPhone, phone);
         }
         map.put(NetWorkMethod.page, pageNo + "");
         map.put(NetWorkMethod.pageSize, MyConstant.pageSize + "");
-        String type = NetWorkMethod.my;//搜索还有
-        map.put(NetWorkMethod.type, type);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-                mListView.stopRefresh();
-                mListView.stopLoadMore();
-                Loading.dismissLoading();
+                stopRefreshOrLoadMore();
             }
             @Override
             public void onResponse(String response) {
-                mListView.stopRefresh();
-                mListView.stopLoadMore();
-                Loading.dismissLoading();
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, CustomerList.class);
+                stopRefreshOrLoadMore();
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,null);
                 if (jsReturn.isSuccess()) {
                     if (jsReturn.getListDatas() != null && jsReturn.getListDatas().size() < MyConstant.pageSize) {
                         mListView.setPullLoadEnable(false);

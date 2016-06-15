@@ -55,7 +55,7 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.activity_import_custormer;
+        return R.layout.activity_choose_people;
     }
     @Override
     public void initView() {

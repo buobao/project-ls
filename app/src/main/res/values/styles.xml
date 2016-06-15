@@ -126,4 +126,16 @@
     <style name="key_item_text2">
         <item name="android:textColor">#333333</item>
     </style>
+
+
+    <!--ListView样式-->
+    <style name="centanet_listview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:cacheColorHint">@null</item>
+        <item name="android:divider">@color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:listSelector">@color/transparent</item>
+    </style>
 </resources>

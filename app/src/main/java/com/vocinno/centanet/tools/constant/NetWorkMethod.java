@@ -135,5 +135,8 @@ public class NetWorkMethod {
     /*****************pin管理********************/
     public static final String getPin="mobile/hou/key/pass";
     public static final String keyNum="keyNum";
+    /*****************导入客********************/
+    public static final String importCustList="mobile/cust/importCustList";
+    public static final String importPhone ="importPhone";
 
 }

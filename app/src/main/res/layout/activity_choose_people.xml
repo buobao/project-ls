@@ -1,0 +1,89 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_title_model1" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/slightGray"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+        <LinearLayout
+            android:id="@+id/llyt_search_dialogSearchHouseManage"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.85" >
+
+                <EditText
+                    android:id="@+id/et_search_dialogSearchHouseManage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dialog_search_edit_bg_house_manage"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical|left"
+                    android:hint="按用户姓名或者登录名搜索"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:textColorHint="#D1D1D1"
+                    android:drawableLeft="@drawable/h_manage_icon_search"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_close_dialogSearchHouseManage"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/close_search" />
+            </RelativeLayout>
+        </LinearLayout>
+        <ListView
+            android:id="@+id/lv_historySearch_dialogSearchHouseManage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@+id/llyt_search_dialogSearchHouseManage"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="12dp"
+            android:divider="@null"
+            android:scrollbarSize="0dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最近陪看人"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="10dp"
+            />
+        <ListView
+            android:id="@+id/lv_choose_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/lightgray"
+            android:dividerHeight="1px"
+            android:scrollbars="none"
+            >
+
+        </ListView>
+    </LinearLayout>
+</LinearLayout>

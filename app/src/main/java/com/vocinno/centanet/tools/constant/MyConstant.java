@@ -34,4 +34,5 @@ public class MyConstant {
     public final static String floor="floor";
     /************************钥匙--pin*****************************/
     public final static String keyObj="keyObj";
+    public final static String floor="floor";
 }

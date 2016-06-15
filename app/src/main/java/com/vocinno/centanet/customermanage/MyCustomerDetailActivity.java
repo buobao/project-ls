@@ -100,10 +100,13 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 
 	@Override
 	public void initData() {
+		//获取添加客户页面 跳转携带的code
 		mCusterCode=getIntent().getStringExtra(MyConstant.custCode);
+		//刷新客户信息
 		getData();
-		mImgViewPhone.setVisibility(View.VISIBLE);
 	}
+
+	/**************************访问网络 刷新客户信息****************************/
 	private void getData() {
 		Loading.showForExit(this);
 		URL = NetWorkConstant.PORT_URL + NetWorkMethod.custInfo;
@@ -130,7 +133,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	public void onClick(View v) {
 		super.onClick(v);
 		switch (v.getId()) {
-			case R.id.iv_add_demand_detail:
+			case R.id.iv_add_demand_detail:  //添加需求按钮
 				intent=new Intent(this, AddDemandActivity.class);
 				intent.putExtra(MyConstant.custCode, mCusterCode);
 				startActivityForResult(intent,101);
@@ -150,9 +153,8 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			case R.id.img_left_mhead1:
 				finish();
 				break;
-			case R.id.imgView_addTrack_customerDetailActivity:
+			case R.id.imgView_addTrack_customerDetailActivity: //客源跟进按钮
 				MethodsDeliverData.string = mCusterCode;
-				// listTracks
 				intent=new Intent();
 				intent.setClass(mContext, AddFollowInCustomerActivity.class);
 				intent.putExtra(MyConstant.custCode, mCusterCode);
@@ -213,7 +215,6 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 				MyUtils.removeActivityFromList();
 				MethodsExtra.startActivity(mContext, MessageListActivity.class);
 				break;*/
-
 			default:
 				break;
 		}
@@ -335,11 +336,12 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 
 	}
 
+	/**************************展示数据****************************/
 	private void getCustInfo(JSReturn jsReturn) {
 		mDetail = (CustomerDetail) jsReturn.getObject();
 		mTvCustomerCode.setText("编号：" + mDetail.getCustCode());
 		mTvCustomerName.setText("姓名：" + mDetail.getName());
-		// 填充跟踪信息列表
+		// 填充客源跟进信息
 		listTracks = mDetail.getTracks();
 		if (listTracks != null && listTracks.size() >= 1) {
             adapter = new CustomerDetailAdapter(mContext, listTracks);
@@ -363,6 +365,9 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			tv_area_custdetail.setText("面积：" + req.getAcreage());// 面积
             tv_money_customerDetailActivity.setText(req.getSelfDescription());
         }
+		//填充带看记录
+
+
 	}
 
 	@Override

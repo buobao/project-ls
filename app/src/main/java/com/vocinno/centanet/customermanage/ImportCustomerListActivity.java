@@ -26,6 +26,7 @@ import com.vocinno.centanet.myinterface.ImportCustInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -36,8 +37,7 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     private ImportCustormerAdapter mListAdapter;
     private List<EstateSearchItem> mSearchListData;
     private List<ImportCustomer> customerList;
-
+    private List<String> titleList;
     @Override
     public Handler setHandler() {
         return null;
@@ -127,9 +127,11 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
                         mListView.setPullLoadEnable(true);
                     }
                     if (isRefresh) {
+                        addTitle(jsReturn.getListDatas());
                         mListAdapter.setListData(jsReturn.getListDatas());
                     } else {
                         page++;
+                        addTitle(jsReturn.getListDatas());
                         mListAdapter.addListData(jsReturn.getListDatas());
                     }
                 } else {
@@ -139,12 +141,48 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         });
     }
 
+    public void addTitle(List list){
+        if(titleList==null){
+            titleList=new ArrayList<String>();
+        }
+        ImportCustomer importCustomer;
+        for (int i = 0; i < list.size(); i++) {
+            importCustomer= (ImportCustomer) list.get(i);
+            int type=MyUtils.compareNowDate(new Date(importCustomer.getImportTime()));
+            if(type==0){//今天
+                if(!titleList.contains("0")){
+                    titleList.add("0");
+                    importCustomer.setTitle(MyConstant.today);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "HH:mm"));
+            }else if(type==1){//昨天
+                if(!titleList.contains("1")){
+                    titleList.add("1");
+                    importCustomer.setTitle(MyConstant.yesterday);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "HH:mm"));
+            }else if(type==2){//前天
+                if(!titleList.contains("2")){
+                    titleList.add("2");
+                    importCustomer.setTitle(MyConstant.before_yesterday);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "HH:mm"));
+            }else{//更早
+                if(!titleList.contains("3")){
+                    titleList.add("3");
+                    importCustomer.setTitle(MyConstant.before_more_yesterday);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "MM-dd HH:mm"));
+            }
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case MyConstant.REFRESH:
                 page = 2;
+                titleList.clear();
                 getCustomerData();
                 break;
         }
@@ -176,6 +214,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     public void onRefresh() {
         isReFreshOrLoadMore = true;
         page = 2;
+        titleList.clear();
         getCustomerData();
     }
 
@@ -240,28 +279,6 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         getCustomerData(editString.toString().trim(), 1, true);
         mSearchDialog.dismiss();
     }
-    private void setDateSort(List list) {
-        Collections.sort(list, new Comparator() {
-            @Override
-            public int compare(Object lhs, Object rhs) {
-                ImportCustomer item1 = (ImportCustomer) lhs;
-                ImportCustomer item2 = (ImportCustomer) rhs;
-                int i = (item1.getImportTime()+"").compareTo(item2.getImportTime()+"");
-                /*if (i == 0) {
-                    int j = item1.getImportTime().compareTo(item2.getStartDate());
-                    if (j == 0) {
-                        int k = item1.getEndDate().compareTo(item2.getEndDate());
-                        if (k == 0) {
-                            return item1.getRmdCustTime().compareTo(item2.getRmdCustTime());
-                        }
-                        return k;
-                    }
-                    return j;
-                }*/
-                return i;
-            }
-        });
-    }
     @Override
     public void importCustAccept(final int position,String id,final SwipeLayout swipeLayout) {
         intent.setClass(this,AddDemandActivity.class);
@@ -283,6 +300,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
             public void onResponse(String response) {
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,JSContent.class);
                 if(jsReturn.isSuccess()){
+                    titleList.clear();
                     JSContent content = (JSContent)jsReturn.getObject();
                     if(content.isSuccess()){
                         getCustomerData();

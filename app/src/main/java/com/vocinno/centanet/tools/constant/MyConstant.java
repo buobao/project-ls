@@ -37,4 +37,9 @@ public class MyConstant {
     public final static String floor="floor";
     /************************钥匙--pin*****************************/
     public final static String keyObj="keyObj";
+    /************************导入客*****************************/
+    public final static String today="今天";
+    public final static String yesterday="昨天";
+    public final static String before_yesterday="前天";
+    public final static String before_more_yesterday ="更早";
 }

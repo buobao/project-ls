@@ -17,7 +17,6 @@ import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.model.ImportCustomer;
 import com.vocinno.centanet.myinterface.ImportCustInterface;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -160,10 +159,15 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 		}else{
 			holder.tv_import_time.setText("今天2");
 		}*/
+		if(item.getTitle()!=null&&item.getTitle().toString().trim().length()>0){
+			ll_import_title.setVisibility(View.VISIBLE);
+			tv_import_time.setText(item.getTitle());
+		}else{
+			ll_import_title.setVisibility(View.GONE);
+		}
 		tv_import_tel.setText(item.getPhone());
-		tv_import_source.setText(item.getImportSrc()+"==="+position+"==="+item.getPkid());
-		tv_import_time.setText(new Date(item.getImportTime())+"");
-		tv_import_date.setText(new Date(item.getImportTime())+"");
+		tv_import_date.setText(item.getFormatDate());
+		tv_import_source.setText(item.getImportSrc());//+"==="+position+"==="+item.getPkid()
 
 	}
 

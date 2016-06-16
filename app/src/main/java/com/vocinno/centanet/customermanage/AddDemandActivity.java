@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -441,9 +442,11 @@ public class AddDemandActivity extends OtherBaseActivity {
                 checkOpenOrClose(cb_flag, il_place_demand.getId());
                 break;
             case R.id.rl_pianqu_demand:
-                if(mapPianQu==null||mapPianQu.size()<=0){
+                if(mapPianQu==null){
                     MyToast.showToast("所选区域无对应片区!");
-                }else{
+                }else if(TextUtils.isEmpty(tv_changePlace_demand.getText().toString())){
+                    MyToast.showToast("请先选择区域!");
+                }else {
                     cb_flag = !cb_pianqu_demand.isChecked();
                     cb_pianqu_demand.setChecked(cb_flag);
                     il_pianqu_demand.setVisibility(cb_flag ? View.VISIBLE : View.GONE);
@@ -525,7 +528,7 @@ public class AddDemandActivity extends OtherBaseActivity {
         map.put(NetWorkMethod.reqType,reqType);
         map.put(NetWorkMethod.fromToRoom  ,fangXing);
         map.put(NetWorkMethod.distCode ,place);
-        map.put(NetWorkMethod.area ,pianQu==null?"":pianQu);
+        map.put(NetWorkMethod.area ,pianQu==null?"0":pianQu);
         map.put(NetWorkMethod.acreage,area);
         map.put(NetWorkMethod.other, xuQiu);
         map.put(NetWorkMethod.price, price);

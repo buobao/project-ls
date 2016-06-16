@@ -21,6 +21,7 @@ import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -514,31 +515,16 @@ public class AddDemandActivity extends OtherBaseActivity {
         map.put(NetWorkMethod.acreage,area);
         map.put(NetWorkMethod.other, xuQiu);
         map.put(NetWorkMethod.price, price);
-//        map.put(NetWorkMethod.token, myApp.getToken());
-        showDialog();
-        /*new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    dismissDialog();
-                    String returnStr= HttpRequest.httpClientByPost(URL, map);
-                    Log.i("returnStr", "returnStr"+returnStr);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return ;
-                }
-            }
-        }.start();*/
+        Loading.show(this);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-                dismissDialog();
+                Loading.dismissLoading();
             }
 
             @Override
             public void onResponse(String response) {
-                dismissDialog();
+                Loading.dismissLoading();
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
                 MyToast.showToast(jsReturn.getMsg());
                 if (jsReturn.isSuccess()) {

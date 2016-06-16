@@ -143,7 +143,7 @@ public class ScrollTagView extends HorizontalScrollView {
 	}
 	public void setSliding(boolean flag){
 		if(flag){
-			smoothScrollTo(720,0);
+			smoothScrollTo(mScreenW,0);
 		}else{
 			smoothScrollTo(0,0);
 		}
@@ -160,10 +160,10 @@ public class ScrollTagView extends HorizontalScrollView {
 			int y=(int)event.getY();
 			mCurrentPosX = mPosX-x;
 			mCurrentPosY = mPosY-y;
-			if(mCurrentPosX>0){
-				smoothScrollTo(720,0);
+			if(mCurrentPosX>10){
+				smoothScrollTo(mScreenW,0);
 				tsi.sliding(true);
-			}else if(mCurrentPosX<0){
+			}else if(mCurrentPosX<-10){
 				smoothScrollTo(0,0);
 				tsi.sliding(false);
 			}

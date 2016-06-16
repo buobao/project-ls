@@ -214,7 +214,6 @@ public class AddDemandActivity extends OtherBaseActivity {
                             // 选择所有   默认片区为全部
                             ArrayList<String> listStr = new ArrayList<>();
                             listStr.add("全部");
-                            mapPianQu.put("全部", "全部");
                             wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
                             wv_pianqu_demand.setSelectItem(0);
                             tv_changePianqu_demand.setText("全部");
@@ -301,6 +300,10 @@ public class AddDemandActivity extends OtherBaseActivity {
                 mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
                 listStr.add(pq.getAreaName());
             }
+        }
+        if (listStr.size()==0){
+            listStr.add("全部");
+            tv_changePianqu_demand.setText("全部");
         }
         wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
         wv_pianqu_demand.setSelectItem(0);
@@ -431,7 +434,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 checkOpenOrClose(cb_flag, il_place_demand.getId());
                 break;
             case R.id.rl_pianqu_demand:
-                if(mapPianQu==null||mapPianQu.size()<=0){
+                if(mapPianQu==null){
                     MyToast.showToast("所选区域无对应片区!");
                 }else{
                     cb_flag = !cb_pianqu_demand.isChecked();
@@ -495,7 +498,7 @@ public class AddDemandActivity extends OtherBaseActivity {
     private void saveDemand() {
         String fangXing=wv_start_fangxing_demand.getSelectedText().replace("室","")+"-"+wv_end_fangxing_demand.getSelectedText().replace("室","");
         String place=CST_Wheel_Data.getCodeForArea(wv_place_demand.getSelectedText());
-        String pianQu=mapPianQu.get(wv_pianqu_demand.getSelectedText());
+        String pianQu= mapPianQu.get(wv_pianqu_demand.getSelectedText());
         String area=wv_start_area_demand.getSelectedText().replace("平米","")+"-"+wv_end_area_demand.getSelectedText().replace("平米","");
         String price;
         if("rent".equals(reqType)){
@@ -510,7 +513,7 @@ public class AddDemandActivity extends OtherBaseActivity {
         map.put(NetWorkMethod.reqType,reqType);
         map.put(NetWorkMethod.fromToRoom  ,fangXing);
         map.put(NetWorkMethod.distCode ,place);
-        map.put(NetWorkMethod.area ,pianQu);
+        map.put(NetWorkMethod.area ,pianQu==null?"":pianQu);
         map.put(NetWorkMethod.acreage,area);
         map.put(NetWorkMethod.other, xuQiu);
         map.put(NetWorkMethod.price, price);

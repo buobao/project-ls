@@ -441,7 +441,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 checkOpenOrClose(cb_flag, il_place_demand.getId());
                 break;
             case R.id.rl_pianqu_demand:
-                if(mapPianQu==null){
+                if(mapPianQu==null||mapPianQu.size()<=0){
                     MyToast.showToast("所选区域无对应片区!");
                 }else{
                     cb_flag = !cb_pianqu_demand.isChecked();

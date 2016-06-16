@@ -720,7 +720,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 		msg.description = "中原地产房源分享";
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-		bitmap.recycle();
+//		bitmap.recycle();
 		msg.thumbData =  baos.toByteArray();
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
 		req.transaction = "img"+String.valueOf(System.currentTimeMillis());

@@ -130,7 +130,10 @@ public  class MyUtils {
         }
     }
     public static String getFormatDate(Date date){
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        return getFormatDate(date,"yyyy-MM-dd");
+    }
+    public static String getFormatDate(Date date,String formatStr){
+        SimpleDateFormat sdf=new SimpleDateFormat(formatStr);
         try {
             String format=sdf.format(date);
             return format;
@@ -140,10 +143,12 @@ public  class MyUtils {
         }
     }
     public static String getFormatDate(long lDate){
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");
-        Date date=new Date(lDate);
+        return getFormatDate(lDate,"yyyy-MM-dd");
+    }
+    public static String getFormatDate(long lDate,String formatStr){
+        SimpleDateFormat sdf=new SimpleDateFormat(formatStr);
         try {
-            String format=sdf.format(date);
+            String format=sdf.format(new Date(lDate));
             return format;
         } catch (Exception e) {
             e.printStackTrace();

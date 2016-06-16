@@ -7,6 +7,8 @@ public class ImportCustomer {
 	private long importTime;//导入时间
 	private boolean isSuccess;
 	private String msg;
+	private String title;
+	private String formatDate;
 	public String getPkid() {
 		return pkid;
 	}
@@ -53,5 +55,21 @@ public class ImportCustomer {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getFormatDate() {
+		return formatDate;
+	}
+
+	public void setFormatDate(String formatDate) {
+		this.formatDate = formatDate;
 	}
 }

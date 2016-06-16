@@ -15,6 +15,7 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.model.ImportCustomer;
+import com.vocinno.centanet.myinterface.ImportCustInterface;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 	private LayoutInflater mInflater;
 	private List<ImportCustomer> customerList;
 	private boolean isCanClick=true;
+	private ImportCustInterface custInterface;
 	public void setListData(List<ImportCustomer> listCustomers) {
 		customerList = listCustomers;
 		notifyDataSetChanged();
@@ -40,9 +42,10 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 		}
 		notifyDataSetChanged();
 	}
-	public ImportCustormerAdapter(ImportCustomerListActivity mContext){
+	public ImportCustormerAdapter(ImportCustomerListActivity mContext,ImportCustInterface importCustInterface){
 		this.context = mContext;
 		this.mInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		custInterface=importCustInterface;
 	}
 	@Override
 	public int getCount() {
@@ -66,53 +69,24 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 
 	@Override
 	public View generateView(final int position, ViewGroup viewGroup) {
-		ViewHolder holder;
-		View convertView=null;
-		if (convertView == null) {
-			holder = new ViewHolder();
-			convertView = mInflater.inflate(
-					R.layout.item_import_custormer, null);
-			holder.ll_import_view = (LinearLayout) convertView
-					.findViewById(R.id.ll_import_view);
-			holder.iv_import_jiantou = (ImageView) convertView
-					.findViewById(R.id.iv_import_jiantou);
-			holder.tv_import_time = (TextView) convertView
-					.findViewById(R.id.tv_import_time);
-			holder.tv_import_tel = (TextView) convertView
-					.findViewById(R.id.tv_import_tel);
-			holder.tv_import_date = (TextView) convertView
-					.findViewById(R.id.tv_import_date);
-			holder.tv_import_source = (TextView) convertView
-					.findViewById(R.id.tv_import_source);
-			holder.iv_import_wixiao = (ImageView) convertView
-					.findViewById(R.id.iv_import_wixiao);
-			holder.iv_import_jieshou = (ImageView) convertView
-					.findViewById(R.id.iv_import_jieshou);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-		final SwipeLayout swipeLayout = (SwipeLayout)convertView.findViewById(getSwipeLayoutResourceId(position));
-		swipeLayout.addSwipeListener(swipListener());
-		holder.iv_import_jiantou.setOnClickListener(closeSwipe(swipeLayout));
-		holder.iv_import_wixiao.setOnClickListener(closeSwipe(swipeLayout));
-		holder.iv_import_jieshou.setOnClickListener(closeSwipe(swipeLayout));
-		if(position==0||position==2){
-			holder.tv_import_time.setText("今天");
-			holder.ll_import_view.setVisibility(View.VISIBLE);
-		}else{
-			holder.tv_import_time.setText("今天2");
-			holder.ll_import_view.setVisibility(View.GONE);
-		}
-		ImportCustomer item = customerList.get(position);
-		holder.tv_import_tel.setText(item.getPhone());
-		holder.tv_import_source.setText(item.getImportSrc());
-		holder.tv_import_time.setText(new Date(item.getImportTime())+"");
-		holder.tv_import_date.setText(new Date(item.getImportTime())+"");
-		
+		View convertView= mInflater.inflate(R.layout.item_import_custormer, null);
 		return convertView;
 	}
 
+	@NonNull
+	private View.OnClickListener importCustInvalid(final int type,final int position,final ImportCustomer item, final SwipeLayout swipeLayout) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(type==0){
+					custInterface.importCustInvalid(position,item.getPkid(), swipeLayout);
+				}else{
+					swipeLayout.close();
+					custInterface.importCustAccept(position,item.getPkid(), swipeLayout);
+				}
+			}
+		};
+	}
 	@NonNull
 	private SimpleSwipeListener swipListener() {
 		return new SimpleSwipeListener(){
@@ -144,24 +118,61 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 		};
 	}
 
+	private ViewHolder holder;
 	@Override
-	public void fillValues(int i, View view) {
-
-	}
-
-	public static class ViewHolder {
-		TextView tv_import_tel,tv_import_date,tv_import_source,tv_import_time;
-		LinearLayout ll_import_view,lllll;
-		ImageView iv_import_wixiao,iv_import_jieshou,iv_import_jiantou;
-	}
-	/*holder.lllll.setOnClickListener(new View.OnClickListener() {
+	public void fillValues(int position, View convertView) {
+		final ImportCustomer item = customerList.get(position);
+		 ll_import_title = (LinearLayout) convertView
+					.findViewById(R.id.ll_import_title);
+			 ll_import_view = (LinearLayout) convertView
+					.findViewById(R.id.ll_import_view);
+			iv_import_jiantou = (ImageView) convertView
+					.findViewById(R.id.iv_import_jiantou);
+			tv_import_time = (TextView) convertView
+					.findViewById(R.id.tv_import_time);
+			tv_import_tel = (TextView) convertView
+					.findViewById(R.id.tv_import_tel);
+			tv_import_date = (TextView) convertView
+					.findViewById(R.id.tv_import_date);
+			tv_import_source = (TextView) convertView
+					.findViewById(R.id.tv_import_source);
+			iv_import_wixiao = (ImageView) convertView
+					.findViewById(R.id.iv_import_wixiao);
+			iv_import_jieshou = (ImageView) convertView
+					.findViewById(R.id.iv_import_jieshou);
+		final SwipeLayout swipeLayout = (SwipeLayout)convertView.findViewById(getSwipeLayoutResourceId(position));
+		swipeLayout.addSwipeListener(swipListener());
+		iv_import_jiantou.setOnClickListener(closeSwipe(swipeLayout));
+		iv_import_wixiao.setOnClickListener(importCustInvalid(0,position, item, swipeLayout));
+		iv_import_jieshou.setOnClickListener(importCustInvalid(1,position, item, swipeLayout));
+		ll_import_view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (isCanClick) {
-					MyToast.showToast("=position=" + position);
 				} else {
 					swipeLayout.close();
 				}
 			}
-		});*/
+		});
+		/*if(position==0||position==2){
+			holder.tv_import_time.setText("今天");
+			holder.ll_import_title.setVisibility(View.VISIBLE);
+		}else{
+			holder.tv_import_time.setText("今天2");
+		}*/
+		tv_import_tel.setText(item.getPhone());
+		tv_import_source.setText(item.getImportSrc()+"==="+position+"==="+item.getPkid());
+		tv_import_time.setText(new Date(item.getImportTime())+"");
+		tv_import_date.setText(new Date(item.getImportTime())+"");
+
+	}
+
+	private TextView tv_import_tel,tv_import_date,tv_import_source,tv_import_time;
+	private LinearLayout ll_import_view,ll_import_title;
+	private ImageView iv_import_wixiao,iv_import_jieshou,iv_import_jiantou;
+	private static class ViewHolder {
+		TextView tv_import_tel,tv_import_date,tv_import_source,tv_import_time;
+		LinearLayout ll_import_view,ll_import_title;
+		ImageView iv_import_wixiao,iv_import_jieshou,iv_import_jiantou;
+	}
 }

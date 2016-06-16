@@ -1,12 +1,11 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
-
-    <include layout="@layout/header_title_model1"/>
-
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#FFFFFF"
+              android:orientation="vertical"
+    android:layout_marginTop="@dimen/head_model_height"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +14,6 @@
         >
 
         <LinearLayout
-            android:id="@+id/ll_choose_people_search"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginBottom="10dp"
@@ -23,8 +21,7 @@
             android:layout_marginRight="22dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/dialog_search_edit_bg_house_manage"
-            android:gravity="center_vertical"
-            >
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -33,16 +30,17 @@
                 android:layout_marginRight="11dp"
                 android:src="@drawable/searchg_g"/>
 
-            <TextView
-                android:id="@+id/et_choose_people_search"
+            <EditText
+                android:id="@+id/et_choose_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
-                android:hint="@string/search_choose_hit"
+                android:hint="按用户姓名或登录名搜索"
                 android:singleLine="true"
                 android:textColorHint="#BBBBBB"
                 android:textSize="14sp"
-                android:gravity="center_vertical"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
                 />
 
         </LinearLayout>
@@ -59,24 +57,13 @@
             android:scrollbarSize="0dp"
             android:visibility="gone"/>
     </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginLeft="22dp"
-            android:gravity="left|center_vertical"
-            android:text="最近陪看人"
-            android:textColor="#414141"
-            android:textSize="16sp"/>
-
         <ListView
-            android:id="@+id/lv_choose_people"
+            android:id="@+id/lv_choose_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/lightgray"

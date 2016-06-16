@@ -5,7 +5,8 @@ public class ImportCustomer {
 	private String importSrc;//数据来源
 	private String phone;//手机号码
 	private long importTime;//导入时间
-
+	private boolean isSuccess;
+	private String msg;
 	public String getPkid() {
 		return pkid;
 	}
@@ -36,5 +37,21 @@ public class ImportCustomer {
 
 	public void setImportTime(long importTime) {
 		this.importTime = importTime;
+	}
+
+	public boolean isSuccess() {
+		return isSuccess;
+	}
+
+	public void setIsSuccess(boolean isSuccess) {
+		this.isSuccess = isSuccess;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 }

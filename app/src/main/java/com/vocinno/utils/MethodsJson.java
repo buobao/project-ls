@@ -13,6 +13,7 @@ import com.vocinno.centanet.model.HouseDetail;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.HouseMapList;
 import com.vocinno.centanet.model.ImportCustomer;
+import com.vocinno.centanet.model.JSContent;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.model.KeyItem;
@@ -139,6 +140,10 @@ public final class MethodsJson {
 				ContactDetail contactDetail = new Gson().fromJson(jsonObject
 						.get("content").toString(), ContactDetail.class);
 				jsReturn.setObject(contactDetail);
+			} else if (clazz == JSContent.class) {
+				JSContent jsContent= new Gson().fromJson(jsonObject
+						.get("content").toString(), JSContent.class);
+				jsReturn.setObject(jsContent);
 			} else if (clazz == ImportCustomer.class) {
 				List<Object> listTmp;
 				List<ImportCustomer> list;

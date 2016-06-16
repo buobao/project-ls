@@ -442,7 +442,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 checkOpenOrClose(cb_flag, il_place_demand.getId());
                 break;
             case R.id.rl_pianqu_demand:
-                if(mapPianQu==null||mapPianQu.size()<=0){
+                if(mapPianQu==null){
                     MyToast.showToast("所选区域无对应片区!");
                 }else if(TextUtils.isEmpty(tv_changePlace_demand.getText().toString())){
                     MyToast.showToast("请先选择区域!");

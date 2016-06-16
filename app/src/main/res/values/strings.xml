@@ -100,6 +100,7 @@
     <!-- 客源管理 -->
     <string name="add_demand">添加需求</string>
     <string name="search_cust_hit">按姓名或手机号搜索</string>
+    <string name="search_choose_hit">按用户姓名或登录名搜索</string>
     <string name="customermanage">客源管理</string>
     <string name="addcustomer">添加客户</string>
     <string name="add_potential_customer">添加潜客</string>

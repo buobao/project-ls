@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
@@ -20,7 +20,9 @@ import com.vocinno.centanet.customermanage.adapter.ImportCustormerAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.ImportCustomer;
+import com.vocinno.centanet.model.JSContent;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.ImportCustInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
@@ -34,6 +36,8 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +48,7 @@ import java.util.Map;
  * @author Administrator
  */
 public class ImportCustomerListActivity extends OtherBaseActivity implements
-        IXListViewListener {
+        IXListViewListener ,ImportCustInterface {
     private Dialog mMenuDialog, mSearchDialog;
     private View mBack, mSubmit;
     private ImportCustormerAdapter mListAdapter;
@@ -78,7 +82,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
 
     @Override
     public void initData() {
-        mListAdapter = new ImportCustormerAdapter((ImportCustomerListActivity) mContext);
+        mListAdapter = new ImportCustormerAdapter((ImportCustomerListActivity) mContext,(ImportCustInterface)this);
         customerList = new ArrayList<ImportCustomer>();
         mListAdapter.setListData(customerList);
         mListView.setAdapter(mListAdapter);
@@ -111,6 +115,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
             public void onError(Request request, Exception e) {
                 stopRefreshOrLoadMore();
             }
+
             @Override
             public void onResponse(String response) {
                 stopRefreshOrLoadMore();
@@ -196,24 +201,6 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         mListView.setLayoutParams(params);
     }
 
-    private void showMenuDialog() {
-        mMenuDialog = new Dialog(mContext, R.style.Theme_dialog);
-        mMenuDialog.setContentView(R.layout.dialog_menu_customer_manage);
-        Window win = mMenuDialog.getWindow();
-        win.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        win.setGravity(Gravity.RIGHT | Gravity.TOP);
-        mMenuDialog.setCanceledOnTouchOutside(true);
-        mMenuDialog.show();
-        LinearLayout ll_search_customer = (LinearLayout) mMenuDialog
-                .findViewById(R.id.ll_search_customer);
-        ll_search_customer.setOnClickListener(this);
-        LinearLayout ll_add_customer = (LinearLayout) mMenuDialog
-                .findViewById(R.id.ll_add_customer);
-        ll_add_customer.setOnClickListener(this);
-        ll_add_customer.setVisibility(View.GONE);
-    }
-
     private static EditText mEtSearch;
     private TextView tv_import_search;
     private Button bt_import_clear;
@@ -249,7 +236,64 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
                     return;
                 }
             }
-        getCustomerData(editString.toString().trim(),1,true);
+        page=2;
+        getCustomerData(editString.toString().trim(), 1, true);
         mSearchDialog.dismiss();
+    }
+    private void setDateSort(List list) {
+        Collections.sort(list, new Comparator() {
+            @Override
+            public int compare(Object lhs, Object rhs) {
+                ImportCustomer item1 = (ImportCustomer) lhs;
+                ImportCustomer item2 = (ImportCustomer) rhs;
+                int i = (item1.getImportTime()+"").compareTo(item2.getImportTime()+"");
+                /*if (i == 0) {
+                    int j = item1.getImportTime().compareTo(item2.getStartDate());
+                    if (j == 0) {
+                        int k = item1.getEndDate().compareTo(item2.getEndDate());
+                        if (k == 0) {
+                            return item1.getRmdCustTime().compareTo(item2.getRmdCustTime());
+                        }
+                        return k;
+                    }
+                    return j;
+                }*/
+                return i;
+            }
+        });
+    }
+    @Override
+    public void importCustAccept(final int position,String id,final SwipeLayout swipeLayout) {
+        intent.setClass(this,AddDemandActivity.class);
+        intent.putExtra(MyConstant.isImportCust,true);
+        intent.putExtra(MyConstant.pkid,id);
+        startActivityForResult(intent, MyConstant.START_REQUEST);
+    }
+    public void importCustInvalid(final int position,String id,final SwipeLayout swipeLayout) {
+        Loading.show(this);
+        String URL=NetWorkConstant.PORT_URL+NetWorkMethod.importCustInvalid;
+        Map<String,String>map=new HashMap<String,String>();
+        map.put(NetWorkMethod.pkid, id);
+        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                stopRefreshOrLoadMore();
+            }
+            @Override
+            public void onResponse(String response) {
+                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,JSContent.class);
+                if(jsReturn.isSuccess()){
+                    JSContent content = (JSContent)jsReturn.getObject();
+                    if(content.isSuccess()){
+                        getCustomerData();
+                        swipeLayout.close();
+                    }
+                    MyToast.showToast(content.getMsg());
+                }else{
+                    stopRefreshOrLoadMore();
+                    MyToast.showToast(jsReturn.getMsg());
+                }
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.vocinno.centanet.customermanage;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,8 +9,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,7 +23,6 @@ import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.CustomerList;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.JSReturn;
-import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
@@ -48,6 +48,8 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
     private View mBack;
     private ImportCustormerAdapter mListAdapter;
     private List<EstateSearchItem> mSearchListData;
+    private LinearLayout ll_choose_people_search;
+//    private EditText et_choose_people_search;
     @Override
     public Handler setHandler() {
         return null;
@@ -64,6 +66,11 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
                 R.string.choose_people, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mBack.setOnClickListener(this);
+        ll_choose_people_search = (LinearLayout) findViewById(R.id.ll_choose_people_search);
+        ll_choose_people_search.setOnClickListener(this);
+
+//        et_choose_people_search = (EditText) findViewById(R.id.et_choose_people_search);
+//        et_choose_people_search.setOnClickListener(this);
     }
 
     @Override
@@ -118,18 +125,11 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.ll_search_customer:    //标题右侧Toast 关键词搜索
+            case R.id.ll_choose_people_search:
                 showSearchDialog();
-                mMenuDialog.dismiss();
                 break;
             case R.id.img_left_mhead1:        //标题右侧按钮
                 finish();
-                break;
-            case R.id.btn_close_dialogSearchHouseManage:
-                mEtSearch.setText("");
-                mSearch.setList(null);
-                mSearch.notifyDataSetChanged();
-                MyUtils.setListHeight(mSearch, searchListView);
                 break;
             default:
                 break;
@@ -168,39 +168,25 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
     }
 
     private ListView searchListView;
-    public static EditText mEtSearch;
+    public static EditText et_choose_search;
     private SearchAdapter mSearch;
 
     private void showSearchDialog() {
         mSearchDialog = new Dialog(mContext, R.style.Theme_dialog);
-        mSearchDialog.setContentView(R.layout.dialog_search_house_manage);
+        mSearchDialog.setContentView(R.layout.dialog_choose_search);
         Window win = mSearchDialog.getWindow();
         win.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         win.setGravity(Gravity.TOP);
         mSearchDialog.setCanceledOnTouchOutside(true);
-        searchListView = (ListView) mSearchDialog.findViewById(R.id.lv_historySearch_dialogSearchHouseManage);
+        searchListView = (ListView) mSearchDialog.findViewById(R.id.lv_choose_search);
         mSearch = new SearchAdapter(mContext,
                 new ArrayList<EstateSearchItem>());
         searchListView.setAdapter(mSearch);
 
-        mEtSearch = (EditText) mSearchDialog
-                .findViewById(R.id.et_search_dialogSearchHouseManage);
-        mEtSearch.setHint(getText(R.string.search_cust_hit));
-        Button mBtnSearch = (Button) mSearchDialog
-                .findViewById(R.id.btn_search_dialogSearchHouseManage);
-        Button mBtnClean = (Button) mSearchDialog
-                .findViewById(R.id.btn_close_dialogSearchHouseManage);
-        mBtnSearch.setOnClickListener(new NoDoubleClickListener() {
-            @Override
-            protected void onNoDoubleClick(View v) {
-                searchKeYuan(mEtSearch.getText().toString().trim());
-            }
-        });
-        mBtnClean.setOnClickListener(this);
-        // 根据mEtSearch得到的字符串去请求
-
-        mEtSearch.addTextChangedListener(new TextWatcher() {
+        et_choose_search = (EditText) mSearchDialog.findViewById(R.id.et_choose_search);
+        et_choose_search.setHint(getText(R.string.search_choose_hit));
+        et_choose_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
@@ -211,7 +197,7 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
 
             @Override
             public void afterTextChanged(Editable arg0) {
-//				searchKeYuan(arg0.toString().trim());
+                searchKeYuan(et_choose_search.getText().toString().trim());
             }
         });
 
@@ -222,14 +208,20 @@ public class ChoosePeopleActivity extends OtherBaseActivity  {
                 String custCode = mSearchListData.get(arg2).getCustCode();
                 mSearchDialog.dismiss();
                 getCustomerData(custCode, 1, true);
-                /*String reqparm = CST_JS.getJsonStringForCustomerList((isMyCustomerType ? CST_JS.JS_CustomerList_Type_My
-						: CST_JS.JS_CustomerList_Type_Public), custCode, 1, 20);
-				MethodsJni.callProxyFun(CST_JS.JS_ProxyName_CustomerList,
-						CST_JS.JS_Function_CustomerList_getList, reqparm);
-				showDialog();*/
             }
         });
         mSearchDialog.show();
+        showKeyBoard();
+    }
+    private void showKeyBoard() {
+        et_choose_search.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager inputManager =
+                        (InputMethodManager) et_choose_search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(et_choose_search, 0);
+            }
+        }, 100);
     }
 
     private void searchKeYuan(String editString) {

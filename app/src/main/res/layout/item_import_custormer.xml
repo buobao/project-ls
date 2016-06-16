@@ -7,7 +7,7 @@
               android:background="@color/white"
               android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/ll_import_view"
+        android:id="@+id/ll_import_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="30dp"
@@ -59,7 +59,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lllll"
+            android:id="@+id/ll_import_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

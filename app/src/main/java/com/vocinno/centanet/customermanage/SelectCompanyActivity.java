@@ -11,7 +11,7 @@ import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 public class SelectCompanyActivity extends OtherBaseActivity{
     @Override
     public int setContentLayoutId() {
-        return R.layout.activity_select_company;
+        return R.layout.dialog_choose_search;
     }
 
     @Override

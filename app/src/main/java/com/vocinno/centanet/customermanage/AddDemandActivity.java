@@ -19,8 +19,10 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.model.JSContent;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -52,7 +54,8 @@ public class AddDemandActivity extends OtherBaseActivity {
     private CheckBox cb_type_demand, cb_fangxing_demand, cb_place_demand, cb_pianqu_demand, cb_area_demand, cb_price_demand;
     private TextView tv_type_demand, tv_fangxing_demand, tv_changePlace_demand, tv_changePianqu_demand, tv_changeArea_demand, tv_changePrice_demand;
     private Button bt_fangxing_submit, bt_place_submit, bt_pianqu_submit, bt_area_submit, bt_price_submit;
-    private String custCode;
+    private String custCode,pkid;
+    private boolean isImportCust;
     private String reqType;
     private TextView tv_min_fangxing, tv_max_fangxing, tv_min_area, tv_max_area;
     private Map<String, String> mapPianQu = new HashMap<String, String>();
@@ -72,6 +75,10 @@ public class AddDemandActivity extends OtherBaseActivity {
         drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         intent=getIntent();
         custCode = intent.getStringExtra(MyConstant.custCode);
+        isImportCust = intent.getBooleanExtra(MyConstant.isImportCust,false);
+        if(isImportCust){
+            pkid = intent.getStringExtra(MyConstant.pkid);
+        }
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_demand, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mBack.setOnClickListener(this);
@@ -507,9 +514,14 @@ public class AddDemandActivity extends OtherBaseActivity {
             price=wv_start_price_demand.getSelectedText().replace("万","0000")+"-"+wv_end_price_demand.getSelectedText().replace("万","0000");
         }
         String xuQiu=et_otherInfo_demand.getText().toString();
-        URL=NetWorkConstant.PORT_URL+NetWorkMethod.addCustomerdelMobile;
         final Map<String,String>map=new HashMap<String,String>();
-        map.put(NetWorkMethod.custCode,custCode);
+        if(isImportCust){
+            URL=NetWorkConstant.PORT_URL+NetWorkMethod.importCustAccept;
+            map.put(NetWorkMethod.pkid,pkid);
+        }else{
+            URL=NetWorkConstant.PORT_URL+NetWorkMethod.addCustomerdelMobile;
+            map.put(NetWorkMethod.custCode,custCode);
+        }
         map.put(NetWorkMethod.reqType,reqType);
         map.put(NetWorkMethod.fromToRoom  ,fangXing);
         map.put(NetWorkMethod.distCode ,place);
@@ -517,36 +529,32 @@ public class AddDemandActivity extends OtherBaseActivity {
         map.put(NetWorkMethod.acreage,area);
         map.put(NetWorkMethod.other, xuQiu);
         map.put(NetWorkMethod.price, price);
-//        map.put(NetWorkMethod.token, myApp.getToken());
-        showDialog();
-        /*new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    dismissDialog();
-                    String returnStr= HttpRequest.httpClientByPost(URL, map);
-                    Log.i("returnStr", "returnStr"+returnStr);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return ;
-                }
-            }
-        }.start();*/
+        Loading.show(this);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-                dismissDialog();
+                Loading.dismissLoading();
             }
 
             @Override
             public void onResponse(String response) {
-                dismissDialog();
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
-                MyToast.showToast(jsReturn.getMsg());
-                if (jsReturn.isSuccess()) {
-                    setResult(MyConstant.REFRESH);
-                    finish();
+                Loading.dismissLoading();
+                JSReturn jsReturn;
+                if(isImportCust){
+                    jsReturn=MethodsJson.jsonToJsReturn(response, JSContent.class);
+                    JSContent jsContent =(JSContent) jsReturn.getObject();
+                    MyToast.showToast(jsContent.getMsg());
+                    if(jsContent.isSuccess()){
+                        setResult(MyConstant.REFRESH);
+                        finish();
+                    }
+                }else{
+                    jsReturn=MethodsJson.jsonToJsReturn(response, Object.class);
+                    MyToast.showToast(jsReturn.getMsg());
+                    if (jsReturn.isSuccess()) {
+                        setResult(MyConstant.REFRESH);
+                        finish();
+                    }
                 }
             }
         });

@@ -232,4 +232,5 @@ public  class MyUtils {
         params.height = totalHeight + (mListView.getDividerHeight() * (mSearch.getCount() - 1));
         mListView.setLayoutParams(params);
     }
+
 }

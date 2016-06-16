@@ -7,6 +7,8 @@ public class MyConstant {
     public final static int START_REQUEST=100;
     public final static int REFRESH=99;
     public final static int pageSize=20;
+    public final static String method_url="method_url";
+    public final static String isImportCust="isImportCust";
     public final static String isExit="isExit";
     public final static String isKeyHouse="isKeyHouse";
     public final static String isGongFang="isGongFang";
@@ -26,12 +28,13 @@ public class MyConstant {
     public final static String isMyCustomer="isMyCustomer";
     public final static String isGongKe="isGongKe";
     public final static String custCode="custCode";
+    public final static String pkid="pkid";//导入客id
     public final static String custType="custType";//0客源，1公客，2导入客
     /************************查看室号*****************************/
     public final static int addPic=200;
     public final static String roomNo="roomNo";
     public final static String buiding="buiding";
+    public final static String floor="floor";
     /************************钥匙--pin*****************************/
     public final static String keyObj="keyObj";
-    public final static String floor="floor";
 }

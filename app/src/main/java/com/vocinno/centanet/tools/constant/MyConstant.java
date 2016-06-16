@@ -26,6 +26,7 @@ public class MyConstant {
     public final static String isMyCustomer="isMyCustomer";
     public final static String isGongKe="isGongKe";
     public final static String custCode="custCode";
+    public final static String custType="custType";//0客源，1公客，2导入客
     /************************查看室号*****************************/
     public final static int addPic=200;
     public final static String roomNo="roomNo";

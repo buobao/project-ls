@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ImportCustormerAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.EstateSearchItem;
-import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.ImportCustomer;
 import com.vocinno.centanet.model.JSContent;
 import com.vocinno.centanet.model.JSReturn;
@@ -117,6 +115,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
             public void onError(Request request, Exception e) {
                 stopRefreshOrLoadMore();
             }
+
             @Override
             public void onResponse(String response) {
                 stopRefreshOrLoadMore();
@@ -202,24 +201,6 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         mListView.setLayoutParams(params);
     }
 
-    private void showMenuDialog() {
-        mMenuDialog = new Dialog(mContext, R.style.Theme_dialog);
-        mMenuDialog.setContentView(R.layout.dialog_menu_customer_manage);
-        Window win = mMenuDialog.getWindow();
-        win.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        win.setGravity(Gravity.RIGHT | Gravity.TOP);
-        mMenuDialog.setCanceledOnTouchOutside(true);
-        mMenuDialog.show();
-        LinearLayout ll_search_customer = (LinearLayout) mMenuDialog
-                .findViewById(R.id.ll_search_customer);
-        ll_search_customer.setOnClickListener(this);
-        LinearLayout ll_add_customer = (LinearLayout) mMenuDialog
-                .findViewById(R.id.ll_add_customer);
-        ll_add_customer.setOnClickListener(this);
-        ll_add_customer.setVisibility(View.GONE);
-    }
-
     private static EditText mEtSearch;
     private TextView tv_import_search;
     private Button bt_import_clear;
@@ -263,11 +244,11 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         Collections.sort(list, new Comparator() {
             @Override
             public int compare(Object lhs, Object rhs) {
-                HouseItem item1 = (HouseItem) lhs;
-                HouseItem item2 = (HouseItem) rhs;
-                int i = item1.getPlanDate().compareTo(item2.getPlanDate());
-                if (i == 0) {
-                    int j = item1.getStartDate().compareTo(item2.getStartDate());
+                ImportCustomer item1 = (ImportCustomer) lhs;
+                ImportCustomer item2 = (ImportCustomer) rhs;
+                int i = (item1.getImportTime()+"").compareTo(item2.getImportTime()+"");
+                /*if (i == 0) {
+                    int j = item1.getImportTime().compareTo(item2.getStartDate());
                     if (j == 0) {
                         int k = item1.getEndDate().compareTo(item2.getEndDate());
                         if (k == 0) {
@@ -276,7 +257,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
                         return k;
                     }
                     return j;
-                }
+                }*/
                 return i;
             }
         });
@@ -284,7 +265,8 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     @Override
     public void importCustAccept(final int position,String id,final SwipeLayout swipeLayout) {
         intent.setClass(this,AddDemandActivity.class);
-        intent.putExtra(MyConstant.custCode,id);
+        intent.putExtra(MyConstant.isImportCust,true);
+        intent.putExtra(MyConstant.pkid,id);
         startActivityForResult(intent, MyConstant.START_REQUEST);
     }
     public void importCustInvalid(final int position,String id,final SwipeLayout swipeLayout) {

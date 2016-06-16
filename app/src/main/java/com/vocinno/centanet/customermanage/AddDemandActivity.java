@@ -210,29 +210,39 @@ public class AddDemandActivity extends OtherBaseActivity {
                         tv_changePlace_demand.setText(quYu);
                         cb_place_demand.setChecked(false);
                         il_place_demand.setVisibility(View.GONE);
-                        Map<String, String> map = new HashMap<String, String>();
-                        String strCode = CST_Wheel_Data
-                                .getCodeForArea(quYu);
-                        map.put(NetWorkMethod.districtCode, strCode);
-                        String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
-                        showDialog();
-                        OkHttpClientManager.getAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
-                            @Override
-                            public void onError(Request request, Exception e) {
-                                dismissDialog();
-                            }
-
-                            @Override
-                            public void onResponse(String response) {
-                                dismissDialog();
-                                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PianQu.class);
-                                if(jsReturn.isSuccess()){
-                                    setPianQuData(jsReturn);
-                                }else {
-                                    MyToast.showToast(jsReturn.getMsg());
+                        if (wv_place_demand.getSelected() == 0 ) {
+                            // 选择所有   默认片区为全部
+                            ArrayList<String> listStr = new ArrayList<>();
+                            listStr.add("全部");
+                            mapPianQu.put("全部", "全部");
+                            wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
+                            wv_pianqu_demand.setSelectItem(0);
+                            tv_changePianqu_demand.setText("全部");
+                        }else{
+                            Map<String, String> map = new HashMap<String, String>();
+                            String strCode = CST_Wheel_Data
+                                    .getCodeForArea(quYu);
+                            map.put(NetWorkMethod.districtCode, strCode);
+                            String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
+                            showDialog();
+                            OkHttpClientManager.getAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
+                                @Override
+                                public void onError(Request request, Exception e) {
+                                    dismissDialog();
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onResponse(String response) {
+                                    dismissDialog();
+                                    JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PianQu.class);
+                                    if(jsReturn.isSuccess()){
+                                        setPianQuData(jsReturn);
+                                    }else {
+                                        MyToast.showToast(jsReturn.getMsg());
+                                    }
+                                }
+                            });
+                        }
                         break;
                     case 2://片区
                         tv_changePianqu_demand.setText(wv_pianqu_demand.getSelectedText());
@@ -450,6 +460,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 // 求租
                 reqType = "rent";
                 tv_type_demand.setText("求租");
+                tv_changePrice_demand.setText("");
                 wv_start_price_demand.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart), CustomUtils.getWindowWidth(this) / 2);
                 wv_start_price_demand.setEnabled(true);
                 wv_start_price_demand.setSelectItem(0);
@@ -466,6 +477,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 // 求购
                 reqType = "buy";
                 tv_type_demand.setText("求购");
+                tv_changePrice_demand.setText("");
                 wv_start_price_demand.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart), CustomUtils.getWindowWidth(this) / 2);
                 wv_start_price_demand.setEnabled(true);
                 wv_start_price_demand.setSelectItem(0);

@@ -20,7 +20,6 @@ import com.vocinno.centanet.customermanage.adapter.ImportCustormerAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.ImportCustomer;
-import com.vocinno.centanet.model.JSContent;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.ImportCustInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
@@ -177,18 +176,6 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         }
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case MyConstant.REFRESH:
-                page = 2;
-                titleList.clear();
-                getCustomerData();
-                break;
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -276,8 +263,20 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
                 }
             }
         page=2;
+        titleList.clear();
         getCustomerData(editString.toString().trim(), 1, true);
         mSearchDialog.dismiss();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case MyConstant.REFRESH:
+                page = 2;
+                titleList.clear();
+                getCustomerData();
+                break;
+        }
     }
     @Override
     public void importCustAccept(final int position,String id,final SwipeLayout swipeLayout) {
@@ -287,31 +286,8 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         startActivityForResult(intent, MyConstant.START_REQUEST);
     }
     public void importCustInvalid(final int position,String id,final SwipeLayout swipeLayout) {
-        Loading.show(this);
-        String URL=NetWorkConstant.PORT_URL+NetWorkMethod.importCustInvalid;
-        Map<String,String>map=new HashMap<String,String>();
-        map.put(NetWorkMethod.pkid, id);
-        OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
-            @Override
-            public void onError(Request request, Exception e) {
-                stopRefreshOrLoadMore();
-            }
-            @Override
-            public void onResponse(String response) {
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,JSContent.class);
-                if(jsReturn.isSuccess()){
-                    titleList.clear();
-                    JSContent content = (JSContent)jsReturn.getObject();
-                    if(content.isSuccess()){
-                        getCustomerData();
-                        swipeLayout.close();
-                    }
-                    MyToast.showToast(content.getMsg());
-                }else{
-                    stopRefreshOrLoadMore();
-                    MyToast.showToast(jsReturn.getMsg());
-                }
-            }
-        });
+        intent.setClass(this, InvalidReasonActivity.class);
+        intent.putExtra(MyConstant.pkid,id);
+        startActivityForResult(intent, MyConstant.START_REQUEST);
     }
 }

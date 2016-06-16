@@ -77,10 +77,10 @@ public class ImportCustormerAdapter extends BaseSwipeAdapter {
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				swipeLayout.close();
 				if(type==0){
 					custInterface.importCustInvalid(position,item.getPkid(), swipeLayout);
 				}else{
-					swipeLayout.close();
 					custInterface.importCustAccept(position,item.getPkid(), swipeLayout);
 				}
 			}

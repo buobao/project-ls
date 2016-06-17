@@ -85,6 +85,12 @@ public class OkHttpClientManager {
         Request request = buildPostRequest(url, params);
         deliveryResult(callback, request);
     }
+    private void _postJsonAsyn(String url, final ResultCallback callback,String json)
+    {
+        MyUtils.LogI(url);
+        Request request =jsonPostRequest(url, json);
+        deliveryResult(callback, request);
+    }
     private void requestForGet(String url, final ResultCallback callback)
     {
         Request request = buildGetRequest(url);
@@ -307,7 +313,12 @@ public class OkHttpClientManager {
     {
         getInstance()._postAsyn(url, callback, params);
     }
-
+    public static void postJsonAsyn(String url,Object object, final ResultCallback callback)
+    {
+        String result = new Gson().toJson(object);
+        MyUtils.LogI(result);
+        getInstance()._postJsonAsyn(url+NetWorkConstant.getStrToken(), callback,result);
+    }
 
     public static void postAsyn(String url, Map<String, String> params, final ResultCallback callback)
     {
@@ -541,17 +552,17 @@ public class OkHttpClientManager {
                     if (isException) {
                         MyToast.showToast("net work error");
                     } else {
-                        if("timeout".equalsIgnoreCase(e.getMessage())){
+                        if ("timeout".equalsIgnoreCase(e.getMessage())) {
                             MyToast.showToast("请求超时,请稍后再试");
-                        }else if(e instanceof ConnectException){
+                        } else if (e instanceof ConnectException) {
                             MyToast.showToast("请检查网络之后再试");
-                        }else if(e instanceof SocketTimeoutException){
-                            if(e.getMessage()!=null&&e.getMessage().indexOf("after")>=0){
+                        } else if (e instanceof SocketTimeoutException) {
+                            if (e.getMessage() != null && e.getMessage().indexOf("after") >= 0) {
                                 MyToast.showToast("请检查网络之后再试");
-                            }else{
+                            } else {
                                 MyToast.showToast("请求超时,请稍后再试");
                             }
-                        }else{
+                        } else {
                             MyToast.showToast("请检查网络之后再试");
                         }
                         /*if(e.getMessage().indexOf("unreachable")>=0){
@@ -607,6 +618,17 @@ public class OkHttpClientManager {
                 .url(url)
                 .post(requestBody)
                 .build();
+    }
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
+    private Request jsonPostRequest(String url,String json)
+    {
+        RequestBody body = RequestBody.create(JSON, json);
+        return new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+
     }
 
     public static abstract class ResultCallback<T>

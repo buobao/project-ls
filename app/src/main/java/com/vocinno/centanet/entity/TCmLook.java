@@ -4,8 +4,6 @@ package com.vocinno.centanet.entity;
  * T_CM_LOOK
  * @author yumin1  字段添加备注
  */
-import java.util.Date;
-
 public class TCmLook {
 	
 	/**
@@ -26,12 +24,12 @@ public class TCmLook {
     /**
 	 * 带看开始时间
 	 */
-    private Date   startTime;
+    private String   startTime;
     
     /**
 	 * 带看结束时间
 	 */
-    private Date   endTime;
+    private String   endTime;
     
     /**
 	 * 描述
@@ -66,7 +64,7 @@ public class TCmLook {
     /**
 	 * 录入时间
 	 */
-    private Date   createdTime;   
+    private String   createdTime;
     
     /**
 	 * 服务过程ID
@@ -99,19 +97,19 @@ public class TCmLook {
         this.confirmationNumber = confirmationNumber == null ? null : confirmationNumber.trim();
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -163,11 +161,11 @@ public class TCmLook {
         this.createdBy = createdBy == null ? null : createdBy.trim();
     }
 
-    public Date getCreatedTime() {
+    public String getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
     }
 

@@ -1,12 +1,13 @@
 package com.vocinno.centanet.entity;
 
 import java.math.BigDecimal;
+
 /**
  * 带看房源表
  * T_CM_LOOK_HOUSE
+ *
  * @author yumin1  字段添加备注
  */
-import java.util.Date;
 
 public class TCmLookHouse {
 
@@ -48,7 +49,7 @@ public class TCmLookHouse {
 	/**
 	 * 录入时间
 	 */
-	private Date createdTime;
+	private String createdTime;
 
 	/**
 	 * 客户报价
@@ -133,11 +134,11 @@ public class TCmLookHouse {
 		this.createdBy = createdBy == null ? null : createdBy.trim();
 	}
 
-	public Date getCreatedTime() {
+	public String getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(Date createdTime) {
+	public void setCreatedTime(String createdTime) {
 		this.createdTime = createdTime;
 	}
 

@@ -146,4 +146,11 @@ public class NetWorkMethod {
     /*****************导入客--接收********************/
     public static final String importCustAccept ="mobile/cust/importCustAccept";
 
+    /*************************添加带看**************************/
+    public static final String custLookAdd = "mobile/cust/custlookAdd";
+    public static final String confirmationNumber ="confirmationNumber"; //带看确认书编号
+    public static final String custlookTrackType ="custlookTrackType"; //房源类型
+    public static final String lookType ="lookType";  //回写房源
+
+
 }

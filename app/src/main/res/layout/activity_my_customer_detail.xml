@@ -379,6 +379,7 @@
                     android:textSize="14sp"/>
 
                 <ImageView
+                    android:id="@+id/iv_add_accompany"
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"

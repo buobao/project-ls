@@ -57,6 +57,8 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 	private static final int RESET_LISTVIEW_TRACK = 1001;
 	private boolean firstRefresh=true,robRefresh=true,returnRefresh=true,firstGetContent=true;//防止重复加载数据
 	private ImageView iv_add_demand_detail;
+	private ImageView mIvAddAccompany;
+
 	public MyCustomerDetailActivity() {
 	}
 
@@ -90,9 +92,13 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		mImgViewAddTrack = findViewById(R.id.imgView_addTrack_customerDetailActivity);
 		mImgViewPhone = (RelativeLayout) findViewById(R.id.imgView_phone_customerDetailActivity);
 
+		mIvAddAccompany = (ImageView) findViewById(R.id.iv_add_accompany); //添加陪看
+
 		mBackView.setOnClickListener(this);
 		mImgViewAddTrack.setOnClickListener(this);
 		mImgViewPhone.setOnClickListener(this);
+		mIvAddAccompany.setOnClickListener(this);
+
 
 		iv_add_demand_detail= (ImageView) findViewById(R.id.iv_add_demand_detail);
 		iv_add_demand_detail.setOnClickListener(this);
@@ -163,6 +169,11 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			case R.id.imgView_phone_customerDetailActivity:
 				firstGetContent=true;
 				getCustContactList();
+				break;
+			case R.id.iv_add_accompany:			//添加带看按钮
+				intent = new Intent();
+				intent.setClass(mContext,AddAccompanyActivity.class);
+				startActivity(intent);
 				break;
 			/*//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:

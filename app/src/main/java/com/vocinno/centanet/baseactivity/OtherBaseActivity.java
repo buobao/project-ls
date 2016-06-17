@@ -35,6 +35,8 @@ import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.zbar.lib.CaptureActivity;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2016/4/20.
  */
@@ -85,6 +87,7 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
         ll_left_menu=(LinearLayout)baseView.findViewById(R.id.ll_left_menu);
         ll_left_menu.addView(view);
         setContentView(baseView);
+        ButterKnife.bind(this);
         drawer_layout=(DrawerLayout)findViewById(R.id.drawer_layout);
         leftMenuView=findViewById(R.id.left_base_menu);
         setProgressLayout();

@@ -34,7 +34,7 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
     public View baseView=null;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan,woDeQianKe, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit,rl_my_collection,rl_dian_collection;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit,rl_my_collection,rl_dian_collection,rl_my_daoruke;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +106,9 @@ public abstract class HouseManagerBaseActivity extends FragmentActivity implemen
 
         rl_dian_collection = (RelativeLayout)findViewById(R.id.rl_dian_collection);
         rl_dian_collection.setOnClickListener(this);
+
+        rl_my_daoruke = (RelativeLayout)findViewById(R.id.rl_my_daoruke);
+        rl_my_daoruke.setOnClickListener(this);
     }
 
     public void showDialog(){

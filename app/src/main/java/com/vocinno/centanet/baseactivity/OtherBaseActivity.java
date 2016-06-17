@@ -16,6 +16,7 @@ import com.vocinno.centanet.apputils.AppApplication;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
@@ -67,7 +68,7 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
     public LinearLayout ll_left_menu;
     private RelativeLayout fuJinChuShou,fuJinChuZu, yueKanFangYuan,
             woDeChuShou,woDeChuZu,yaoShiGuanLi, woDeKeYuan,woDeQianKe, qiangGongShou,
-            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit;
+            qiangGongZu, qiangGongKe, shuPINMa, saoYiSao,woDeTiXing,ry_exit,rl_my_daoruke;
     /********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +147,9 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
 
         ry_exit = (RelativeLayout)findViewById(R.id.ry_exit);
         ry_exit.setOnClickListener(this);
+
+        rl_my_daoruke = (RelativeLayout)findViewById(R.id.rl_my_daoruke);
+        rl_my_daoruke.setOnClickListener(this);
     }
 
     @Override
@@ -273,6 +277,15 @@ public abstract class OtherBaseActivity extends FragmentActivity implements Http
                 intent.putExtra(MyConstant.isExit, true);
                 startActivity(intent);*/
                 MyUtils.showDialog(intent,this, UserLoginActivity.class);
+                break;
+            case R.id.rl_my_daoruke:
+                if(this.getClass().getName().equals(ImportCustomerListActivity.class.getName())){
+                    drawer_layout.closeDrawer(leftMenuView);
+                }else{
+                    MyUtils.removeActivityFromAllList();
+                    intent.setClass(mContext, ImportCustomerListActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

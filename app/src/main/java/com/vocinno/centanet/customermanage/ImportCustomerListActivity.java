@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
@@ -21,9 +21,11 @@ import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
 import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.ImportCustomer;
 import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.myinterface.ImportCustInterface;
 import com.vocinno.centanet.myinterface.NoDoubleClickListener;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -34,6 +36,7 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import com.vocinno.utils.view.refreshablelistview.XListView.IXListViewListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,13 +47,13 @@ import java.util.Map;
  * @author Administrator
  */
 public class ImportCustomerListActivity extends OtherBaseActivity implements
-        IXListViewListener {
+        IXListViewListener ,ImportCustInterface {
     private Dialog mMenuDialog, mSearchDialog;
     private View mBack, mSubmit;
     private ImportCustormerAdapter mListAdapter;
     private List<EstateSearchItem> mSearchListData;
     private List<ImportCustomer> customerList;
-
+    private List<String> titleList;
     @Override
     public Handler setHandler() {
         return null;
@@ -78,7 +81,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
 
     @Override
     public void initData() {
-        mListAdapter = new ImportCustormerAdapter((ImportCustomerListActivity) mContext);
+        mListAdapter = new ImportCustormerAdapter((ImportCustomerListActivity) mContext,(ImportCustInterface)this);
         customerList = new ArrayList<ImportCustomer>();
         mListAdapter.setListData(customerList);
         mListView.setAdapter(mListAdapter);
@@ -111,6 +114,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
             public void onError(Request request, Exception e) {
                 stopRefreshOrLoadMore();
             }
+
             @Override
             public void onResponse(String response) {
                 stopRefreshOrLoadMore();
@@ -122,9 +126,11 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
                         mListView.setPullLoadEnable(true);
                     }
                     if (isRefresh) {
+                        addTitle(jsReturn.getListDatas());
                         mListAdapter.setListData(jsReturn.getListDatas());
                     } else {
                         page++;
+                        addTitle(jsReturn.getListDatas());
                         mListAdapter.addListData(jsReturn.getListDatas());
                     }
                 } else {
@@ -134,17 +140,41 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case MyConstant.REFRESH:
-                page = 2;
-                getCustomerData();
-                break;
+    public void addTitle(List list){
+        if(titleList==null){
+            titleList=new ArrayList<String>();
+        }
+        ImportCustomer importCustomer;
+        for (int i = 0; i < list.size(); i++) {
+            importCustomer= (ImportCustomer) list.get(i);
+            int type=MyUtils.compareNowDate(new Date(importCustomer.getImportTime()));
+            if(type==0){//今天
+                if(!titleList.contains("0")){
+                    titleList.add("0");
+                    importCustomer.setTitle(MyConstant.today);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "HH:mm"));
+            }else if(type==1){//昨天
+                if(!titleList.contains("1")){
+                    titleList.add("1");
+                    importCustomer.setTitle(MyConstant.yesterday);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "HH:mm"));
+            }else if(type==2){//前天
+                if(!titleList.contains("2")){
+                    titleList.add("2");
+                    importCustomer.setTitle(MyConstant.before_yesterday);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "HH:mm"));
+            }else{//更早
+                if(!titleList.contains("3")){
+                    titleList.add("3");
+                    importCustomer.setTitle(MyConstant.before_more_yesterday);
+                }
+                importCustomer.setFormatDate(MyUtils.getFormatDate(importCustomer.getImportTime(), "MM-dd HH:mm"));
+            }
         }
     }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -171,6 +201,7 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     public void onRefresh() {
         isReFreshOrLoadMore = true;
         page = 2;
+        titleList.clear();
         getCustomerData();
     }
 
@@ -194,24 +225,6 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
         ViewGroup.LayoutParams params = mListView.getLayoutParams();
         params.height = totalHeight + (mListView.getDividerHeight() * (mSearch.getCount() - 1));
         mListView.setLayoutParams(params);
-    }
-
-    private void showMenuDialog() {
-        mMenuDialog = new Dialog(mContext, R.style.Theme_dialog);
-        mMenuDialog.setContentView(R.layout.dialog_menu_customer_manage);
-        Window win = mMenuDialog.getWindow();
-        win.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        win.setGravity(Gravity.RIGHT | Gravity.TOP);
-        mMenuDialog.setCanceledOnTouchOutside(true);
-        mMenuDialog.show();
-        LinearLayout ll_search_customer = (LinearLayout) mMenuDialog
-                .findViewById(R.id.ll_search_customer);
-        ll_search_customer.setOnClickListener(this);
-        LinearLayout ll_add_customer = (LinearLayout) mMenuDialog
-                .findViewById(R.id.ll_add_customer);
-        ll_add_customer.setOnClickListener(this);
-        ll_add_customer.setVisibility(View.GONE);
     }
 
     private static EditText mEtSearch;
@@ -249,7 +262,32 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
                     return;
                 }
             }
-        getCustomerData(editString.toString().trim(),1,true);
+        page=2;
+        titleList.clear();
+        getCustomerData(editString.toString().trim(), 1, true);
         mSearchDialog.dismiss();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case MyConstant.REFRESH:
+                page = 2;
+                titleList.clear();
+                getCustomerData();
+                break;
+        }
+    }
+    @Override
+    public void importCustAccept(final int position,String id,final SwipeLayout swipeLayout) {
+        intent.setClass(this,AddDemandActivity.class);
+        intent.putExtra(MyConstant.isImportCust,true);
+        intent.putExtra(MyConstant.pkid,id);
+        startActivityForResult(intent, MyConstant.START_REQUEST);
+    }
+    public void importCustInvalid(final int position,String id,final SwipeLayout swipeLayout) {
+        intent.setClass(this, InvalidReasonActivity.class);
+        intent.putExtra(MyConstant.pkid,id);
+        startActivityForResult(intent, MyConstant.START_REQUEST);
     }
 }

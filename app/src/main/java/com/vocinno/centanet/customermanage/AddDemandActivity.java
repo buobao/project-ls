@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,8 +20,10 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.cst.CST_Wheel_Data;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.model.JSContent;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.PianQu;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -52,7 +55,8 @@ public class AddDemandActivity extends OtherBaseActivity {
     private CheckBox cb_type_demand, cb_fangxing_demand, cb_place_demand, cb_pianqu_demand, cb_area_demand, cb_price_demand;
     private TextView tv_type_demand, tv_fangxing_demand, tv_changePlace_demand, tv_changePianqu_demand, tv_changeArea_demand, tv_changePrice_demand;
     private Button bt_fangxing_submit, bt_place_submit, bt_pianqu_submit, bt_area_submit, bt_price_submit;
-    private String custCode;
+    private String custCode,pkid;
+    private boolean isImportCust;
     private String reqType;
     private TextView tv_min_fangxing, tv_max_fangxing, tv_min_area, tv_max_area;
     private Map<String, String> mapPianQu = new HashMap<String, String>();
@@ -72,6 +76,10 @@ public class AddDemandActivity extends OtherBaseActivity {
         drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         intent=getIntent();
         custCode = intent.getStringExtra(MyConstant.custCode);
+        isImportCust = intent.getBooleanExtra(MyConstant.isImportCust,false);
+        if(isImportCust){
+            pkid = intent.getStringExtra(MyConstant.pkid);
+        }
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_demand, null);
         mBack = MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mBack.setOnClickListener(this);
@@ -210,29 +218,38 @@ public class AddDemandActivity extends OtherBaseActivity {
                         tv_changePlace_demand.setText(quYu);
                         cb_place_demand.setChecked(false);
                         il_place_demand.setVisibility(View.GONE);
-                        Map<String, String> map = new HashMap<String, String>();
-                        String strCode = CST_Wheel_Data
-                                .getCodeForArea(quYu);
-                        map.put(NetWorkMethod.districtCode, strCode);
-                        String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
-                        showDialog();
-                        OkHttpClientManager.getAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
-                            @Override
-                            public void onError(Request request, Exception e) {
-                                dismissDialog();
-                            }
-
-                            @Override
-                            public void onResponse(String response) {
-                                dismissDialog();
-                                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PianQu.class);
-                                if(jsReturn.isSuccess()){
-                                    setPianQuData(jsReturn);
-                                }else {
-                                    MyToast.showToast(jsReturn.getMsg());
+                        if (wv_place_demand.getSelected() == 0 ) {
+                            // 选择所有   默认片区为全部
+                            ArrayList<String> listStr = new ArrayList<>();
+                            listStr.add("全部");
+                            wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
+                            wv_pianqu_demand.setSelectItem(0);
+                            tv_changePianqu_demand.setText("全部");
+                        }else{
+                            Map<String, String> map = new HashMap<String, String>();
+                            String strCode = CST_Wheel_Data
+                                    .getCodeForArea(quYu);
+                            map.put(NetWorkMethod.districtCode, strCode);
+                            String url = NetWorkConstant.PORT_URL + NetWorkMethod.areas;
+                            showDialog();
+                            OkHttpClientManager.getAsyn(url, map, new OkHttpClientManager.ResultCallback<String>() {
+                                @Override
+                                public void onError(Request request, Exception e) {
+                                    dismissDialog();
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onResponse(String response) {
+                                    dismissDialog();
+                                    JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, PianQu.class);
+                                    if(jsReturn.isSuccess()){
+                                        setPianQuData(jsReturn);
+                                    }else {
+                                        MyToast.showToast(jsReturn.getMsg());
+                                    }
+                                }
+                            });
+                        }
                         break;
                     case 2://片区
                         tv_changePianqu_demand.setText(wv_pianqu_demand.getSelectedText());
@@ -291,6 +308,10 @@ public class AddDemandActivity extends OtherBaseActivity {
                 mapPianQu.put(pq.getAreaName(), "" + pq.getAreaCode());
                 listStr.add(pq.getAreaName());
             }
+        }
+        if (listStr.size()==0){
+            listStr.add("全部");
+            tv_changePianqu_demand.setText("全部");
         }
         wv_pianqu_demand.resetData(listStr, CustomUtils.getWindowWidth(AddDemandActivity.this));
         wv_pianqu_demand.setSelectItem(0);
@@ -421,9 +442,11 @@ public class AddDemandActivity extends OtherBaseActivity {
                 checkOpenOrClose(cb_flag, il_place_demand.getId());
                 break;
             case R.id.rl_pianqu_demand:
-                if(mapPianQu==null||mapPianQu.size()<=0){
+                if(mapPianQu==null){
                     MyToast.showToast("所选区域无对应片区!");
-                }else{
+                }else if(TextUtils.isEmpty(tv_changePlace_demand.getText().toString())){
+                    MyToast.showToast("请先选择区域!");
+                }else {
                     cb_flag = !cb_pianqu_demand.isChecked();
                     cb_pianqu_demand.setChecked(cb_flag);
                     il_pianqu_demand.setVisibility(cb_flag ? View.VISIBLE : View.GONE);
@@ -450,6 +473,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 // 求租
                 reqType = "rent";
                 tv_type_demand.setText("求租");
+                tv_changePrice_demand.setText("");
                 wv_start_price_demand.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.priceChuzuStart), CustomUtils.getWindowWidth(this) / 2);
                 wv_start_price_demand.setEnabled(true);
                 wv_start_price_demand.setSelectItem(0);
@@ -466,6 +490,7 @@ public class AddDemandActivity extends OtherBaseActivity {
                 // 求购
                 reqType = "buy";
                 tv_type_demand.setText("求购");
+                tv_changePrice_demand.setText("");
                 wv_start_price_demand.setData(CST_Wheel_Data.getListDatas(CST_Wheel_Data.WheelType.priceChushouStart), CustomUtils.getWindowWidth(this) / 2);
                 wv_start_price_demand.setEnabled(true);
                 wv_start_price_demand.setSelectItem(0);
@@ -483,7 +508,7 @@ public class AddDemandActivity extends OtherBaseActivity {
     private void saveDemand() {
         String fangXing=wv_start_fangxing_demand.getSelectedText().replace("室","")+"-"+wv_end_fangxing_demand.getSelectedText().replace("室","");
         String place=CST_Wheel_Data.getCodeForArea(wv_place_demand.getSelectedText());
-        String pianQu=mapPianQu.get(wv_pianqu_demand.getSelectedText());
+        String pianQu= mapPianQu.get(wv_pianqu_demand.getSelectedText());
         String area=wv_start_area_demand.getSelectedText().replace("平米","")+"-"+wv_end_area_demand.getSelectedText().replace("平米","");
         String price;
         if("rent".equals(reqType)){
@@ -492,46 +517,47 @@ public class AddDemandActivity extends OtherBaseActivity {
             price=wv_start_price_demand.getSelectedText().replace("万","0000")+"-"+wv_end_price_demand.getSelectedText().replace("万","0000");
         }
         String xuQiu=et_otherInfo_demand.getText().toString();
-        URL=NetWorkConstant.PORT_URL+NetWorkMethod.addCustomerdelMobile;
         final Map<String,String>map=new HashMap<String,String>();
-        map.put(NetWorkMethod.custCode,custCode);
+        if(isImportCust){
+            URL=NetWorkConstant.PORT_URL+NetWorkMethod.importCustAccept;
+            map.put(NetWorkMethod.pkid,pkid);
+        }else{
+            URL=NetWorkConstant.PORT_URL+NetWorkMethod.addCustomerdelMobile;
+            map.put(NetWorkMethod.custCode,custCode);
+        }
         map.put(NetWorkMethod.reqType,reqType);
         map.put(NetWorkMethod.fromToRoom  ,fangXing);
         map.put(NetWorkMethod.distCode ,place);
-        map.put(NetWorkMethod.area ,pianQu);
+        map.put(NetWorkMethod.area ,pianQu==null?"0":pianQu);
         map.put(NetWorkMethod.acreage,area);
         map.put(NetWorkMethod.other, xuQiu);
         map.put(NetWorkMethod.price, price);
-//        map.put(NetWorkMethod.token, myApp.getToken());
-        showDialog();
-        /*new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    dismissDialog();
-                    String returnStr= HttpRequest.httpClientByPost(URL, map);
-                    Log.i("returnStr", "returnStr"+returnStr);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return ;
-                }
-            }
-        }.start();*/
+        Loading.show(this);
         OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-                dismissDialog();
+                Loading.dismissLoading();
             }
 
             @Override
             public void onResponse(String response) {
-                dismissDialog();
-                JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
-                MyToast.showToast(jsReturn.getMsg());
-                if (jsReturn.isSuccess()) {
-                    setResult(MyConstant.REFRESH);
-                    finish();
+                Loading.dismissLoading();
+                JSReturn jsReturn;
+                if(isImportCust){
+                    jsReturn=MethodsJson.jsonToJsReturn(response, JSContent.class);
+                    JSContent jsContent =(JSContent) jsReturn.getObject();
+                    MyToast.showToast(jsContent.getMsg());
+                    if(jsContent.isSuccess()){
+                        setResult(MyConstant.REFRESH);
+                        finish();
+                    }
+                }else{
+                    jsReturn=MethodsJson.jsonToJsReturn(response, Object.class);
+                    MyToast.showToast(jsReturn.getMsg());
+                    if (jsReturn.isSuccess()) {
+                        setResult(MyConstant.REFRESH);
+                        finish();
+                    }
                 }
             }
         });

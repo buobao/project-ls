@@ -13,6 +13,7 @@ public class NetWorkConstant {
     //测试环境
 //    public static final String PORT_URL="http://61.152.255.241:8082/sales-web/";//测试环境
     public static final String PORT_URL="http://10.28.11.67:8082/sales-web/";//余敏
+//    public static final String PORT_URL="http://10.28.11.77:8082/sales-web/";//谭美玉
 //    public static final String PORT_URL="http://a.sh.centanet.com/sales-web/";//正式环境
     public static final int pageSize=20;
 
@@ -41,7 +42,16 @@ public class NetWorkConstant {
         }
         return null;
     }
-
+    public static String getStrToken(){
+        if(myApp.getToken()!=null){
+//            String empid=myApp.getEmpId();
+            String token=myApp.getToken();
+            if(token!=null){
+                return "?"+NetWorkMethod.token+"="+token;
+            }
+        }
+        return null;
+    }
     public static Map getPMap(){
         if(map==null){
             map=new HashMap<String,String>();

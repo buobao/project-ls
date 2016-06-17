@@ -138,6 +138,13 @@ public class NetWorkMethod {
     /*****************导入客********************/
     public static final String importCustList="mobile/cust/importCustList";
     public static final String importPhone ="importPhone";
+    /*****************导入客--失效********************/
+    public static final String importCustInvalid ="mobile/cust/importCustInvalid";
+    public static final String pkid ="pkid";
+    public static final String invalidReason ="invalidReason";
+
+    /*****************导入客--接收********************/
+    public static final String importCustAccept ="mobile/cust/importCustAccept";
 
     /*************************添加带看**************************/
     public static final String custLookAdd = "mobile/cust/custlookAdd";

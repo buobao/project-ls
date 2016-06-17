@@ -5,24 +5,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
 import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
+import com.vocinno.centanet.entity.ParamCustlookList;
+import com.vocinno.centanet.entity.TCmLook;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.keymanage.KeyGetInActivity;
 import com.vocinno.centanet.keymanage.KeyManageActivity;
 import com.vocinno.centanet.remind.MessageListActivity;
 import com.vocinno.centanet.tools.MyUtils;
+import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
+import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.user.UserLoginActivity;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.zbar.lib.CaptureActivity;
+
+import java.util.Date;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -122,7 +130,10 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                //我的导入客
                case R.id.rl_my_daoruke:
                 intent.setClass(mContext, ImportCustomerListActivity.class);
+//                intent.setClass(mContext, ChoosePeopleActivity.class);
                 startActivity(intent);
+
+//                   jsonPost();
                 break;
                 //抢公售
                 case R.id.rlyt_grab_house_main_page_slid_menus:
@@ -170,6 +181,28 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         if(drawer_layout.isDrawerOpen(leftMenuView)){
             drawer_layout.closeDrawer(leftMenuView);
         }
+    }
+
+    private void jsonPost() {
+        //mobile/cust/custlookAdd
+        String URL= NetWorkConstant.PORT_URL+"mobile/cust/custlookAdd";
+        ParamCustlookList paramCustlookList=new ParamCustlookList();
+        TCmLook tCmLook=new TCmLook();
+        tCmLook.setCreatedTime(MyUtils.getFormatDate(new Date()));
+        tCmLook.setRemark("Remark余敏");
+        tCmLook.setCustCode("C234243324");
+        paramCustlookList.settCmLook(tCmLook);
+
+        OkHttpClientManager.postJsonAsyn(URL, paramCustlookList, new OkHttpClientManager.ResultCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                Log.i("Request===", "Request" + e);
+            }
+            @Override
+            public void onResponse(String response) {
+                Log.i("onResponse===", "onResponse" + response);
+            }
+        });
     }
 
     private void setClickListener() {

@@ -17,6 +17,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.customermanage.MyCustomerDetailActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.model.MessageItem;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 
@@ -166,8 +167,10 @@ public class MessageListAdapter extends BaseAdapter {
 							@Override
 							public void onClick(View v) {
 								MethodsDeliverData.mDelCode = strCode;
-								MethodsExtra.startActivity(mContext,
-										HouseDetailActivity.class);
+								Intent intent=new Intent(mContext,HouseDetailActivity.class);
+								intent.putExtra(MyConstant.houseCode,strCode);
+								mContext.startActivity(intent);
+//								MethodsExtra.startActivity(mContext,HouseDetailActivity.class);
 							}
 						});
 				

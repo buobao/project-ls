@@ -17,7 +17,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.utils.MethodsJson;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -83,6 +85,12 @@ public class OkHttpClientManager {
     private void _postAsyn(String url, final ResultCallback callback, Param... params)
     {
         Request request = buildPostRequest(url, params);
+        deliveryResult(callback, request);
+    }
+    private void _postJsonAsyn(String url, final ResultCallback callback,String json)
+    {
+        MyUtils.LogI(url);
+        Request request =jsonPostRequest(url, json);
         deliveryResult(callback, request);
     }
     private void requestForGet(String url, final ResultCallback callback)
@@ -307,7 +315,12 @@ public class OkHttpClientManager {
     {
         getInstance()._postAsyn(url, callback, params);
     }
-
+    public static void postJsonAsyn(String url,Object object, final ResultCallback callback)
+    {
+        String result = new Gson().toJson(object);
+        MyUtils.LogI(result);
+        getInstance()._postJsonAsyn(url+NetWorkConstant.getStrToken(), callback,result);
+    }
 
     public static void postAsyn(String url, Map<String, String> params, final ResultCallback callback)
     {
@@ -537,21 +550,20 @@ public class OkHttpClientManager {
             @Override
             public void run() {
                 if (callback != null) {
-                    MyLoadDialog.dismissDialog();
                     if (isException) {
                         MyToast.showToast("net work error");
                     } else {
-                        if("timeout".equalsIgnoreCase(e.getMessage())){
+                        if ("timeout".equalsIgnoreCase(e.getMessage())) {
                             MyToast.showToast("请求超时,请稍后再试");
-                        }else if(e instanceof ConnectException){
+                        } else if (e instanceof ConnectException) {
                             MyToast.showToast("请检查网络之后再试");
-                        }else if(e instanceof SocketTimeoutException){
-                            if(e.getMessage()!=null&&e.getMessage().indexOf("after")>=0){
+                        } else if (e instanceof SocketTimeoutException) {
+                            if (e.getMessage() != null && e.getMessage().indexOf("after") >= 0) {
                                 MyToast.showToast("请检查网络之后再试");
-                            }else{
+                            } else {
                                 MyToast.showToast("请求超时,请稍后再试");
                             }
-                        }else{
+                        } else {
                             MyToast.showToast("请检查网络之后再试");
                         }
                         /*if(e.getMessage().indexOf("unreachable")>=0){
@@ -572,8 +584,17 @@ public class OkHttpClientManager {
             @Override
             public void run() {
                 if (callback != null) {
-                    MyLoadDialog.dismissDialog();
-                    callback.onResponse(object);
+                    try{
+                        JSReturn jsReturn = MethodsJson.jsonToJsReturn(object.toString(),Object.class);
+                        if(jsReturn.isSuccess()){
+                            callback.onResponse(object);
+                        }else{
+                            callback.onError(null,null);
+                            MyToast.showToast(jsReturn.getMsg());
+                        }
+                    }catch (Exception e){
+                        callback.onError(null,e);
+                    }
                 }
             }
         });
@@ -607,6 +628,17 @@ public class OkHttpClientManager {
                 .url(url)
                 .post(requestBody)
                 .build();
+    }
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
+    private Request jsonPostRequest(String url,String json)
+    {
+        RequestBody body = RequestBody.create(JSON, json);
+        return new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+
     }
 
     public static abstract class ResultCallback<T>

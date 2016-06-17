@@ -203,6 +203,9 @@ public  class MyUtils {
     public static void LogI(String d1,String d2) {
         Log.i("request==log-key["+d1,"]########["+d2+"]");
     }
+    public static void LogI(String d1) {
+        Log.i("request","json=="+d1+"");
+    }
     public static void showToast(Context context,String msg){
         if(context!=null){
             if(msg!=null&&msg.length()>0){

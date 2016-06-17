@@ -42,7 +42,16 @@ public class NetWorkConstant {
         }
         return null;
     }
-
+    public static String getStrToken(){
+        if(myApp.getToken()!=null){
+//            String empid=myApp.getEmpId();
+            String token=myApp.getToken();
+            if(token!=null){
+                return "?"+NetWorkMethod.token+"="+token;
+            }
+        }
+        return null;
+    }
     public static Map getPMap(){
         if(map==null){
             map=new HashMap<String,String>();

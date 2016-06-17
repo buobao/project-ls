@@ -2,7 +2,7 @@
 <manifest package="com.vocinno.centanet"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionCode="1"
-          android:versionName="2.0.1">
+          android:versionName="2.0.2">
 
     <uses-sdk
         android:minSdkVersion="11"

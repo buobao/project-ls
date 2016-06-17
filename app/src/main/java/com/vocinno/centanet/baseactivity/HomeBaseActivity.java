@@ -122,7 +122,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                //我的导入客
                case R.id.rl_my_daoruke:
                 intent.setClass(mContext, ImportCustomerListActivity.class);
-//                intent.setClass(mContext, ChoosePeopleActivity.class);
+//              intent.setClass(mContext, ChoosePeopleActivity.class);
                 startActivity(intent);
                 break;
                 //抢公售

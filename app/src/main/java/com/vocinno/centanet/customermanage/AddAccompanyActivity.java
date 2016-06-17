@@ -11,17 +11,19 @@ import android.widget.TextView;
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
-import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.entity.ParamCustlookList;
+import com.vocinno.centanet.entity.TCmLook;
+import com.vocinno.centanet.entity.TCmLookAccompany;
+import com.vocinno.centanet.entity.TCmLookHouse;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
-import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsExtra;
-import com.vocinno.utils.MethodsJson;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -107,27 +109,52 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             case R.id.tv_right_mhead1:
                 //显示Loading
                 Loading.show(this);
-                URL = NetWorkConstant.PORT_URL + NetWorkMethod.custLookAdd;
-                Map<String, String> map = new HashMap<String, String>();
 
-                String custCode = "";       //客户编码
+                String custCode = "";       //TODO:客户编码
                 String confirmationNumber = mEtConfirmNum.getText().toString(); //带看确认书编号
                 String startTime = mEtStartTime.getText().toString();   //开始时间
                 String endTime = mEtEndTime.getText().toString();       //结束时间
                 boolean isChecked = mCbWriteBack.isChecked();
-                String lookType = isChecked ? "1" : "0";    //是否回写房源
+                String custlookTrackType = isChecked ? "1" : "0";    //是否回写
+                String lookType = "";  //带看类型
                 String remark = mEtDescHouse.getText().toString();       //文字描述
 
+                ParamCustlookList paramCustlookList = new ParamCustlookList();
 
-                map.put(NetWorkMethod.custCode, custCode);
-                map.put(NetWorkMethod.confirmationNumber, confirmationNumber);
-                map.put(NetWorkMethod.startTime, startTime);
-                map.put(NetWorkMethod.endTime, endTime);
-                map.put(NetWorkMethod.lookType, lookType);
-                map.put(NetWorkMethod.remark, remark);
+                TCmLook tCmLook = new TCmLook();
+                tCmLook.setRemark("这是文字描述");
+                tCmLook.setStartTime("2011-09-09 12:22");
+                tCmLook.setEndTime("2016-09-09 12:22");
+                tCmLook.setLookType("20074002");
+                tCmLook.setCustCode("12345");
+                tCmLook.setConfirmationNumber("123123123");
 
+                List<TCmLookHouse> tCmLookHouses = new ArrayList<>();
+                TCmLookHouse tCmLookHouse = new TCmLookHouse();
+                tCmLookHouse.setHousedelCode("1111");
+                tCmLookHouse.setFilesId("11");
+                tCmLookHouse.setHouseId(1000000L);
+                tCmLookHouse.setFeedback("aaa");
+                tCmLookHouses.add(tCmLookHouse);
+                tCmLookHouses.add(tCmLookHouse);
 
-                OkHttpClientManager.getAsyn(URL, map, new OkHttpClientManager.ResultCallback<String>() {
+                List<TCmLookAccompany> tCmLookAccompanies = new ArrayList<>();
+                TCmLookAccompany tCmLookAccompany = new TCmLookAccompany();
+                tCmLookAccompany.setAccompanyPromise("0");
+                tCmLookAccompany.setAccompanyName("2222");
+                tCmLookAccompany.setAccompanyRole("22222");
+                tCmLookAccompany.setAccompanyUser("222222");
+                tCmLookAccompany.setAccompanyGroup("222222");
+                tCmLookAccompanies.add(tCmLookAccompany);
+                tCmLookAccompanies.add(tCmLookAccompany);
+
+                paramCustlookList.settCmLook(tCmLook);
+                paramCustlookList.settCmLookHouseList(tCmLookHouses);
+                paramCustlookList.settCmLookAccompanyList(tCmLookAccompanies);
+                paramCustlookList.setCustlookTrackType("0");
+
+                URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custLookAdd;
+                OkHttpClientManager.postJsonAsyn(URL, paramCustlookList, new OkHttpClientManager.ResultCallback<String>() {
                     @Override
                     public void onError(Request request, Exception e) {
                         Loading.dismissLoading();
@@ -135,16 +162,8 @@ public class AddAccompanyActivity extends OtherBaseActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        //隐藏Loading
                         Loading.dismissLoading();
-                        JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, Object.class);
-                        if (jsReturn.isSuccess()) {
-                            MethodsExtra.toast(mContext, jsReturn.getMsg());
-                            setResult(MyConstant.REFRESH);
-                            finish();
-                        } else {
-                            MethodsExtra.toast(mContext, jsReturn.getMsg());
-                        }
+                        MyUtils.LogI("------",response.toString());
                     }
                 });
                 break;

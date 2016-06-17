@@ -139,4 +139,11 @@ public class NetWorkMethod {
     public static final String importCustList="mobile/cust/importCustList";
     public static final String importPhone ="importPhone";
 
+    /*************************添加带看**************************/
+    public static final String custLookAdd = "mobile/cust/custlookAdd";
+    public static final String confirmationNumber ="confirmationNumber"; //带看确认书编号
+    public static final String custlookTrackType ="custlookTrackType"; //房源类型
+    public static final String lookType ="lookType";  //回写房源
+
+
 }

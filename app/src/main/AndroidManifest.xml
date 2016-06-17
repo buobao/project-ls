@@ -100,11 +100,20 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
         </activity>
+
+
+        <!-- 添加带看  -->
+        <activity android:name="com.vocinno.centanet.customermanage.AddAccompanyActivity"
+                  android:configChanges="orientation|keyboard|screenSize"
+                  android:screenOrientation="portrait"
+                  android:theme="@android:style/Theme.Light.NoTitleBar">
+        </activity>
+
 
         <!-- 主页模块 -->
         <activity

@@ -17,7 +17,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.utils.MethodsJson;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -548,7 +550,6 @@ public class OkHttpClientManager {
             @Override
             public void run() {
                 if (callback != null) {
-                    MyLoadDialog.dismissDialog();
                     if (isException) {
                         MyToast.showToast("net work error");
                     } else {
@@ -583,8 +584,17 @@ public class OkHttpClientManager {
             @Override
             public void run() {
                 if (callback != null) {
-                    MyLoadDialog.dismissDialog();
-                    callback.onResponse(object);
+                    try{
+                        JSReturn jsReturn = MethodsJson.jsonToJsReturn(object.toString(),Object.class);
+                        if(jsReturn.isSuccess()){
+                            callback.onResponse(object);
+                        }else{
+                            callback.onError(null,null);
+                            MyToast.showToast(jsReturn.getMsg());
+                        }
+                    }catch (Exception e){
+                        callback.onError(null,e);
+                    }
                 }
             }
         });

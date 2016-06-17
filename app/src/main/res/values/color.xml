@@ -11,6 +11,7 @@
     <color name="white">#FFFFFF</color>
     <color name="blue">#0000FF</color>
     <color name="lightgray">#F0F0F0</color>
+    <color name="divider_gray">#cccccc</color>
     <color name="lightblack">#ff202020</color>
     <color name="red">#FF0000</color>
     <color name="yuekan_bgcolor">#f1f1f1</color>

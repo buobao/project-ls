@@ -18,7 +18,6 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.adapter.ImportCustormerAdapter;
 import com.vocinno.centanet.housemanage.adapter.SearchAdapter;
-import com.vocinno.centanet.model.EstateSearchItem;
 import com.vocinno.centanet.model.ImportCustomer;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.myinterface.ImportCustInterface;
@@ -51,7 +50,6 @@ public class ImportCustomerListActivity extends OtherBaseActivity implements
     private Dialog mMenuDialog, mSearchDialog;
     private View mBack, mSubmit;
     private ImportCustormerAdapter mListAdapter;
-    private List<EstateSearchItem> mSearchListData;
     private List<ImportCustomer> customerList;
     private List<String> titleList;
     @Override

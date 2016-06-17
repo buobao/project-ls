@@ -152,5 +152,9 @@ public class NetWorkMethod {
     public static final String custlookTrackType ="custlookTrackType"; //房源类型
     public static final String lookType ="lookType";  //回写房源
 
+    /*************************陪看人搜索**************************/
+    public static final String custlookUser = "mobile/cust/custlookUser";
+    public static final String accompanyPerson = "accompanyPerson";
+
 
 }

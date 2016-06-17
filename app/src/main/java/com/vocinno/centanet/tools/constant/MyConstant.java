@@ -6,6 +6,7 @@ package com.vocinno.centanet.tools.constant;
 public class MyConstant {
     public final static int START_REQUEST=100;
     public final static int REFRESH=99;
+    public final static int CHOOSE_PEOPLE=105;
     public final static int pageSize=20;
     public final static String method_url="method_url";
     public final static String isImportCust="isImportCust";
@@ -42,4 +43,6 @@ public class MyConstant {
     public final static String yesterday="昨天";
     public final static String before_yesterday="前天";
     public final static String before_more_yesterday ="更早";
+    /************************陪看人*****************************/
+    public final static String choose_people="choose_people";
 }

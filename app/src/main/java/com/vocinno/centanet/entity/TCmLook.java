@@ -72,7 +72,7 @@ public class TCmLook {
     private Long   srvactId;
 
     /**
-     * 回写房源
+     * 房源类型  一手='20074002',二手带看='20074001'
      */
     private String lookType;
     

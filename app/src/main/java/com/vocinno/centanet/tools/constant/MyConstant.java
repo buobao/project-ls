@@ -42,4 +42,7 @@ public class MyConstant {
     public final static String yesterday="昨天";
     public final static String before_yesterday="前天";
     public final static String before_more_yesterday ="更早";
+    /*************************带看记录**************************/
+    public static final int accompanyCode = 201;
+
 }

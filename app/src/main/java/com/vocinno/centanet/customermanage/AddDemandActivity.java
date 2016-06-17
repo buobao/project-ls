@@ -528,7 +528,7 @@ public class AddDemandActivity extends OtherBaseActivity {
         map.put(NetWorkMethod.reqType,reqType);
         map.put(NetWorkMethod.fromToRoom  ,fangXing);
         map.put(NetWorkMethod.distCode ,place);
-        map.put(NetWorkMethod.area ,pianQu==null?"0":pianQu);
+        map.put(NetWorkMethod.area ,pianQu==null?"":pianQu);
         map.put(NetWorkMethod.acreage,area);
         map.put(NetWorkMethod.other, xuQiu);
         map.put(NetWorkMethod.price, price);

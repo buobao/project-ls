@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.vocinno.centanet.model.BorrowKey;
+import com.vocinno.centanet.model.ChoosePeople;
 import com.vocinno.centanet.model.ContactDetail;
 import com.vocinno.centanet.model.CustomerDetail;
 import com.vocinno.centanet.model.CustomerList;
@@ -118,6 +119,21 @@ public final class MethodsJson {
 					JSONObject jObject = new JSONObject(map);
 					KeyItem item = new Gson().fromJson(jObject.toString(),
 							KeyItem.class);
+					list.add(item);
+				}
+				jsReturn.setListDatas(list);
+			}else if (clazz == ChoosePeople.class) {
+				List<Object> listTmp;
+				List<ChoosePeople> list;
+				listTmp = new Gson().fromJson(jsonObject.get("content")
+						.toString(), List.class);
+				list = new ArrayList<ChoosePeople>();
+				for (int i = 0; i < listTmp.size(); i++) {
+					LinkedTreeMap<String, ?> map = (LinkedTreeMap<String, ?>) listTmp
+							.get(i);
+					JSONObject jObject = new JSONObject(map);
+					ChoosePeople item = new Gson().fromJson(jObject.toString(),
+							ChoosePeople.class);
 					list.add(item);
 				}
 				jsReturn.setListDatas(list);

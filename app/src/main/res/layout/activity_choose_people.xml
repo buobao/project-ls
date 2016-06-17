@@ -38,11 +38,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
+                android:gravity="center_vertical"
                 android:hint="@string/search_choose_hit"
                 android:singleLine="true"
                 android:textColorHint="#BBBBBB"
                 android:textSize="14sp"
-                android:gravity="center_vertical"
                 />
 
         </LinearLayout>
@@ -63,25 +63,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
         >
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="22dp"
             android:gravity="left|center_vertical"
             android:text="最近陪看人"
             android:textColor="#414141"
             android:textSize="16sp"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lightgray"
+            />
+
         <ListView
             android:id="@+id/lv_choose_people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:divider="@color/lightgray"
             android:dividerHeight="1px"
             android:scrollbars="none"
+            android:listSelector="@color/lightgray"
             >
         </ListView>
     </LinearLayout>

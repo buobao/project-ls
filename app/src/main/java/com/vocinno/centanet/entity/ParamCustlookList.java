@@ -43,7 +43,7 @@ public class ParamCustlookList {
      * 选中checkbox=1时，插入房源跟进，反之插入带看跟进
      * @return
      */
-    private String                 custlookTrackType;
+    private String                 custlookTrackType;   //一手='20074002',二手带看='20074001'
 
     /**
      * 约看编号

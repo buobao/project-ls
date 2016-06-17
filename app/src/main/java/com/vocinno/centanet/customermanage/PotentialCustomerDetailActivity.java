@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -55,6 +56,8 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
     private Drawable drawable;
     private static final int RESET_LISTVIEW_TRACK = 1001;
     private ImageView iv_add_demand_potential;
+    private boolean isRefreshPotentialCustomerList = false;
+
     @Override
     public Handler setHandler() {
         return null;
@@ -174,6 +177,10 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                 }
                 break;
             case R.id.img_left_mhead1:
+                if (isRefreshPotentialCustomerList){
+                    setResult(MyConstant.REFRESH);
+                    isRefreshPotentialCustomerList = false;
+                }
                 finish();
                 break;
             case R.id.imgView_addTrack_customerDetailActivity:
@@ -207,6 +214,7 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
                     JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
                             CustomerDetail.class);
                     if(jsReturn.isSuccess()){
+                        isRefreshPotentialCustomerList = true;
                         getPotentialInfo(jsReturn);
                     }else{
                         MethodsExtra.toast(mContext,jsReturn.getMsg());
@@ -301,6 +309,15 @@ public class PotentialCustomerDetailActivity extends OtherBaseActivity {
             tv_area_potential.setText( req.getAcreage());
             tv_xuqiu_qianke.setText( req.getSelfDescription());
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            if (isRefreshPotentialCustomerList)setResult(MyConstant.REFRESH);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

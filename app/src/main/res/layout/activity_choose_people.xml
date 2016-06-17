@@ -90,6 +90,7 @@
             android:divider="@color/lightgray"
             android:dividerHeight="1px"
             android:scrollbars="none"
+            android:listSelector="@color/lightgray"
             >
         </ListView>
     </LinearLayout>

@@ -63,7 +63,6 @@
             android:dividerHeight="1px"
             android:scrollbars="none"
             android:listSelector="@color/lightgray"
-            style="@style/Base.Widget.AppCompat.ListView.DropDown"
             >
         </ListView>
     </LinearLayout>

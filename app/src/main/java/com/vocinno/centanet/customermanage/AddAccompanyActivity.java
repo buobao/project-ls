@@ -1,11 +1,11 @@
 package com.vocinno.centanet.customermanage;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
@@ -18,6 +18,7 @@ import com.vocinno.centanet.entity.TCmLookHouse;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.constant.NetWorkMethod;
 import com.vocinno.utils.MethodsExtra;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by hewei26 on 2016/6/16.
@@ -50,11 +52,13 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             CheckBox mCbWriteBack;
     @Bind(R.id.et_desc_house)         //文字描述
             EditText mEtDescHouse;
-    @Bind(R.id.ll_addHouse)           //添加房源
-            LinearLayout mLlAddHouse;
+    @Bind(R.id.tv_addHouse)           //添加房源
+            TextView mTvAddHouse;
+
 
     private ImageView mBack;
     private TextView mSubmit;
+    private String lookType;    //房源类型  一手&二手
 
     @Override
     public int setContentLayoutId() {
@@ -64,12 +68,9 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     @Override
     public void initView() {
         //设置标题栏
-        mBack = (ImageView)MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
-        mSubmit = (TextView)MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
-        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_potential_customer, null);
-
-
-
+        mBack = (ImageView) MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+        mSubmit = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
+        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_accompany, null);
         mBack.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
     }
@@ -103,32 +104,38 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.iv_type_first:    //一手房源
+                mIvTypeFirst.setImageResource(R.drawable.c_manage_button_choose);
+                mIvTypeSecond.setImageResource(R.drawable.c_manage_button_unselected);
+                lookType = "20074002";
+                break;
+            case R.id.iv_type_second:   //二手房源
+                mIvTypeSecond.setImageResource(R.drawable.c_manage_button_choose);
+                mIvTypeFirst.setImageResource(R.drawable.c_manage_button_unselected);
+                lookType = "20074001";
+                break;
             case R.id.img_left_mhead1:
                 finish();
                 break;
             case R.id.tv_right_mhead1:
                 //显示Loading
                 Loading.show(this);
-
-                String custCode = "";       //TODO:客户编码
+                String custCode = getIntent().getStringExtra(MyConstant.custCode);  //客户编码
                 String confirmationNumber = mEtConfirmNum.getText().toString(); //带看确认书编号
                 String startTime = mEtStartTime.getText().toString();   //开始时间
                 String endTime = mEtEndTime.getText().toString();       //结束时间
-                boolean isChecked = mCbWriteBack.isChecked();
-                String custlookTrackType = isChecked ? "1" : "0";    //是否回写
-                String lookType = "";  //带看类型
+                String custlookTrackType = mCbWriteBack.isChecked() ? "1" : "0";    //是否回写 0&1
                 String remark = mEtDescHouse.getText().toString();       //文字描述
 
-                ParamCustlookList paramCustlookList = new ParamCustlookList();
-
+                //页面内容(必传)
                 TCmLook tCmLook = new TCmLook();
-                tCmLook.setRemark("这是文字描述");
-                tCmLook.setStartTime("2011-09-09 12:22");
-                tCmLook.setEndTime("2016-09-09 12:22");
-                tCmLook.setLookType("20074002");
-                tCmLook.setCustCode("12345");
-                tCmLook.setConfirmationNumber("123123123");
-
+                tCmLook.setRemark(remark);
+                tCmLook.setStartTime(startTime);
+                tCmLook.setEndTime(endTime);
+                tCmLook.setLookType(lookType);
+                tCmLook.setCustCode(custCode);
+                tCmLook.setConfirmationNumber(confirmationNumber);
+                //房源列表
                 List<TCmLookHouse> tCmLookHouses = new ArrayList<>();
                 TCmLookHouse tCmLookHouse = new TCmLookHouse();
                 tCmLookHouse.setHousedelCode("1111");
@@ -137,7 +144,7 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 tCmLookHouse.setFeedback("aaa");
                 tCmLookHouses.add(tCmLookHouse);
                 tCmLookHouses.add(tCmLookHouse);
-
+                //陪看人列表
                 List<TCmLookAccompany> tCmLookAccompanies = new ArrayList<>();
                 TCmLookAccompany tCmLookAccompany = new TCmLookAccompany();
                 tCmLookAccompany.setAccompanyPromise("0");
@@ -148,12 +155,13 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 tCmLookAccompanies.add(tCmLookAccompany);
                 tCmLookAccompanies.add(tCmLookAccompany);
 
+                ParamCustlookList paramCustlookList = new ParamCustlookList();
                 paramCustlookList.settCmLook(tCmLook);
                 paramCustlookList.settCmLookHouseList(tCmLookHouses);
                 paramCustlookList.settCmLookAccompanyList(tCmLookAccompanies);
-                paramCustlookList.setCustlookTrackType("0");
+                paramCustlookList.setCustlookTrackType(custlookTrackType);
 
-                URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custLookAdd;
+                URL = NetWorkConstant.PORT_URL + NetWorkMethod.custLookAdd;
                 OkHttpClientManager.postJsonAsyn(URL, paramCustlookList, new OkHttpClientManager.ResultCallback<String>() {
                     @Override
                     public void onError(Request request, Exception e) {
@@ -162,12 +170,24 @@ public class AddAccompanyActivity extends OtherBaseActivity {
 
                     @Override
                     public void onResponse(String response) {
+                        //隐藏Loading
                         Loading.dismissLoading();
-                        MyUtils.LogI("------",response.toString());
+                        MyUtils.LogI("------", response.toString());
+
+
+                        //返回客户信息页面前设置ResultCode
+                        setResult(MyConstant.accompanyCode);
+                        finish();
                     }
                 });
                 break;
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

@@ -48,7 +48,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
                     android:layout_toRightOf="@+id/tv_type_house"
-                    android:background="@drawable/c_manage_button_unselected"/>
+                    android:src="@drawable/c_manage_button_unselected"/>
 
                 <TextView
                     android:id="@+id/tv_type_first"
@@ -68,7 +68,7 @@
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="6dp"
                     android:layout_toRightOf="@+id/tv_type_first"
-                    android:background="@drawable/c_manage_button_unselected"/>
+                    android:src="@drawable/c_manage_button_unselected"/>
 
                 <TextView
                     android:id="@+id/tv_type_second"
@@ -337,13 +337,13 @@
 
 
                 <LinearLayout
-                    android:id="@+id/ll_addHouse"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="#F2F2F2"
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tv_addHouse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/add_house"

@@ -173,7 +173,8 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			case R.id.iv_add_accompany:			//添加带看按钮
 				intent = new Intent();
 				intent.setClass(mContext,AddAccompanyActivity.class);
-				startActivity(intent);
+				intent.putExtra(MyConstant.custCode, mCusterCode);
+				startActivityForResult(intent, 101);
 				break;
 			/*//钥匙管理
 			case R.id.rlyt_key_house_main_page_slid_menus:
@@ -259,10 +260,12 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			}
 		});
 	}
+	
+	/*************************从客源跟进和带看记录页面返回**************************/
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == MyConstant.REFRESH) {
+		if (resultCode == MyConstant.REFRESH || resultCode == MyConstant.accompanyCode) {  
 			URL= NetWorkConstant.PORT_URL+ NetWorkMethod.custInfo;
 			Map<String,String>map=new HashMap<String,String>();
 			map.put(NetWorkMethod.custCode,mCusterCode);
@@ -275,8 +278,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 				@Override
 				public void onResponse(String response) {
 					Loading.dismissLoading();
-					JSReturn jsReturn = MethodsJson.jsonToJsReturn(response,
-							CustomerDetail.class);
+					JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, CustomerDetail.class);
 					if(jsReturn.isSuccess()){
 						getCustInfo(jsReturn);
 					}
@@ -327,7 +329,6 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		try {
 			jsonObject = new JSONObject(strJson);
 			CustomerDetail customerDetail=(CustomerDetail)new Gson().fromJson(jsonObject.toString(),CustomerDetail.class);
-//			customerDetail.getContent();
 			return customerDetail;
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -376,7 +377,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 			tv_area_custdetail.setText("面积：" + req.getAcreage());// 面积
             tv_money_customerDetailActivity.setText(req.getSelfDescription());
         }
-		//填充带看记录
+		//TODO:填充带看记录
 
 
 	}

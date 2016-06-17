@@ -75,7 +75,9 @@ public class TCmLookHouse {
 	 * 带看房源详情页 陪看人姓名
 	 */
 	private String accompanyName;
-
+	/**
+	 * 图片列表id
+	 */
 	private String filesId;
 
 	public Long getPkid() {

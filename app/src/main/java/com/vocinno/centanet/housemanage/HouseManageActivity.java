@@ -40,6 +40,7 @@ import com.vocinno.centanet.apputils.selfdefineview.scrolltagviewradio.onScrollT
 import com.vocinno.centanet.baseactivity.HouseListBaseFragment;
 import com.vocinno.centanet.baseactivity.HouseManagerBaseActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.MyFragmentAdapter;
@@ -810,6 +811,12 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                 finish();
                 intent=new Intent();
                 intent.setClass(mContext, PotentialCustomerListActivity.class);
+                startActivity(intent);
+                break;
+            //导入客
+            case R.id.rl_my_daoruke:
+                finish();
+                intent.setClass(mContext, ImportCustomerListActivity.class);
                 startActivity(intent);
                 break;
             //抢公售

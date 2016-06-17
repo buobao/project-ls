@@ -771,7 +771,7 @@ public class AddCustomerActivity extends OtherBaseActivity implements View.OnTou
         String districtCode= CST_Wheel_Data.getCodeForArea(mWheelViewChoosePlace.getSelectedText());
         map.put(NetWorkMethod.districtCode, districtCode==null?"":districtCode);
         String pianQu=mapPianQu.get(mTvCustormerPianqu.getText().toString());
-        map.put(NetWorkMethod.area, pianQu==null?"0":pianQu);
+        map.put(NetWorkMethod.area, pianQu==null?"":pianQu);
         map.put(NetWorkMethod.acreage, mTvCustormerArea.getText().toString().replace("平米", ""));
         map.put(NetWorkMethod.price, price);
         map.put(NetWorkMethod.other, mEtOtherInfo.getText().toString());

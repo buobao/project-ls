@@ -69,8 +69,11 @@ public class TCmLook {
     /**
 	 * 服务过程ID
 	 */
-    private Long   srvactId; 
-    
+    private Long   srvactId;
+
+    /**
+     * 回写房源
+     */
     private String lookType;
     
     public Long getPkid() {

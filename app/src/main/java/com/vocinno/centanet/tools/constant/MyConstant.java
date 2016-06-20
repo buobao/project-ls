@@ -53,8 +53,9 @@ public class MyConstant {
     public static final int REQUEST_ADDSECOND = 102;
     public static final int RESULT_ADDFIRST = 201;
     public static final int RESULT_ADDSECOND = 202;
-    /*************************添加二手**************************/
+    /*************************添加一,二手**************************/
     public static final String addSecondHouse ="addSecondHouse";
+    public static final String addFirstHouse ="addFirstHouse";
 
     /*************************一手&二手 选择陪看人**************************/
     public static final int REQUEST_CHOOSE_PEOPLE = 301;

@@ -1283,7 +1283,9 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
                                     long arg3) {
                 searchId[viewPageIndex]=mSearchListData.get(arg2).getSearchId() + "";
                 searchType[viewPageIndex]=mSearchListData.get(arg2).getSearchType();
-                mEtSearch.setText(mSearchListData.get(arg2).getSearchName());
+                String searchText = mSearchListData.get(arg2).getSearchName();
+                mEtSearch.setText(searchText);
+                mEtSearch.setSelection(searchText.length());
                 ll_house_list.setVisibility(View.GONE);
                 mEtSearch.setBackgroundResource(R.drawable.dialog_search_edit_bg_house_manage);
                 isHiddenList=true;

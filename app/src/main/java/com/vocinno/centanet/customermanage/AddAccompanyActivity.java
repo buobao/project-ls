@@ -16,6 +16,7 @@ import com.vocinno.centanet.entity.ParamCustlookList;
 import com.vocinno.centanet.entity.TCmLook;
 import com.vocinno.centanet.entity.TCmLookAccompany;
 import com.vocinno.centanet.entity.TCmLookHouse;
+import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -31,6 +32,8 @@ import butterknife.Bind;
 
 /**
  * Created by hewei26 on 2016/6/16.
+ *
+ * 添加带看  根据选择类型跳转到 一手 & 二手房源
  */
 public class AddAccompanyActivity extends OtherBaseActivity {
 
@@ -120,11 +123,11 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 break;
             case R.id.tv_addHouse:      //添加房源
                 if(lookType=="20074002"){
-                    intent = new Intent(this,FirstHandHouseActivity.class);
+                    intent = new Intent(this,FirstHandHouseActivity.class);   //添加一手
                     startActivityForResult(intent,MyConstant.REQUEST_ADDFIRST);
                 }else if(lookType=="20074001"){
-                    intent = new Intent(this,SecondHandHouseActivity.class);
-                    startActivityForResult(intent,MyConstant.REQUEST_ADDSECOND);
+                    intent = new Intent(this,HouseManageActivity.class);      //房源列表
+                    startActivity(intent);
                 }
 
                 break;

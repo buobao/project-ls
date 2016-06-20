@@ -51,6 +51,9 @@ public class MyConstant {
     public static final int REQUEST_ADDSECOND = 102;
     public static final int RESULT_ADDFIRST = 201;
     public static final int RESULT_ADDSECOND = 202;
+    /*************************添加二手**************************/
+    public static final String addSecondHouse ="addSecondHouse";
+
 
 
 

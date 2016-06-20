@@ -45,7 +45,13 @@ public class MyConstant {
     public final static String before_more_yesterday ="更早";
     /************************陪看人*****************************/
     public final static String choose_people="choose_people";
-    /*************************带看记录**************************/
+    /*************************添加带看**************************/
     public static final int accompanyCode = 201;
+    public static final int REQUEST_ADDFIRST = 101;
+    public static final int REQUEST_ADDSECOND = 102;
+    public static final int RESULT_ADDFIRST = 201;
+    public static final int RESULT_ADDSECOND = 202;
+
+
 
 }

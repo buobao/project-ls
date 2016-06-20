@@ -37,6 +37,9 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
 
     private ImageView mBack;
     private TextView mSubmit;
+    private String mDelCode;    //房源编号
+    private String mAddr;       //房屋地址
+    private String mRealName;   //姓名
 
     @Override
     public int setContentLayoutId() {
@@ -50,7 +53,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
         //初始化标题栏
         mBack = (ImageView) MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mSubmit = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
-        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_first, null);
+        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_second, null);
         mBack.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
 
@@ -60,12 +63,13 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
 
     @Override
     public void initData() {
-        //从"我的出售"返回携带的数据
+        //从"我的出售"页面返回的数据
         Intent intent = getIntent();
         KeyHouseItem item = (KeyHouseItem) intent.getSerializableExtra(MyConstant.addSecondHouse);
-        mTvHouseDelCode.setText(item.getDelCode());
-        mTvHouseAddr.setText(item.getAddr());
-
+        mDelCode = item.getDelCode();
+        mAddr = item.getAddr();
+        mTvHouseDelCode.setText(mDelCode);
+        mTvHouseAddr.setText(mAddr);
 
     }
 
@@ -77,10 +81,13 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 finish();
                 break;
             case R.id.tv_right_mhead1:          //保存
-
-                break;
-            case R.id.cb_accompany_promise:     //经理陪看
-                mCbAccompanyPromise.setChecked(!mCbAccompanyPromise.isChecked());
+                Intent data = new Intent();
+                data.putExtra("delCode",mDelCode);
+                data.putExtra("addr",mAddr);
+                data.putExtra("realName",mRealName);
+                data.putExtra("accompanyPromise",mCbAccompanyPromise.isChecked()?"是":"否");
+                setResult(MyConstant.RESULT_ADDSECOND,data);
+                finish();
                 break;
             case R.id.btn_choose_people:        //选择陪看人
                 Intent intent = new Intent(this, ChoosePeopleActivity.class);
@@ -110,14 +117,24 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
     public void onLoadMore() {
 
     }
-
+    
+    
+    /*************************从选择陪看人 页面 返回的数据**************************/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == MyConstant.REQUEST_CHOOSE_PEOPLE && resultCode == MyConstant.CHOOSE_PEOPLE){
             ChoosePeople people = (ChoosePeople) data.getSerializableExtra(MyConstant.choose_people);
-
-
+            if(people != null){
+                //显示经理陪看 : 经理及以上 默认打钩
+                String jobCode = people.getJobCode();
+                if(!jobCode.equals("JWYGW")){
+                    mCbAccompanyPromise.setChecked(true);
+                }
+                //显示陪看人姓名
+                mRealName = people.getRealName();
+                mTvAccompanyPeople.setText(mRealName);
+            }
         }
     }
 }

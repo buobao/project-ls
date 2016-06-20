@@ -158,8 +158,9 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                     intent = new Intent(this,FirstHandHouseActivity.class);
                     startActivityForResult(intent,MyConstant.REQUEST_ADDFIRST);
                 }else if(lookType=="20074001"){
-                    //房源列表
+                    //房源列表 --> 添加二手
                     intent = new Intent(this,HouseManageActivity.class);
+                    intent.putExtra(MyConstant.isIntoHouseDetail,1);
                     startActivity(intent);
                 }
                 break;

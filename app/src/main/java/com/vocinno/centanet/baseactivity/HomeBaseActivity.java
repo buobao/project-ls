@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import com.squareup.okhttp.Request;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.ModelDialog;
-import com.vocinno.centanet.customermanage.ChoosePeopleActivity;
 import com.vocinno.centanet.customermanage.CustomerManageActivity;
+import com.vocinno.centanet.customermanage.ImportCustomerListActivity;
 import com.vocinno.centanet.customermanage.PotentialCustomerListActivity;
 import com.vocinno.centanet.entity.ParamCustlookList;
 import com.vocinno.centanet.entity.TCmLook;
@@ -130,8 +130,8 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
                     break;
                //我的导入客
                case R.id.rl_my_daoruke:
-//                intent.setClass(mContext, ImportCustomerListActivity.class);
-                intent.setClass(mContext, ChoosePeopleActivity.class);
+                intent.setClass(mContext, ImportCustomerListActivity.class);
+//                intent.setClass(mContext, ChoosePeopleActivity.class);
                 startActivity(intent);
 
 //                   jsonPost();

@@ -1,4 +1,4 @@
-package com.vocinno.centanet.customermanage;
+package com.vocinno.centanet.housemanage;
 
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;

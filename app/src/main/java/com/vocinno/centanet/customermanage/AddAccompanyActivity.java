@@ -195,10 +195,10 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             case R.id.bt_cancel:        //取消选择时间
                 dialog.dismiss();
                 break;
-            case R.id.img_left_mhead1:
+            case R.id.img_left_mhead1:  //Back
                 finish();
                 break;
-            case R.id.tv_right_mhead1:
+            case R.id.tv_right_mhead1:  //保存
                 //显示Loading
                 Loading.show(this);
                 String custCode = getIntent().getStringExtra(MyConstant.custCode);  //客户编码
@@ -276,9 +276,6 @@ public class AddAccompanyActivity extends OtherBaseActivity {
 
         }
     }
-
-
-
 
 
     /*************************  设置时间  **************************/

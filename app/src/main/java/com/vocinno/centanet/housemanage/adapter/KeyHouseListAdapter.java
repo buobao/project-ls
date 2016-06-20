@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.housemanage.SecondHandHouseActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;
@@ -250,14 +251,18 @@ public class KeyHouseListAdapter extends BaseAdapter {
 					MethodsDeliverData.flag = -1;
 					MethodsDeliverData.mKeyType = -1;
 				}
-				if(HouseManageActivity.isIntoHouseDetail==0){
-					Intent intent=new Intent(mContext, HouseDetailActivity.class);
+
+				Intent intent = null;
+				if(HouseManageActivity.isIntoHouseDetail==0){			//跳转到房源详情
+					intent = new Intent(mContext, HouseDetailActivity.class);
 					intent.putExtra(MyConstant.houseCode,item.getDelCode());
 					intent.putExtra(MyUtils.INTO_FROM_LIST, true);
 					intent.putExtra(MyConstant.isGongFang,isGongFang);
 					((HouseManageActivity) mContext).startActivityForResult(intent, 10);
-				}else if(HouseManageActivity.isIntoHouseDetail==1){
-					//((HouseManageActivity) mContext).setResult(111,null); //TODO:
+				}else if(HouseManageActivity.isIntoHouseDetail==1){		//跳转到添加二手房源
+					intent = new Intent(mContext, SecondHandHouseActivity.class);
+					intent.putExtra(MyConstant.addSecondHouse,item);
+					mContext.startActivity(intent);
 					((HouseManageActivity) mContext).finish();
 				}
 

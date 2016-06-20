@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.SuperActivity;
 import com.vocinno.centanet.apputils.selfdefineview.MyTextView;
+import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
 
@@ -103,8 +104,12 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
         path = intent.getStringExtra("path");
 //		Bitmap bitmap = ImageUtil.File2Bitmap(path);
 //        Bitmap bitmap2 = BitmapFactory.decodeFile(path, getBitmapOption(2));
-        MethodsExtra.findHeadTitle1(mContext, mRootView,
-                R.string.house_image_detail, null);
+        String title=intent.getStringExtra(MyConstant.title);
+        if(null==title){
+            MethodsExtra.findHeadTitle1(mContext, mRootView,R.string.house_image_detail, null);
+        }else{
+            MethodsExtra.findHeadTitle1(mContext, mRootView,0, title);
+        }
         mViewBack = MethodsExtra.findHeadLeftView1(mContext, mRootView, 0, 0);
         tv_delete_img = (MyTextView) findViewById(R.id.tv_delete_img);
         tv_delete_img.setOnClickListener(this);

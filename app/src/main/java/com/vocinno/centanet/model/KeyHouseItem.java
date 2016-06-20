@@ -1,9 +1,10 @@
 package com.vocinno.centanet.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyHouseItem {
+public class KeyHouseItem implements Serializable {
 	private String delCode = "";// 房源编号
 	private String img ;// 图片
 	private String addr = "";// 地址

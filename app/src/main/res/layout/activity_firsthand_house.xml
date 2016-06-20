@@ -7,155 +7,180 @@
 
     <include layout="@layout/header_title_model1"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="13dp"
-        android:background="#D1D1D1"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingBottom="12dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="12dp"
-        >
-
-
-        <TextView
-            android:id="@+id/tv_confirmNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:text="房源信息"
-            android:textSize="16sp"/>
-
-        <EditText
-            android:id="@+id/et_confirmNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_confirmNum"
-            android:background="@drawable/kuang"
-            android:gravity="center_vertical"
-            android:hint="房屋地址"
-            android:paddingLeft="10dp"
-            android:textColorHint="#BBBBBB"
-            android:textSize="15sp"/>
-
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#D1D1D1"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="13dp"
-        android:background="#D1D1D1"/>
-
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:id="@+id/rl_type_demand"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="12dp"
-        android:paddingRight="15dp"
-        android:background="@color/white">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/kuang"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:textColorHint="#BBBBBB"
-            android:textSize="15sp"/>
-
-        <Button
-            android:layout_width="92dp"
-            android:layout_height="34dp"
-            android:layout_marginLeft="3dp"
-            android:background="#f00"
-            android:text="选择陪看人"
-            android:textColor="#fff"
-            android:textSize="15sp"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#D1D1D1"/>
-
-    <View
-        android:layout_marginTop="13dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#D1D1D1"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="13dp"
-        android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tv_write_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:gravity="center"
-            android:text="经理陪看"
-            android:textSize="16sp"/>
-
-        <CheckBox
-            android:id="@+id/cb_write_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="13dp"
-            android:layout_toRightOf="@+id/tv_write_back"
-            android:button="@drawable/selector_huixie"/>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#D1D1D1"/>
-
-    <View
-        android:layout_marginTop="13dp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#D1D1D1"/>
-
-    <RelativeLayout
-        android:background="@color/white"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:text="附件"
-            android:paddingBottom="12dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="12dp"
-            android:paddingRight="15dp"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="13dp"
+                android:background="#D1D1D1"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="12dp"
+                >
+
+
+                <TextView
+                    android:id="@+id/tv_confirmNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="房源信息"
+                    android:textSize="17sp"/>
+
+                <EditText
+                    android:id="@+id/et_first_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_below="@+id/tv_confirmNum"
+                    android:background="@drawable/kuang"
+                    android:gravity="center_vertical"
+                    android:hint="房屋地址"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="13sp"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="13dp"
+                android:background="#D1D1D1"/>
+
+            <LinearLayout
+                android:id="@+id/rl_type_demand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="12dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_first_choosepeople"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/kuang"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="13sp"/>
+
+                <Button
+                    android:layout_width="92dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/shape_first_house"
+                    android:text="选择陪看人"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="13dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:id="@+id/tv_write_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="经理陪看"
+                    android:textSize="17sp"/>
+
+                <CheckBox
+                    android:id="@+id/cb_write_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:button="@drawable/selector_huixie"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="13dp"
+                android:background="#D1D1D1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="12dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="12dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="附件"
+                    android:textSize="16sp"/>
+
+                <com.vocinno.centanet.housemanage.adapter.CustomGridView
+                    android:id="@+id/gv_first_house"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:columnWidth="3dp"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    android:verticalSpacing="3dp"
+                    >
+                </com.vocinno.centanet.housemanage.adapter.CustomGridView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

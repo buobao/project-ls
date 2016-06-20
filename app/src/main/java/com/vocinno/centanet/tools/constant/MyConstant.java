@@ -54,6 +54,8 @@ public class MyConstant {
     /*************************添加二手**************************/
     public static final String addSecondHouse ="addSecondHouse";
 
+    //一手&二手选择陪看人
+    public static final int REQUEST_CHOOSE_PEOPLE = 301;
 
 
 

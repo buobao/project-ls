@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <include layout="@layout/header_title_model1"/>
 
@@ -13,16 +13,16 @@
         android:background="#D1D1D1"/>
 
     <RelativeLayout
-        android:paddingLeft="15dp"
         android:layout_width="match_parent"
-        android:layout_height="36dp">
+        android:layout_height="36dp"
+        android:paddingLeft="15dp">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="房源信息"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="16sp"/>
     </RelativeLayout>
 
     <View
@@ -31,32 +31,59 @@
         android:background="#D1D1D1"/>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:paddingLeft="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="33dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="房屋编号:"
             android:textColor="#606060"
-            android:textSize="14sp"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#D1D1D1"/>
+            android:textSize="14sp"/>
 
         <TextView
+            android:id="@+id/tv_house_delCode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:text="12345"
+            android:textColor="#606060"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#D1D1D1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="房屋地址:"
             android:textColor="#606060"
-            android:textSize="14sp"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"/>
+            android:textSize="14sp"/>
 
+        <TextView
+            android:id="@+id/tv_house_addr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:text="12345"
+            android:textColor="#606060"
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
@@ -75,13 +102,14 @@
         android:id="@+id/rl_type_demand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingBottom="12dp"
         android:paddingLeft="15dp"
-        android:paddingTop="12dp"
         android:paddingRight="15dp"
-        android:background="@color/white">
+        android:paddingTop="12dp">
 
         <TextView
+            android:id="@+id/tv_accompany_people"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -93,6 +121,7 @@
             android:textSize="15sp"/>
 
         <Button
+            android:id="@+id/btn_choose_people"
             android:layout_width="92dp"
             android:layout_height="34dp"
             android:layout_marginLeft="3dp"
@@ -110,19 +139,20 @@
 
 
     <View
-        android:layout_marginTop="13dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_marginTop="13dp"
         android:background="#D1D1D1"/>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_accompany_promise"
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:layout_marginTop="13dp"
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/tv_write_back"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -132,22 +162,20 @@
             android:textSize="16sp"/>
 
         <CheckBox
-            android:id="@+id/cb_write_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/cb_accompany_promise"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="13dp"
-            android:layout_toRightOf="@+id/tv_write_back"
             android:button="@drawable/selector_huixie"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#D1D1D1"/>
-
-
 
 
 </LinearLayout>

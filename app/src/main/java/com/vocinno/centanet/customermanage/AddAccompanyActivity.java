@@ -281,17 +281,14 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         }
     }
 
-    /*************************
-     * 添加一手回传
-     **************************/
+    /************************** 添加一手回传**************************/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == MyConstant.RESULT_ADDFIRST && resultCode == MyConstant.RESULT_ADDFIRST) {
             //添加一手房源
-
-
+            TCmLookHouse firstHandHouse = (TCmLookHouse) data.getSerializableExtra(MyConstant.addFirstHouse);
         }
     }
 

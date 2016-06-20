@@ -1,14 +1,22 @@
 package com.vocinno.centanet.customermanage;
 
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.utils.MethodsExtra;
 
 /**
  * Created by hewei26 on 2016/6/17.
  */
 public class SecondHandHouseActivity extends OtherBaseActivity{
+
+    private ImageView mBack;
+    private TextView mSubmit;
+
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_secondhand_house;
@@ -16,6 +24,13 @@ public class SecondHandHouseActivity extends OtherBaseActivity{
 
     @Override
     public void initView() {
+        //禁用侧滑
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mBack = (ImageView) MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
+        mSubmit = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
+        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_first, null);
+        mBack.setOnClickListener(this);
+        mSubmit.setOnClickListener(this);
 
     }
 

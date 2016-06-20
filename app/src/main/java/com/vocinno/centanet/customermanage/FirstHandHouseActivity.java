@@ -28,7 +28,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity {
         drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mBack = (ImageView) MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mSubmit = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
-        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_first, null);
+        MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_second, null);
         mBack.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
 

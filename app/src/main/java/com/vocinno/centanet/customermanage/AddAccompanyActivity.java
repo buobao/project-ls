@@ -1,7 +1,8 @@
 package com.vocinno.centanet.customermanage;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by hewei26 on 2016/6/16.
@@ -55,7 +55,6 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     @Bind(R.id.tv_addHouse)           //添加房源
             TextView mTvAddHouse;
 
-
     private ImageView mBack;
     private TextView mSubmit;
     private String lookType;    //房源类型  一手&二手
@@ -67,6 +66,8 @@ public class AddAccompanyActivity extends OtherBaseActivity {
 
     @Override
     public void initView() {
+        //禁用侧滑
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //设置标题栏
         mBack = (ImageView) MethodsExtra.findHeadLeftView1(mContext, baseView, 0, 0);
         mSubmit = (TextView) MethodsExtra.findHeadRightView1(mContext, baseView, R.string.save, 0);
@@ -104,15 +105,25 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.iv_type_first:    //一手房源
+            case R.id.iv_type_first:    //选择一手房源
                 mIvTypeFirst.setImageResource(R.drawable.c_manage_button_choose);
                 mIvTypeSecond.setImageResource(R.drawable.c_manage_button_unselected);
                 lookType = "20074002";
                 break;
-            case R.id.iv_type_second:   //二手房源
+            case R.id.iv_type_second:   //选择二手房源
                 mIvTypeSecond.setImageResource(R.drawable.c_manage_button_choose);
                 mIvTypeFirst.setImageResource(R.drawable.c_manage_button_unselected);
                 lookType = "20074001";
+                break;
+            case R.id.tv_addHouse:
+                if(lookType=="20074002"){
+                    intent = new Intent(this,FirstHandHouseActivity.class);
+                    startActivityForResult(intent,MyConstant.REQUEST_ADDFIRST);
+                }else if(lookType=="20074001"){
+                    intent = new Intent(this,SecondHandHouseActivity.class);
+                    startActivityForResult(intent,MyConstant.REQUEST_ADDSECOND);
+                }
+
                 break;
             case R.id.img_left_mhead1:
                 finish();
@@ -175,7 +186,7 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                         MyUtils.LogI("------", response.toString());
 
 
-                        //返回客户信息页面前设置ResultCode
+                        //返回客户信息页面
                         setResult(MyConstant.accompanyCode);
                         finish();
                     }
@@ -184,10 +195,19 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         }
     }
 
+    /*************************从添加一手 & 添加二手  返回**************************/
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == MyConstant.RESULT_ADDFIRST && resultCode == MyConstant.RESULT_ADDFIRST){
+            //添加一手房源
+
+
+        }else if(requestCode == MyConstant.RESULT_ADDSECOND && resultCode == MyConstant.RESULT_ADDSECOND){
+            //添加二手房源
+
+
+        }
     }
 }

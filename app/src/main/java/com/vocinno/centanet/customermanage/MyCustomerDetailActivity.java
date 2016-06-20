@@ -261,7 +261,7 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		});
 	}
 	
-	/*************************从客源跟进和带看记录页面返回**************************/
+	/*************************从客源跟进 & 带看记录页面返回**************************/
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

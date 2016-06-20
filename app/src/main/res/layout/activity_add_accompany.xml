@@ -67,7 +67,7 @@
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="6dp"
                     android:layout_toRightOf="@+id/tv_type_first"
-                    android:src="@drawable/c_manage_button_unselected"/>
+                    android:src="@drawable/c_manage_button_choose"/>
 
                 <TextView
                     android:id="@+id/tv_type_second"

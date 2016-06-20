@@ -79,10 +79,9 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     @Bind(R.id.lv_secondhand_house)         //二手房源列表
             ListView mLvSecondhandHouse;
 
-
     private ImageView mBack;
     private TextView mSubmit;
-    private String lookType;    //房源类型  一手&二手
+    private String lookType = "20074001";    //房源类型  一手&二手
 
     private View dialogView;
     private WheelView wv_year, wv_month, wv_day, wv_hour, wv_min;
@@ -90,6 +89,8 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     private boolean isStartTime = false;
     private String dayText;
     private Long startTime, endTime;
+
+    private List secondHandList;
 
     @Override
     public int setContentLayoutId() {
@@ -127,8 +128,7 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         //获得"添加二手"的回传
         Intent intent = getIntent();
 
-
-        SecondHandHouseAdapter adapter = new SecondHandHouseAdapter();
+        SecondHandHouseAdapter adapter = new SecondHandHouseAdapter(this,secondHandList);
         mLvSecondhandHouse.setAdapter(adapter);
         adapter.notifyDataSetInvalidated();
     }

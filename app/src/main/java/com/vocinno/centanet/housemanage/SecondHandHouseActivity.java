@@ -41,6 +41,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
     private String mDelCode;    //房源编号
     private String mAddr;       //房屋地址
     private String mRealName;   //姓名
+    private ChoosePeople mPeopleItem;
 
     @Override
     public int setContentLayoutId() {
@@ -86,6 +87,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 data.putExtra("addr",mAddr);
                 data.putExtra("realName",mRealName);
                 data.putExtra("accompanyPromise",mCbAccompanyPromise.isChecked()?"是":"否");
+
                 startActivity(data);
                 finish();
                 break;
@@ -124,10 +126,10 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == MyConstant.REQUEST_CHOOSE_PEOPLE && resultCode == MyConstant.CHOOSE_PEOPLE){
-            ChoosePeople people = (ChoosePeople) data.getSerializableExtra(MyConstant.choose_people);
-            if(people != null){
+            mPeopleItem = (ChoosePeople) data.getSerializableExtra(MyConstant.choose_people);
+            if(mPeopleItem != null){
                 //显示经理陪看 : 经理及以上 默认打钩
-                String jobCode = people.getJobCode();
+                String jobCode = mPeopleItem.getJobCode();
                 if(!jobCode.equals("JWYGW")){
                     mCbAccompanyPromise.setChecked(true);
                 }else{
@@ -135,7 +137,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 }
 
                 //显示陪看人姓名
-                mRealName = people.getRealName();
+                mRealName = mPeopleItem.getRealName();
                 mTvAccompanyPeople.setText(mRealName);
             }
         }

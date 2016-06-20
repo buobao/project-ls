@@ -17,15 +17,26 @@ import com.util.mylibrary.photos.SelectPhotoManager;
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
 import com.vocinno.centanet.customermanage.ChoosePeopleActivity;
+import com.vocinno.centanet.entity.TCmLookHouse;
 import com.vocinno.centanet.housemanage.adapter.CustomGridView;
 import com.vocinno.centanet.housemanage.adapter.FirstHandPicAdapter;
 import com.vocinno.centanet.housemanage.adapter.MyInterface;
 import com.vocinno.centanet.model.ChoosePeople;
+import com.vocinno.centanet.model.JSReturn;
+import com.vocinno.centanet.model.UploadImageResult;
+import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.photo.PhotoWallActivity;
 import com.vocinno.utils.MethodsExtra;
+import com.vocinno.utils.MethodsJson;
 
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
+import net.tsz.afinal.http.AjaxParams;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +49,14 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
     private TextView mSubmit;
     private FirstHandPicAdapter picAdapter;
     private CustomGridView gv_first_house;
-    private List<String> imgList;
+    private StringBuffer imgId;
     private CheckBox cb_first_peikan;
     private TextView tv_first_choosepeople;
     private EditText et_first_address;
     private Button bt_first_choose;
+    private FinalHttp fh;
+    private TCmLookHouse lookHouse;
+
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_firsthand_house;
@@ -87,10 +101,71 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
             break;
             case R.id.tv_right_mhead1:
                 validationData();
+                imgId=new StringBuffer();
+                uploadImg();
             break;
         }
     }
 
+    private void uploadImg() {
+        Loading.show(this);
+        List<String>list=new ArrayList<String>();
+        list=picAdapter.getList();
+        if(null!=list&&list.size()>0){
+            for (int i = 0; i <list.size() ; i++) {
+                upload(list.get(i));
+            }
+        }
+    }
+    private void upload(String path){
+        AjaxParams params = new AjaxParams();
+        fh=new FinalHttp();
+        try {
+            params.put("file1", new File(path));// 上传文件
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Loading.dismissLoading();
+            MyToast.showToast("图片没找到,请确认之后再试");
+            return;
+        }
+        fh.post(getText(R.string.serverurl).toString(), params, new AjaxCallBack<String>() {
+            @Override
+            public void onLoading(long count, long current) {
+            }
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSReturn jsReturn = MethodsJson.jsonToJsReturn(result, UploadImageResult.class);
+                    List<UploadImageResult> imageResult = jsReturn.getListDatas();
+                    String id=imageResult.get(0).getFileId();
+                    imgId.append(id + ",");
+                    if(imgId.toString().split(",").length==picAdapter.getList().size()){
+                        imgId=imgId.deleteCharAt(imgId.length()-1);
+                        lookHouse.setImgList(picAdapter.getList());
+                        lookHouse.setFilesId(imgId.toString());
+                        lookHouse.setAccompanyName(tv_first_choosepeople.getText().toString().trim());
+                        lookHouse.setHouAddr(et_first_address.getText().toString().trim());
+                        if(cb_first_peikan.isChecked()){
+                            lookHouse.setAccompanyPromise("1");
+                        }else{
+                            lookHouse.setAccompanyPromise("0");
+                        }
+                        intent.putExtra(MyConstant.addFirstHouse,lookHouse);
+//                        Log.i("lookHouse", lookHouse.getImgList().size() + "==" + lookHouse.getFilesId() + "=="
+//                                + lookHouse.getAccompanyName() + "==" + lookHouse.getAccompanyPromise() + "==" + lookHouse.getHouAddr());
+                        setResult(MyConstant.RESULT_ADDFIRST, intent);
+                        finish();
+                    }
+                    fh=null;
+                }catch (Exception e){
+                    fh=null;
+                    MyToast.showToast("上传失败,请重新再试");
+                    Loading.dismissLoading();
+                    return;
+                }
+            }
+        });
+    }
     private void validationData() {
         if(et_first_address.getText()==null||et_first_address.getText().toString().trim().length()==0){
             MyToast.showToast("房屋地址不能为空");
@@ -101,16 +176,14 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
         }else if(null==picAdapter.getList()||picAdapter.getList().size()==0){
             MyToast.showToast("附件不能为空");
             return;
-        }else{
-            MyToast.showToast("数量："+picAdapter.getList().size());
         }
     }
 
     @Override
     public void initData() {
-        imgList=new ArrayList<String>();
         picAdapter=new FirstHandPicAdapter(this,(MyInterface)this);
         gv_first_house.setAdapter(picAdapter);
+        lookHouse = new TCmLookHouse();
     }
 
     @Override

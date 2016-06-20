@@ -1,5 +1,6 @@
 package com.vocinno.centanet.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author yumin1  字段添加备注
  */
 
-public class TCmLookHouse {
+public class TCmLookHouse implements Serializable{
 
 	/**
 	 * PKID
@@ -84,9 +85,20 @@ public class TCmLookHouse {
 	 * 图片路径
 	 */
 	private List<String> imgList;
-
+	/**
+	 * 经理陪看 1:陪看 0:没陪看
+	 */
+	private String accompanyPromise;
 	public Long getPkid() {
 		return pkid;
+	}
+
+	public String getAccompanyPromise() {
+		return accompanyPromise;
+	}
+
+	public void setAccompanyPromise(String accompanyPromise) {
+		this.accompanyPromise = accompanyPromise;
 	}
 
 	public void setPkid(Long pkid) {

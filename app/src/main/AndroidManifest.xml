@@ -118,7 +118,7 @@
         <!-- 添加一手房源 -->
 
         <activity
-            android:name=".customermanage.FirstHandHouseActivity"
+            android:name=".housemanage.FirstHandHouseActivity"
             android:configChanges="orientation|keyboard|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"

@@ -1,5 +1,7 @@
 package com.vocinno.centanet.tools.constant;
 
+import android.os.Environment;
+
 /**
  * Created by Administrator on 2016/4/5.
  */
@@ -52,6 +54,9 @@ public class MyConstant {
     public static final int RESULT_ADDFIRST = 201;
     public static final int RESULT_ADDSECOND = 202;
 
-
-
+    /*************************拍照**************************/
+    public static final String path = "path";
+    public static final String title="title";
+    public static final String savePath = Environment.getExternalStorageDirectory().getPath() + "/vocinno";
+//    public static final String compresSavePath = Environment.getExternalStorageDirectory().getPath() + "/vocinno";
 }

@@ -19,4 +19,8 @@
     <dimen name="slidingmenu_offset">120dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
 
+    <dimen name="commonMarginLeft">15dp</dimen>
+    <dimen name="subtitleTextSize">14sp</dimen>
+    <dimen name="bodyTextSize">13sp</dimen>
+
 </resources>

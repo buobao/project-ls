@@ -74,6 +74,9 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_accompany, null);
         mBack.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
+
+        mIvTypeFirst.setOnClickListener(this);
+        mIvTypeSecond.setOnClickListener(this);
     }
 
     @Override
@@ -115,7 +118,7 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 mIvTypeFirst.setImageResource(R.drawable.c_manage_button_unselected);
                 lookType = "20074001";
                 break;
-            case R.id.tv_addHouse:
+            case R.id.tv_addHouse:      //添加房源
                 if(lookType=="20074002"){
                     intent = new Intent(this,FirstHandHouseActivity.class);
                     startActivityForResult(intent,MyConstant.REQUEST_ADDFIRST);

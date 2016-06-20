@@ -135,18 +135,16 @@ public class AddHousePictureDescriptionActivity extends SuperActivity {
                 //MethodsDeliverData.mListImagePath.add(path);
                 onBack();
             case R.id.tv_save_img:
-                showDialog();
-                intent.putExtra("path", newPath);
+                intent.putExtra(MyConstant.path, newPath);
                 this.setResult(102, intent);
                 this.finish();
-                dismissDialog();
                 break;
             case R.id.img_right_mhead1:
             /*MethodsDeliverData.mListImagePath.add(path);
 			MethodsDeliverData.mListImages.add(path);*/
                 showDialog();
                 Intent intent = new Intent();
-                intent.putExtra("path", newPath);
+                intent.putExtra(MyConstant.path, newPath);
                 this.setResult(102, intent);
                 this.finish();
                 dismissDialog();

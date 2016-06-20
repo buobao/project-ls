@@ -19,6 +19,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.utils.MethodsDeliverData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,17 +43,33 @@ public class FirstHandPicAdapter extends BaseAdapter {
 	public void addData(List<String> list) {
 		if(this.imgList==null){
 			this.imgList=list;
+		}else{
+			this.imgList.addAll(list);
 		}
-		this.imgList.addAll(list);
 		notifyDataSetChanged();
 	}
-
-
+	public void addPath(String path) {
+		if(this.imgList==null){
+			this.imgList=new ArrayList<String>();
+		}
+		this.imgList.add(path);
+		notifyDataSetChanged();
+	}
 	@Override
 	public int getCount() {
 		return imgList==null?1:imgList.size()+1;
 	}
-
+	public List getList() {
+		return imgList;
+	}
+	public void removePath(String path) {
+		if(imgList!=null&&imgList.size()>0){
+			if(imgList.contains(path)){
+				imgList.remove(imgList.indexOf(path));
+				notifyDataSetChanged();
+			}
+		}
+	}
 	@Override
 	public Object getItem(int position) {
 		return imgList.get(position);
@@ -70,27 +87,31 @@ public class FirstHandPicAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.item_first_pic, null);
 			holder.iv_first_img = (ImageView) convertView.findViewById(R.id.iv_first_img);
+			holder.iv_first_add = (ImageView) convertView.findViewById(R.id.iv_first_add);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		final int index = position;
-		if (imgList==null||index == imgList.size() - 1 ){
-			holder.iv_first_img.setImageResource(R.drawable.adpic);
-			holder.iv_first_img.setOnClickListener(getListSize());
+		if (imgList==null||(position!=0&&position == imgList.size())){
+			holder.iv_first_add.setImageResource(R.drawable.adpic);
+			holder.iv_first_add.setOnClickListener(getListSize());
+			holder.iv_first_add.setVisibility(View.VISIBLE);
+			holder.iv_first_img.setVisibility(View.GONE);
 		} else {
-
-			String imagePath = this.imgList.get(index);
+			String imagePath = this.imgList.get(position);
 			Glide.with(mContext).load(imagePath).centerCrop().crossFade().into(holder.iv_first_img);
 			// 点击进行图片描述编辑
 			holder.iv_first_img.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (index != imgList.size() - 1) {
-						myInterface.editPhoto(null,imgList.get(index),null);
+					if (position != imgList.size() - 1) {
+						int a=position;
+						myInterface.editPhoto(null,imgList.get(position),null);
 					}
 				}
 			});
+			holder.iv_first_img.setVisibility(View.VISIBLE);
+			holder.iv_first_add.setVisibility(View.GONE);
 		}
 
 		return convertView;
@@ -98,7 +119,7 @@ public class FirstHandPicAdapter extends BaseAdapter {
 
 
 	public class ViewHolder {
-		ImageView iv_first_img;
+		ImageView iv_first_img,iv_first_add;
 	}
 
 	private void choosePicOrCamera() {

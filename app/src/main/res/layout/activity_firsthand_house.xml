@@ -54,7 +54,10 @@
                     android:hint="房屋地址"
                     android:paddingLeft="10dp"
                     android:textColorHint="#BBBBBB"
-                    android:textSize="13sp"/>
+                    android:textColor="#BBBBBB"
+                    android:textSize="13sp"
+                    android:maxLength="100"
+                    />
 
 
             </RelativeLayout>
@@ -93,9 +96,13 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:textColorHint="#BBBBBB"
-                    android:textSize="13sp"/>
+                    android:textColor="#BBBBBB"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textSize="12sp"/>
 
                 <Button
+                    android:id="@+id/bt_first_choose"
                     android:layout_width="92dp"
                     android:layout_height="35dp"
                     android:layout_marginLeft="3dp"
@@ -129,7 +136,7 @@
                     android:textSize="17sp"/>
 
                 <CheckBox
-                    android:id="@+id/cb_write_back"
+                    android:id="@+id/cb_first_peikan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
@@ -155,12 +162,12 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="12dp"
-                android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="12dp"
                 >
 
                 <TextView
+                    android:paddingLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="附件"
@@ -169,12 +176,13 @@
                 <com.vocinno.centanet.housemanage.adapter.CustomGridView
                     android:id="@+id/gv_first_house"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:columnWidth="3dp"
+                    android:horizontalSpacing="6dp"
                     android:numColumns="3"
                     android:scrollbars="none"
-                    android:verticalSpacing="3dp"
+                    android:verticalSpacing="6dp"
+                    android:layout_marginLeft="15dp"
                     >
                 </com.vocinno.centanet.housemanage.adapter.CustomGridView>
 

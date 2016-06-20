@@ -359,6 +359,15 @@
 
             </LinearLayout>
 
+            <ListView
+                android:id="@+id/lv_secondhand_house"
+                android:background="#F2F2F2"
+                android:dividerHeight="13dp"
+                android:divider="@color/white"
+                style="@style/centanet_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
 
         </LinearLayout>
 

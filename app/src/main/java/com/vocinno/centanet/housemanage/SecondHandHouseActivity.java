@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.vocinno.centanet.R;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.customermanage.AddAccompanyActivity;
 import com.vocinno.centanet.customermanage.ChoosePeopleActivity;
 import com.vocinno.centanet.model.ChoosePeople;
 import com.vocinno.centanet.model.KeyHouseItem;
@@ -70,7 +71,6 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
         mAddr = item.getAddr();
         mTvHouseDelCode.setText(mDelCode);
         mTvHouseAddr.setText(mAddr);
-
     }
 
     @Override
@@ -80,13 +80,13 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
             case R.id.img_left_mhead1:          //Back
                 finish();
                 break;
-            case R.id.tv_right_mhead1:          //保存
-                Intent data = new Intent();
+            case R.id.tv_right_mhead1:          //保存 --> 添加陪看页面
+                Intent data = new Intent(this, AddAccompanyActivity.class);
                 data.putExtra("delCode",mDelCode);
                 data.putExtra("addr",mAddr);
                 data.putExtra("realName",mRealName);
                 data.putExtra("accompanyPromise",mCbAccompanyPromise.isChecked()?"是":"否");
-                setResult(MyConstant.RESULT_ADDSECOND,data);
+                startActivity(data);
                 finish();
                 break;
             case R.id.btn_choose_people:        //选择陪看人
@@ -130,7 +130,10 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 String jobCode = people.getJobCode();
                 if(!jobCode.equals("JWYGW")){
                     mCbAccompanyPromise.setChecked(true);
+                }else{
+                    mCbAccompanyPromise.setChecked(false);
                 }
+
                 //显示陪看人姓名
                 mRealName = people.getRealName();
                 mTvAccompanyPeople.setText(mRealName);

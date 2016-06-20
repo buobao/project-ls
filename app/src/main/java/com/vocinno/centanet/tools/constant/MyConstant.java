@@ -50,9 +50,7 @@ public class MyConstant {
     /*************************添加带看**************************/
     public static final int accompanyCode = 201;
     public static final int REQUEST_ADDFIRST = 101;
-    public static final int REQUEST_ADDSECOND = 102;
     public static final int RESULT_ADDFIRST = 201;
-    public static final int RESULT_ADDSECOND = 202;
     /*************************添加一,二手**************************/
     public static final String addSecondHouse ="addSecondHouse";
     public static final String addFirstHouse ="addFirstHouse";

@@ -140,6 +140,7 @@ public class CST_Wheel_Data {
 			break;
 		case huXing:
 			mListStrs.add("不限");
+			mListStrs.add("0");
 			mListStrs.add("1");
 			mListStrs.add("2");
 			mListStrs.add("3");

@@ -322,4 +322,5 @@
     <color name="orange">#FF8111</color>
     <color name="wheel_unselect_text">#c2c1c1</color>
     <color name="wheel_bg">#f2f2f2</color>
+    <color name="common_line">#D1D1D1</color>
 </resources>

@@ -32,7 +32,6 @@ import com.vocinno.utils.MethodsData;
 import com.vocinno.utils.MethodsDeliverData;
 import com.vocinno.utils.MethodsExtra;
 import com.vocinno.utils.MethodsFile;
-import com.zbar.lib.CaptureActivity;
 
 /**
  * 主页
@@ -209,7 +208,8 @@ public class HomeActivity extends HomeBaseActivity {
                 MethodsExtra.startActivity(mContext, KeyGetInActivity.class);
                 break;
             case R.id.ll_saoyisao:
-                MethodsExtra.startActivity(mContext, CaptureActivity.class);
+//                MethodsExtra.startActivity(mContext, CaptureActivity.class);
+                MethodsExtra.startActivity(mContext, AddSecondHandHouseActivity.class);
                 break;
         }
     }

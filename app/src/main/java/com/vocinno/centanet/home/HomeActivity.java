@@ -210,7 +210,6 @@ public class HomeActivity extends HomeBaseActivity {
                 break;
             case R.id.ll_saoyisao:
                 MethodsExtra.startActivity(mContext, CaptureActivity.class);
-//                MethodsExtra.startActivity(mContext, AddSecondHandHouseActivity.class);
                 break;
         }
     }

@@ -445,7 +445,7 @@
         <!-- eclipseTester测试 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="UT5v6GFGLXa4C6C3rmzSMbD4"/>
+            android:value="b6WeT33CV5fD9PMcmGZwFFDCVLzYlhs4"/>
 
         <!--
         签名对应的key:xsKlNWtn7xGPB0jHoVSXGDxx

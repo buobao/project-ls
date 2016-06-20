@@ -56,7 +56,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
     private Button bt_first_choose;
     private FinalHttp fh;
     private TCmLookHouse lookHouse;
-
+    private List<String> imgList;
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_firsthand_house;
@@ -110,6 +110,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
     private void uploadImg() {
         Loading.show(this);
         List<String>list=new ArrayList<String>();
+        imgList=new ArrayList<String>();
         list=picAdapter.getList();
         if(null!=list&&list.size()>0){
             for (int i = 0; i <list.size() ; i++) {
@@ -140,17 +141,18 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
                     String id=imageResult.get(0).getFileId();
                     imgId.append(id + ",");
                     if(imgId.toString().split(",").length==picAdapter.getList().size()){
-                        imgId=imgId.deleteCharAt(imgId.length()-1);
-                        lookHouse.setImgList(picAdapter.getList());
+                        imgId=imgId.deleteCharAt(imgId.length() - 1);
+                        imgList=picAdapter.getList();
                         lookHouse.setFilesId(imgId.toString());
                         lookHouse.setAccompanyName(tv_first_choosepeople.getText().toString().trim());
                         lookHouse.setHouAddr(et_first_address.getText().toString().trim());
+                        String promise="0";
                         if(cb_first_peikan.isChecked()){
-                            lookHouse.setAccompanyPromise("1");
-                        }else{
-                            lookHouse.setAccompanyPromise("0");
+                            promise="1";
                         }
                         intent.putExtra(MyConstant.addFirstHouse,lookHouse);
+                        intent.putStringArrayListExtra(MyConstant.imgPathList, (ArrayList<String>) imgList);
+                        intent.putExtra(MyConstant.peiKan,promise);
 //                        Log.i("lookHouse", lookHouse.getImgList().size() + "==" + lookHouse.getFilesId() + "=="
 //                                + lookHouse.getAccompanyName() + "==" + lookHouse.getAccompanyPromise() + "==" + lookHouse.getHouAddr());
                         setResult(MyConstant.RESULT_ADDFIRST, intent);

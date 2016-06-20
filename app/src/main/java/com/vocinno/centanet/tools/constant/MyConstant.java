@@ -54,6 +54,8 @@ public class MyConstant {
     /*************************添加一,二手**************************/
     public static final String addSecondHouse ="addSecondHouse";
     public static final String addFirstHouse ="addFirstHouse";
+    public static final String imgPathList ="imgPathList";
+    public static final String peiKan ="peiKan";
 
     /*************************一手&二手 选择陪看人**************************/
     public static final int REQUEST_CHOOSE_PEOPLE = 301;

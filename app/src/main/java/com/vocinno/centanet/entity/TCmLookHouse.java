@@ -2,7 +2,6 @@ package com.vocinno.centanet.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * 带看房源表
@@ -81,25 +80,10 @@ public class TCmLookHouse implements Serializable{
 	 * 图片列表id
 	 */
 	private String filesId;
-	/***
-	 * 图片路径
-	 */
-	private List<String> imgList;
-	/**
-	 * 经理陪看 1:陪看 0:没陪看
-	 */
-	private String accompanyPromise;
 	public Long getPkid() {
 		return pkid;
 	}
 
-	public String getAccompanyPromise() {
-		return accompanyPromise;
-	}
-
-	public void setAccompanyPromise(String accompanyPromise) {
-		this.accompanyPromise = accompanyPromise;
-	}
 
 	public void setPkid(Long pkid) {
 		this.pkid = pkid;
@@ -135,14 +119,6 @@ public class TCmLookHouse implements Serializable{
 
 	public void setRemark(String remark) {
 		this.remark = remark == null ? null : remark.trim();
-	}
-
-	public List<String> getImgList() {
-		return imgList;
-	}
-
-	public void setImgList(List<String> imgList) {
-		this.imgList = imgList;
 	}
 
 	public String getFeedback() {

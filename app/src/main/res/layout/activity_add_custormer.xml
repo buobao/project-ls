@@ -57,6 +57,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/tv_name_addCustomerActivity"
                     android:background="@null"
+                    android:maxLength="10"
                     android:ems="10"
                     android:gravity="left|center_vertical"
                     android:hint="@string/input_name"

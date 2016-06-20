@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.vocinno.centanet"
-          xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.vocinno.centanet"
           android:versionCode="1"
           android:versionName="2.0.2">
 
@@ -100,18 +100,38 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN"/>
 
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
 
         <!-- 添加带看  -->
-        <activity android:name="com.vocinno.centanet.customermanage.AddAccompanyActivity"
-                  android:configChanges="orientation|keyboard|screenSize"
-                  android:screenOrientation="portrait"
-                  android:theme="@android:style/Theme.Light.NoTitleBar">
+        <activity
+            android:name=".customermanage.AddAccompanyActivity"
+            android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
+        </activity>
+
+        <!-- 添加一手房源 -->
+
+        <activity
+            android:name=".customermanage.FirstHandHouseActivity"
+            android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            >
+        </activity>
+
+        <!-- 添加二手房源 -->
+        <activity
+            android:name=".customermanage.SecondHandHouseActivity"
+            android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            >
         </activity>
 
 
@@ -467,8 +487,8 @@
             android:name=".housemanage.HouseManageActivity"
             android:configChanges="orientation|keyboard|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
 
         <activity android:name=".customermanage.PotentialCustomerListActivity">

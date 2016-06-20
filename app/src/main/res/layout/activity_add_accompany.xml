@@ -16,6 +16,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1"/>
+
             <RelativeLayout
                 android:id="@+id/rl_type_demand"
                 android:layout_width="match_parent"
@@ -23,11 +28,6 @@
                 android:layout_marginBottom="13dp"
                 android:layout_marginTop="13dp"
                 android:background="@color/white">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#D1D1D1"/>
 
                 <TextView
                     android:id="@+id/tv_type_house"
@@ -41,7 +41,6 @@
                     android:textSize="16sp"/>
 
                 <ImageView
-                    android:button="@null"
                     android:id="@+id/iv_type_first"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
@@ -172,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_accompanyTime">
 
-                    <EditText
+                    <TextView
                         android:id="@+id/et_startTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -256,18 +255,18 @@
                 <CheckBox
                     android:id="@+id/cb_write_back"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="13dp"
                     android:layout_toRightOf="@+id/tv_write_back"
                     android:button="@drawable/selector_huixie"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#D1D1D1"/>
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D1D1D1"/>
 
             <View
                 android:layout_width="match_parent"

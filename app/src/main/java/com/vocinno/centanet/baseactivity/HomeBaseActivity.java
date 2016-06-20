@@ -58,6 +58,7 @@ public abstract class HomeBaseActivity extends Activity implements View.OnClickL
         super.onCreate(savedInstanceState);
         MyUtils.addActivityToList(this);
         intent=new Intent();
+
         mContext = this;
         int layoutId=setContentLayoutId();
         baseView=getLayoutInflater().inflate(layoutId,null);

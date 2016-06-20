@@ -137,14 +137,18 @@ public class CustormerListAdapter extends BaseAdapter {
 		// 区域
 		if(item.getDistrictCode().equals("0")){
 			holder.tv_quyu_customerManageListItem.setText("");
+			holder.tv_quyu_customerManageListItem.setVisibility(View.GONE);
 		}else{
 			holder.tv_quyu_customerManageListItem.setText(item.getDistrictCode());
+			holder.tv_quyu_customerManageListItem.setVisibility(View.VISIBLE);
 		}
 		// 片区
 		if("0".equals(item.getArea())){
 			holder.mTvDemandDetail.setText("");
+			holder.mTvDemandDetail.setVisibility(View.GONE);
 		}else{
 			holder.mTvDemandDetail.setText(item.getArea());
+			holder.mTvDemandDetail.setVisibility(View.VISIBLE);
 		}
 		// 户型+面积+价格
 		String fangXing=item.getFromToRoom();

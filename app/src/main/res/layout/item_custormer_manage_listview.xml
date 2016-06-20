@@ -26,14 +26,15 @@
             android:orientation="horizontal" >
             <TextView
                 android:id="@+id/tv_demandType_customerManageListItem"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 tools:text="租"
+                android:gravity="center"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:textColor="@color/white"
                 android:textSize="15sp"
-                android:layout_marginRight="15dp"
+                android:textColor="@color/white"
+                android:layout_marginRight="10dp"
                 />
 
             <TextView
@@ -57,7 +58,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:layout_marginRight="10dp"
+                />
             <TextView
                 android:id="@+id/tv_quyu_customerManageListItem"
                 android:layout_width="wrap_content"
@@ -67,7 +76,7 @@
                 android:textSize="14sp"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="10dp"
                 />
             <TextView
                 android:id="@+id/tv_houseDetail_customerManageListItem"
@@ -78,7 +87,7 @@
                 android:textSize="14sp"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="10dp"
                 />
             <TextView
                 android:id="@+id/tv_houseDetail_huxing"
@@ -96,6 +105,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:layout_marginRight="10dp"
+                />
             <TextView
                 android:id="@+id/tv_demandPrice_customerManageListItem"
                 android:layout_width="0dp"

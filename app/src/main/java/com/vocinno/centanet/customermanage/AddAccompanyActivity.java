@@ -16,6 +16,7 @@ import com.vocinno.centanet.entity.ParamCustlookList;
 import com.vocinno.centanet.entity.TCmLook;
 import com.vocinno.centanet.entity.TCmLookAccompany;
 import com.vocinno.centanet.entity.TCmLookHouse;
+import com.vocinno.centanet.housemanage.FirstHandHouseActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyUtils;
@@ -43,12 +44,12 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             ImageView mIvTypeSecond;
     @Bind(R.id.et_confirmNum)        //带看确认书编号
             EditText mEtConfirmNum;
-    @Bind(R.id.et_startTime)         //开始时间
-            EditText mEtStartTime;
+    @Bind(R.id.tv_startTime)         //开始时间
+            TextView mTvStartTime;
     @Bind(R.id.iv_startTime)         //选择开始时间
             ImageView mIvStartTime;
-    @Bind(R.id.et_endTime)           //结束时间
-            EditText mEtEndTime;
+    @Bind(R.id.tv_endTime)           //结束时间
+            TextView mTvEndTime;
     @Bind(R.id.iv_endTime)           //选择结束时间
             ImageView mIvEndTime;
     @Bind(R.id.cb_write_back)         //是否回显
@@ -139,8 +140,8 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 Loading.show(this);
                 String custCode = getIntent().getStringExtra(MyConstant.custCode);  //客户编码
                 String confirmationNumber = mEtConfirmNum.getText().toString(); //带看确认书编号
-                String startTime = mEtStartTime.getText().toString();   //开始时间
-                String endTime = mEtEndTime.getText().toString();       //结束时间
+                String startTime = mTvStartTime.getText().toString();   //开始时间
+                String endTime = mTvEndTime.getText().toString();       //结束时间
                 String custlookTrackType = mCbWriteBack.isChecked() ? "1" : "0";    //是否回写 0&1
                 String remark = mEtDescHouse.getText().toString();       //文字描述
 
@@ -208,10 +209,6 @@ public class AddAccompanyActivity extends OtherBaseActivity {
 
         if(requestCode == MyConstant.RESULT_ADDFIRST && resultCode == MyConstant.RESULT_ADDFIRST){
             //添加一手房源
-
-
-        }else if(requestCode == MyConstant.RESULT_ADDSECOND && resultCode == MyConstant.RESULT_ADDSECOND){
-            //添加二手房源
 
 
         }

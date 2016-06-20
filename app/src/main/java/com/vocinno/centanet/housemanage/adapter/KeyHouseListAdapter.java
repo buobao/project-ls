@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vocinno.centanet.R;
-import com.vocinno.centanet.customermanage.SecondHandHouseActivity;
+import com.vocinno.centanet.housemanage.SecondHandHouseActivity;
 import com.vocinno.centanet.housemanage.HouseDetailActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.HouseType;

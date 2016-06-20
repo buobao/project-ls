@@ -172,7 +172,7 @@
                     android:layout_below="@+id/tv_accompanyTime">
 
                     <TextView
-                        android:id="@+id/et_startTime"
+                        android:id="@+id/tv_startTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/kuang"
@@ -201,8 +201,8 @@
                     android:layout_below="@+id/fl_startTime"
                     android:layout_marginTop="12dp">
 
-                    <EditText
-                        android:id="@+id/et_endTime"
+                    <TextView
+                        android:id="@+id/tv_endTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/kuang"

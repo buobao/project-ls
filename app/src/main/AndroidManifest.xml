@@ -127,7 +127,7 @@
 
         <!-- 添加二手房源 -->
         <activity
-            android:name=".customermanage.SecondHandHouseActivity"
+            android:name=".housemanage.SecondHandHouseActivity"
             android:configChanges="orientation|keyboard|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"

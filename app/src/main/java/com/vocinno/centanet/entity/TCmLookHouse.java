@@ -1,6 +1,7 @@
 package com.vocinno.centanet.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 带看房源表
@@ -79,6 +80,10 @@ public class TCmLookHouse {
 	 * 图片列表id
 	 */
 	private String filesId;
+	/***
+	 * 图片路径
+	 */
+	private List<String> imgList;
 
 	public Long getPkid() {
 		return pkid;
@@ -118,6 +123,14 @@ public class TCmLookHouse {
 
 	public void setRemark(String remark) {
 		this.remark = remark == null ? null : remark.trim();
+	}
+
+	public List<String> getImgList() {
+		return imgList;
+	}
+
+	public void setImgList(List<String> imgList) {
+		this.imgList = imgList;
 	}
 
 	public String getFeedback() {

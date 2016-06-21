@@ -263,7 +263,7 @@ public class KeyHouseListAdapter extends BaseAdapter {
 					intent = new Intent(mContext, SecondHandHouseActivity.class);
 					intent.putExtra(MyConstant.addSecondHouse,item);
 					mContext.startActivity(intent);
-					((HouseManageActivity) mContext).finish();
+					//((HouseManageActivity) mContext).finish();
 				}
 
 			}

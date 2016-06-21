@@ -83,6 +83,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 break;
             case R.id.tv_right_mhead1:          //保存 --> 添加陪看页面
                 Intent data = new Intent(this, AddAccompanyActivity.class);
+                data.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 data.putExtra("delCode",mDelCode);
                 data.putExtra("addr",mAddr);
                 data.putExtra("realName",mRealName);

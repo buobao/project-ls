@@ -26,7 +26,7 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener ,AgainLoading{
+public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener {
     public ProgressLayout pl_progress;
     public static final int NEAR_SELL=0;
     public static final int NEAR_RENT=1;

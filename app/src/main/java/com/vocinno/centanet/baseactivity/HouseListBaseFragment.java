@@ -18,6 +18,7 @@ import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
+import com.vocinno.centanet.tools.customview.ProgressLayout;
 import com.vocinno.utils.MethodsJni;
 import com.vocinno.utils.view.refreshablelistview.XListView;
 
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener {
+    public ProgressLayout pl_progress;
     public static final int NEAR_SELL=0;
     public static final int NEAR_RENT=1;
     public static final int YUE_KAN=2;

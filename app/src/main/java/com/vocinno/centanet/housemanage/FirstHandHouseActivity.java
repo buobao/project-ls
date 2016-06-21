@@ -147,7 +147,6 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
                         imgId=imgId.deleteCharAt(imgId.length() - 1);
                         imgList=picAdapter.getList();
                         lookHouse.setFilesId(imgId.toString());
-                        lookHouse.setAccompanyName(tv_first_choosepeople.getText().toString().trim());
                         lookHouse.setHouAddr(et_first_address.getText().toString().trim());
                         String promise="0";
                         if(cb_first_peikan.isChecked()){
@@ -156,6 +155,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
                         intent.putExtra(MyConstant.addFirstHouse,lookHouse);
                         intent.putStringArrayListExtra(MyConstant.imgPathList, (ArrayList<String>) imgList);
                         intent.putExtra(MyConstant.peiKan,people);
+                        intent.putExtra("isManager",cb_first_peikan.isChecked()?"0":"1");
 //                        Log.i("lookHouse", lookHouse.getImgList().size() + "==" + lookHouse.getFilesId() + "=="
 //                                + lookHouse.getAccompanyName() + "==" + lookHouse.getAccompanyPromise() + "==" + lookHouse.getHouAddr());
                         setResult(MyConstant.RESULT_ADDFIRST, intent);

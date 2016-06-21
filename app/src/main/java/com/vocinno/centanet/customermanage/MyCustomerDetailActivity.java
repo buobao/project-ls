@@ -380,6 +380,8 @@ public class MyCustomerDetailActivity extends OtherBaseActivity {
 		//TODO:填充带看记录
 
 
+
+
 	}
 
 	@Override

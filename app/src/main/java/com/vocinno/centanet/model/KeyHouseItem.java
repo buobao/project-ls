@@ -6,6 +6,7 @@ import java.util.List;
 
 public class KeyHouseItem implements Serializable {
 	private String delCode = "";// 房源编号
+	private Long houseId; //房源id
 	private String img ;// 图片
 	private String addr = "";// 地址
 	private String frame = "";// 户型
@@ -73,6 +74,14 @@ public class KeyHouseItem implements Serializable {
 
 	public String getRmdCustTime() {
 		return rmdCustTime;
+	}
+
+	public Long getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(Long houseId) {
+		this.houseId = houseId;
 	}
 
 	public void setRmdCustTime(String rmdCustTime) {

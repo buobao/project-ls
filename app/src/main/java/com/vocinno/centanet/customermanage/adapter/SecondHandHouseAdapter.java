@@ -4,10 +4,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.vocinno.centanet.customermanage.AddAccompanyActivity;
+
+import java.util.List;
+
 /**
  * Created by hewei26 on 2016/6/20.
  */
 public class SecondHandHouseAdapter extends BaseAdapter{
+    public SecondHandHouseAdapter(AddAccompanyActivity addAccompanyActivity, List mList) {
+
+    }
+
     @Override
     public int getCount() {
         return 0;

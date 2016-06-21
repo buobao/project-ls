@@ -143,6 +143,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
                     String id=imageResult.get(0).getFileId();
                     imgId.append(id + ",");
                     if(imgId.toString().split(",").length==picAdapter.getList().size()){
+                        Loading.dismissLoading();
                         imgId=imgId.deleteCharAt(imgId.length() - 1);
                         imgList=picAdapter.getList();
                         lookHouse.setFilesId(imgId.toString());

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
@@ -16,8 +18,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.vocinno.centanet.R;
+import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.AddHousePictureActivity;
-import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.centanet.tools.photo.adapter.PhotoWallAdapter;
 import com.vocinno.utils.MethodsExtra;
@@ -37,6 +39,7 @@ public class PhotoWallActivity extends Activity implements View.OnClickListener{
     private PhotoWallAdapter adapter;
     private View mBackView, mMoreView, mTitleView;
     public static PhotoWallActivity pwa;
+    public ModelDialog modelDialog;
     /**
      * 当前文件夹路径
      */
@@ -68,6 +71,30 @@ public class PhotoWallActivity extends Activity implements View.OnClickListener{
         adapter = new PhotoWallAdapter(this, list);
         mPhotoWall.setAdapter(adapter);
     }
+    public Handler handler=new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    dismissDialog();
+                    if(PhotoAlbumActivity.paa!=null){
+                        PhotoAlbumActivity.paa.finish();
+                    }
+                    Bundle bundle = (Bundle) msg.obj;
+                    ArrayList<String> paths=bundle.getStringArrayList("code");
+                    ArrayList<String> newPath=bundle.getStringArrayList("newPath");
+                    Intent intent = new Intent(PhotoWallActivity.this, AddHousePictureActivity.class);
+                    intent.putExtra("code", paths != null ? 100 : 101);
+                    intent.putStringArrayListExtra(MyConstant.pathList,newPath);
+//                    intent.putStringArrayListExtra(MyConstant.pathList,paths);
+                    setResult(RESULT_OK,intent);
+//                    Loading.dismissLoading();
+                    finish();
+                    break;
+            }
+        }
+    };
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -76,24 +103,25 @@ public class PhotoWallActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.tv_right_mhead1:
                 //选择图片完成,回到起始页面
-                ArrayList<String> paths = getSelectImagePaths();
-                ArrayList<String> newPath = new ArrayList<String>();
+                final ArrayList<String> paths = getSelectImagePaths();
+                final ArrayList<String> newPath = new ArrayList<String>();
                 if(paths!=null&&paths.size()>0){
-                    Loading.show(this);
-                    for (int i = 0; i < paths.size(); i++) {
-                        newPath.add(MethodsFile.getSmallBitmap(paths.get(i)));
-                    }
-
-                    if(PhotoAlbumActivity.paa!=null){
-                        PhotoAlbumActivity.paa.finish();
-                    }
-                    Intent intent = new Intent(PhotoWallActivity.this, AddHousePictureActivity.class);
-                    intent.putExtra("code", paths != null ? 100 : 101);
-                    intent.putStringArrayListExtra(MyConstant.pathList,newPath);
-//                    intent.putStringArrayListExtra(MyConstant.pathList,paths);
-                    setResult(RESULT_OK,intent);
-                    Loading.dismissLoading();
-                    finish();
+//                    Loading.show(this);
+                    showDialog();
+                        Thread thread=new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i = 0; i < paths.size(); i++) {
+                                    newPath.add(MethodsFile.getSmallBitmap(paths.get(i)));
+                                }
+                                Bundle bundle=new Bundle();
+                                bundle.putStringArrayList("code",paths);
+                                bundle.putStringArrayList("newPath", newPath);
+                                Message msg=handler.obtainMessage(0,bundle);
+                                handler.sendMessage(msg);
+                            }
+                        });
+                        thread.start();
                 }else{
                     if(PhotoAlbumActivity.paa!=null){
                         PhotoAlbumActivity.paa.finish();
@@ -266,5 +294,19 @@ public class PhotoWallActivity extends Activity implements View.OnClickListener{
             }
         }
     }
-
+    public void showDialog(){
+        if(this.modelDialog==null){
+            this.modelDialog=ModelDialog.getModelDialog(this);
+        }
+        if(ModelDialog.showTag==0){
+            ModelDialog.showTag=1;
+            this.modelDialog.show();
+        }
+    }
+    public void dismissDialog(){
+        if(this.modelDialog!=null&&this.modelDialog.isShowing()){
+            ModelDialog.showTag=0;
+            this.modelDialog.dismiss();
+        }
+    }
 }

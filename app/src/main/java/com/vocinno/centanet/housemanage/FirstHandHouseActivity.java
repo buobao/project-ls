@@ -103,7 +103,6 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
             break;
             case R.id.tv_right_mhead1:
                 validationData();
-                imgId=new StringBuffer();
                 uploadImg();
             break;
         }
@@ -114,6 +113,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
         List<String>list=new ArrayList<String>();
         imgList=new ArrayList<String>();
         list=picAdapter.getList();
+        imgId=new StringBuffer();
         if(null!=list&&list.size()>0){
             for (int i = 0; i <list.size() ; i++) {
                 upload(list.get(i));

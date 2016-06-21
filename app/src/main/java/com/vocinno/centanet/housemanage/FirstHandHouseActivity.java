@@ -57,6 +57,8 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
     private FinalHttp fh;
     private TCmLookHouse lookHouse;
     private List<String> imgList;
+    private ChoosePeople people;
+
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_firsthand_house;
@@ -152,7 +154,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
                         }
                         intent.putExtra(MyConstant.addFirstHouse,lookHouse);
                         intent.putStringArrayListExtra(MyConstant.imgPathList, (ArrayList<String>) imgList);
-                        intent.putExtra(MyConstant.peiKan,promise);
+                        intent.putExtra(MyConstant.peiKan,people);
 //                        Log.i("lookHouse", lookHouse.getImgList().size() + "==" + lookHouse.getFilesId() + "=="
 //                                + lookHouse.getAccompanyName() + "==" + lookHouse.getAccompanyPromise() + "==" + lookHouse.getHouAddr());
                         setResult(MyConstant.RESULT_ADDFIRST, intent);
@@ -177,6 +179,9 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
             return;
         }else if(null==picAdapter.getList()||picAdapter.getList().size()==0){
             MyToast.showToast("附件不能为空");
+            return;
+        }else if(people==null){
+            MyToast.showToast("请选择陪看人");
             return;
         }
     }
@@ -240,7 +245,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
         }
         if(resultCode==MyConstant.CHOOSE_PEOPLE){
             if(data!=null){
-                ChoosePeople people =(ChoosePeople)data.getSerializableExtra(MyConstant.choose_people);
+                people = (ChoosePeople)data.getSerializableExtra(MyConstant.choose_people);
                 tv_first_choosepeople.setText(people.getRealName());
                 if(people != null){
                     //显示经理陪看 : 经理及以上 默认打钩

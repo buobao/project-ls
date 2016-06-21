@@ -42,6 +42,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
     private String mAddr;       //房屋地址
     private String mRealName;   //姓名
     private ChoosePeople mPeopleItem;
+    private Long mHouseId;
 
     @Override
     public int setContentLayoutId() {
@@ -65,13 +66,16 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
 
     @Override
     public void initData() {
-        //从"我的出售"页面返回的数据
+        //从"房源列表"返回的数据
         Intent intent = getIntent();
         KeyHouseItem item = (KeyHouseItem) intent.getSerializableExtra(MyConstant.addSecondHouse);
-        mDelCode = item.getDelCode();
-        mAddr = item.getAddr();
+        mDelCode = item.getDelCode();   //房源编号
+        mAddr = item.getAddr();         //房屋地址
+        mHouseId = item.getHouseId();   //房屋id
         mTvHouseDelCode.setText(mDelCode);
         mTvHouseAddr.setText(mAddr);
+
+
     }
 
     @Override
@@ -81,14 +85,14 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
             case R.id.img_left_mhead1:          //Back
                 finish();
                 break;
-            case R.id.tv_right_mhead1:          //保存 --> 添加陪看页面
+            case R.id.tv_right_mhead1:          //保存 --> 回传到添加带看
                 Intent data = new Intent(this, AddAccompanyActivity.class);
                 data.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                data.putExtra("delCode",mDelCode);
-                data.putExtra("addr",mAddr);
-                data.putExtra("realName",mRealName);
-                data.putExtra("accompanyPromise",mCbAccompanyPromise.isChecked()?"是":"否");
-
+                data.putExtra("delCode",mDelCode);//房源编号
+                data.putExtra("addr",mAddr); //房源地址
+                data.putExtra("houseId",mHouseId);//房源id
+                data.putExtra(MyConstant.peiKan,mPeopleItem);   //陪看人
+                data.putExtra("isManager",mCbAccompanyPromise.isChecked()?"0":"1"); //是否 经理陪看
                 startActivity(data);
                 finish();
                 break;

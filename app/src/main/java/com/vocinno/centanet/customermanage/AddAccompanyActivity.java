@@ -96,9 +96,6 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     private List<TCmLookAccompany> mTCmLookAccompanies2 = new ArrayList<>(); //二手带看人列表
     private List<TCmLookHouse> mTCmLookHouses2 = new ArrayList<>();  //二手房源列表
 
-    private String mConfirmationNumber;
-    private String mRemark;
-
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_add_accompany;
@@ -133,15 +130,31 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        //获得"添加二手"的回传
+        //二手 : 封装数据到请求体
+        String delCode = intent.getStringExtra("delCode");
+        String addr = intent.getStringExtra("addr");
+        Long houseId = intent.getLongExtra("houseId",-1);
+        TCmLookHouse tCmLookHouse = new TCmLookHouse();
+        tCmLookHouse.setHouseId(houseId);
+        tCmLookHouse.setHouAddr(addr);
+        tCmLookHouse.setHousedelCode(delCode);
+        mTCmLookHouses2.add(0,tCmLookHouse);
 
-
+        ChoosePeople people = (ChoosePeople) intent.getSerializableExtra(MyConstant.peiKan);
+        String accompanyPromise = intent.getStringExtra("isManager");
+        TCmLookAccompany tCmLookAccompany = new TCmLookAccompany();
+        tCmLookAccompany.setAccompanyGroup(people.getOrgId());
+        tCmLookAccompany.setAccompanyPromise(accompanyPromise);
+        tCmLookAccompany.setAccompanyUser(people.getUserId());
+        tCmLookAccompany.setAccompanyRole(people.getJobCode());
+        tCmLookAccompany.setAccompanyName(people.getRealName());
+        mTCmLookAccompanies2.add(0,tCmLookAccompany);
 
     }
 
     @Override
     public void initData() {
-Log.i("","")
+        Log.i("","");
 ;    }
 
     @Override
@@ -229,11 +242,11 @@ Log.i("","")
                 //显示Loading
                 Loading.show(this);
                 String custCode = getIntent().getStringExtra(MyConstant.custCode);  //客户编码
-                mConfirmationNumber = mEtConfirmNum.getText().toString();   //带看确认书编号
+                String mConfirmationNumber = mEtConfirmNum.getText().toString();   //带看确认书编号
                 String startTime = mTvStartTime.getText().toString();   //开始时间
                 String endTime = mTvEndTime.getText().toString();       //结束时间
                 String custlookTrackType = mCbWriteBack.isChecked() ? "1" : "0";    //是否回写 0&1
-                mRemark = mEtDescHouse.getText().toString();   //文字描述
+                String mRemark = mEtDescHouse.getText().toString();   //文字描述
                 //页面内容(必传)
                 TCmLook tCmLook = new TCmLook();
                 tCmLook.setRemark(mRemark);
@@ -244,11 +257,13 @@ Log.i("","")
                 tCmLook.setConfirmationNumber(mConfirmationNumber);
                 //设置请求参数
                 paramCustlookList.settCmLook(tCmLook);
-                paramCustlookList.setCustlookTrackType(custlookTrackType); //是否回写"0"和"1"
+                paramCustlookList.setCustlookTrackType(custlookTrackType); //是否回写:"0"&"1"
                 if(lookType == "20074002"){         //一手
+                    mTCmLookHouses.get(0).setFeedback(mConfirmationNumber+mRemark);
                     paramCustlookList.settCmLookHouseList(mTCmLookHouses);
                     paramCustlookList.settCmLookAccompanyList(mTCmLookAccompanies);
                 }else if (lookType == "20074001"){  //二手
+                    mTCmLookHouses2.get(0).setFeedback(mConfirmationNumber+mRemark);
                     paramCustlookList.settCmLookHouseList(mTCmLookHouses2);
                     paramCustlookList.settCmLookAccompanyList(mTCmLookAccompanies2);
                 }
@@ -266,7 +281,6 @@ Log.i("","")
                         Loading.dismissLoading();
                         MyUtils.LogI("------", response.toString());
 
-
                         //返回客户信息页面
                         setResult(MyConstant.accompanyCode);
                         finish();
@@ -281,13 +295,10 @@ Log.i("","")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == MyConstant.RESULT_ADDFIRST && resultCode == MyConstant.RESULT_ADDFIRST) {
-            ArrayList<String> imgList = data.getStringArrayListExtra(MyConstant.imgPathList); //本地图片路径
+        if (resultCode == MyConstant.RESULT_ADDFIRST) {
             //封装数据到请求体
             TCmLookHouse tCmLookHouse = (TCmLookHouse) data.getSerializableExtra(MyConstant.addFirstHouse);
-            tCmLookHouse.setFeedback(mConfirmationNumber+mRemark); //客户反馈 = 确认书编号 + 文字描述
-            mTCmLookHouses.add(tCmLookHouse);
-
+            mTCmLookHouses.add(0,tCmLookHouse);
             ChoosePeople people = (ChoosePeople) data.getSerializableExtra(MyConstant.peiKan);
             String accompanyPromise = data.getStringExtra("isManager");
             TCmLookAccompany tCmLookAccompany = new TCmLookAccompany();
@@ -296,9 +307,9 @@ Log.i("","")
             tCmLookAccompany.setAccompanyUser(people.getUserId());
             tCmLookAccompany.setAccompanyRole(people.getJobCode());
             tCmLookAccompany.setAccompanyName(people.getRealName());
-            mTCmLookAccompanies.add(tCmLookAccompany);
-
+            mTCmLookAccompanies.add(0,tCmLookAccompany);
             //封装数据到ListView集合
+            ArrayList<String> imgList = data.getStringArrayListExtra(MyConstant.imgPathList); //本地图片路径
 
 
 

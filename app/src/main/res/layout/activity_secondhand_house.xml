@@ -109,25 +109,27 @@
         android:paddingTop="12dp">
 
         <TextView
+            android:hint="陪看人"
             android:id="@+id/tv_accompany_people"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
             android:background="@drawable/kuang"
             android:gravity="center_vertical"
-            android:hint="陪看人"
             android:paddingLeft="10dp"
             android:textColorHint="#BBBBBB"
-            android:textSize="15sp"/>
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="12sp"/>
 
         <Button
             android:id="@+id/btn_choose_people"
             android:layout_width="92dp"
-            android:layout_height="34dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="3dp"
-            android:background="#f00"
+            android:background="@drawable/shape_first_house"
             android:text="选择陪看人"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:textSize="15sp"/>
 
     </LinearLayout>

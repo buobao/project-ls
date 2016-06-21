@@ -56,7 +56,6 @@
                     android:hint="房屋地址"
                     android:paddingLeft="10dp"
                     android:textColorHint="#BBBBBB"
-                    android:textColor="#BBBBBB"
                     android:textSize="13sp"
                     android:maxLength="100"
                     />
@@ -90,6 +89,7 @@
                 >
 
                 <TextView
+                    android:hint="陪看人"
                     android:id="@+id/tv_first_choosepeople"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
@@ -98,7 +98,6 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:textColorHint="#BBBBBB"
-                    android:textColor="#BBBBBB"
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textSize="12sp"/>

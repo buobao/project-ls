@@ -6,24 +6,31 @@
     android:layout_height="match_parent"
     android:id="@+id/pl_progress"
     >
-    <com.vocinno.utils.view.refreshablelistview.XListView
-        android:id="@+id/xlistview_sell_activity"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="@color/transparent"
-        android:divider="@null"
-        android:scrollbars="none"
-        android:listSelector="@color/lightgrey" >
-    </com.vocinno.utils.view.refreshablelistview.XListView>
-    <ImageView
-        android:id="@+id/iv_scroll_top"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/selector_list_top"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone"
-        />
+        android:orientation="vertical"
+        >
+        <com.vocinno.utils.view.refreshablelistview.XListView
+            android:id="@+id/xlistview_sell_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:listSelector="@color/lightgrey" >
+        </com.vocinno.utils.view.refreshablelistview.XListView>
+        <ImageView
+            android:id="@+id/iv_scroll_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_list_top"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
 </com.vocinno.centanet.tools.customview.ProgressLayout>

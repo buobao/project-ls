@@ -345,10 +345,10 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             firstHouseList.add(firstHouse);
 
             if(firstHouseAdapter==null){
-                firstHouseAdapter=new FirstHouseAdapter(this);
+                firstHouseAdapter=new FirstHouseAdapter(this, new ArrayList<FirstHouse>(), R.layout.item_firsthand_house);
                 mLvFirsthandHouse.setAdapter(firstHouseAdapter);
             }
-            firstHouseAdapter.setList(firstHouseList);
+            firstHouseAdapter.setData(firstHouseList);
 
         }
     }

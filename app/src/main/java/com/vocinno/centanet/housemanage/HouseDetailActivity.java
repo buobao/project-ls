@@ -213,7 +213,7 @@ public class HouseDetailActivity extends OtherBaseActivity implements AgainLoadi
 
 		vp_house_detail_img= (ViewPager) findViewById(R.id.vp_house_detail_img);
 		vp_house_detail_img.setOffscreenPageLimit(1);
-		vp_house_detail_img.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		vp_house_detail_img.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
 				tv_house_detail_number.setText(position + 1 + "/" + imageUrl.size());

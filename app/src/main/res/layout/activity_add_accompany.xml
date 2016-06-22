@@ -339,13 +339,13 @@
 
 
                 <LinearLayout
+                    android:id="@+id/ll_addHouse"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="#F2F2F2"
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/tv_addHouse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/add_house"
@@ -359,15 +359,32 @@
 
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/lv_secondhand_house"
-                android:background="#F2F2F2"
-                android:dividerHeight="13dp"
-                android:divider="@color/white"
-                style="@style/centanet_listview"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </ListView>
+
+                <com.vocinno.centanet.tools.customview.CustomListView
+                    android:visibility="gone"
+                    android:id="@+id/lv_firsthand_house"
+                    android:background="#F2F2F2"
+                    android:dividerHeight="13dp"
+                    android:divider="@color/white"
+                    style="@style/centanet_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </com.vocinno.centanet.tools.customview.CustomListView>
+
+                <com.vocinno.centanet.tools.customview.CustomListView
+                    android:id="@+id/lv_secondhand_house"
+                    android:background="#F2F2F2"
+                    android:dividerHeight="13dp"
+                    android:divider="@color/white"
+                    style="@style/centanet_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </com.vocinno.centanet.tools.customview.CustomListView>
+
+            </FrameLayout>
 
         </LinearLayout>
 

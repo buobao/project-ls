@@ -74,8 +74,6 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
         mHouseId = item.getHouseId();   //房屋id
         mTvHouseDelCode.setText(mDelCode);
         mTvHouseAddr.setText(mAddr);
-
-
     }
 
     @Override

@@ -92,7 +92,7 @@
                     android:hint="陪看人"
                     android:id="@+id/tv_first_choosepeople"
                     android:layout_width="0dp"
-                    android:layout_height="36dp"
+                    android:layout_height="37dp"
                     android:layout_weight="1"
                     android:background="@drawable/kuang"
                     android:gravity="center_vertical"
@@ -100,7 +100,7 @@
                     android:textColorHint="#BBBBBB"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:textSize="12sp"/>
+                    android:textSize="13sp"/>
 
                 <Button
                     android:id="@+id/bt_first_choose"

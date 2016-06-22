@@ -16,6 +16,7 @@ import com.vocinno.centanet.apputils.dialog.ModelDialog;
 import com.vocinno.centanet.housemanage.HouseType;
 import com.vocinno.centanet.housemanage.adapter.KeyHouseListAdapter;
 import com.vocinno.centanet.housemanage.adapter.MyHouseListAdapter;
+import com.vocinno.centanet.myinterface.AgainLoading;
 import com.vocinno.centanet.myinterface.GetDataInterface;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
 import com.vocinno.centanet.tools.customview.ProgressLayout;
@@ -96,6 +97,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         int layoutId=setContentLayoutId();
         baseView=inflater.inflate(layoutId, null);
         setXListView();
+        setProgressLayout();
         Arrays.asList(R.id.scrollView1);
         mHander = setHandler();
         if(getUserVisibleHint()){
@@ -107,7 +109,12 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         listScrollTop();
         return baseView;
     }
-
+    private void setProgressLayout() {
+        if(baseView.findViewById(R.id.pl_progress)!=null){
+            pl_progress= (ProgressLayout) baseView.findViewById(R.id.pl_progress);
+            pl_progress.setAgainLoading((AgainLoading)this);
+        }
+    }
     private void listScrollTop() {
         if(baseView.findViewById(R.id.iv_scroll_top)!=null){
             iv_scroll_top= (ImageView)baseView.findViewById(R.id.iv_scroll_top);
@@ -191,6 +198,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         if(list==null||list.size()<=0){
             XHouseListView.stopLoadMore();
             XHouseListView.setDataEmpty();
+
         }else{
             page=1;
             if(list.size()< NetWorkConstant.pageSize){

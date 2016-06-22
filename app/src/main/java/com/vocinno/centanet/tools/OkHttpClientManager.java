@@ -55,7 +55,7 @@ public class OkHttpClientManager {
     {
         TAG=this.getClass().getSimpleName();
         mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.setConnectTimeout(15, TimeUnit.SECONDS);
+        mOkHttpClient.setConnectTimeout(18, TimeUnit.SECONDS);
         //cookie enabled
 //        mOkHttpClient.setCookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER));
         mDelivery = new Handler(Looper.getMainLooper());

@@ -21,7 +21,6 @@ import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.HouseList;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.LookPlanInfo;
-import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
@@ -120,7 +119,8 @@ public class YueKanFragment extends HouseListBaseFragment{
     public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
         if(!isXListViewLoad){
 //            Loading.show(getActivity());
-            Loading.showForExit(getActivity(),true);
+//            Loading.showForExit(getActivity(),true);
+            pl_progress.showProgress();
         }
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houLookPlanListMobile;
         Map<String,String> map=new HashMap<String,String>();
@@ -142,14 +142,15 @@ public class YueKanFragment extends HouseListBaseFragment{
             public void onError(Request request, Exception e) {
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
-                Loading.dismissLoading();
+//                Loading.dismissLoading();
+                pl_progress.showErrorText();
             }
 
             @Override
             public void onResponse(String response) {
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
-                Loading.dismissLoading();
+                pl_progress.showContent();
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, HouseList.class);
                 if (jsReturn.isSuccess()) {
                     int dataType = 0;
@@ -386,4 +387,9 @@ public class YueKanFragment extends HouseListBaseFragment{
     }
 
 
+    @Override
+    public void againLoading() {
+        resetSearch();
+        getData(1, false,true);
+    }
 }

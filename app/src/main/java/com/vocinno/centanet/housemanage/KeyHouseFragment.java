@@ -80,7 +80,8 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     }
     public void getData(int page,boolean isXListViewLoad,final boolean isRefresh){
         if(!isXListViewLoad){
-            showDialog();
+//            showDialog();
+            pl_progress.showProgress();
         }
 //        getDataInterface.getListData("" + type, price, square, frame, tag, usageType, page, pageSize, sidx, sord, searchId, searchType);
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
@@ -105,14 +106,15 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
             public void onError(Request request, Exception e) {
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
-                dismissDialog();
+                //                Loading.dismissLoading();
+                pl_progress.showErrorText();
             }
 
             @Override
             public void onResponse(String response) {
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
-                dismissDialog();
+                pl_progress.showContent();
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
                 if (jsReturn.isSuccess()) {
                     int dataType=0;
@@ -175,5 +177,11 @@ public class KeyHouseFragment extends HouseListBaseFragment implements HttpInter
     @Override
     public void netWorkResult(String name, String className, Object data) {
 
+    }
+
+    @Override
+    public void againLoading() {
+        resetSearch();
+        getData(1, false,true);
     }
 }

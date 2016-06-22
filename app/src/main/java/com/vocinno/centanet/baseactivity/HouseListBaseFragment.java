@@ -26,7 +26,7 @@ import com.vocinno.utils.view.refreshablelistview.XListView;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener {
+public abstract class HouseListBaseFragment extends Fragment implements  XListView.IXListViewListener ,AgainLoading{
     public ProgressLayout pl_progress;
     public static final int NEAR_SELL=0;
     public static final int NEAR_RENT=1;
@@ -198,7 +198,7 @@ public abstract class HouseListBaseFragment extends Fragment implements  XListVi
         if(list==null||list.size()<=0){
             XHouseListView.stopLoadMore();
             XHouseListView.setDataEmpty();
-
+            pl_progress.showEmpty();
         }else{
             page=1;
             if(list.size()< NetWorkConstant.pageSize){

@@ -11,7 +11,6 @@ import com.vocinno.centanet.model.HouseItem;
 import com.vocinno.centanet.model.JSReturn;
 import com.vocinno.centanet.model.KeyHouseList;
 import com.vocinno.centanet.myinterface.HttpInterface;
-import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.NetWorkConstant;
@@ -85,7 +84,8 @@ public class RobGongShouFragment extends HouseListBaseFragment implements HttpIn
     public void getData(int pageNo,boolean isXListViewLoad, final boolean isRefresh){
         if(!isXListViewLoad){
 //            Loading.show(getActivity());
-            Loading.showForExit(getActivity(),true);
+//            Loading.showForExit(getActivity(),true);
+            pl_progress.showProgress();
         }
         URL= NetWorkConstant.PORT_URL+ NetWorkMethod.houList;
         Map<String,String> map=new HashMap<String,String>();
@@ -108,14 +108,15 @@ public class RobGongShouFragment extends HouseListBaseFragment implements HttpIn
             public void onError(Request request, Exception e) {
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
-                Loading.dismissLoading();
+                //                Loading.dismissLoading();
+                pl_progress.showErrorText();
             }
 
             @Override
             public void onResponse(String response) {
                 XHouseListView.stopRefresh();
                 XHouseListView.stopLoadMore();
-                Loading.dismissLoading();
+                pl_progress.showContent();
                 JSReturn jsReturn = MethodsJson.jsonToJsReturn(response, KeyHouseList.class);
                 if (jsReturn.isSuccess()) {
                     int dataType = 0;
@@ -181,5 +182,11 @@ public class RobGongShouFragment extends HouseListBaseFragment implements HttpIn
     @Override
     public void netWorkResult(String name, String className, Object data) {
 
+    }
+
+    @Override
+    public void againLoading() {
+        resetSearch();
+        getData(1, false, true);
     }
 }

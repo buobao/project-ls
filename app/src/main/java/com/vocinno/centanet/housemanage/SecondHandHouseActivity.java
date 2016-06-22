@@ -3,6 +3,7 @@ package com.vocinno.centanet.housemanage;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +16,7 @@ import com.vocinno.centanet.customermanage.AddAccompanyActivity;
 import com.vocinno.centanet.customermanage.ChoosePeopleActivity;
 import com.vocinno.centanet.model.ChoosePeople;
 import com.vocinno.centanet.model.KeyHouseItem;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.constant.MyConstant;
 import com.vocinno.utils.MethodsExtra;
 
@@ -59,6 +61,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
         MethodsExtra.findHeadTitle1(mContext, baseView, R.string.add_second, null);
         mBack.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
+        mSubmit.setEnabled(false);
 
         mBtnChoosePeople.setOnClickListener(this);
         mCbAccompanyPromise.setOnClickListener(this);
@@ -84,15 +87,19 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 finish();
                 break;
             case R.id.tv_right_mhead1:          //保存 --> 回传到添加带看
-                Intent data = new Intent(this, AddAccompanyActivity.class);
-                data.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                data.putExtra("delCode",mDelCode);//房源编号
-                data.putExtra("addr",mAddr); //房源地址
-                data.putExtra("houseId",mHouseId);//房源id
-                data.putExtra(MyConstant.peiKan,mPeopleItem);   //陪看人
-                data.putExtra("isManager",mCbAccompanyPromise.isChecked()?"0":"1"); //是否 经理陪看
-                startActivity(data);
-                finish();
+
+                if (checkHouseData()){
+                    Intent data = new Intent(this, AddAccompanyActivity.class);
+                    data.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    data.putExtra("delCode", mDelCode);//房源编号
+                    data.putExtra("addr",mAddr); //房源地址
+                    data.putExtra("houseId",mHouseId);//房源id
+                    data.putExtra(MyConstant.peiKan,mPeopleItem);   //陪看人
+                    data.putExtra("isManager",mCbAccompanyPromise.isChecked()?"0":"1"); //是否 经理陪看
+                    startActivity(data);
+                    finish();
+                }
+
                 break;
             case R.id.btn_choose_people:        //选择陪看人
                 Intent intent = new Intent(this, ChoosePeopleActivity.class);
@@ -102,6 +109,20 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
                 break;
         }
     }
+
+    /**
+     * 检查房源数据
+     * @return 返回检查结果
+     */
+    private boolean checkHouseData() {
+        boolean checkResult = true;
+        if (TextUtils.isEmpty(mDelCode)){
+            checkResult = false;
+            MyToast.showToast(this, "二手房源数据错误");
+        }
+        return checkResult;
+    }
+
 
     @Override
     public Handler setHandler() {
@@ -131,6 +152,7 @@ public class SecondHandHouseActivity extends OtherBaseActivity {
         if(requestCode == MyConstant.REQUEST_CHOOSE_PEOPLE && resultCode == MyConstant.CHOOSE_PEOPLE){
             mPeopleItem = (ChoosePeople) data.getSerializableExtra(MyConstant.choose_people);
             if(mPeopleItem != null){
+                mSubmit.setEnabled(true);
                 //显示经理陪看 : 经理及以上 默认打钩
                 String jobCode = mPeopleItem.getJobCode();
                 if(!jobCode.equals("JWYGW")){

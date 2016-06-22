@@ -104,5 +104,11 @@
         android:verticalSpacing="6dp"
         >
     </com.vocinno.centanet.housemanage.adapter.CustomGridView>
-
+    <TextView
+        android:id="@+id/tv_first_house_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="(共6张)"
+        android:textColor="#787878"
+        />
 </LinearLayout>

@@ -71,6 +71,7 @@ public class FirstHouseAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(
 					R.layout.item_firsthand_house, null);
 			holder.tv_accompany_people = (TextView) convertView.findViewById(R.id.tv_accompany_people);
+			holder.tv_first_house_num = (TextView) convertView.findViewById(R.id.tv_first_house_num);
 			holder.tv_accompany_promise = (TextView) convertView.findViewById(R.id.tv_accompany_promise);
 			holder.tv_accompany_address = (TextView) convertView.findViewById(R.id.tv_accompany_address);
 			holder.gv_first_house_item = (CustomGridView) convertView.findViewById(R.id.gv_first_house_item);
@@ -87,14 +88,19 @@ public class FirstHouseAdapter extends BaseAdapter {
 		holder.tv_accompany_promise.setText(commitment);
 		holder.tv_accompany_address.setText(item.getAddress());
 
-			imgAdapter=new ImgAdapter(mContext);
+		imgAdapter=new ImgAdapter(mContext);
 		imgAdapter.setData(item.getImgPath());
+		int num=0;
+		if(item.getImgPath()!=null&&item.getImgPath().size()>0){
+			num=item.getImgPath().size();
+		}
+		holder.tv_first_house_num.setText("(共"+num+"张)");
 		holder.gv_first_house_item.setAdapter(imgAdapter);
 		return convertView;
 	}
 
 	public static class ViewHolder {
-		TextView tv_accompany_people,tv_accompany_promise,tv_accompany_address;
+		TextView tv_accompany_people,tv_accompany_promise,tv_accompany_address,tv_first_house_num;
 		CustomGridView gv_first_house_item;
 	}
 }

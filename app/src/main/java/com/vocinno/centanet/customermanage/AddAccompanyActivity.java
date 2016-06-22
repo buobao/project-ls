@@ -254,8 +254,6 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 finish();
                 break;
             case R.id.tv_right_mhead1:  //保存
-                //显示Loading
-                Loading.show(this);
                 if(mTCmLookHouses2.size()==0){
                     MyToast.showToast(this,"您还没有选择房源!"); //TODO:待修复
                     return;
@@ -287,6 +285,8 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                     paramCustlookList.settCmLookAccompanyList(mTCmLookAccompanies2);
                 }
 
+                //显示Loading
+                Loading.show(this);
                 URL = NetWorkConstant.PORT_URL + NetWorkMethod.custLookAdd;
                 OkHttpClientManager.postJsonAsyn(URL, paramCustlookList, new OkHttpClientManager.ResultCallback<String>() {
                     @Override

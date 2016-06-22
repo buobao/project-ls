@@ -24,9 +24,10 @@ public class ProgressLayout extends RelativeLayout {
 
     private static final String TAG_PROGRESS = "ProgressLayout.TAG_PROGRESS";
     private static final String TAG_ERROR = "ProgressLayout.TAG_ERROR";
+    private static final String TAG_EMPTY = "ProgressLayout.TAG_EMPTY";
     private  AgainLoading againLoading;
     public static enum State {
-        CONTENT, PROGRESS, ERROR
+        CONTENT, PROGRESS, ERROR,EMPTY
     }
     public void setAgainLoading(AgainLoading loading){
         againLoading=loading;
@@ -34,6 +35,7 @@ public class ProgressLayout extends RelativeLayout {
     private View mProgressView;
     private TextView mErrorTextView;
     private View errorView;
+    private View emptyView;
     private List<View> mContentViews = new ArrayList<View>();
 
     private State mState = State.CONTENT;
@@ -85,6 +87,7 @@ public class ProgressLayout extends RelativeLayout {
 
         mProgressView.setTag(TAG_PROGRESS);
         addView(mProgressView, layoutParams);
+        mProgressView.setVisibility(View.VISIBLE);
 
         // add error text view
         mErrorTextView = new TextView(getContext());
@@ -98,6 +101,7 @@ public class ProgressLayout extends RelativeLayout {
         });
         mErrorTextView.setTag(TAG_ERROR);
         errorView.setTag(TAG_ERROR);
+        errorView.setVisibility(View.GONE);
 
         layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.addRule(CENTER_IN_PARENT);
@@ -105,20 +109,40 @@ public class ProgressLayout extends RelativeLayout {
 //        addView(mErrorTextView, layoutParams);
         addView(errorView,layoutParams);
 
-        mProgressView.setVisibility(progress ? VISIBLE : GONE);
+
+        emptyView= LayoutInflater.from(getContext()).inflate(R.layout.empty_view, null);
+        TextView tv_empty = (TextView) emptyView.findViewById(R.id.tv_again_loading);
+        tv_empty.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                againLoading.againLoading();
+            }
+        });
+        emptyView.setTag(TAG_EMPTY);
+        layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.addRule(CENTER_IN_PARENT);
+        emptyView.setVisibility(View.GONE);
+        addView(emptyView, layoutParams);
+
+
+//        mProgressView.setVisibility(progress ? VISIBLE : GONE);
+        mProgressView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
 
-        if (child.getTag() == null || (!child.getTag().equals(TAG_PROGRESS) && !child.getTag().equals(TAG_ERROR))) {
+        if (child.getTag() == null || (!child.getTag().equals(TAG_PROGRESS) && !child.getTag().equals(TAG_ERROR)&& !child.getTag().equals(TAG_EMPTY))) {
             mContentViews.add(child);
         }
     }
 
     public void showProgress() {
         switchState(State.PROGRESS, null, Collections.<Integer>emptyList());
+    }
+    public void showEmpty() {
+        switchState(State.EMPTY, null, Collections.<Integer>emptyList());
     }
 
     public void showProgress(List<Integer> skipIds) {
@@ -169,12 +193,21 @@ public class ProgressLayout extends RelativeLayout {
                 mErrorTextView.setVisibility(View.GONE);
                 errorView.setVisibility(View.GONE);
                 mProgressView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.GONE);
                 setContentVisibility(true, skipIds);
+                break;
+            case EMPTY:
+                mErrorTextView.setVisibility(View.GONE);
+                errorView.setVisibility(View.GONE);
+                mProgressView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+                setContentVisibility(false, skipIds);
                 break;
             case PROGRESS:
                 mErrorTextView.setVisibility(View.GONE);
                 errorView.setVisibility(View.GONE);
                 mProgressView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
                 setContentVisibility(false, skipIds);
                 break;
             case ERROR:
@@ -186,6 +219,7 @@ public class ProgressLayout extends RelativeLayout {
                 mErrorTextView.setVisibility(View.VISIBLE);
                 errorView.setVisibility(View.VISIBLE);
                 mProgressView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.GONE);
                 setContentVisibility(false, skipIds);
                 break;
         }

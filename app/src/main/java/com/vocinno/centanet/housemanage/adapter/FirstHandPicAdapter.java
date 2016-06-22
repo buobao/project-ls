@@ -104,10 +104,10 @@ public class FirstHandPicAdapter extends BaseAdapter {
 			holder.iv_first_img.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (position != imgList.size() - 1) {
-						int a=position;
+//					if (position != imgList.size() - 1) {
+//						int a=position;
 						myInterface.editPhoto(null,imgList.get(position),null);
-					}
+//					}
 				}
 			});
 			holder.iv_first_img.setVisibility(View.VISIBLE);

@@ -21,6 +21,7 @@ import com.vocinno.centanet.R;
 import com.vocinno.centanet.apputils.dialog.MyDialog;
 import com.vocinno.centanet.apputils.selfdefineview.WheelView;
 import com.vocinno.centanet.baseactivity.OtherBaseActivity;
+import com.vocinno.centanet.customermanage.adapter.FirstHouseAdapter;
 import com.vocinno.centanet.entity.ParamCustlookList;
 import com.vocinno.centanet.entity.TCmLook;
 import com.vocinno.centanet.entity.TCmLookAccompany;
@@ -29,6 +30,7 @@ import com.vocinno.centanet.housemanage.FirstHandHouseActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
 import com.vocinno.centanet.housemanage.adapter.SecondHandHouseAdapter;
 import com.vocinno.centanet.model.ChoosePeople;
+import com.vocinno.centanet.model.FirstHouse;
 import com.vocinno.centanet.tools.Loading;
 import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
@@ -94,7 +96,8 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     private boolean isStartTime = false;
     private String dayText;
     private Long startTime, endTime;
-
+    private List<FirstHouse> firstHouseList;
+    private FirstHouseAdapter firstHouseAdapter;
     ParamCustlookList paramCustlookList = new ParamCustlookList(); //请求参数列表
 
     private List<TCmLookAccompany> mTCmLookAccompanies = new ArrayList<>(); //一手带看人列表
@@ -330,6 +333,22 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             //一手房源 : 封装数据到ListView
             ArrayList<String> imgList = data.getStringArrayListExtra(MyConstant.imgPathList); //本地图片路径
 
+            if(firstHouseList ==null){
+                firstHouseList =new ArrayList<FirstHouse>();
+            }
+            FirstHouse firstHouse=new FirstHouse();
+            firstHouse.setAddress(tCmLookHouse.getHouAddr());
+            firstHouse.setPeiKan(people.getRealName());
+            firstHouse.setCommitment(accompanyPromise);
+            firstHouse.setImgPath(imgList);
+
+            firstHouseList.add(firstHouse);
+
+            if(firstHouseAdapter==null){
+                firstHouseAdapter=new FirstHouseAdapter(this);
+                mLvFirsthandHouse.setAdapter(firstHouseAdapter);
+            }
+            firstHouseAdapter.setList(firstHouseList);
 
         }
     }

@@ -103,7 +103,6 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
             break;
             case R.id.tv_right_mhead1:
                 validationData();
-                uploadImg();
             break;
         }
     }
@@ -185,6 +184,7 @@ public class FirstHandHouseActivity extends OtherBaseActivity implements MyInter
             MyToast.showToast("请选择陪看人");
             return;
         }
+        uploadImg();
     }
 
     @Override

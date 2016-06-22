@@ -338,7 +338,7 @@ public class HouseManageActivity extends HouseManagerBaseActivity implements Htt
         }, 200);
 
         //最后一页不显示箭头翻页图标
-        vp_house_manager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        vp_house_manager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 if(position==vp_house_manager.getChildCount()-1){

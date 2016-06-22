@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#F2F2F2"
+              android:orientation="vertical"
+              android:paddingBottom="12dp"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp"
+              android:paddingTop="8dp">
+
+
+    <ImageView
+        android:id="@+id/iv_delete_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:src="@drawable/ic_close"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="房屋编号: "
+            android:textColor="#787878"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_houseId"
+            android:textColor="#787878"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="房屋地址: "
+        android:textColor="#787878"
+        android:textSize="15sp"/>
+
+        <TextView
+            android:textColor="#787878"
+            android:textSize="15sp"
+            android:id="@+id/tv_houseAddr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="陪看人: "
+                android:textColor="#787878"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/tv_accompany_people"
+                android:textColor="#787878"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="经理承诺: "
+                android:textColor="#787878"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/tv_accompany_promise"
+                android:textColor="#787878"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

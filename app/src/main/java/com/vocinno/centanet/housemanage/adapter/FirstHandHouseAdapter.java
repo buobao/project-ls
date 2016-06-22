@@ -1,21 +1,13 @@
-package com.vocinno.centanet.customermanage.adapter;
+package com.vocinno.centanet.housemanage.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.vocinno.centanet.customermanage.AddAccompanyActivity;
-
-import java.util.List;
-
 /**
- * Created by hewei26 on 2016/6/20.
+ * Created by hewei26 on 2016/6/21.
  */
-public class SecondHandHouseAdapter extends BaseAdapter{
-    public SecondHandHouseAdapter(AddAccompanyActivity addAccompanyActivity, List mList) {
-
-    }
-
+public class FirstHandHouseAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return 0;

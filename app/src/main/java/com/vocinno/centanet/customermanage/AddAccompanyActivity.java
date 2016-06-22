@@ -1,6 +1,7 @@
 package com.vocinno.centanet.customermanage;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,8 +27,10 @@ import com.vocinno.centanet.entity.TCmLookAccompany;
 import com.vocinno.centanet.entity.TCmLookHouse;
 import com.vocinno.centanet.housemanage.FirstHandHouseActivity;
 import com.vocinno.centanet.housemanage.HouseManageActivity;
+import com.vocinno.centanet.housemanage.adapter.SecondHandHouseAdapter;
 import com.vocinno.centanet.model.ChoosePeople;
 import com.vocinno.centanet.tools.Loading;
+import com.vocinno.centanet.tools.MyToast;
 import com.vocinno.centanet.tools.MyUtils;
 import com.vocinno.centanet.tools.OkHttpClientManager;
 import com.vocinno.centanet.tools.constant.MyConstant;
@@ -43,6 +47,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 /**
@@ -72,10 +77,12 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             CheckBox mCbWriteBack;
     @Bind(R.id.et_desc_house)         //文字描述
             EditText mEtDescHouse;
-    @Bind(R.id.tv_addHouse)           //添加房源
-            TextView mTvAddHouse;
+    @Bind(R.id.lv_firsthand_house)         //一手房源列表
+            ListView mLvFirsthandHouse;
     @Bind(R.id.lv_secondhand_house)         //二手房源列表
             ListView mLvSecondhandHouse;
+    @Bind(R.id.ll_addHouse)                 //添加房源
+            LinearLayout mLlAddHouse;
 
     private ImageView mBack;
     private TextView mSubmit;
@@ -122,7 +129,7 @@ public class AddAccompanyActivity extends OtherBaseActivity {
 
         mIvTypeFirst.setOnClickListener(this);
         mIvTypeSecond.setOnClickListener(this);
-        mTvAddHouse.setOnClickListener(this);
+        mLlAddHouse.setOnClickListener(this);
         mIvStartTime.setOnClickListener(this);
         mIvEndTime.setOnClickListener(this);
     }
@@ -130,15 +137,15 @@ public class AddAccompanyActivity extends OtherBaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        //二手 : 封装数据到请求体
+        //二手房源 : 封装数据到请求体
         String delCode = intent.getStringExtra("delCode");
         String addr = intent.getStringExtra("addr");
-        Long houseId = intent.getLongExtra("houseId",-1);
+        Long houseId = intent.getLongExtra("houseId", -1);
         TCmLookHouse tCmLookHouse = new TCmLookHouse();
         tCmLookHouse.setHouseId(houseId);
         tCmLookHouse.setHouAddr(addr);
         tCmLookHouse.setHousedelCode(delCode);
-        mTCmLookHouses2.add(0,tCmLookHouse);
+        mTCmLookHouses2.add(0, tCmLookHouse);
 
         ChoosePeople people = (ChoosePeople) intent.getSerializableExtra(MyConstant.peiKan);
         String accompanyPromise = intent.getStringExtra("isManager");
@@ -148,14 +155,18 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         tCmLookAccompany.setAccompanyUser(people.getUserId());
         tCmLookAccompany.setAccompanyRole(people.getJobCode());
         tCmLookAccompany.setAccompanyName(people.getRealName());
-        mTCmLookAccompanies2.add(0,tCmLookAccompany);
+        mTCmLookAccompanies2.add(0, tCmLookAccompany);
 
+        //二手房源 : 显示到ListView
+        SecondHandHouseAdapter adapter = new SecondHandHouseAdapter(this, mTCmLookHouses2, mTCmLookAccompanies2);
+        mLvSecondhandHouse.setAdapter(adapter);
     }
 
     @Override
     public void initData() {
-        Log.i("","");
-;    }
+        Log.i("", "");
+        ;
+    }
 
     @Override
     public Handler setHandler() {
@@ -191,12 +202,16 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 mIvTypeFirst.setImageResource(R.drawable.c_manage_button_unselected);
                 lookType = "20074001";
                 break;
-            case R.id.tv_addHouse:      //添加房源
+            case R.id.ll_addHouse:      //添加房源
                 if (lookType == "20074002") {
+                    mLvFirsthandHouse.setVisibility(View.VISIBLE);
+                    mLvSecondhandHouse.setVisibility(View.GONE);
                     //添加一手 -->回传本页面
                     intent = new Intent(this, FirstHandHouseActivity.class);
                     startActivityForResult(intent, MyConstant.REQUEST_ADDFIRST);
                 } else if (lookType == "20074001") {
+                    mLvFirsthandHouse.setVisibility(View.GONE);
+                    mLvSecondhandHouse.setVisibility(View.VISIBLE);
                     //房源列表 --> 添加二手 --> 回传本页面
                     intent = new Intent(this, HouseManageActivity.class);
                     intent.putExtra(MyConstant.isIntoHouseDetail, 1);
@@ -241,11 +256,15 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             case R.id.tv_right_mhead1:  //保存
                 //显示Loading
                 Loading.show(this);
+                if(mTCmLookHouses2.size()==0){
+                    MyToast.showToast(this,"您还没有选择房源!"); //TODO:待修复
+                    return;
+                }
                 String custCode = getIntent().getStringExtra(MyConstant.custCode);  //客户编码
                 String mConfirmationNumber = mEtConfirmNum.getText().toString();   //带看确认书编号
                 String startTime = mTvStartTime.getText().toString();   //开始时间
                 String endTime = mTvEndTime.getText().toString();       //结束时间
-                String custlookTrackType = mCbWriteBack.isChecked() ? "1" : "0";    //是否回写 0&1
+                String custlookTrackType = mCbWriteBack.isChecked() ? "1" : "0";    //是否回写房源
                 String mRemark = mEtDescHouse.getText().toString();   //文字描述
                 //页面内容(必传)
                 TCmLook tCmLook = new TCmLook();
@@ -258,12 +277,12 @@ public class AddAccompanyActivity extends OtherBaseActivity {
                 //设置请求参数
                 paramCustlookList.settCmLook(tCmLook);
                 paramCustlookList.setCustlookTrackType(custlookTrackType); //是否回写:"0"&"1"
-                if(lookType == "20074002"){         //一手
-                    mTCmLookHouses.get(0).setFeedback(mConfirmationNumber+mRemark);
+                if (lookType == "20074002") {         //一手
+                    mTCmLookHouses.get(0).setFeedback(mConfirmationNumber + mRemark);
                     paramCustlookList.settCmLookHouseList(mTCmLookHouses);
                     paramCustlookList.settCmLookAccompanyList(mTCmLookAccompanies);
-                }else if (lookType == "20074001"){  //二手
-                    mTCmLookHouses2.get(0).setFeedback(mConfirmationNumber+mRemark);
+                } else if (lookType == "20074001") {  //二手
+                    mTCmLookHouses2.get(0).setFeedback(mConfirmationNumber + mRemark);
                     paramCustlookList.settCmLookHouseList(mTCmLookHouses2);
                     paramCustlookList.settCmLookAccompanyList(mTCmLookAccompanies2);
                 }
@@ -290,15 +309,15 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         }
     }
 
-    /************************** 添加一手回传 **************************/
+    /*************************** 添加一手回传 **************************/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == MyConstant.RESULT_ADDFIRST) {
-            //封装数据到请求体
+            //一手房源 : 封装数据到请求体
             TCmLookHouse tCmLookHouse = (TCmLookHouse) data.getSerializableExtra(MyConstant.addFirstHouse);
-            mTCmLookHouses.add(0,tCmLookHouse);
+            mTCmLookHouses.add(0, tCmLookHouse);
             ChoosePeople people = (ChoosePeople) data.getSerializableExtra(MyConstant.peiKan);
             String accompanyPromise = data.getStringExtra("isManager");
             TCmLookAccompany tCmLookAccompany = new TCmLookAccompany();
@@ -307,10 +326,9 @@ public class AddAccompanyActivity extends OtherBaseActivity {
             tCmLookAccompany.setAccompanyUser(people.getUserId());
             tCmLookAccompany.setAccompanyRole(people.getJobCode());
             tCmLookAccompany.setAccompanyName(people.getRealName());
-            mTCmLookAccompanies.add(0,tCmLookAccompany);
-            //封装数据到ListView集合
+            mTCmLookAccompanies.add(0, tCmLookAccompany);
+            //一手房源 : 封装数据到ListView
             ArrayList<String> imgList = data.getStringArrayListExtra(MyConstant.imgPathList); //本地图片路径
-
 
 
         }
@@ -570,4 +588,10 @@ public class AddAccompanyActivity extends OtherBaseActivity {
         return list;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

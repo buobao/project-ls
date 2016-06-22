@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:background="#F2F2F2"
               android:paddingBottom="13dp"
@@ -16,7 +17,28 @@
         android:layout_gravity="right"
         android:src="@drawable/ic_close"/>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/diwei"
+        />
+    <TextView
+        android:id="@+id/tv_accompany_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="alskfjdlasjdfljdf"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_marginLeft="15dp"
+        />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,5 +104,11 @@
         android:verticalSpacing="6dp"
         >
     </com.vocinno.centanet.housemanage.adapter.CustomGridView>
-
+    <TextView
+        android:id="@+id/tv_first_house_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="(共6张)"
+        android:textColor="#787878"
+        />
 </LinearLayout>
